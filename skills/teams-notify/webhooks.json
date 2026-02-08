@@ -1,0 +1,17 @@
+{
+  "webhooks": {
+    "dev": {
+      "name": "Development Team",
+      "url": "https://outlook.office.com/webhook/xxx-dev-webhook-url-xxx"
+    },
+    "qa": {
+      "name": "QA Team",
+      "url": "https://outlook.office.com/webhook/xxx-qa-webhook-url-xxx"
+    },
+    "release": {
+      "name": "Release Notifications",
+      "url": "https://outlook.office.com/webhook/xxx-release-webhook-url-xxx"
+    }
+  },
+  "default": "dev"
+}

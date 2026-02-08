@@ -1,0 +1,11 @@
+# Company internal skills (contains sensitive information)
+skills/mayoform-devops/
+**/*credentials*.json
+**/*secrets*.json
+**/*token*.txt
+
+# Git backups
+.git.backup*
+
+# macOS
+.DS_Store
