@@ -1,0 +1,1 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'});const pg=await b.newPage({viewport:{width:1080,height:1350},deviceScaleFactor:2});await pg.goto('file://'+__dirname+'/comic.html');await pg.screenshot({path:'comic.png'});await b.close()})();

@@ -1,0 +1,168 @@
+<!doctype html><html><head><meta charset="utf-8"><title>躺平四格</title>
+<style>html,body{margin:0;background:#fff}svg{display:block}
+text{font-family:"WenQuanYi Zen Hei",sans-serif}</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1350" viewBox="0 0 1080 1350">
+<defs>
+  <pattern id="wall" width="90" height="90" patternUnits="userSpaceOnUse">
+    <rect width="90" height="90" fill="#f6f1d6"/>
+    <g fill="#cdbb3c" stroke="#a8992c" stroke-width="1.5">
+      <path d="M22 10 l6 14 14-4-9 12 12 9-15 1 1 15-10-11-10 11 1-15-15-1 12-9-9-12 14 4z"/>
+      <path d="M67 52 l5 11 11-3-7 9 9 7-12 1 1 12-8-9-8 9 1-12-12-1 9-7-7-9 11 3z"/>
+    </g>
+    <path d="M5 80 Q30 60 50 75 T88 40" fill="none" stroke="#d9cd7a" stroke-width="2"/>
+  </pattern>
+  <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2" fill="#000" opacity=".12"/></pattern>
+  <pattern id="mat" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#8fb3d6"/><path d="M0 12 L12 0" stroke="#7ea2c7" stroke-width="2"/></pattern>
+  <pattern id="stripe" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(80)"><rect width="40" height="40" fill="#f3e9ea"/><rect width="18" height="40" fill="#cdb3b8"/></pattern>
+  <radialGradient id="glow"><stop offset="0" stop-color="#9fd3ff" stop-opacity=".9"/><stop offset="1" stop-color="#9fd3ff" stop-opacity="0"/></radialGradient>
+
+  <!-- 躺平主角：局部座標 500x300 -->
+  <g id="guy" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 枕頭捲 -->
+    <rect x="372" y="140" width="125" height="120" rx="45" fill="url(#stripe)" stroke="#111" stroke-width="5"/>
+    <!-- 後腿（腳踩地） -->
+    <polyline points="230,215 165,112 108,236" fill="none" stroke="#111" stroke-width="34"/>
+    <polyline points="230,215 165,112 108,236" fill="none" stroke="#f1c7a0" stroke-width="25"/>
+    <ellipse cx="92" cy="240" rx="26" ry="11" fill="#f1c7a0" stroke="#111" stroke-width="5"/>
+    <!-- 前腿（翹腳） -->
+    <polyline points="238,206 150,122 62,48" fill="none" stroke="#111" stroke-width="34"/>
+    <polyline points="238,206 150,122 62,48" fill="none" stroke="#f1c7a0" stroke-width="25"/>
+    <ellipse cx="50" cy="34" rx="12" ry="25" transform="rotate(35 50 34)" fill="#f1c7a0" stroke="#111" stroke-width="5"/>
+    <!-- 短褲 -->
+    <path d="M262 176 L268 250 L200 252 L176 168 Q205 150 230 158 Z" fill="#8a9097" stroke="#111" stroke-width="5"/>
+    <path d="M214 180 L226 245" stroke="#6c7178" stroke-width="3"/>
+    <!-- 上衣 -->
+    <path d="M255 178 Q310 164 378 176 L388 250 L262 252 Z" fill="#e6d8c4" stroke="#111" stroke-width="5"/>
+    <!-- 頭 -->
+    <circle cx="418" cy="178" r="38" fill="#f1c7a0" stroke="#111" stroke-width="5"/>
+    <path d="M392 150 Q420 128 452 150 Q462 178 450 208 Q440 186 430 176 Q410 160 392 150 Z" fill="#161616"/>
+    <path d="M388 160 Q396 142 414 146" stroke="#161616" stroke-width="8" fill="none"/>
+    <!-- 耳機 -->
+    <path d="M405 140 Q450 125 466 170" fill="none" stroke="#555" stroke-width="8"/>
+    <rect x="428" y="182" width="26" height="34" rx="9" fill="#9aa0a8" stroke="#111" stroke-width="4"/>
+    <!-- 眼鏡＋臉 -->
+    <rect x="384" y="166" width="20" height="14" rx="3" fill="none" stroke="#111" stroke-width="3.5"/>
+    <rect x="406" y="160" width="18" height="14" rx="3" fill="none" stroke="#111" stroke-width="3.5"/>
+    <circle cx="394" cy="172" r="2.5" fill="#111"/><circle cx="414" cy="166" r="2.5" fill="#111"/>
+    <path d="M392 196 Q398 199 404 195" stroke="#111" stroke-width="3" fill="none"/>
+    <!-- 手臂舉手機 -->
+    <polyline points="368,200 322,248 300,150" fill="none" stroke="#111" stroke-width="28"/>
+    <polyline points="368,200 322,248 300,150" fill="none" stroke="#f1c7a0" stroke-width="20"/>
+    <path d="M296 176 l14 3" stroke="#d9b45a" stroke-width="5"/>
+    <circle cx="300" cy="135" r="45" fill="url(#glow)"/>
+    <rect x="282" y="92" width="34" height="58" rx="7" transform="rotate(-12 299 121)" fill="#1a1a1a" stroke="#111" stroke-width="4"/>
+    <rect x="287" y="98" width="24" height="46" rx="4" transform="rotate(-12 299 121)" fill="#5aa9e6"/>
+  </g>
+
+  <g id="bubbleTail"><path d="M0 0 L22 0 L-6 28 Z"/></g>
+</defs>
+
+<!-- 底色 + 標題 -->
+<rect width="1080" height="1350" fill="#fffdf6"/>
+<rect x="0" y="0" width="1080" height="112" fill="#111"/>
+<text x="540" y="62" text-anchor="middle" font-size="44" fill="#fff" font-weight="bold">《躺平？不，這叫非同步交付》</text>
+<text x="540" y="96" text-anchor="middle" font-size="22" fill="#f2c94c">一位 17 年資歷工程主管的週六下午</text>
+
+<!-- ===== Panel 1 ===== -->
+<g transform="translate(30,136)">
+  <clipPath id="c1"><rect width="500" height="560"/></clipPath>
+  <g clip-path="url(#c1)">
+    <rect width="500" height="560" fill="url(#wall)"/>
+    <rect y="380" width="500" height="180" fill="url(#mat)"/>
+    <use href="#guy" transform="translate(-10,175)"/>
+    <text x="250" y="250" font-size="30" fill="#111" font-weight="bold" transform="rotate(-10 250 250)">滑～</text>
+    <text x="330" y="235" font-size="24" fill="#111" transform="rotate(-10 330 235)">滑～</text>
+  </g>
+  <rect width="500" height="560" fill="none" stroke="#111" stroke-width="6"/>
+  <rect x="0" y="0" width="58" height="58" fill="#111"/><text x="29" y="42" text-anchor="middle" font-size="34" fill="#fff">1</text>
+  <!-- 對白：外部視角 -->
+  <g>
+    <path d="M150 30 H480 Q492 30 492 42 V140 Q492 152 480 152 H230 L180 200 L200 152 H150 Q138 152 138 140 V42 Q138 30 150 30 Z" fill="#fff" stroke="#111" stroke-width="4"/>
+    <text x="315" y="78" text-anchor="middle" font-size="30" fill="#111">又在躺平滑手機……</text>
+    <text x="315" y="122" text-anchor="middle" font-size="24" fill="#555">（家人視角）</text>
+  </g>
+</g>
+
+<!-- ===== Panel 2 ===== -->
+<g transform="translate(550,136)">
+  <rect width="500" height="560" fill="#2b2b2b"/>
+  <rect width="500" height="560" fill="url(#dots)"/>
+  <!-- 手機特寫 -->
+  <rect x="60" y="70" width="380" height="470" rx="40" fill="#0d0d0d" stroke="#111" stroke-width="6"/>
+  <rect x="78" y="88" width="344" height="434" rx="26" fill="#1b1b1d"/>
+  <text x="250" y="122" text-anchor="middle" font-size="18" fill="#888">Claude Code · 雲端 session</text>
+  <!-- AI 訊息 -->
+  <rect x="96" y="138" width="300" height="168" rx="14" fill="#2a2a2e"/>
+  <text font-size="19" fill="#e8e8e8"><tspan x="110" y="168">v1.1.4  建單表單改成 fragment</tspan><tspan x="110" y="196">→ 往返次數 −50%</tspan><tspan x="110" y="232">v1.1.5  6 個查詢合併成 2～3 個</tspan><tspan x="110" y="270" fill="#f2c94c">確認 v1.1.2 生效後，</tspan><tspan x="110" y="296" fill="#f2c94c">從 v1.1.3 開始做，可以嗎？</tspan></text>
+  <!-- 使用者回覆 -->
+  <rect x="150" y="330" width="250" height="88" rx="14" fill="#c96442"/>
+  <text font-size="20" fill="#fff"><tspan x="166" y="364">可以。先寫測試，</tspan><tspan x="166" y="396">紅燈了再改。</tspan></text>
+  <!-- 拇指 -->
+  <path d="M330 560 Q320 470 360 450 Q392 440 398 470 L410 560 Z" fill="#f1c7a0" stroke="#111" stroke-width="5"/>
+  <path d="M362 456 Q378 450 388 462" stroke="#111" stroke-width="3" fill="none"/>
+  <text x="120" y="470" font-size="30" fill="#fff" font-weight="bold" transform="rotate(-6 120 470)">送出 ▶</text>
+  <rect width="500" height="560" fill="none" stroke="#111" stroke-width="6"/>
+  <rect x="0" y="0" width="58" height="58" fill="#111"/><text x="29" y="42" text-anchor="middle" font-size="34" fill="#fff">2</text>
+  <rect x="58" y="0" width="442" height="46" fill="#f2c94c" stroke="#111" stroke-width="4"/>
+  <text x="279" y="32" text-anchor="middle" font-size="24" fill="#111">鏡頭拉近——螢幕上其實是這個</text>
+</g>
+
+<!-- ===== Panel 3 ===== -->
+<g transform="translate(30,720)">
+  <clipPath id="c3"><rect width="500" height="530"/></clipPath>
+  <g clip-path="url(#c3)">
+    <rect width="500" height="530" fill="#e9f2fb"/>
+    <!-- 雲 -->
+    <path d="M50 240 Q15 170 90 140 Q100 70 185 85 Q235 30 305 75 Q385 55 410 125 Q490 145 460 240 Z" fill="#fff" stroke="#111" stroke-width="5"/>
+    <text x="250" y="122" text-anchor="middle" font-size="22" fill="#111" font-weight="bold">☁ 雲端容器（全速運轉中）</text>
+    <g font-size="19">
+      <rect x="82" y="138" width="340" height="20" fill="none"/>
+      <text x="92" y="162" fill="#1e7d3c">Agent A：dotnet test　42 passed ✅</text>
+      <text x="92" y="192" fill="#1d4ed8">Agent B：PR #128 已開，CI 綠燈</text>
+      <text x="92" y="222" fill="#b45309">Agent C：慢查詢分析報告完成</text>
+    </g>
+    <!-- 訊號線 -->
+    <path d="M300 395 Q330 310 270 245" fill="none" stroke="#111" stroke-width="3" stroke-dasharray="8 7"/>
+    <text x="330" y="300" font-size="22" fill="#111">⚡ prompt</text>
+    <rect y="440" width="500" height="90" fill="url(#mat)"/>
+    <use href="#guy" transform="translate(40,300) scale(0.62)"/>
+    <text x="40" y="275" font-size="26" fill="#111" font-weight="bold">身體：躺平中</text>
+    <text x="40" y="310" font-size="26" fill="#c0392b" font-weight="bold">產出：加班中</text>
+  </g>
+  <rect width="500" height="530" fill="none" stroke="#111" stroke-width="6"/>
+  <rect x="0" y="0" width="58" height="58" fill="#111"/><text x="29" y="42" text-anchor="middle" font-size="34" fill="#fff">3</text>
+</g>
+
+<!-- ===== Panel 4 ===== -->
+<g transform="translate(550,720)">
+  <clipPath id="c4"><rect width="500" height="530"/></clipPath>
+  <g clip-path="url(#c4)">
+    <rect width="500" height="530" fill="url(#wall)"/>
+    <rect y="400" width="500" height="130" fill="url(#mat)"/>
+    <!-- 家人（站立） -->
+    <g stroke="#111" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="388" y="250" width="78" height="150" rx="22" fill="#7fb07a"/>
+      <path d="M392 280 L360 330 L392 345" fill="none" stroke-width="12"/>
+      <path d="M462 280 L492 330 L462 345" fill="none" stroke-width="12"/>
+      <rect x="398" y="395" width="22" height="80" fill="#4a5568"/><rect x="434" y="395" width="22" height="80" fill="#4a5568"/>
+      <circle cx="427" cy="212" r="36" fill="#f1c7a0"/>
+      <path d="M391 205 Q395 168 427 170 Q462 170 464 205 Q450 188 427 190 Q405 190 391 205 Z" fill="#3b2a1e"/>
+      <path d="M408 214 l10 -4 M436 210 l10 4" stroke-width="3.5"/>
+      <path d="M419 230 L435 230" fill="none" stroke-width="3.5"/>
+    </g>
+    <use href="#guy" transform="translate(-8,305) scale(0.64)"/>
+    <!-- 對白 -->
+    <path d="M220 70 H490 V160 H460 L470 195 L430 160 H220 Z" fill="#fff" stroke="#111" stroke-width="4"/>
+    <text font-size="24" fill="#111"><tspan x="236" y="105">躺一整天，</tspan><tspan x="236" y="140">你今天到底做了什麼？</tspan></text>
+    <path d="M12 70 H210 Q218 70 218 78 V280 Q218 288 210 288 H190 L230 340 L150 288 H12 Q4 288 4 280 V78 Q4 70 12 70 Z" fill="#fff" stroke="#111" stroke-width="4"/>
+    <text font-size="21" fill="#111"><tspan x="18" y="104">交了 3 版、</tspan><tspan x="18" y="134">開 2 個 PR、</tspan><tspan x="18" y="164">Code Review 一輪、</tspan><tspan x="18" y="194">效能報告一份。</tspan><tspan x="18" y="238" fill="#c0392b">腳舉著，</tspan><tspan x="18" y="268" fill="#c0392b">順便練 Leg Day。</tspan></text>
+    <text x="330" y="240" font-size="44" fill="#c0392b" font-weight="bold">!?</text>
+  </g>
+  <rect width="500" height="530" fill="none" stroke="#111" stroke-width="6"/>
+  <rect x="0" y="0" width="58" height="58" fill="#111"/><text x="29" y="42" text-anchor="middle" font-size="34" fill="#fff">4</text>
+</g>
+
+<!-- Footer -->
+<rect x="0" y="1270" width="1080" height="80" fill="#111"/>
+<text x="540" y="1320" text-anchor="middle" font-size="30" fill="#fff">看起來在滑手機，其實在 <tspan fill="#f2c94c">下 Prompt</tspan>。姿勢不等於產出。</text>
+</svg></body></html>
