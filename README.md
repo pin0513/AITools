@@ -4,13 +4,14 @@
 
 ## 📦 包含的工具分類
 
-### 🛠️ 開發團隊工具 (6 個)
+### 🛠️ 開發團隊工具 (7 個)
 - `dev-team-pm` - Product Manager 角色
 - `dev-team-ba` - Business Analyst 角色
 - `dev-team-architect` - 架構師角色
 - `dev-team-qa` - QA Lead 角色
 - `dev-team-tech-lead` - Tech Lead 角色
 - `dev-team-scrum-master` - Scrum Master 角色
+- `pm-to-rd-spec` - PM spec → RD spec 轉換工作流程(方法論路由、C4/UML、技術邊界核對、一頁核對面板)
 
 ### 🤝 團隊協作工具 (7 個)
 - `team-maker` - 團隊製作器
