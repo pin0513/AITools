@@ -24,12 +24,12 @@ ALLOWED = [["Page", "Component"], ["Page", "Store"], ["Component", "Store"], ["S
 
 # ------------------------------------------------------------------ 語言
 def L(lang):  # 標題、表頭、固定字串用的語言(mixed 用中文結構)
-    return "en" if lang == "en" else "zh"
+    return "en" if lang == "en" else "zh"   # 字典鍵(zh-TW 與 mixed 都用中文結構)
 
 def render(text, sc, lang):
     for k, t in sc["terms"].items():
         if lang == "en": rep = t["en"]
-        elif lang == "zh": rep = t["zh"]
+        elif lang == "zh-TW": rep = t["zh"]
         else: rep = " " + (t["sym"] if t["kind"] in ("entity", "external", "status") else t["en"]) + " "
         text = text.replace("{" + k + "}", rep)
     text = re.sub(r" {2,}", " ", text)
@@ -39,12 +39,12 @@ def render(text, sc, lang):
 
 def term(sc, key, lang):
     t = sc["terms"][key]
-    return t["en"] if lang == "en" else t["zh"] if lang == "zh" else (t["sym"] if t["kind"] in ("entity", "external", "status") else t["en"])
+    return t["en"] if lang == "en" else t["zh"] if lang == "zh-TW" else (t["sym"] if t["kind"] in ("entity", "external", "status") else t["en"])
 
 def elem(sc, key, lang):
-    """survey / SA2 的元素名:en → Symbol;zh → 中文(靠 SA2 / 詞彙表解析);mixed → 中文 (Symbol)。"""
+    """survey / SA2 的元素名:en → Symbol;zh-TW → 中文(靠 SA2 / 詞彙表解析);mixed → 中文 (Symbol)。"""
     t = sc["terms"][key]
-    return t["sym"] if lang == "en" else t["zh"] if lang == "zh" else f'{t["zh"]} ({t["sym"]})'
+    return t["sym"] if lang == "en" else t["zh"] if lang == "zh-TW" else f'{t["zh"]} ({t["sym"]})'
 
 H = {
     "en": {"bg": "Background and Goals", "scope": "Scope", "glossary": "Glossary", "srcmap": "Source Map", "sources": "Sources",
@@ -533,7 +533,7 @@ def gen_one(out_root, shape, lang, sid):
     key_terms = []
     for k, t in sc["terms"].items():
         if t["kind"] not in ("entity", "role", "action"): continue
-        key_terms.append(t["en"] if lang == "en" else t["zh"] if lang == "zh" else (t["sym"].lower() if t["kind"] == "entity" else t["en"]))
+        key_terms.append(t["en"] if lang == "en" else t["zh"] if lang == "zh-TW" else (t["sym"].lower() if t["kind"] == "entity" else t["en"]))
     expected = {"id": tc_id, "shape": shape, "lang": lang, "scenario": sid, "title": title, "shape_label": shape_label,
                 "spec": f"specs/rd/{issue}/spec", "review": f"specs/rd/{issue}/spec-review",
                 "expect": {"fail": 0, "survey_evidences": evidences, "min_lexicon_recall": 0.6},

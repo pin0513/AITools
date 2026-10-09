@@ -1,5 +1,5 @@
 """測試矩陣的商業情境資料(3 種商業變型)。文字用 {key} 佔位,由 gen_matrix 依語言渲染:
-en → 英文詞;zh → 中文詞;mixed → 中文句子 + 英文詞(實體用 Symbol,動作用英文動詞)。"""
+en → 英文詞;zh-TW → 中文詞(台灣用語);mixed → 中文句子 + 英文詞(實體用 Symbol,動作用英文動詞)。"""
 
 S1 = {
     "id": "s1", "ctx": "Orders", "feature": "order", "issue": "order-cancel",
@@ -192,7 +192,7 @@ S3 = {
 
 SCENARIOS = {"s1": S1, "s2": S2, "s3": S3}
 SHAPES = ["fs-front", "fs-back", "fs-balance", "fe-only", "be-only"]
-LANGS = ["en", "zh", "mixed"]
+LANGS = ["en", "zh-TW", "mixed"]   # 語言維度代碼;情境資料裡的 "zh" 只是中文措辭的字典鍵
 
 def pairwise():
     """成對覆蓋:shape i、lang j → scenario (i + j) mod 3。任兩維度的每一組合都至少出現一次(15 份)。"""

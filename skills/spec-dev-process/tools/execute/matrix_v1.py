@@ -59,7 +59,7 @@ def run_matrix(root: pathlib.Path, offline=False) -> dict:
     summary = {"cases": len(results), "accepted": sum(r["accepted"] for r in results),
                "baseline_clean": sum(r["baseline"]["fail"] == 0 for r in results),
                "mutants": sum(len(r["mutants"]) for r in results), "mutants_caught": sum(m["caught"] for r in results for m in r["mutants"]),
-               "recall_by_lang": {lg: round(sum(r["lexicon"]["recall"] for r in results if r["lang"] == lg) / max(1, sum(r["lang"] == lg for r in results)), 2) for lg in ("en", "zh", "mixed")}}
+               "recall_by_lang": {lg: round(sum(r["lexicon"]["recall"] for r in results if r["lang"] == lg) / max(1, sum(r["lang"] == lg for r in results)), 2) for lg in ("en", "zh-TW", "mixed")}}
     out = {"summary": summary, "results": results}
     (root / "acceptance.json").write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     board = root / "_board"
@@ -81,7 +81,7 @@ def run_matrix(root: pathlib.Path, offline=False) -> dict:
     return out
 
 SHAPES = [("fs-front", "全端 · 重前輕後"), ("fs-back", "全端 · 輕前重後"), ("fs-balance", "全端 · 均衡"), ("fe-only", "純前端"), ("be-only", "純後端")]
-LANGS = [("en", "English"), ("zh", "中文"), ("mixed", "中英混用")]
+LANGS = [("en", "English"), ("zh-TW", "中文(台灣)"), ("mixed", "中英混用")]
 SCEN = {"s1": "訂單取消與退款", "s2": "會議室預約", "s3": "會員點數兌換"}
 MUT = {"evidence-line": "證據行號", "reverse-dependency": "反向依賴", "untested-ac": "無測試 AC", "namespace-evidence": "命名空間證據"}
 
@@ -155,7 +155,7 @@ td.empty{{color:var(--muted)}}
 <div class="kpi {"good" if s["accepted"] == s["cases"] else "warn"}"><b>{s["accepted"]}/{s["cases"]}</b><span>驗收通過</span></div>
 <div class="kpi {"good" if s["baseline_clean"] == s["cases"] else "warn"}"><b>{s["baseline_clean"]}/{s["cases"]}</b><span>baseline 0 FAIL</span></div>
 <div class="kpi {"good" if s["mutants_caught"] == s["mutants"] else "warn"}"><b>{s["mutants_caught"]}/{s["mutants"]}</b><span>突變版被抓到</span></div>
-<div class="kpi"><b>{rec["en"]:.0%} · {rec["zh"]:.0%} · {rec["mixed"]:.0%}</b><span>斷詞召回 英 · 中 · 混</span></div>
+<div class="kpi"><b>{rec["en"]:.0%} · {rec["zh-TW"]:.0%} · {rec["mixed"]:.0%}</b><span>斷詞召回 英 · 中 · 混</span></div>
 </section>
 <div class="scroll"><table class="grid"><thead><tr><th>架構形狀</th>{"".join(f"<th>{e(l)}</th>" for _, l in LANGS)}</tr></thead><tbody>{rows}</tbody></table></div>
 <section class="notes">

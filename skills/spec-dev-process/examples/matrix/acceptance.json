@@ -7,7 +7,7 @@
     "mutants_caught": 57,
     "recall_by_lang": {
       "en": 1.0,
-      "zh": 0.98,
+      "zh-TW": 0.98,
       "mixed": 1.0
     }
   },
@@ -163,9 +163,9 @@
       "accepted": true
     },
     {
-      "id": "be-only-zh-s3",
+      "id": "be-only-zh-TW-s3",
       "shape": "be-only",
-      "lang": "zh",
+      "lang": "zh-TW",
       "scenario": "s3",
       "title": "會員點數兌換",
       "shape_label": "純後端",
@@ -370,9 +370,9 @@
       "accepted": true
     },
     {
-      "id": "fe-only-zh-s2",
+      "id": "fe-only-zh-TW-s2",
       "shape": "fe-only",
-      "lang": "zh",
+      "lang": "zh-TW",
       "scenario": "s2",
       "title": "會議室預約",
       "shape_label": "純前端",
@@ -590,9 +590,9 @@
       "accepted": true
     },
     {
-      "id": "fs-back-zh-s3",
+      "id": "fs-back-zh-TW-s3",
       "shape": "fs-back",
-      "lang": "zh",
+      "lang": "zh-TW",
       "scenario": "s3",
       "title": "會員點數兌換",
       "shape_label": "全端(輕前、重後)",
@@ -825,9 +825,9 @@
       "accepted": true
     },
     {
-      "id": "fs-balance-zh-s1",
+      "id": "fs-balance-zh-TW-s1",
       "shape": "fs-balance",
-      "lang": "zh",
+      "lang": "zh-TW",
       "scenario": "s1",
       "title": "訂單取消與退款",
       "shape_label": "全端(均衡)",
@@ -1062,9 +1062,9 @@
       "accepted": true
     },
     {
-      "id": "fs-front-zh-s2",
+      "id": "fs-front-zh-TW-s2",
       "shape": "fs-front",
-      "lang": "zh",
+      "lang": "zh-TW",
       "scenario": "s2",
       "title": "會議室預約",
       "shape_label": "全端(重前、輕後)",
