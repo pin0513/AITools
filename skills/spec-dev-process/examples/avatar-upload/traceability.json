@@ -518,6 +518,12 @@
       "mermaid": "erDiagram\n  Member ||--o| MemberAvatar : has\n  MemberAvatar {\n    uniqueidentifier MemberId PK\n    nvarchar BlobPath\n    datetime2 UpdatedAt\n  }"
     }
   ],
+  "sa_files": [],
+  "sa_artifacts": [],
+  "sa_entities": [],
+  "sa_roles": [],
+  "sa_word_count": 0,
+  "survey": [],
   "extract_errors": [],
   "boundary_checks": [
     {

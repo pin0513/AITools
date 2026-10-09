@@ -1,0 +1,29 @@
+{"seq":1,"req":"*","stage":"S0","method":"Intake.Sectioning","rule":"S0","in":"specs/in-progress/issue-c/pm-spec.md","out":"PM§1..§5","evidence":"explicit","gaps":[],"note":"5 節齊全"}
+{"seq":2,"req":"*","stage":"S0","method":"Intake.MockExtract","rule":"S0","in":"mock/approval.html","out":"3 states, fields: reason","evidence":"explicit","gaps":[],"note":"歸 STM-UI"}
+{"seq":3,"req":"*","stage":"SA","method":"SA1.WordBreak","rule":"SA1","in":"PM§1..§5, mock","out":"sa/01: 8 名詞 7 動詞 4 角色詞","evidence":"explicit","gaps":[],"note":""}
+{"seq":4,"req":"*","stage":"SA","method":"SA2.Entities","rule":"SA2","in":"sa/01","out":"sa/02: Form, FormSubmission, ReviewRecord, ReviewReminder","evidence":"explicit","gaps":[],"note":"屬性詞不建實體"}
+{"seq":5,"req":"*","stage":"SA","method":"SA3.Roles","rule":"SA3","in":"sa/01","out":"sa/03: Submitter, Reviewer, System","evidence":"explicit","gaps":[],"note":"部門主管非 Actor"}
+{"seq":6,"req":"*","stage":"SA","method":"SA4-7.Diagrams","rule":"SA4","in":"sa/02, sa/03","out":"UCD-001, ACT-001, SEQ-SA-001, STM-SA-001","evidence":"explicit","gaps":[],"note":""}
+{"seq":7,"req":"*","stage":"SV","method":"Survey.Mapping","rule":"SV","in":"survey-candidates.md, src/","out":"survey-mapping.md: 19 元素(existing 1, modify 9, new 9)","evidence":"explicit","gaps":[],"note":"證據由 G-SV-evidence 驗"}
+{"seq":8,"req":"REQ-001","stage":"S1","method":"UseCase","rule":"M1","in":"PM§3.1, sa/03 Submit","out":"UC-001","evidence":"explicit","gaps":[],"note":""}
+{"seq":9,"req":"REQ-001","stage":"S1","method":"UML.State","rule":"M3","in":"sa/07 STM-SA-001","out":"STM-DOM-001","evidence":"explicit","gaps":[],"note":"狀態持久化且影響規則 → 領域狀態機"}
+{"seq":10,"req":"REQ-002","stage":"S1","method":"UseCase","rule":"M1","in":"PM§3.2, sa/03 Approve/Reject","out":"UC-002","evidence":"explicit","gaps":[],"note":""}
+{"seq":11,"req":"REQ-002","stage":"S1","method":"DDD.Aggregate","rule":"M5","in":"sa/02, UC-002 後置條件","out":"FormSubmission AR + ReviewRecord Entity","evidence":"explicit","gaps":[],"note":"轉移與紀錄同交易 → 同 Aggregate"}
+{"seq":12,"req":"REQ-002","stage":"S1","method":"UseCase","rule":"M1","in":"PM§4 指派","out":"UC-002 前置條件 actor in ReviewerIds","evidence":"assumed","gaps":["審核者指派方式 PM 未展開"],"note":"Form.ReviewerIds 設定檔"}
+{"seq":13,"req":"REQ-002","stage":"S2","method":"Contract","rule":"M9","in":"mock #history, UC-002","out":"退回時 INotifier 通知填寫者","evidence":"assumed","gaps":["PM 未明寫退回通知"],"note":"mock 有歷史列暗示"}
+{"seq":14,"req":"REQ-003","stage":"S1","method":"UseCase","rule":"M1","in":"PM§3.3, sa/03 Resubmit","out":"UC-003","evidence":"explicit","gaps":[],"note":""}
+{"seq":15,"req":"REQ-004","stage":"S1","method":"UseCase","rule":"M1","in":"PM§3.4, sa/03 Remind","out":"UC-004","evidence":"explicit","gaps":[],"note":""}
+{"seq":16,"req":"REQ-004","stage":"S1","method":"QualityScenario","rule":"M11","in":"PM§3.4 工作天","out":"IWorkdayCalendar 只排除週六日","evidence":"assumed","gaps":["工作天是否含國定假日"],"note":""}
+{"seq":17,"req":"NFR-001","stage":"S1","method":"QualityScenario","rule":"M11","in":"PM§4 '要快'","out":"NFR-001 P95<1s @50VU","evidence":"assumed","gaps":["沒有數字"],"note":""}
+{"seq":18,"req":"NFR-002","stage":"S1","method":"QualityScenario","rule":"M11","in":"PM§4 保留","out":"NFR-002 無刪改路徑 + DB trigger","evidence":"explicit","gaps":[],"note":""}
+{"seq":19,"req":"NFR-003","stage":"S1","method":"QualityScenario","rule":"M11","in":"PM§4 權限","out":"NFR-003 403","evidence":"explicit","gaps":[],"note":""}
+{"seq":20,"req":"REQ-001","stage":"S2","method":"CleanArch.Layers","rule":"M15","in":"survey modify FormSubmission/Submit","out":"CMP-005 modify, CMP-004","evidence":"explicit","gaps":[],"note":""}
+{"seq":21,"req":"REQ-002","stage":"S2","method":"UML.Sequence","rule":"M4","in":"sa/06 SEQ-SA-001, survey","out":"SEQ-001 (CMP-001..003, 005..007)","evidence":"explicit","gaps":[],"note":"例外 alt x3"}
+{"seq":22,"req":"REQ-003","stage":"S2","method":"CleanArch.Layers","rule":"M15","in":"UC-003","out":"CMP-004","evidence":"explicit","gaps":[],"note":""}
+{"seq":23,"req":"REQ-004","stage":"S2","method":"UML.Sequence","rule":"M4","in":"UC-004, docs/architectures","out":"SEQ-002 (CMP-008, 006, 007, 010)","evidence":"inferred","gaps":[],"note":"Hosted Service 依團隊慣例,PM 未指定"}
+{"seq":24,"req":"REQ-004","stage":"S2","method":"Contract.FailureModes","rule":"M10","in":"CMP-007 SMTP","out":"逾時5s/重試2/通知非交易","evidence":"inferred","gaps":[],"note":"依 guidelines 通知經 INotifier"}
+{"seq":25,"req":"NFR-001","stage":"S2","method":"FitnessFunction","rule":"M12","in":"NFR-001","out":"TST-011 k6","evidence":"explicit","gaps":[],"note":""}
+{"seq":26,"req":"NFR-002","stage":"S2","method":"ERD","rule":"M6","in":"NFR-002","out":"ReviewRecord trigger 拒絕刪改","evidence":"explicit","gaps":[],"note":""}
+{"seq":27,"req":"NFR-003","stage":"S2","method":"CleanArch.Layers","rule":"M15","in":"NFR-003","out":"審核者檢查放 Application Handler(CMP-002/003)","evidence":"explicit","gaps":[],"note":"權限是應用層關注點"}
+{"seq":28,"req":"*","stage":"S2","method":"C4.Component","rule":"M14","in":"survey-mapping","out":"CMP-001..010","evidence":"explicit","gaps":[],"note":"existing 1 / modify 3 / new 6"}
+{"seq":29,"req":"*","stage":"S4","method":"AC.TestMapping","rule":"M17","in":"AC-*","out":"TST-001..011","evidence":"explicit","gaps":[],"note":""}

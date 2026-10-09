@@ -1,8 +1,8 @@
 # 流程骨幹。每個 stage:誰執行(llm|tool)、輸入、輸出、用哪些工具(name@version)、放行規則。
 # runner(tools/execute/runner_v*.py)照順序跑;llm stage 只做契約檢查(產物存在且合約),tool stage 真的執行。
 # gates 只決定該 stage 是否停(stop_on);check.gate 工具與面板永遠算全量 Gate。
-version: 1
-pipeline: pm-to-rd-spec
+version: 2
+pipeline: pm-to-rd-spec   # S0 → SA → SV → S1 → S2 → S3 → S4 → S5 → S6
 stages:
   - id: S0
     name: Intake
@@ -13,10 +13,29 @@ stages:
     gates:   [G-S0-sections]
     stop_on: FAIL
 
+  - id: SA
+    name: SA Modeling
+    owner: llm
+    methodology: sa_modeling            # outputs 由 config.sa_modeling.methodology 指到的 rules/methodology/sa/<name>.yaml 決定
+    inputs:  [10-requirements.md, pm_spec.md, "mock (optional)", "docs (optional)"]
+    outputs: []                          # runner 以方法論 steps[*].output 填入(位於 review_dir)
+    gates:   [G-SA-steps]
+    stop_on: FAIL
+
+  - id: SV
+    name: Survey Mapping
+    owner: tool+llm
+    requires: sa_modeling               # sa_modeling.methodology = none 時與 SA 一起跳過
+    inputs:  [review_dir/sa/*.md, codebase]
+    tools:   [analyze.survey@1]          # 掃 codebase 產 survey-candidates.md;人/LLM 定案 survey-mapping.md
+    outputs: [survey-candidates.md, survey-mapping.md]
+    gates:   [G-SV-evidence]
+    stop_on: FAIL
+
   - id: S1
     name: Analyze
     owner: llm
-    inputs:  [10-requirements.md]
+    inputs:  [10-requirements.md, review_dir/sa/*.md, review_dir/survey-mapping.md]
     outputs: [10-requirements.md#驗收條件, 10-requirements.md#非功能需求, 20-domain-model.md, method-log.jsonl]
     methods: [M1, M2, M3, M5, M11]
     gates:   [G-M-log, G-M1-post]

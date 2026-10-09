@@ -11,15 +11,17 @@ class PipelineContractTest(unittest.TestCase):
 
     def test_stage_ids_ordered_and_unique(self):
         ids = [s["id"] for s in self.pipe["stages"]]
-        self.assertEqual(ids, sorted(set(ids)))
-        self.assertEqual(ids[0], "S0")
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertEqual(ids[0], "S0"); self.assertEqual(ids[-1], "S6")
+        self.assertLess(ids.index("SA"), ids.index("SV")); self.assertLess(ids.index("SV"), ids.index("S1"))
 
     def test_every_tool_ref_resolves(self):
         for s in self.pipe["stages"]:
             for ref in s.get("tools") or []:
                 with self.subTest(stage=s["id"], tool=ref):
                     fn, _ = C.resolve_tool(ref, self.reg); self.assertTrue(callable(fn))
-            if s["owner"] == "tool": self.assertTrue(s.get("tools"), f"{s['id']} 是 tool stage 但沒有 tools")
+            self.assertIn(s["owner"], ("llm", "tool", "tool+llm"))
+            if s["owner"] in ("tool", "tool+llm"): self.assertTrue(s.get("tools"), f"{s['id']} 是 {s['owner']} stage 但沒有 tools")
             else: self.assertFalse(s.get("tools"), f"{s['id']} 是 llm stage 不該有 tools")
 
     def test_every_gate_ref_is_a_gate_rule(self):
@@ -35,7 +37,7 @@ class PipelineContractTest(unittest.TestCase):
 
     def test_llm_stage_outputs_have_contracts(self):
         for s in self.pipe["stages"]:
-            if s["owner"] != "llm": continue
+            if s["owner"] != "llm" or s.get("methodology"): continue
             for out in s["outputs"]:
                 self.assertIn(out.split("#")[0], self.contracts["files"], f"{s['id']} 產物 {out} 沒有 io-contract")
 
@@ -75,6 +77,31 @@ class RulesContractTest(unittest.TestCase):
         for t, spec in routing["types"].items():
             for mid in spec["methods"]: self.assertIn(mid, routing["methods"])
 
+class MethodologyContractTest(unittest.TestCase):
+    def test_sa_methodology_steps_have_contracts(self):
+        contracts = C.load_contracts()
+        for f in (ROOT / "rules" / "methodology" / "sa").glob("*.yaml"):
+            m = yamlmini.load(f)
+            self.assertEqual(m["id"], f.stem)
+            for st in m["steps"]:
+                with self.subTest(methodology=m["id"], step=st["id"]):
+                    spec = contracts["files"].get(st["output"]); self.assertIsNotNone(spec, f"{st['output']} 無 io-contract")
+                    self.assertEqual(spec.get("dir"), "review")
+                    for sec in st.get("sections", []): self.assertIn(sec, spec.get("sections", []))
+                    for pre in st.get("diagrams", []): self.assertTrue(pre.startswith(tuple(contracts["artifacts"]["heading_prefixes"])), f"{pre} 不在 heading_prefixes")
+
+    def test_sa_templates_satisfy_contracts(self):
+        contracts = C.load_contracts(); tdir = C.PATHS["templates"] / "sa"
+        files = [f for f in contracts["files"] if contracts["files"][f].get("dir") == "review"]
+        import tempfile, shutil, pathlib
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        try:
+            (tmp / "sa").mkdir()
+            for src in tdir.glob("*.md"): shutil.copy(src, (tmp / "sa" / src.name) if src.name[0].isdigit() else (tmp / src.name))
+            findings = CT.check_files(tmp, contracts, files, review_dir=tmp)
+            self.assertEqual([f for f in findings if f["level"] == "FAIL"], [], findings)
+        finally: shutil.rmtree(tmp)
+
 class TemplateContractTest(unittest.TestCase):
     def test_templates_satisfy_io_contracts(self):
         contracts = C.load_contracts(); d = C.PATHS["templates"] / "rd-spec"
@@ -84,11 +111,12 @@ class TemplateContractTest(unittest.TestCase):
     def test_template_tables_classify_to_every_declared_table(self):
         contracts = C.load_contracts(); sig = {k: v["signature"] for k, v in contracts["tables"].items()}
         found = set()
-        for f in (C.PATHS["templates"] / "rd-spec").glob("*.md"):
+        for f in list((C.PATHS["templates"] / "rd-spec").glob("*.md")) + list((C.PATHS["templates"] / "sa").glob("*.md")):
             for t in M.parse(f.name, f.read_text(encoding="utf-8")).tables:
                 n = M.classify(t, sig)
                 if n: found.add(n)
-        self.assertEqual(found, set(contracts["tables"]), f"模板缺表格 {set(contracts['tables']) - found}")
+        generated_only = {"candidates"}   # survey-candidates.md 由工具產生,沒有模板
+        self.assertEqual(found, set(contracts["tables"]) - generated_only, f"模板缺表格 {set(contracts['tables']) - generated_only - found}")
 
     def test_template_mermaid_headings_match_prefixes(self):
         prefixes = tuple(C.load_contracts()["artifacts"]["heading_prefixes"])

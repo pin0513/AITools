@@ -19,9 +19,18 @@ input:
 
 output:
   root: docs/rd-spec/{feature-slug}/        # 產出根目錄;結構見 references/rd-spec-structure.md
+  review_dir: "."                           # SA 素材、survey、check board 的目錄,相對 spec 目錄;專案常設 ../spec-review
   stage_format: [md+mermaid, html]          # md 是唯一事實來源;html 由 spec-dev.py render 產生
   generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/]   # 產生物,不手改
   method_log: method-log.jsonl              # 方法論 log,面板預設隱藏
+
+sa_modeling:                                 # SA 建模(可抽換方法論;定義在 rules/methodology/sa/<name>.yaml)
+  methodology: uml-wordbreak
+survey:                                      # Survey Mapping:掃 codebase 找模型元素的對應
+  code_roots: [src]                          # 相對專案根(.spec-dev.yaml 所在目錄)
+  extensions: [.cs, .ts, .tsx, .js, .sql, .py, .java, .go]
+  ignore: [node_modules, bin, obj, dist, .git]
+  max_candidates_per_element: 5
 
 methodology:                                 # 需求型態 → 方法論,細節見 references/methodology-map.md
   functional:      [use-case, gherkin, uml-sequence]

@@ -122,7 +122,10 @@ def tech_whitelist(data, params, ctx):
 
 # ---------- gates ----------
 def extract_errors(data, params, ctx):
-    return [_f("fail" if e["level"] == "FAIL" else "warn", e.get("ids", [""])[0] if e.get("ids") else "", e.get("ids") or [], msg=e["msg"]) for e in data.get("extract_errors", [])]
+    """stage 內評估時只看屬於該 stage 的結構錯誤(錯誤的 rule 欄 = 檔案契約的 stage);全量評估時全部。"""
+    sid = ctx.get("stage_id")
+    errs = [e for e in data.get("extract_errors", []) if not sid or e.get("rule") == sid]
+    return [_f("fail" if e["level"] == "FAIL" else "warn", e.get("ids", [""])[0] if e.get("ids") else "", e.get("ids") or [], msg=e["msg"]) for e in errs]
 
 def reference_integrity(data, params, ctx):
     out = []
@@ -161,3 +164,47 @@ def orphans(data, params, ctx):
 
 def boundary_failures(data, params, ctx):
     return [_f("fail", b["target"], b["ids"], evidence=b["evidence"]) for b in ctx.get("boundary") or [] if b["status"] == "FAIL"]
+
+
+# ---------- SA / Survey ----------
+def sa_steps(data, params, ctx):
+    meth = ctx.get("methodology") or {}
+    arts = data.get("sa_artifacts") or []
+    present = set(data.get("sa_files") or [])
+    out = []
+    for st in meth.get("steps") or []:
+        f = st["output"]
+        if f not in present:
+            out.append(_f("missing_output", st["id"], [st["id"], f], step=st["id"], file=f)); continue
+        n = 0
+        for prefix in st.get("diagrams") or []:
+            k = [a for a in arts if a["file"] == f and a["id"].startswith(prefix)]
+            if not k: out.append(_f("missing_diagram", st["id"], [st["id"], f], step=st["id"], file=f, prefix=prefix))
+            n += len(k)
+        out.append(_f("ok", st["id"], [st["id"], f], step=st["id"], file=f, diagrams=n))
+    return out
+
+def survey_evidence(data, params, ctx):
+    import pathlib, re
+    root = ctx.get("project_root"); statuses = set((ctx.get("contracts") or {}).get("survey_status") or ["existing", "modify", "new"])
+    min_len = int(params.get("min_token_len", 3)); cands = ctx.get("survey_candidates") or {}
+    out = []
+    for row in data.get("survey") or []:
+        el, st, ev = row["element"], row["status"], row["evidence"]
+        if st not in statuses: out.append(_f("bad_status", el, element=el, status=st)); continue
+        toks = [t for t in re.split(r"[^A-Za-z0-9_]+", el) if len(t) >= min_len]
+        if st == "new":
+            strong = [c for c in cands.get(el, []) if any(re.search(r"\b" + re.escape(t) + r"\b", c[2]) for t in toks)]
+            if strong: out.append(_f("new_but_found", el, element=el, evidence=f"{strong[0][0]}:{strong[0][1]}"))
+            continue
+        if not ev or ":" not in ev: out.append(_f("no_evidence", el, element=el, status=st)); continue
+        for one in [e.strip() for e in ev.split(";") if e.strip()]:
+            path, _, line = one.rpartition(":")
+            fp = (pathlib.Path(root) / path) if root else None
+            if not fp or not fp.exists(): out.append(_f("path_missing", el, element=el, evidence=one)); continue
+            try: text = fp.read_text(encoding="utf-8", errors="ignore").splitlines()[int(line) - 1]
+            except (ValueError, IndexError): out.append(_f("path_missing", el, element=el, evidence=one)); continue
+            if not any(re.search(r"\b" + re.escape(t) + r"\b", text, re.I) for t in toks):
+                out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=toks)); continue
+            out.append(_f("verified", el, element=el, evidence=one))
+    return out

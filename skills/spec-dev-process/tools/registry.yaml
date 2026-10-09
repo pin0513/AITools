@@ -3,6 +3,7 @@
 version: 1
 tools:
   analyze.extract:   {latest: 1, versions: {1: tools.analyze.extract_v1}}
+  analyze.survey:    {latest: 1, versions: {1: tools.analyze.survey_v1}}
   check.boundary:    {latest: 1, versions: {1: tools.check.engine_v1:run_boundary}}
   check.gate:        {latest: 1, versions: {1: tools.check.engine_v1:run_gate}}
   check.contract:    {latest: 1, versions: {1: tools.check.contract_v1}}

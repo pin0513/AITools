@@ -45,7 +45,7 @@ def boundary_md(tr, boundary):
 
 
 def run(ctx: dict) -> dict:
-    d, tr = ctx["dir"], ctx["data"]
+    d, tr = ctx.get("review_dir") or ctx["dir"], ctx["data"]
     from tools.check.engine_v1 import run_gate
     run_gate(ctx)
     boundary, g, k = ctx.get("boundary") or [], ctx["gate"], ctx["kpis"]

@@ -64,18 +64,22 @@ def script_tag(offline_js: "pathlib.Path|None") -> str:
         return f"<script>{lib}</script>"
     return f'<script src="{MERMAID_CDN}"></script>'
 
-def render_dir(d: pathlib.Path, offline_js=None) -> list:
-    outdir = d / "html"; outdir.mkdir(exist_ok=True)
+def render_dir(d: pathlib.Path, offline_js=None, review_dir: pathlib.Path = None) -> list:
+    outdir = (review_dir or d) / "html"; outdir.mkdir(exist_ok=True)
     tag = script_tag(offline_js); done = []
-    for md in sorted(d.glob("*.md")):
+    sources = sorted(d.glob("*.md"))
+    if review_dir and review_dir != d:
+        sources += sorted(review_dir.glob("*.md")) + sorted((review_dir / "sa").glob("*.md"))
+    for md in sources:
         body = md_to_html(md.read_text(encoding="utf-8"))
         page = PAGE.format(title=md.stem, body=body, cdn="__MERMAID__").replace('<script src="__MERMAID__"></script>', tag)
-        (outdir / (md.stem + ".html")).write_text(page, encoding="utf-8")
+        name = ("sa-" if md.parent.name == "sa" else "") + md.stem + ".html"
+        (outdir / name).write_text(page, encoding="utf-8")
         done.append(md.name)
     return done
 
 
 def run(ctx: dict) -> dict:
     from core import config as C
-    ctx["rendered"] = render_dir(ctx["dir"], C.PATHS["vendor_mermaid"] if ctx.get("offline") else None)
+    ctx["rendered"] = render_dir(ctx["dir"], C.PATHS["vendor_mermaid"] if ctx.get("offline") else None, ctx.get("review_dir"))
     return ctx

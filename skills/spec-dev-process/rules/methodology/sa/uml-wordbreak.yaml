@@ -1,0 +1,50 @@
+# SA 建模方法論 A:UML word-break。可抽換:config.sa_modeling.methodology 指到另一個檔即可。
+id: uml-wordbreak
+version: 1
+name: UML 斷詞建模
+description: 把 PM 素材斷成名詞/動詞/角色詞 → 找實體與關係 → 角色、動作、流程 → 畫工作流程核心四圖
+inputs: [10-requirements.md, pm_spec.md, mock, docs]
+steps:
+  - id: SA1
+    name: 斷詞
+    method: 名詞→候選實體;動詞→候選動作;角色詞→候選 Actor;每個詞記來源段落
+    output: sa/01-break-words.md
+    sections: [名詞, 動詞, 角色詞]
+  - id: SA2
+    name: 實體與關係
+    method: 名詞去重、合併同義、剔除屬性詞;關係寫成 來源-關係-目標-多重性;畫 classDiagram 或 erDiagram
+    output: sa/02-entities-relations.md
+    sections: [實體, 關係]
+    diagrams: [CLS-SA-]
+  - id: SA3
+    name: 角色、動作、流程
+    method: 每個 Actor 的動作清單;動作串成流程;對應 REQ
+    output: sa/03-roles.md
+    sections: [角色與動作]
+  - id: SA4
+    name: Use Case Diagram
+    method: Actor–UseCase 關係(mermaid 無原生 usecase,用 flowchart LR 畫)
+    output: sa/04-usecase.md
+    sections: [Use Case Diagram]
+    diagrams: [UCD-]
+  - id: SA5
+    name: Activity Diagram
+    method: 每條主要流程一張;分支與並行用 flowchart
+    output: sa/05-activity.md
+    sections: [Activity Diagram]
+    diagrams: [ACT-]
+  - id: SA6
+    name: Sequence Diagram
+    method: 角色與系統邊界的互動;此階段只到系統層級,不到 Component
+    output: sa/06-sequence.md
+    sections: [Sequence Diagram]
+    diagrams: [SEQ-SA-]
+  - id: SA7
+    name: State Diagram
+    method: 有生命週期的實體各一張;狀態要能對回 02 的實體屬性
+    output: sa/07-state.md
+    sections: [State Diagram]
+    diagrams: [STM-SA-]
+hand_off:
+  to: S1
+  rule: 02 的實體 → 20-domain-model 的 Entity/VO 候選;03 的角色動作 → UC;07 的狀態 → STM-DOM;survey 的 existing → 30 的 Component 沿用

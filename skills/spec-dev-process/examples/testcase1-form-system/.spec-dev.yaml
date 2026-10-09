@@ -1,0 +1,10 @@
+# testcase1 專案覆寫:spec 在 specs/rd/<issue>/spec,產生物與 SA 素材在同層 spec-review
+output:
+  review_dir: ../spec-review
+sa_modeling:
+  methodology: uml-wordbreak
+survey:
+  code_roots: [src]
+tech_boundary:
+  bounded_contexts: [Forms]
+  tech_allowlist: [ASP.NET Core, EF Core, MediatR, xUnit, NSubstitute, NetArchTest, k6, React, Vitest, Playwright]

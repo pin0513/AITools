@@ -58,6 +58,12 @@ def load_rules(cfg: dict) -> dict:
             rules[rid] = rule
     return rules
 
+def load_methodology(name: str) -> dict:
+    p = PATHS["rules_dir"] / "methodology" / "sa" / f"{name}.yaml"
+    if not p.exists():
+        raise FileNotFoundError(f"SA 方法論 {name} 不存在:{p}(可用:{[x.stem for x in p.parent.glob('*.yaml')]})")
+    return yamlmini.load(p)
+
 def load_pipeline() -> dict:
     return yamlmini.load(PATHS["pipeline"])
 

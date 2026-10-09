@@ -33,21 +33,37 @@ python3 spec-dev.py run   docs/rd-spec/avatar-upload --to S6                   #
 
 四層架構(細節見 `README.md`):`process/`(流程骨幹與 I/O 契約)→ `tools/`(analyze / check / transform / execute,`registry.yaml` 管版本)→ `rules/`(B1–B8、Gate、方法論路由全是 YAML)→ `tests/`。
 
-## 流程總覽
+## 主流程
 
 ```
-PM spec (md) ──┐
-               ├─► S0 Intake ─► S1 Analyze ─► S2 Design ─► S3 Boundary ─► S4 Test ─► S5 Assemble ─► S6 Panel
-mock ──────────┘      │             │             │              │            │            │             │
-                   REQ-xxx       UC/STM/DDD/   C4 L1-L3      B1–B8 由     TST-xxx    traceability  check-panel
-                   +來源錨點      NFR scenario  UML seq/class  script 算    AC 對應     .json 抽取     .html
-                   ─────── LLM 填 md 表格 + 寫 method-log.jsonl ───────┘  └──── spec-dev.py check / panel ────┘
+PM 素材(pm spec + mock + 參考文件)
+   │ S0 Intake                      → spec/00-overview.md, 10-requirements.md(REQ + 來源錨點)
+   ▼
+SA Modeling(方法論可抽換,預設 uml-wordbreak)
+   斷詞 → 實體/關係 → 角色/動作/流程 → Use Case / Activity / Sequence / State
+                                       → spec-review/sa/01..07(每張圖是分析 log,面板可展開)
+   ▼
+SV Survey Mapping(工具掃 codebase 出候選 → 人/LLM 定案 → 工具回 codebase 驗證證據)
+                                       → spec-review/survey-candidates.md(產生物)、survey-mapping.md(定案)
+   ▼
+S1 Analyze ─► S2 Design ─► S3 Boundary ─► S4 Test ─► S5 Assemble ─► S6 Panel
+   UC/STM/DDD   C4 L1-L3     B1–B8        TST-xxx    traceability   check-panel(含 SA 素材、survey、矩陣、邊界、log)
+   NFR          AC→CMP 追溯  由工具算      AC 對應    .json
+   └── LLM 填 spec/ 的 md 表格 + 寫 method-log ──┘  └── spec-dev.py ──┘
+   ▲                                                                   │
+   └──────────── 看 check board → 改 md → 再跑(looping)────────────────┘
 ```
+
+SA 的交接規則(`rules/methodology/sa/<name>.yaml` 的 `hand_off`):02 的實體 → 20 的 Entity/VO 候選;03 的角色動作 → UC;07 的狀態 → STM-DOM;survey 的 existing → 30 的 Component 沿用、modify → 標「既有修改」、new → 新 Component。
+
+目錄慣例(見 `examples/testcase1-form-system/`):`specs/rd/<issue>/spec/`(RD spec,唯一事實來源)與 `specs/rd/<issue>/spec-review/`(SA 素材、survey、產生物);專案 `.spec-dev.yaml` 設 `output.review_dir: ../spec-review`。
 
 | Stage | 誰做 | 輸入 | 方法論 | 產出(檔) | Gate(`process/pipeline.yaml`) |
 |---|---|---|---|---|---|
 | **S0 Intake** | LLM | PM md + mock | 段落切片、型態判定 | `00-overview.md` 來源對照、`10-requirements.md` 需求清單 | 每條 REQ 有 ID 與來源錨點;必要章節齊全 |
-| **S1 Analyze** | LLM | REQ | Use Case(Cockburn)、Gherkin、UML State(UI/Domain 分開)、DDD、Quality Scenario | `10` AC/NFR、`20-domain-model.md` | 每條 REQ 有型態與分析產物;UC 有後置條件 |
+| **SA Modeling** | LLM | REQ + PM 素材 + codebase docs | 方法論 A:斷詞、實體/關係、角色/動作/流程、UCD/ACT/SEQ/STM | `spec-review/sa/01..07.md` | G-SA-steps:每步產出存在、要求的圖至少一張 |
+| **SV Survey** | tool + LLM | sa/*.md + codebase | analyze.survey 掃 `src/` 出候選;LLM 定案 existing / modify / new | `survey-candidates.md`(產生物)、`survey-mapping.md` | G-SV-evidence:existing/modify 的 `path:line` 真的含該符號;new 不得有強候選 |
+| **S1 Analyze** | LLM | REQ + SA + survey | Use Case(Cockburn)、Gherkin、UML State(UI/Domain 分開)、DDD、Quality Scenario | `10` AC/NFR、`20-domain-model.md` | 每條 REQ 有型態與分析產物;UC 有後置條件 |
 | **S2 Design** | LLM | S1 產物 | C4 L1–L3、UML Sequence(含 alt/opt)、Contract-first、ERD、**AC→CMP 追溯表** | `30-architecture-c4.md`、`40-api-contracts.md`、`50-data-model.md` | Component 表有 layer/context;每條 AC 有強制它的 CMP |
 | **S3 Boundary** | tool | md 表格 | B1–B8(`rules/boundary/`,說明見 `references/tech-boundary-check.md`) | `boundary-report.md` | 0 FAIL;WARN 有處置 |
 | **S4 Test** | LLM | AC + CMP | Test Pyramid、AC→Test、Fitness Function、架構測試 | `60-test-design.md` | 每條 AC、每個 CMP 至少一測試 |
@@ -111,6 +127,8 @@ B1–B8 定義在 `rules/boundary/`(嚴重度、訊息、參數都是資料),判
 | `user-story-mastery` | S0 需求切片時的 INVEST 檢查沿用 |
 
 ## 範例
+
+`examples/testcase1-form-system/`:**完整端到端案例**。既有 codebase(issue a/b)+ issue c「表單審核流程」的 PM spec / mock / refs → `specs/rd/issue-c/spec-review/sa/`(SA 七步)→ `survey-mapping.md`(19 個模型元素對回 codebase)→ `spec/`(RD spec)→ check board。`specs/tools/spec-reviewer/review.sh issue-c` 一鍵跑;目標 0 FAIL。
 
 `examples/avatar-upload/`:7 個 md 來源 + `method-log.jsonl`,以及 `spec-dev.py all` 的全部產生物。範例**刻意**留了 1 個 B2 FAIL(Domain 依賴 Infrastructure)、1 個 B7 FAIL(AC 無測試)、2 個 assumed、1 個未結案 Spike,讓面板每種狀態都看得到。
 

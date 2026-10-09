@@ -1,0 +1,3 @@
+# 舊範例未做 SA 建模;跳過 SA / SV
+sa_modeling:
+  methodology: none

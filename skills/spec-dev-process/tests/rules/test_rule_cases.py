@@ -45,7 +45,10 @@ def _make(rule_id, case):
         self.assertIn(rule_id, rules, f"{rule_id} 不在 rulesets.default")
         data = apply(base_data(), case.get("patch") or {})
         log = case.get("log") or []
-        ctx = {"log": log, "live_log": log, "boundary": case.get("boundary") or [], "config": case.get("config") or {"tech_boundary": {"stack": {"runtime": ".NET"}, "tech_allowlist": ["EF Core"]}}}
+        ctx = {"log": log, "live_log": log, "boundary": case.get("boundary") or [], "config": case.get("config") or {"tech_boundary": {"stack": {"runtime": ".NET"}, "tech_allowlist": ["EF Core"]}},
+               "contracts": C.load_contracts()}
+        for k, v in (case.get("ctx") or {}).items():
+            ctx[k] = (C.ROOT / v) if k == "project_root" else v
         got = {(r["outcome"], r["target"]) for r in E.evaluate(rules[rule_id], data, ctx)}
         exp = {(o["outcome"], o["target"]) for o in case["expect"]}
         if case.get("exact", True): self.assertEqual(got, exp)

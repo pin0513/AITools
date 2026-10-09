@@ -2,13 +2,13 @@
 import json, pathlib
 from core import mdtables as M
 
-def check_files(d: pathlib.Path, contracts: dict, files: list) -> list:
+def check_files(d: pathlib.Path, contracts: dict, files: list, review_dir: pathlib.Path = None) -> list:
     out = []; tables = contracts["tables"]; sig = {k: v["signature"] for k, v in tables.items()}
     for fname in files:
         fname = fname.split("#")[0]
         spec = contracts["files"].get(fname)
         if not spec: continue
-        p = d / fname
+        p = ((review_dir or d) if spec.get("dir") == "review" else d) / fname
         rule = f"C-{spec.get('stage', '?')}"
         if not p.exists():
             out.append({"level": "FAIL" if spec.get("required") else "WARN", "rule": rule, "ids": [fname], "msg": f"缺檔 {fname}"}); continue
@@ -39,5 +39,5 @@ def check_files(d: pathlib.Path, contracts: dict, files: list) -> list:
 
 def run(ctx: dict, stage=None) -> dict:
     files = stage["outputs"] if stage else list(ctx["contracts"]["files"])
-    ctx["contract_findings"] = check_files(ctx["dir"], ctx["contracts"], files)
+    ctx["contract_findings"] = check_files(ctx["dir"], ctx["contracts"], files, ctx.get("review_dir"))
     return ctx

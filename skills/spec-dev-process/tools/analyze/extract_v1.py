@@ -14,7 +14,7 @@ def _kind(code: str, kinds: dict) -> str:
             return v
     return "other"
 
-def extract(d: pathlib.Path, contracts: dict):
+def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None):
     sig = {k: v["signature"] for k, v in contracts["tables"].items()}
     kinds = contracts.get("artifacts", {}).get("kinds") or {}
     prefixes = tuple(contracts.get("artifacts", {}).get("heading_prefixes") or ())
@@ -25,7 +25,7 @@ def extract(d: pathlib.Path, contracts: dict):
             docs[f] = M.parse(f, p.read_text(encoding="utf-8"))
         else:
             errors.append({"level": "FAIL" if contracts["files"].get(f, {}).get("required") else "WARN",
-                           "rule": "S5", "ids": [f], "msg": f"缺檔 {f}"})
+                           "rule": contracts["files"].get(f, {}).get("stage", "S5"), "ids": [f], "msg": f"缺檔 {f}"})
     tables = {}
     for doc in docs.values():
         for t in doc.tables:
@@ -89,6 +89,27 @@ def extract(d: pathlib.Path, contracts: dict):
     if not reqs: errors.append({"level": "FAIL", "rule": "S0", "ids": ["10-requirements.md"], "msg": "10-requirements.md 沒有需求清單表格(表頭 ID | 需求 | 型態 …)"})
     if not comps: errors.append({"level": "FAIL", "rule": "S2", "ids": ["30-architecture-c4.md"], "msg": "30-architecture-c4.md 沒有 Component 表格(表頭 ID | 名稱 | Layer …)"})
 
+    # ---- SA 素材與 survey(review_dir)----
+    review_dir = review_dir or d
+    sa_files, sa_artifacts, sa_entities, sa_roles, sa_words, survey = [], [], [], [], 0, []
+    for fname, spec in contracts["files"].items():
+        if spec.get("dir") != "review": continue
+        p = review_dir / fname
+        if not p.exists(): continue
+        sa_files.append(fname)
+        doc = M.parse(fname, p.read_text(encoding="utf-8"))
+        for t in doc.tables:
+            name = M.classify(t, sig)
+            if name == "sa_entities": sa_entities += [{"name": r["實體"], "en": r.get("英文", ""), "attrs": r.get("屬性", ""), "source": r.get("來源詞", "")} for r in t.rows]
+            elif name == "sa_roles": sa_roles += [{"role": r["角色"], "action": r["動作"], "flow": r.get("流程", ""), "reqs": M.split_ids(r.get("對應 REQ", ""))} for r in t.rows]
+            elif name == "words": sa_words += len(t.rows)
+            elif name == "survey": survey += [{"element": r["模型元素"], "kind": r["類型"], "status": r.get("狀態", ""), "target": r.get("對應 codebase", ""), "evidence": r.get("證據", ""), "note": r.get("說明", "")} for r in t.rows]
+        for mm in doc.mermaid:
+            mid = re.match(r"^([A-Z0-9][\w-]*)", mm.heading) if mm.heading.startswith(prefixes) else None
+            req = ID_RE.search(mm.heading)
+            sa_artifacts.append({"id": mid.group(1) if mid else f"{fname}:{mm.line}", "kind": _kind(mm.code, kinds), "file": fname, "line": mm.line,
+                                 "heading": mm.heading, "req": req.group(0) if req else "*", "mermaid": mm.code})
+
     ov = docs.get("00-overview.md")
     title = ov.text.splitlines()[0].lstrip("# ").split(" — ")[0].strip() if ov else d.name
     return {
@@ -96,6 +117,7 @@ def extract(d: pathlib.Path, contracts: dict):
         "io_map": io_map, "requirements": reqs, "components": comps, "ac_links": ac_links, "apis": apis,
         "failure_modes": failure_modes, "ownership": ownership, "erd_entities": sorted(set(erd_entities)),
         "tests": tests, "fitness": fitness, "gaps": gaps, "use_cases": ucs, "artifacts": artifacts,
+        "sa_files": sa_files, "sa_artifacts": sa_artifacts, "sa_entities": sa_entities, "sa_roles": sa_roles, "sa_word_count": sa_words, "survey": survey,
         "extract_errors": errors,
     }
 
@@ -113,6 +135,6 @@ def load_log(d: pathlib.Path):
 
 
 def run(ctx: dict) -> dict:
-    ctx["data"] = extract(ctx["dir"], ctx["contracts"])
+    ctx["data"] = extract(ctx["dir"], ctx["contracts"], ctx.get("review_dir"))
     ctx["log"] = load_log(ctx["dir"])
     return ctx

@@ -1,0 +1,32 @@
+rule: G-SV-evidence
+cases:
+  - name: verified_against_testcase1_codebase
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: FormSubmission, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]}}
+    expect: [{outcome: verified, target: FormSubmission, status: INFO}]
+  - name: wrong_line
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: FormSubmission, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:1", note: ""}]}}
+    expect: [{outcome: line_mismatch, target: FormSubmission, status: FAIL}]
+  - name: missing_path
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: Foo, kind: x, status: existing, target: x, evidence: "src/nope.cs:1", note: ""}]}}
+    expect: [{outcome: path_missing, target: Foo, status: FAIL}]
+  - name: no_evidence_for_existing
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: Foo, kind: x, status: existing, target: x, evidence: "", note: ""}]}}
+    expect: [{outcome: no_evidence, target: Foo, status: FAIL}]
+  - name: bad_status
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: Foo, kind: x, status: maybe, target: x, evidence: "", note: ""}]}}
+    expect: [{outcome: bad_status, target: Foo, status: FAIL}]
+  - name: new_but_candidate_found
+    ctx:
+      project_root: examples/testcase1-form-system
+      survey_candidates: {Form: [["src/api/Forms.Domain/Form.cs", 6, "public sealed class Form"]]}
+    patch: {replace: {survey: [{element: Form, kind: x, status: new, target: x, evidence: "", note: ""}]}}
+    expect: [{outcome: new_but_found, target: Form, status: WARN}]
+  - name: new_without_candidate
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: ReviewRecord, kind: x, status: new, target: x, evidence: "", note: ""}]}}
+    expect: []

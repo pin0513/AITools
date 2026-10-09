@@ -12,7 +12,8 @@ spec-dev-process/
 │   └── templates/              rd-spec 7 個 md 模板 + check-panel.html
 ├── tools/                   2. 工具:可迭代版本
 │   ├── registry.yaml           name → {latest, versions{n: module[:fn]}};pipeline 以 name@n 引用
-│   ├── analyze/extract_v1.py   md → traceability dict
+│   ├── analyze/extract_v1.py   md → traceability dict(含 spec-review 的 SA 素材與 survey)
+│   ├── analyze/survey_v1.py    掃 codebase 產 survey 候選
 │   ├── check/engine_v1.py      規則引擎(載 YAML、呼叫 predicate、outcome → 狀態/訊息)
 │   ├── check/predicates_v1.py  predicate 函式庫(只回報情況,不決定嚴重度)
 │   ├── check/contract_v1.py    llm stage 產物契約檢查
@@ -22,6 +23,7 @@ spec-dev-process/
 │   ├── boundary/B1..B8.yaml    技術邊界
 │   ├── gates/G-*.yaml          Stage 放行
 │   ├── methodology/routing.yaml 需求型態 → M1–M18
+│   ├── methodology/sa/*.yaml   SA 建模方法論(可抽換;uml-wordbreak)
 │   └── rulesets.yaml           啟用與順序;專案可 disable / overrides
 ├── tests/                   4. 測試
 │   ├── unit/                   core、引擎、設定載入
@@ -52,6 +54,12 @@ spec-dev-process/
 ./install.sh --copy     # 複製一份
 python3 spec-dev.py all docs/rd-spec/<feature> --offline     # 純 CLI
 ```
+
+## 主流程(2.1)
+
+PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → 角色/流程 → UCD/ACT/SEQ/STM)→ **Survey Mapping**(工具掃 codebase 出候選,定案後工具回 codebase 驗證證據)→ S1–S6 → check board(SA 素材可展開、survey、矩陣、邊界、log)→ 看板 → 改 md → 再跑。
+
+端到端案例:`examples/testcase1-form-system/`(既有 codebase + issue c 走完整流程,`specs/tools/spec-reviewer/review.sh issue-c`)。
 
 ## 三分鐘走一遍
 
@@ -101,4 +109,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.0.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.1.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。

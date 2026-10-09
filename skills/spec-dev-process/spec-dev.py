@@ -46,7 +46,7 @@ def main(argv):
     d = pathlib.Path(argv[2]); offline = "--offline" in argv
     from tools.execute import runner_v1 as R
     if cmd == "init":
-        for line in R.init(d, _opt(argv, "--title", d.name)): print(line)
+        for line in R.init(d, _opt(argv, "--title", d.name), C.load_config(d, _opt(argv, "--config"))): print(line)
         return 0
     if not d.is_dir(): print(f"找不到目錄 {d}"); return 2
     cfg = C.load_config(d, _opt(argv, "--config"))
@@ -63,7 +63,7 @@ def main(argv):
     to = {"check": "S5", "all": "S6", "panel": "S6"}.get(cmd) or _opt(argv, "--to", "S6")
     ctx = R.run_pipeline(ctx, to=to, only=_opt(argv, "--stage"), no_stop=("--no-stop" in argv) or cmd in ("check", "all", "panel"))
     for line in ctx["trace"]: print(line)
-    print("wrote:", ", ".join(sorted(p.name for p in d.iterdir() if p.name in ("traceability.json", "90-traceability.md", "boundary-report.md", "check-panel.html", "html"))))
+    rd = ctx["review_dir"]; print(f"wrote ({rd}):", ", ".join(sorted(p.name for p in rd.iterdir() if p.name in ("traceability.json", "90-traceability.md", "boundary-report.md", "check-panel.html", "html", "survey-candidates.md"))))
     summary(ctx)
     failed = ctx.get("stopped") or any(g["level"] == "FAIL" for g in (ctx.get("gate") or []) + (ctx.get("stage_findings") or []))
     return 1 if failed else 0

@@ -1,0 +1,12 @@
+id: G-SA-steps
+version: 1
+category: gate
+stage: SA
+name: SA 建模步驟齊全
+description: 方法論定義的每個 step 產出存在、必要章節存在、要求的圖至少一張
+predicate: sa_steps
+params: {}
+outcomes:
+  missing_output:  {status: FAIL, message: "{step} 產出 {file} 不存在", action: "依 rules/methodology/sa/<methodology>.yaml 補齊"}
+  missing_diagram: {status: WARN, message: "{step} {file} 沒有 {prefix}* 的 mermaid 圖", action: "補圖,h3 以 {prefix} 開頭"}
+  ok:              {status: INFO, message: "{step} {file} 齊全({diagrams} 張圖)"}

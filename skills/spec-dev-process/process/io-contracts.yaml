@@ -39,6 +39,54 @@ files:
     sections: [測試元件清單, Fitness Function]
     tables: [tests, fitness]
     required_tables: [tests]
+  sa/01-break-words.md:
+    stage: SA
+    dir: review
+    required: false
+    sections: [名詞, 動詞, 角色詞]
+    tables: [words]
+    required_tables: [words]
+  sa/02-entities-relations.md:
+    stage: SA
+    dir: review
+    required: false
+    sections: [實體, 關係]
+    tables: [sa_entities, sa_relations]
+    required_tables: [sa_entities]
+  sa/03-roles.md:
+    stage: SA
+    dir: review
+    required: false
+    sections: [角色與動作]
+    tables: [sa_roles]
+    required_tables: [sa_roles]
+  sa/04-usecase.md:
+    stage: SA
+    dir: review
+    required: false
+    sections: [Use Case Diagram]
+  sa/05-activity.md:
+    stage: SA
+    dir: review
+    required: false
+    sections: [Activity Diagram]
+  sa/06-sequence.md:
+    stage: SA
+    dir: review
+    required: false
+    sections: [Sequence Diagram]
+  sa/07-state.md:
+    stage: SA
+    dir: review
+    required: false
+    sections: [State Diagram]
+  survey-mapping.md:
+    stage: SV
+    dir: review
+    required: false
+    sections: [對應表]
+    tables: [survey]
+    required_tables: [survey]
   method-log.jsonl:
     stage: S1
     required: true
@@ -58,9 +106,16 @@ tables:
   ownership:     {signature: [表, Owner Context],         columns: [表, Owner Context]}
   tests:         {signature: [ID, 名稱, kind],            columns: [ID, 名稱, kind, 對應 CMP, 對應 AC]}
   fitness:       {signature: [NFR, 量測方式],             columns: [NFR, 量測方式, 門檻, 執行點]}
+  words:         {signature: [詞, 詞性],                  columns: [詞, 詞性, 來源, 歸類]}
+  sa_entities:   {signature: [實體, 英文],                columns: [實體, 英文, 屬性, 來源詞]}
+  sa_relations:  {signature: [來源, 關係],                columns: [來源, 關係, 目標, 多重性]}
+  sa_roles:      {signature: [角色, 動作],                columns: [角色, 動作, 流程, 對應 REQ]}
+  survey:        {signature: [模型元素, 類型],            columns: [模型元素, 類型, 狀態, 對應 codebase, 證據, 說明]}
+  candidates:    {signature: [模型元素, 候選檔案],        columns: [模型元素, 候選檔案, 行, 片段]}
 
 artifacts:
-  heading_prefixes: [UC-, STM-, SEQ-, CLS-, ERD-, C4-]     # mermaid 掛在這些開頭的 h3 下才算 artifact
+  heading_prefixes: [UC-, STM-, SEQ-, CLS-, ERD-, C4-, UCD-, ACT-]     # mermaid 掛在這些開頭的 h3 下才算 artifact(UCD/ACT 為 SA 建模圖)
   kinds: {sequenceDiagram: sequence, stateDiagram: state, classDiagram: class, erDiagram: erd, C4Context: c4-context, C4Container: c4-container, C4Component: c4-component, flowchart: flowchart, graph: flowchart}
 
-generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/]
+generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/, survey-candidates.md]
+survey_status: [existing, modify, new]

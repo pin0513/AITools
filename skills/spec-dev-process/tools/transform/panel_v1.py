@@ -18,6 +18,6 @@ def build(d: pathlib.Path, tr: dict, log: list, boundary: list, g: list, k: dict
 def run(ctx: dict) -> dict:
     from tools.check.engine_v1 import run_gate
     run_gate(ctx)
-    build(ctx["dir"], ctx["data"], ctx["log"], ctx.get("boundary") or [], ctx.get("gate") or [], ctx["kpis"],
+    build(ctx.get("review_dir") or ctx["dir"], ctx["data"], ctx["log"], ctx.get("boundary") or [], ctx.get("gate") or [], ctx["kpis"],
           C.PATHS["vendor_mermaid"] if ctx.get("offline") else None)
     return ctx

@@ -1,0 +1,16 @@
+id: G-SV-evidence
+version: 1
+category: gate
+stage: SV
+name: Survey 證據可回溯
+description: survey-mapping 每列 existing/modify 的證據 path:line 必須存在於 codebase 且該行含模型元素的符號;new 不得有強候選
+predicate: survey_evidence
+params:
+  min_token_len: 3
+outcomes:
+  verified:      {status: INFO, message: "{element} → {evidence} 已驗證"}
+  bad_status:    {status: FAIL, message: "{element} 狀態 '{status}' 不在 existing/modify/new"}
+  no_evidence:   {status: FAIL, message: "{element} 標 {status} 但無證據(path:line)", action: "填 path:line,或改 new"}
+  path_missing:  {status: FAIL, message: "{element} 證據 {evidence} 檔案不存在", action: "修正路徑(相對專案根)"}
+  line_mismatch: {status: FAIL, message: "{element} 證據 {evidence} 該行不含符號 {tokens}", action: "修正行號或元素名"}
+  new_but_found: {status: WARN, message: "{element} 標 new,但 codebase 有候選 {evidence}", action: "確認是否該改 modify"}

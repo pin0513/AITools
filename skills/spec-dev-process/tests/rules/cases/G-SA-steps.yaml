@@ -1,0 +1,12 @@
+rule: G-SA-steps
+cases:
+  - name: all_present
+    ctx:
+      methodology: {id: t, steps: [{id: SA1, output: sa/01.md}, {id: SA2, output: sa/02.md, diagrams: [CLS-SA-]}]}
+    patch: {replace: {sa_files: [sa/01.md, sa/02.md], sa_artifacts: [{id: CLS-SA-001, kind: class, file: sa/02.md, line: 1, heading: CLS-SA-001, req: "*", mermaid: ""}]}}
+    expect: [{outcome: ok, target: SA1, status: INFO}, {outcome: ok, target: SA2, status: INFO}]
+  - name: missing_output_and_diagram
+    ctx:
+      methodology: {id: t, steps: [{id: SA1, output: sa/01.md}, {id: SA2, output: sa/02.md, diagrams: [CLS-SA-]}]}
+    patch: {replace: {sa_files: [sa/02.md], sa_artifacts: []}}
+    expect: [{outcome: missing_output, target: SA1, status: FAIL}, {outcome: missing_diagram, target: SA2, status: WARN}, {outcome: ok, target: SA2}]

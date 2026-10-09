@@ -64,9 +64,15 @@ class FreshSkeletonTest(unittest.TestCase):
 
     def test_missing_required_file_is_contract_fail(self):
         d = self.tmp / "x"; cli("init", d, "--title", "x")
-        (d / "30-architecture-c4.md").unlink()
+        (d / "10-requirements.md").unlink()
         r = cli("run", d, "--to", "S6")
-        self.assertEqual(r.returncode, 1); self.assertIn("缺檔 30-architecture-c4.md", r.stdout); self.assertIn("stop at S2", r.stdout)
+        self.assertEqual(r.returncode, 1); self.assertIn("缺檔 10-requirements.md", r.stdout); self.assertIn("stop at S0", r.stdout)
+
+    def test_fresh_skeleton_strict_run_stops_at_s1_without_method_log(self):
+        d = self.tmp / "y"; cli("init", d, "--title", "y")
+        r = cli("run", d, "--to", "S6")
+        self.assertEqual(r.returncode, 1); self.assertIn("G-M-log", r.stdout); self.assertIn("stop at S1", r.stdout)
+        self.assertTrue((d / "sa" / "07-state.md").exists())   # init 也建了 SA 模板
 
 class ListingTest(unittest.TestCase):
     def test_rules_and_tools_listing(self):
