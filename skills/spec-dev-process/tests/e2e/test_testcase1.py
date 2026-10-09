@@ -51,6 +51,21 @@ class Testcase1Test(unittest.TestCase):
         new_cmds = [r["element"] for r in self.tr["survey"] if r["kind"] == "Command" and r["status"] == "new"]
         for cmd in new_cmds: self.assertIn(cmd, comp_names, cmd)
 
+    def test_evidence_chain_is_fully_inline(self):
+        """證據鏈:每條需求的 PM 錨點都能在內嵌的 PM 原文找到段落;mock 內嵌;AC 有 gherkin 原文與行號;元件/測試列有行號。"""
+        src = self.tr["sources"]; anchors = {s["anchor"] for s in src["pm_spec"]["sections"]}
+        self.assertEqual(src["pm_spec"]["path"], "specs/in-progress/issue-c/pm-spec.md"); self.assertGreater(len(anchors), 8)
+        for r in self.tr["requirements"]:
+            self.assertIn(r["source"].split(" ")[0], anchors, r["id"])
+        self.assertTrue(any("html" in m for m in src["mocks"]))
+        for r in self.tr["requirements"]:
+            if "non_functional" in r["types"]: continue
+            for ac in r["acs"]: self.assertIn(ac, self.tr["ac_text"], ac); self.assertTrue(self.tr["ac_text"][ac]["line"] > 0)
+        self.assertTrue(all(l["line"] for l in self.tr["ac_links"]) and all(t["line"] for t in self.tr["tests"]) and all(c["line"] for c in self.tr["components"]))
+        self.assertEqual(sorted(self.tr["uc_text"]), ["UC-001", "UC-002", "UC-003", "UC-004"])
+        html = (self.review / "check-panel.html").read_text(encoding="utf-8")
+        self.assertIn("E. 證據鏈", html); self.assertIn("srcdoc=", html)   # mock 內嵌在面板裡
+
     def test_check_board_shows_sa_materials_and_survey(self):
         html = (self.review / "check-panel.html").read_text(encoding="utf-8")
         payload = json.loads(html.split("const DATA = ", 1)[1].split(";\n</script>", 1)[0])

@@ -94,20 +94,34 @@ REQ ─► 型態判定 ─┬─ functional     ─► Use Case + Gherkin ─�
 
 完整路由表 M1–M18 與產物規格:`references/methodology-map.md`(資料版 `rules/methodology/routing.yaml`,contract test 保證兩邊一致)。
 
-## 核對面板
+## 核對面板(check-panel.html)= 證據鏈 / 分析鏈 / 邏輯鏈
+
+一個畫面內確認,不切畫面、不開別的 app:PM 原文與 mock、UML、RD 片段全部內嵌,位置用 `檔案:行` 標示。
 
 ```
-┌─ KPI:REQ │ CMP │ TST │ 邊界 PASS/總 (FAIL/WARN) │ 未覆蓋 REQ │ 缺口/assumed ─────────────┐
-├─ A. PM 來源 ↔ RD 產物(+ 缺口表 ▸)        ├─ Gate 問題(FAIL/WARN,帶規則 id)───────────┤
-├─ B. 需求 × 技術元件(Api/App/Domain/Infra)× 測試元件(unit/int/contract/e2e)× 狀態     │
-│    點列展開:AC → CMP(職責)→ TST │ 該列的 B1–B8 結果 │ 該 REQ 的 method-log │ 圖 ▸     │
-├─ C. 技術邊界核對:FAIL/WARN 列出;PASS 明細 ▸(收合)                                   │
-├─ 架構圖 ▸(跨需求的 C4 / ERD,收合)                                                    │
-├─ D. 方法論 log ▸(收合;可篩 REQ / stage / rule / evidence)                              │
-└────────────────────────────────────────────────────────────────────────────────────────┘
+┌─ KPI:REQ │ CMP │ TST │ 邊界 PASS/總 │ 未覆蓋 REQ │ 缺口/assumed ───────────────────────────┐
+├─ E. 證據鏈(主區)── 每條需求一列 ─────────────────────────────────────────────────────────┤
+│  PM 證據                    │ 分析鏈 ▸(收合)                  │ RD 證據                       │
+│  pm-spec.md:L12 PM§3.1 原文 │ SA3 角色→動作、SA2 實體          │ AC-001-1 10:L13 gherkin 原文   │
+│  mock ▸(iframe 內嵌)       │ PM§3.1 ─[S1 UseCase·M1]→ UC-001 │   元件 CMP-005 職責 30:L71      │
+│                             │ UC-001 ─[S2 Sequence·M4]→ SEQ-001│   測試 TST-001 60:L6           │
+│                             │ SA 圖 / RD 圖(mermaid)          │ UC-001 ▸ 20:L4 · API-001 40:L6 │
+│                             │ 邏輯鏈 ▸ 為什麼是 PASS:命中規則  │                               │
+│                             │   B1/B2/B7/G-* 各自的狀態與證據   │                               │
+│  ▸ PM 素材全文(整份 pm-spec 段落 + 全部 mock + 參考清單)                                     │
+├─ A. 來源對照 / Gate(FAIL/WARN;INFO ▸ 收合)                                                   │
+├─ SA 建模素材 ▸(7 步檔,每張圖可展開)· Survey Mapping(existing/modify/new + 驗證徽章)        │
+├─ B. 需求 × 技術元件 × 測試元件 矩陣(點列展開)· C. 技術邊界 · 架構圖 ▸ · D. 方法論 log ▸     │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-mermaid 預設走 cdnjs;封閉網路用 `--offline`(內嵌 `vendor/mermaid.min.js`,面板 +2.5MB)。
+| 鏈 | 回答的問題 | 資料來源 |
+|---|---|---|
+| 證據鏈 | 這條 RD 內容是從 PM 哪一段、哪張圖來的?落在 RD 哪個檔哪一行? | `00-overview.md`「## 來源」指的 PM spec / mock 路徑;各 md 表格列的行號;gherkin 區塊 |
+| 分析鏈 | 中間經過哪些方法論步驟、哪些 SA 產物? | `method-log.jsonl`(依 seq)、`sa/02` 實體、`sa/03` 角色動作、SA/RD 的 mermaid |
+| 邏輯鏈 | 為什麼這條需求是 PASS / WARN / FAIL? | 命中該需求(及其 AC、CMP)的 B1–B8 與 Gate 結果,含 evidence 與 action |
+
+要讓證據鏈有料,`00-overview.md` 的「## 來源」必須列 PM spec 與 mock 的路徑(相對專案根);mock 支援 html(iframe)、png/jpg(data URI)、文字。mermaid 預設走 cdnjs;封閉網路用 `--offline`(內嵌 `vendor/mermaid.min.js`,+2.5MB)。
 
 ## 技術邊界核對
 

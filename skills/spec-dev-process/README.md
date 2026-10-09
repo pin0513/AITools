@@ -57,7 +57,7 @@ python3 spec-dev.py all docs/rd-spec/<feature> --offline     # 純 CLI
 
 ## 主流程(2.1)
 
-PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → 角色/流程 → UCD/ACT/SEQ/STM)→ **Survey Mapping**(工具掃 codebase 出候選,定案後工具回 codebase 驗證證據)→ S1–S6 → check board(SA 素材可展開、survey、矩陣、邊界、log)→ 看板 → 改 md → 再跑。
+PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → 角色/流程 → UCD/ACT/SEQ/STM)→ **Survey Mapping**(工具掃 codebase 出候選,定案後工具回 codebase 驗證證據)→ S1–S6 → check board(**證據鏈**:PM 原文/mock 內嵌 ↔ RD 片段附行號;**分析鏈**:方法論步驟與 UML,預設收合;**邏輯鏈**:每條需求命中的規則與證據;另有 SA 素材、survey、矩陣、邊界、log)→ 看板 → 改 md → 再跑。
 
 端到端案例:`examples/testcase1-form-system/`(既有 codebase + issue c 走完整流程,`specs/tools/spec-reviewer/review.sh issue-c`)。
 

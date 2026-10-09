@@ -28,3 +28,8 @@ PM§1:送出的表單需經審核才算完成;目標上線三個月內需審核�
 | SA sa/02 實體 | 20-domain-model 領域模型表 |
 | SA sa/07 STM-SA-001 | STM-DOM-001 |
 | survey-mapping.md | 30 Component 表(existing/modify/new) |
+
+## 來源
+- PM spec:`specs/in-progress/issue-c/pm-spec.md`(2026-10-09)
+- Mock:`specs/in-progress/issue-c/mock/approval.html`
+- 參考:`specs/in-progress/issue-c/refs.md`、`docs/architectures/overview.md`、`docs/guidelines/coding.md`

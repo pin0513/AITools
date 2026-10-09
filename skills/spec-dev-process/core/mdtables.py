@@ -22,6 +22,7 @@ class Doc:
     file: str
     h2: list = field(default_factory=list)
     h3: list = field(default_factory=list)
+    headings: list = field(default_factory=list)   # (level, text, line)
     tables: list = field(default_factory=list)
     mermaid: list = field(default_factory=list)
     text: str = ""
@@ -47,6 +48,7 @@ def parse(path, text: str) -> Doc:
             continue
         m = re.match(r"^(#{2,3})\s+(.*)", line)
         if m:
+            d.headings.append((len(m.group(1)), m.group(2).strip(), i + 1))
             if len(m.group(1)) == 2:
                 cur_h2, cur_h3 = m.group(2).strip(), ""
                 d.h2.append(cur_h2)
@@ -62,10 +64,11 @@ def parse(path, text: str) -> Doc:
             if len(cells) >= 2 and all(_SEP.match(c) for c in cells[1]):
                 header = cells[0]
                 rows = []
-                for r in cells[2:]:
+                for k, r in enumerate(cells[2:]):
                     r = r + [""] * (len(header) - len(r))
                     if any(c for c in r):
-                        rows.append(dict(zip(header, r)))
+                        row = dict(zip(header, r)); row["_line"] = start + 3 + k
+                        rows.append(row)
                 d.tables.append(Table(d.file, cur_h2, header, rows, start + 1))
             continue
         i += 1

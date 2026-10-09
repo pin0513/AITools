@@ -69,7 +69,9 @@
         "AC-001-1",
         "AC-001-2",
         "AC-001-3"
-      ]
+      ],
+      "line": 6,
+      "file": "10-requirements.md"
     },
     {
       "id": "REQ-002",
@@ -81,7 +83,9 @@
       "source": "PM§3.2",
       "acs": [
         "AC-002-1"
-      ]
+      ],
+      "line": 7,
+      "file": "10-requirements.md"
     },
     {
       "id": "REQ-003",
@@ -92,7 +96,9 @@
       "source": "PM§3.3",
       "acs": [
         "AC-003-1"
-      ]
+      ],
+      "line": 8,
+      "file": "10-requirements.md"
     },
     {
       "id": "NFR-001",
@@ -100,14 +106,17 @@
       "types": [
         "non_functional"
       ],
-      "source": "會員",
+      "source": "PM§4",
       "acs": [
         "AC-N01-1"
       ],
       "binds": [
         "API-001"
       ],
-      "measure": "P95 < 2s"
+      "measure": "P95 < 2s",
+      "line": 41,
+      "file": "10-requirements.md",
+      "stimulus_source": "會員"
     },
     {
       "id": "NFR-002",
@@ -115,7 +124,7 @@
       "types": [
         "non_functional"
       ],
-      "source": "任何人",
+      "source": "PM§4",
       "acs": [
         "AC-N02-1"
       ],
@@ -123,7 +132,10 @@
         "API-002",
         "CMP-004"
       ],
-      "measure": "SAS 過期 100% 拒絕"
+      "measure": "SAS 過期 100% 拒絕",
+      "line": 42,
+      "file": "10-requirements.md",
+      "stimulus_source": "任何人"
     }
   ],
   "components": [
@@ -140,7 +152,9 @@
       "tech": [
         "ASP.NET Core"
       ],
-      "interface": ""
+      "interface": "",
+      "line": 30,
+      "file": "30-architecture-c4.md"
     },
     {
       "id": "CMP-002",
@@ -156,7 +170,9 @@
       "tech": [
         "MediatR"
       ],
-      "interface": ""
+      "interface": "",
+      "line": 31,
+      "file": "30-architecture-c4.md"
     },
     {
       "id": "CMP-003",
@@ -168,7 +184,9 @@
       ],
       "external": [],
       "tech": [],
-      "interface": ""
+      "interface": "",
+      "line": 32,
+      "file": "30-architecture-c4.md"
     },
     {
       "id": "CMP-004",
@@ -182,7 +200,9 @@
       "tech": [
         "Azure.Storage.Blobs"
       ],
-      "interface": "IAvatarStorage"
+      "interface": "IAvatarStorage",
+      "line": 33,
+      "file": "30-architecture-c4.md"
     },
     {
       "id": "CMP-005",
@@ -194,7 +214,9 @@
       "tech": [
         "SixLabors.ImageSharp"
       ],
-      "interface": ""
+      "interface": "",
+      "line": 34,
+      "file": "30-architecture-c4.md"
     },
     {
       "id": "CMP-006",
@@ -208,7 +230,9 @@
       "tech": [
         "MediatR"
       ],
-      "interface": ""
+      "interface": "",
+      "line": 35,
+      "file": "30-architecture-c4.md"
     }
   ],
   "ac_links": [
@@ -216,61 +240,81 @@
       "ac": "AC-001-1",
       "component": "CMP-001",
       "via": "SEQ-001",
-      "role": "接收 multipart,回 200 + URL"
+      "role": "接收 multipart,回 200 + URL",
+      "line": 58,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-001-1",
       "component": "CMP-002",
       "via": "SEQ-001",
-      "role": "編排:驗證 → 存 Blob → ReplaceAvatar"
+      "role": "編排:驗證 → 存 Blob → ReplaceAvatar",
+      "line": 59,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-001-1",
       "component": "CMP-003",
       "via": "SEQ-001",
-      "role": "ReplaceAvatar,發 AvatarReplaced"
+      "role": "ReplaceAvatar,發 AvatarReplaced",
+      "line": 60,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-001-1",
       "component": "CMP-004",
       "via": "SEQ-001",
-      "role": "存 Blob,回 BlobRef"
+      "role": "存 Blob,回 BlobRef",
+      "line": 61,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-001-2",
       "component": "CMP-001",
       "via": "SEQ-001",
-      "role": "格式檢查:大小 > 5MB → 400"
+      "role": "格式檢查:大小 > 5MB → 400",
+      "line": 62,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-001-3",
       "component": "CMP-004",
       "via": "SEQ-001",
-      "role": "逾時重試 3 次後丟 StorageUnavailable"
+      "role": "逾時重試 3 次後丟 StorageUnavailable",
+      "line": 63,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-001-3",
       "component": "CMP-002",
       "via": "SEQ-001",
-      "role": "捕捉 StorageUnavailable → 503,不呼叫 ReplaceAvatar"
+      "role": "捕捉 StorageUnavailable → 503,不呼叫 ReplaceAvatar",
+      "line": 64,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-002-1",
       "component": "CMP-005",
       "via": "UC-002",
-      "role": "後端再驗一次正方形與 ≥ 200px"
+      "role": "後端再驗一次正方形與 ≥ 200px",
+      "line": 65,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-002-1",
       "component": "CMP-003",
       "via": "UC-002",
-      "role": "Avatar VO 不變量"
+      "role": "Avatar VO 不變量",
+      "line": 66,
+      "file": "30-architecture-c4.md"
     },
     {
       "ac": "AC-003-1",
       "component": "CMP-006",
       "via": "UC-003",
-      "role": "無 Avatar 回預設圖 URL"
+      "role": "無 Avatar 回預設圖 URL",
+      "line": 67,
+      "file": "30-architecture-c4.md"
     }
   ],
   "apis": [
@@ -286,7 +330,9 @@
       ],
       "component": [
         "CMP-001"
-      ]
+      ],
+      "line": 6,
+      "file": "40-api-contracts.md"
     },
     {
       "id": "API-002",
@@ -300,7 +346,9 @@
       ],
       "component": [
         "CMP-001"
-      ]
+      ],
+      "line": 7,
+      "file": "40-api-contracts.md"
     }
   ],
   "failure_modes": [
@@ -336,7 +384,9 @@
       "acs": [
         "AC-001-1",
         "AC-001-3"
-      ]
+      ],
+      "line": 6,
+      "file": "60-test-design.md"
     },
     {
       "id": "TST-002",
@@ -348,7 +398,9 @@
       "acs": [
         "AC-001-1",
         "AC-002-1"
-      ]
+      ],
+      "line": 7,
+      "file": "60-test-design.md"
     },
     {
       "id": "TST-003",
@@ -360,7 +412,9 @@
       "acs": [
         "AC-001-1",
         "AC-001-2"
-      ]
+      ],
+      "line": 8,
+      "file": "60-test-design.md"
     },
     {
       "id": "TST-004",
@@ -372,7 +426,9 @@
       "acs": [
         "AC-001-3",
         "AC-N02-1"
-      ]
+      ],
+      "line": 9,
+      "file": "60-test-design.md"
     },
     {
       "id": "TST-005",
@@ -383,7 +439,9 @@
       ],
       "acs": [
         "AC-N01-1"
-      ]
+      ],
+      "line": 10,
+      "file": "60-test-design.md"
     }
   ],
   "fitness": [
@@ -518,6 +576,50 @@
       "mermaid": "erDiagram\n  Member ||--o| MemberAvatar : has\n  MemberAvatar {\n    uniqueidentifier MemberId PK\n    nvarchar BlobPath\n    datetime2 UpdatedAt\n  }"
     }
   ],
+  "sources": {
+    "pm_spec": null,
+    "mocks": [],
+    "refs": []
+  },
+  "ac_text": {
+    "AC-001-1": {
+      "text": "# AC-001-1 成功上傳\nGiven 已登入會員,選擇 3MB 的 jpg\nWhen 送出上傳\nThen 回應 200 並回傳頭像 URL,個人頁顯示新頭像",
+      "line": 12
+    },
+    "AC-001-2": {
+      "text": "# AC-001-2 檔案過大\nGiven 已登入會員,選擇 6MB 的 png\nWhen 送出上傳\nThen 回應 400 AVATAR_TOO_LARGE,舊頭像不變",
+      "line": 17
+    },
+    "AC-001-3": {
+      "text": "# AC-001-3 儲存服務失敗\nGiven Blob 儲存服務逾時\nWhen 送出上傳\nThen 回應 503,舊頭像不變,記錄警報",
+      "line": 22
+    },
+    "AC-002-1": {
+      "text": "# AC-002-1 裁切結果\nGiven 選擇 1200x800 圖片並框選 600x600\nWhen 確認裁切\nThen 送出的圖片為 600x600;框選小於 200x200 時不可確認",
+      "line": 27
+    },
+    "AC-003-1": {
+      "text": "# AC-003-1 顯示\nGiven 會員沒有上傳過頭像\nWhen 開啟個人頁\nThen 顯示預設圖",
+      "line": 32
+    }
+  },
+  "uc_text": {
+    "UC-001": {
+      "heading": "UC-001 上傳大頭貼(REQ-001)",
+      "line": 4,
+      "text": "- 主要參與者:會員\n- 觸發:會員在個人頁點「更換頭像」並選檔\n- 前置條件:已登入;檔案為 jpg/png\n- 後置條件(成功保證):Member.Avatar 指向新 BlobRef;舊 Blob 排程刪除;失敗時 Member.Avatar 不變\n- 主流程:\n  1. 會員送出檔案\n  2. 系統檢查格式與大小(≤ 5MB)\n  3. 系統存入 Blob,取得 BlobRef\n  4. 系統更新 Member.Avatar\n  5. 回傳頭像 URL\n- 替代流程:無\n- 例外流程:2a 檔案過大 → 400;3a Blob 逾時 → 重試 3 次後 503,Avatar 不變\n\n```mermaid\nflowchart TD\n  A[送出檔案] --> B{格式/大小 OK?}\n  B -->|否| E1[400 AVATAR_TOO_LARGE]\n  B -->|是| C[存 Blob]\n  C -->|逾時 x3| E2[503,Avatar 不變]\n  C -->|成功| D[更新 Member.Avatar] --> F[200 + URL]\n```"
+    },
+    "UC-002": {
+      "heading": "UC-002 裁切頭像(REQ-002)",
+      "line": 27,
+      "text": "- 主要參與者:會員\n- 觸發:選檔後進入裁切畫面\n- 前置條件:已選檔\n- 後置條件(成功保證):送出的影像為正方形且邊長 ≥ 200px\n- 主流程:\n  1. 顯示圖片與框選框\n  2. 會員拖曳框選\n  3. 確認後前端裁切並送出\n- 替代流程:取消 → 回到選檔\n- 例外流程:框選 < 200px → 確認鈕停用"
+    },
+    "UC-003": {
+      "heading": "UC-003 顯示頭像(REQ-003)",
+      "line": 39,
+      "text": "- 主要參與者:任何瀏覽個人頁的人\n- 觸發:開啟個人頁\n- 前置條件:無\n- 後置條件(成功保證):有頭像顯示 SAS URL;無頭像顯示預設圖\n- 主流程:\n  1. 查詢 Member.Avatar\n  2. 有 → 產生 SAS URL;無 → 預設圖 URL"
+    }
+  },
   "sa_files": [],
   "sa_artifacts": [],
   "sa_entities": [],
