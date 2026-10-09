@@ -13,7 +13,7 @@
   spec-dev.py matrix  <matrix-root> [--offline]        測試矩陣驗收:每份 baseline + 3 突變版 → acceptance.json、_board/
   spec-dev.py rules                                    列出啟用規則與版本
   spec-dev.py tools                                    列出工具與版本
-  選項:--config <path> 指定 .spec-dev.yaml;--offline 內嵌 vendor/mermaid.min.js
+  選項:--config <path> 指定 .spec-dev.yaml;--offline 內嵌 vendor/mermaid.min.js;--verbose 總表列出每筆 INFO
 退出碼:0 無 FAIL;1 有 FAIL(檔案仍會產生);2 用法錯誤。
 """
 import pathlib, sys
@@ -24,12 +24,18 @@ from core import config as C  # noqa: E402
 def _opt(argv, name, default=None):
     return argv[argv.index(name) + 1] if name in argv else default
 
-def summary(ctx):
+def summary(ctx, verbose=False):
     k = ctx.get("kpis") or {}
     if k:
         print(f"  REQ {k['req_count']} · CMP {k['component_count']} · TST {k['test_count']} · boundary PASS {k['boundary_pass']}/{k['boundary_total']} (FAIL {k['boundary_fail']}, WARN {k['boundary_warn']}) · 未覆蓋 {k['uncovered_req']} {k['uncovered_ids']}")
+    print("總表(每筆發現只列一次):")
+    info = {}
     for g in ctx.get("gate") or []:
+        if g["level"] == "INFO" and not verbose:
+            info[g["rule"]] = info.get(g["rule"], 0) + 1; continue
         print(f"  [{g['level']}] {g['rule']:<14} {g['msg']}")
+    for rule, n in info.items():
+        print(f"  [INFO] {rule:<14} {n} 筆通過(加 --verbose 看明細)")
     for b in ctx.get("boundary") or []:
         if b["status"] == "WARN": print(f"  [WARN] {b['rule']:<14} {b['target']}: {b['evidence']}")
 
@@ -81,7 +87,7 @@ def main(argv):
     ctx = R.run_pipeline(ctx, to=to, only=_opt(argv, "--stage"), no_stop=("--no-stop" in argv) or cmd in ("check", "all", "panel"))
     for line in ctx["trace"]: print(line)
     rd = ctx["review_dir"]; print(f"wrote ({rd}):", ", ".join(sorted(p.name for p in rd.iterdir() if p.name in ("traceability.json", "90-traceability.md", "boundary-report.md", "check-panel.html", "html", "survey-candidates.md"))))
-    summary(ctx)
+    summary(ctx, "--verbose" in argv)
     failed = ctx.get("stopped") or any(g["level"] == "FAIL" for g in (ctx.get("gate") or []) + (ctx.get("stage_findings") or []))
     return 1 if failed else 0
 

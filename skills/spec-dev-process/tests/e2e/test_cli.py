@@ -45,6 +45,15 @@ class ExampleTest(unittest.TestCase):
         r = cli("check", self.d)
         self.assertEqual(r.returncode, 0, r.stdout)
 
+    def test_each_finding_printed_once(self):
+        """stage trace 只印計數,總表列明細:同一筆 [LEVEL] 規則 訊息 不得出現兩次。"""
+        import collections, re
+        r = cli("all", self.d)
+        lines = [l.strip() for l in r.stdout.splitlines() if re.match(r"^\s*\[(FAIL|WARN|INFO)\]", l)]
+        dup = [l for l, n in collections.Counter(lines).items() if n > 1]
+        self.assertEqual(dup, [], r.stdout)
+        self.assertIn("總表", r.stdout)
+
     def test_extract_only(self):
         r = cli("extract", self.d)
         self.assertEqual(r.returncode, 0, r.stdout); self.assertIn("REQ 5", r.stdout)

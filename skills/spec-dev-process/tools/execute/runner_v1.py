@@ -15,6 +15,14 @@ def make_ctx(d: pathlib.Path, cfg: dict, offline=False) -> dict:
             "registry": C.load_registry(), "methodology": meth, "offline": offline, "data": None, "log": [], "boundary": [], "gate": [],
             "contract_findings": [], "kpis": {}, "trace": []}
 
+def _counts_line(findings: list) -> str:
+    if not findings: return "  gate: 無發現"
+    by = {}
+    for g in findings:
+        d = by.setdefault(g["rule"], {}); d[g["level"]] = d.get(g["level"], 0) + 1
+    parts = [f"{rule} " + " ".join(f"{lv} {n}" for lv, n in sorted(c.items(), key=lambda x: ("FAIL", "WARN", "INFO").index(x[0]) if x[0] in ("FAIL", "WARN", "INFO") else 9)) for rule, c in by.items()]
+    return "  gate: " + " · ".join(parts) + "(明細見總表)"
+
 def run_stage(ctx: dict, stage: dict) -> dict:
     ctx["trace"].append(f"== {stage['id']} {stage['name']} ({stage['owner']})")
     ctx["stage_id"] = stage["id"]
@@ -33,7 +41,7 @@ def run_stage(ctx: dict, stage: dict) -> dict:
         CT.run(ctx, stage)
         if not ctx["contract_findings"]: ctx["trace"].append(f"  contract OK: {', '.join(stage['outputs'])}")
         elif not stage.get("gates"):
-            for f in ctx["contract_findings"]: ctx["trace"].append(f"  [{f['level']}] {f['rule']} {f['msg']}")
+            ctx["trace"].append(_counts_line(ctx["contract_findings"]))
     if stage["owner"] == "tool+llm" and ctx.get("data") is None:
         from tools.analyze import extract_v1 as X
         X.run(ctx)
@@ -48,7 +56,7 @@ def run_stage(ctx: dict, stage: dict) -> dict:
         X.run(ctx)
     if stage.get("gates") and ctx.get("data") is not None:
         stage_findings = list(ctx["contract_findings"]) + E.evaluate_gates(ctx, stage["gates"])
-        for g in stage_findings: ctx["trace"].append(f"  [{g['level']}] {g['rule']} {g['msg']}")
+        ctx["trace"].append(_counts_line(stage_findings))   # stage 只印計數;明細只在最後總表出現一次
     elif stage["owner"] != "tool":
         stage_findings = list(ctx["contract_findings"])
         for g in stage_findings: ctx["trace"].append(f"  [{g['level']}] {g['rule']} {g['msg']}")
