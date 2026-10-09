@@ -46,7 +46,7 @@ stages:
     name: Design
     owner: llm
     inputs:  [10-requirements.md, 20-domain-model.md]
-    outputs: [30-architecture-c4.md, 40-api-contracts.md, 50-data-model.md, method-log.jsonl]
+    outputs: [30-architecture-c4.md, 40-api-contracts.md, 41-ui-spec.md, 50-data-model.md, method-log.jsonl]   # 40/50 在 api/、41 在 ui/(第二層)
     methods: [M4, M6, M7, M8, M9, M10, M13, M14, M15, M18]
     gates:   [G-S5-extract]
     stop_on: FAIL

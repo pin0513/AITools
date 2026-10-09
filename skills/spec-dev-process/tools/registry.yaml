@@ -14,3 +14,4 @@ tools:
   transform.render:  {latest: 1, versions: {1: tools.transform.render_v1}}
   execute.init:      {latest: 1, versions: {1: tools.execute.runner_v1:init}}
   execute.run:       {latest: 1, versions: {1: tools.execute.runner_v1:run_pipeline}}
+  execute.matrix:    {latest: 1, versions: {1: tools.execute.matrix_v1:run_matrix}}

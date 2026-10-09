@@ -620,6 +620,17 @@
       "text": "- 主要參與者:任何瀏覽個人頁的人\n- 觸發:開啟個人頁\n- 前置條件:無\n- 後置條件(成功保證):有頭像顯示 SAS URL;無頭像顯示預設圖\n- 主流程:\n  1. 查詢 Member.Avatar\n  2. 有 → 產生 SAS URL;無 → 預設圖 URL"
     }
   },
+  "screens": [],
+  "ui_validation": [],
+  "doc_paths": {
+    "00-overview.md": "00-overview.md",
+    "10-requirements.md": "10-requirements.md",
+    "20-domain-model.md": "20-domain-model.md",
+    "30-architecture-c4.md": "30-architecture-c4.md",
+    "40-api-contracts.md": "40-api-contracts.md",
+    "50-data-model.md": "50-data-model.md",
+    "60-test-design.md": "60-test-design.md"
+  },
   "sa_files": [],
   "sa_artifacts": [],
   "sa_entities": [],

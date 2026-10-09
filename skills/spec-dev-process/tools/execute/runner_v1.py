@@ -79,11 +79,12 @@ def run_pipeline(ctx: dict, to: str = "S6", only: str = None, no_stop=False) -> 
 def init(d: pathlib.Path, title: str, cfg: dict = None) -> list:
     d.mkdir(parents=True, exist_ok=True); done = []
     def copy(src, dst):
-        if dst.exists(): done.append(f"skip {dst.relative_to(d.parent)}"); return
+        if dst.exists(): done.append(f"skip {dst.name}"); return
         dst.parent.mkdir(parents=True, exist_ok=True)
-        dst.write_text(src.read_text(encoding="utf-8").replace("{feature-title}", title), encoding="utf-8"); done.append(f"created {dst.relative_to(d.parent)}")
-    for src in sorted((C.PATHS["templates"] / "rd-spec").glob("*.md")):
-        copy(src, d / src.name)
+        dst.write_text(src.read_text(encoding="utf-8").replace("{feature-title}", title), encoding="utf-8"); done.append(f"created {dst.name}")
+    base = C.PATHS["templates"] / "rd-spec"
+    for src in sorted(base.rglob("*.md")):
+        copy(src, d / src.relative_to(base))
     cfg = cfg or {}
     if (cfg.get("sa_modeling") or {}).get("methodology", "uml-wordbreak") not in (None, "none"):
         review = (d / ((cfg.get("output") or {}).get("review_dir") or ".")).resolve()

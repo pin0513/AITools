@@ -1,0 +1,54 @@
+{
+  "id": "fe-only-en-s1",
+  "shape": "fe-only",
+  "lang": "en",
+  "scenario": "s1",
+  "title": "Order cancellation and refund",
+  "shape_label": "frontend only",
+  "spec": "specs/rd/order-cancel/spec",
+  "review": "specs/rd/order-cancel/spec-review",
+  "expect": {
+    "fail": 0,
+    "survey_evidences": 4,
+    "min_lexicon_recall": 0.6
+  },
+  "key_terms": [
+    "cancel",
+    "customer",
+    "order",
+    "refund",
+    "support agent",
+    "system",
+    "view"
+  ],
+  "layers": [
+    "ApiClient",
+    "Component",
+    "Page",
+    "Store"
+  ],
+  "components": 5,
+  "mutants": [
+    {
+      "name": "evidence-line",
+      "file": "specs/rd/order-cancel/spec-review/survey-mapping.md",
+      "old": "src/web/src/types/Order.ts:4",
+      "new": "src/web/src/types/Order.ts:1",
+      "expect_rule": "G-SV-evidence"
+    },
+    {
+      "name": "reverse-dependency",
+      "file": "specs/rd/order-cancel/spec/30-architecture-c4.md",
+      "old": "| CMP-005 | ordersApi | ApiClient | Orders |  | BackendAPI |  |",
+      "new": "| CMP-005 | ordersApi | ApiClient | Orders | CMP-004 | BackendAPI |  |",
+      "expect_rule": "B2"
+    },
+    {
+      "name": "untested-ac",
+      "file": "specs/rd/order-cancel/spec/10-requirements.md",
+      "old": "| AC-001-1, AC-001-2 |",
+      "new": "| AC-001-1, AC-001-2, AC-001-9 |",
+      "expect_rule": "B7"
+    }
+  ]
+}

@@ -1,0 +1,483 @@
+{
+ "nouns": [
+  {
+   "term": "booking",
+   "freq": 13,
+   "weight": 22.0,
+   "pm_freq": 13,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+   ],
+   "lang": "en",
+   "symbol": "Booking",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "room",
+   "freq": 10,
+   "weight": 14.0,
+   "pm_freq": 10,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 employee"
+   ],
+   "lang": "en",
+   "symbol": "Room",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 5,
+   "code_first": "src/api/Rooms.Application/ListRoomsQueryHandler.cs:6"
+  },
+  {
+   "term": "狀態",
+   "freq": 6,
+   "weight": 10.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "timeslot",
+   "freq": 4,
+   "weight": 8.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§4 非功能需求",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "TimeSlot",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "calendarservice",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "CalendarService",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "room booking",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§3.3 admin 可 ",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "重疊",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  }
+ ],
+ "actions": [
+  {
+   "term": "book",
+   "freq": 9,
+   "weight": 14.0,
+   "pm_freq": 9,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 employee"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "check in",
+   "freq": 6,
+   "weight": 9.0,
+   "pm_freq": 6,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "release",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "view",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 admin 可 "
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "更新",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "組顯示",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "employee",
+   "freq": 7,
+   "weight": 11.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "admin",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 admin 可 ",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "system",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "booked",
+   "freq": 4,
+   "weight": 6.0,
+   "pm_freq": 4,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§3.1 employee",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "released",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "已更新",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  }
+ ],
+ "english": [
+  {
+   "term": "Booking",
+   "freq": 13,
+   "weight": 22.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Room",
+   "freq": 10,
+   "weight": 14.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 5,
+   "code_first": "src/api/Rooms.Application/ListRoomsQueryHandler.cs:6"
+  },
+  {
+   "term": "book",
+   "freq": 9,
+   "weight": 14.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "employee",
+   "freq": 7,
+   "weight": 11.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "check",
+   "freq": 6,
+   "weight": 9.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "TimeSlot",
+   "freq": 4,
+   "weight": 8.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Booked",
+   "freq": 4,
+   "weight": 6.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "admin",
+   "freq": 3,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "system",
+   "freq": 3,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "CalendarService",
+   "freq": 3,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "release",
+   "freq": 3,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "view",
+   "freq": 3,
+   "weight": 4.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Released",
+   "freq": 2,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "CheckedIn",
+   "freq": 1,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "SLOT_TAKEN",
+   "freq": 1,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "email",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "mock",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 2,
+   "code_first": "src/api/Rooms.Domain/Room.cs:3"
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "mock:booking.html",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 38,
+  "after_boundary": 22,
+  "kept": 22
+ }
+}

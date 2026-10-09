@@ -1,0 +1,63 @@
+{
+  "id": "fs-back-mixed-s1",
+  "shape": "fs-back",
+  "lang": "mixed",
+  "scenario": "s1",
+  "title": "訂單取消與退款",
+  "shape_label": "全端(輕前、重後)",
+  "spec": "specs/rd/order-cancel/spec",
+  "review": "specs/rd/order-cancel/spec-review",
+  "expect": {
+    "fail": 0,
+    "survey_evidences": 8,
+    "min_lexicon_recall": 0.6
+  },
+  "key_terms": [
+    "cancel",
+    "customer",
+    "order",
+    "refund",
+    "support agent",
+    "system",
+    "view"
+  ],
+  "layers": [
+    "Api",
+    "ApiClient",
+    "Application",
+    "Domain",
+    "Infrastructure",
+    "Page"
+  ],
+  "components": 9,
+  "mutants": [
+    {
+      "name": "evidence-line",
+      "file": "specs/rd/order-cancel/spec-review/survey-mapping.md",
+      "old": "src/api/Orders.Domain/Order.cs:5",
+      "new": "src/api/Orders.Domain/Order.cs:1",
+      "expect_rule": "G-SV-evidence"
+    },
+    {
+      "name": "reverse-dependency",
+      "file": "specs/rd/order-cancel/spec/30-architecture-c4.md",
+      "old": "| CMP-007 | Order (Aggregate) | Domain | Orders |  |  |  |",
+      "new": "| CMP-007 | Order (Aggregate) | Domain | Orders | CMP-008 |  |  |",
+      "expect_rule": "B2"
+    },
+    {
+      "name": "untested-ac",
+      "file": "specs/rd/order-cancel/spec/10-requirements.md",
+      "old": "| AC-001-1, AC-001-2 |",
+      "new": "| AC-001-1, AC-001-2, AC-001-9 |",
+      "expect_rule": "B7"
+    },
+    {
+      "name": "namespace-evidence",
+      "file": "specs/rd/order-cancel/spec-review/survey-mapping.md",
+      "old": "| modify | Order | src/api/Orders.Domain/Order.cs:5 |",
+      "new": "| modify | Orders.Domain.Order | src/api/Orders.Domain/Order.cs:1 |",
+      "expect_rule": "G-SV-evidence"
+    }
+  ]
+}

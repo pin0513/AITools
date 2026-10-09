@@ -1,0 +1,486 @@
+{
+ "nouns": [
+  {
+   "term": "預約單",
+   "freq": 13,
+   "weight": 22.0,
+   "pm_freq": 13,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到"
+   ],
+   "symbol": "Booking",
+   "glossary_specs": [
+    "room-booking"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "會議室",
+   "freq": 10,
+   "weight": 14.0,
+   "pm_freq": 10,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室"
+   ],
+   "symbol": "Room",
+   "glossary_specs": [
+    "prev",
+    "room-booking"
+   ],
+   "suggest": "升",
+   "code_hits": 3,
+   "code_first": "src/web/src/types/Room.ts:4"
+  },
+  {
+   "term": "員工",
+   "freq": 7,
+   "weight": 11.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "狀態",
+   "freq": 6,
+   "weight": 10.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "預約單狀態",
+   "freq": 5,
+   "weight": 9.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "預約會議室",
+   "freq": 5,
+   "weight": 8.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "時段",
+   "freq": 4,
+   "weight": 8.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§4 非功能需求",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "TimeSlot",
+   "glossary_specs": [
+    "room-booking"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "行事曆服務",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "CalendarService",
+   "glossary_specs": [
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "員工預約會",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "工預約會議",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "張預約單",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "重疊",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  }
+ ],
+ "actions": [
+  {
+   "term": "預約",
+   "freq": 25,
+   "weight": 41.0,
+   "pm_freq": 25,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "報到",
+   "freq": 7,
+   "weight": 11.0,
+   "pm_freq": 7,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "釋放",
+   "freq": 5,
+   "weight": 7.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "查看",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 管理員可查看每日"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "更新",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "鐘內報到",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "室分組顯示",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "日查看",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "以查看",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 管理員可查看每日"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "統釋放預約",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "自助預約",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "自動釋放",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "重複預約",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "管理員",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 管理員可查看每日",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "系統",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "已預約",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 員工可預約會議室",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "已釋放",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 15 分鐘內報到",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "已報到",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "booked",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "mock:booking.html"
+   ],
+   "lang": "en"
+  }
+ ],
+ "english": [
+  {
+   "term": "SLOT_TAKEN",
+   "freq": 1,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Booked",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "email",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "mock",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 1,
+   "code_first": "src/web/src/types/Room.ts:6"
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "mock:booking.html",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 213,
+  "after_boundary": 67,
+  "kept": 64
+ }
+}

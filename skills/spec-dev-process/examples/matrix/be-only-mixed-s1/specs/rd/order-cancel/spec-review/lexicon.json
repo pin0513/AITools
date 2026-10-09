@@ -1,0 +1,475 @@
+{
+ "nouns": [
+  {
+   "term": "order",
+   "freq": 22,
+   "weight": 36.0,
+   "pm_freq": 22,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§3.2 cancel 後"
+   ],
+   "lang": "en",
+   "symbol": "Order",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 5,
+   "code_first": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:7"
+  },
+  {
+   "term": "狀態",
+   "freq": 8,
+   "weight": 13.0,
+   "pm_freq": 8,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "paymentgateway",
+   "freq": 5,
+   "weight": 7.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "PaymentGateway",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "order order",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "紀錄",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 support ",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "原因",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 support ",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "維持",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "重試",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "system paymentgateway",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§3.2 cancel 後"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "狀態改",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§3.2 cancel 後"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  }
+ ],
+ "actions": [
+  {
+   "term": "cancel",
+   "freq": 13,
+   "weight": 21.0,
+   "pm_freq": 13,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§3.3 support "
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "refund",
+   "freq": 7,
+   "weight": 12.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "view",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 support "
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "列顯示",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "customer",
+   "freq": 6,
+   "weight": 9.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "system",
+   "freq": 6,
+   "weight": 9.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "support agent",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 support ",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "cancelled",
+   "freq": 5,
+   "weight": 7.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "shipped",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "placed",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 customer",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "refunded",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 cancel 後",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "已付款",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  }
+ ],
+ "english": [
+  {
+   "term": "Order",
+   "freq": 21,
+   "weight": 34.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 5,
+   "code_first": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:7"
+  },
+  {
+   "term": "cancel",
+   "freq": 13,
+   "weight": 21.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "refund",
+   "freq": 7,
+   "weight": 12.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "customer",
+   "freq": 6,
+   "weight": 9.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "system",
+   "freq": 6,
+   "weight": 9.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Cancelled",
+   "freq": 5,
+   "weight": 7.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "PaymentGateway",
+   "freq": 5,
+   "weight": 7.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "agent",
+   "freq": 3,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "support",
+   "freq": 3,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Placed",
+   "freq": 2,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 2,
+   "code_first": "src/api/Orders.Domain/Order.cs:3"
+  },
+  {
+   "term": "Refunded",
+   "freq": 2,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Shipped",
+   "freq": 2,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 2,
+   "code_first": "src/database/001_orders.sql:4"
+  },
+  {
+   "term": "view",
+   "freq": 2,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "ORDER_SHIPPED",
+   "freq": 1,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 44,
+  "after_boundary": 23,
+  "kept": 23
+ }
+}

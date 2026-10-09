@@ -10,7 +10,10 @@ EN = re.compile(r"[A-Za-z][A-Za-z0-9_]{2,}")
 
 def load_lexicon(cfg: dict) -> dict:
     lex = yamlmini.load(C.PATHS["rules_dir"] / "methodology" / "sa" / "lexicon-zh.yaml")
+    lex["en"] = yamlmini.load(C.PATHS["rules_dir"] / "methodology" / "sa" / "lexicon-en.yaml")
     ext = cfg.get("lexicon") or {}
+    for k in ("verbs", "role_words", "status_words", "stop_words"):
+        lex["en"][k] = list(lex["en"].get(k) or []) + list(ext.get("extra_en_" + k) or [])
     for k in ("verbs", "role_suffixes", "stop_chars", "stop_words", "en_ignore"):
         lex[k] = list(lex.get(k) or []) + list(ext.get("extra_" + k) or [])
     for k in ("ngram", "min_freq", "promote_top_ratio", "section_weights", "doc_weights", "split_chars"):
@@ -36,11 +39,19 @@ def _clean(text: str) -> str:
     text = re.sub(r"`[^`]*`", " ", text)
     return text
 
+_PROTECT = ()
+
 def _split_runs(run: str, split_chars: set, status_prefixes: tuple):
-    """在 split_chars 切開;但 已/未/待 若接在詞首(狀態值)則保留在詞內。"""
+    """在 split_chars 切開;但 已/未/待 若接在詞首(狀態值)則保留在詞內;受保護詞(_PROTECT,最長優先)整詞不切。"""
+    guard = [False] * len(run)
+    for w in _PROTECT:
+        start = run.find(w)
+        while start != -1:
+            for k in range(start, start + len(w)): guard[k] = True
+            start = run.find(w, start + 1)
     out, cur = [], ""
     for i, ch in enumerate(run):
-        if ch in split_chars and not (ch in status_prefixes and (i == 0 or run[i - 1] in split_chars)):
+        if ch in split_chars and not guard[i] and not (ch in status_prefixes and (i == 0 or run[i - 1] in split_chars)):
             if cur: out.append(cur)
             cur = ""
         else:
@@ -74,8 +85,56 @@ def cjk_candidates(text: str, lex: dict) -> Counter:
                 cnt[g] += 1
     return cnt
 
+WORD = re.compile(r"[A-Za-z][A-Za-z\-]*")
+
+def _en_lemma(w: str, verbs: set, keep=frozenset()) -> str:
+    if w in keep: return w
+    for suf in ("ing", "ed", "es", "s"):
+        if w.endswith(suf) and len(w) > len(suf) + 2:
+            base = w[: -len(suf)]
+            for cand in (base, base + "e", base[:-1] if len(base) > 2 and base[-1] == base[-2] else None):
+                if cand and cand in verbs: return cand
+    return w
+
+def en_candidates(text: str, en: dict) -> tuple:
+    """英文:句子切塊 → 小寫詞 → 停用詞切開 → 1..max_phrase 字片語;動詞依詞形還原計數。回傳 (phrases Counter, verb Counter)。"""
+    verbs, stop, status = set(en["verbs"]), set(en["stop_words"]), set(en.get("status_words") or []); mx = int(en.get("max_phrase", 3))
+    phrases, vcount = Counter(), Counter()
+    for pv in en.get("phrasal_verbs") or []:          # check in / sign up:先整組計數,再從文字移除,避免被拆成單字
+        head, tail = pv.split(" ", 1)
+        pat = re.compile(r"\b" + re.escape(head) + r"(?:s|es|ed|ing)?\s+" + re.escape(tail) + r"\b", re.I)
+        n = len(pat.findall(text))
+        if n: vcount[pv] += n; text = pat.sub(" ", text)
+    for sent in re.split(r"[.;:!?\n(),/|`\[\]{}<>\"']+", text):
+        words = [w.lower() for w in WORD.findall(sent)]
+        run = []
+        for w in words + [None]:
+            if w is None or w in stop or len(w) < 2:
+                if run:
+                    for n in range(1, min(mx, len(run)) + 1):
+                        for i in range(len(run) - n + 1): phrases[" ".join(run[i:i + n])] += 1
+                run = []; continue
+            if w in status:                      # 狀態值先判斷(Cancelled 不還原成 cancel)
+                phrases[w] += 1
+                if run:
+                    for n in range(1, min(mx, len(run)) + 1):
+                        for i in range(len(run) - n + 1): phrases[" ".join(run[i:i + n])] += 1
+                run = []; continue
+            lem = _en_lemma(w, verbs, frozenset(en.get("nouns_keep") or []))
+            if lem in verbs:
+                vcount[lem] += 1
+                if run:
+                    for n in range(1, min(mx, len(run)) + 1):
+                        for i in range(len(run) - n + 1): phrases[" ".join(run[i:i + n])] += 1
+                run = []; continue
+            run.append(w)
+    return phrases, vcount
+
 def analyze(docs: list, lex: dict, glossary_terms: dict) -> dict:
     """docs: [(label, text)]。回傳 {nouns, actions, roles, statuses, english, stats}"""
+    global _PROTECT
+    _PROTECT = tuple(sorted({w for w in list(lex.get("protect_words") or []) + list(lex.get("verbs") or []) + list(glossary_terms)
+                             if w and re.fullmatch(r"[\u4e00-\u9fff]{2,}", w)}, key=len, reverse=True))
     weights = lex.get("section_weights") or {}; dw = lex.get("doc_weights") or {}
     freq, weight, where, pm_freq = Counter(), Counter(), defaultdict(set), Counter()
     for label, text in docs:
@@ -123,6 +182,40 @@ def analyze(docs: list, lex: dict, glossary_terms: dict) -> dict:
             gl = glossary_terms.get(g) or {}
             item["symbol"] = gl.get("symbol", ""); item["glossary_specs"] = gl.get("specs", [])
             rows["nouns"].append(item)
+    # ---- 英文 ----
+    en = lex.get("en") or {}
+    if en:
+        roles_w, status_w = set(en["role_words"]), set(en["status_words"])
+        efreq, eweight, ewhere, vfreq, vweight, vwhere = Counter(), Counter(), defaultdict(set), Counter(), Counter(), defaultdict(set)
+        for label, text in docs:
+            kind = label.split(":")[0]; dwt = float(dw.get(kind, 1.0))
+            for w, chunk, heading in _sections(_clean(text), weights):
+                ph, vb = en_candidates(chunk, en)
+                tag = f"{label}§{heading[:12]}" if heading else label
+                for g, n in ph.items(): efreq[g] += n; eweight[g] += n * w * dwt; ewhere[g].add(tag)
+                for g, n in vb.items(): vfreq[g] += n; vweight[g] += n * w * dwt; vwhere[g].add(tag)
+        # 去冗:片語若被更長片語完全涵蓋且頻率不高於它 → 丟
+        keep_en = set()
+        for g in sorted(efreq, key=lambda x: -len(x.split())):
+            if any(g != G and f" {g} " in f" {G} " and efreq[G] >= efreq[g] for G in keep_en): continue
+            keep_en.add(g)
+        gl_lower = {k.lower(): v for k, v in glossary_terms.items()}
+        for g in keep_en:
+            f, w = efreq[g], eweight[g]; last = g.split()[-1]
+            sym = (gl_lower.get(g) or {}).get("symbol", "") or next((v.get("symbol", "") for k, v in glossary_terms.items() if (v.get("symbol") or "").lower() == g.replace(" ", "")), "")
+            if f < lex["min_freq"] and not sym and last not in roles_w and g not in status_w: continue
+            item = {"term": g, "freq": f, "weight": round(w, 1), "pm_freq": f, "where": sorted(ewhere[g])[:4], "lang": "en"}
+            if g in status_w: rows["statuses"].append(item)
+            elif last in roles_w: rows["roles"].append(item)
+            else:
+                item["symbol"] = sym; item["glossary_specs"] = (gl_lower.get(g) or {}).get("specs", []); rows["nouns"].append(item)
+        for g, f in vfreq.items():
+            rows["actions"].append({"term": g, "freq": f, "weight": round(vweight[g], 1), "pm_freq": f, "where": sorted(vwhere[g])[:4], "lang": "en"})
+        for k in ("nouns", "actions", "roles", "statuses"): rows[k].sort(key=lambda x: (-x["weight"], -x["freq"], x["term"]))
+        for k in ("nouns", "actions", "roles"):
+            n = len(rows[k]); top = max(1, int(n * lex.get("promote_top_ratio", 0.6)))
+            for i, it in enumerate(rows[k]):
+                it["suggest"] = "升" if (it.get("symbol") or (i < top and it["freq"] >= lex["min_freq"] and it.get("pm_freq", 1) > 0)) else "降"
     # 角色片語:「提醒審核者」「表單審核者」= 前綴 + 已存在且更高頻的角色 → 不是新角色
     role_terms = {it["term"]: it["freq"] for it in rows["roles"]}
     rows["roles"] = [it for it in rows["roles"] if not any(it["term"] != r and it["term"].endswith(r) and f > it["freq"] for r, f in role_terms.items())]

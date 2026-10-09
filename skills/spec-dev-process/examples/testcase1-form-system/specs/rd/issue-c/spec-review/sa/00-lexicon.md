@@ -1,6 +1,6 @@
 # issue-c SA0 前置解析(由 analyze.lexicon 產生,不手改;SA1 從這裡挑,不必讀整份原文)
 
-來源:pm_spec:pm-spec.md, mock:approval.html, ref:refs.md, ref:overview.md, ref:coding.md · CJK 候選 325 → 邊界熵後 111 → 去冗後 104
+來源:pm_spec:pm-spec.md, mock:approval.html, ref:refs.md, ref:overview.md, ref:coding.md · CJK 候選 332 → 邊界熵後 112 → 去冗後 105
 
 規則:詞頻 × 章節權重 × 文件權重 = 重要性(先驗,不是結論)。**降級不等於丟棄**:SA1 撿回降級詞要在 01-break-words 的歸類欄寫理由。
 
@@ -16,9 +16,20 @@
 | 狀態 | 5 | 3.6 |  | — | 升 | pm_spec:pm-spec.md§5 驗收條件 ref:coding.md§開發規範 ref:refs.md§issue-c 參考文件 |
 | 填理由 | 2 | 3.0 |  | — | 升 | pm_spec:pm-spec.md§3.2 審核 pm_spec:pm-spec.md§5 驗收條件 |
 | 待審核紀錄 | 2 | 3.0 |  | — | 升 | pm_spec:pm-spec.md§3.2 審核 pm_spec:pm-spec.md§5 驗收條件 |
-| 送出表單 | 2 | 3.0 |  | — | 降 | pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 送審 |
+| 送出表單 | 2 | 3.0 |  | — | 升 | pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 送審 |
+| forms | 7 | 2.8 |  | — | 升 | ref:overview.md§架構概觀 ref:refs.md§issue-c 參考文件 |
 | 填寫紀錄 | 2 | 2.0 | FormSubmission | 5 (src/database/002_submissions.sql:2) | 升 | mock:approval.html pm_spec:pm-spec.md§3.1 送審 |
-| 部門 | 2 | 2.0 |  | — | 降 | mock:approval.html pm_spec:pm-spec.md§1 背景與目標 |
+| 部門 | 2 | 2.0 |  | — | 升 | mock:approval.html pm_spec:pm-spec.md§1 背景與目標 |
+| domain | 4 | 1.6 |  | — | 升 | ref:coding.md§開發規範 ref:overview.md§架構概觀 ref:refs.md§issue-c 參考文件 |
+| handler | 3 | 1.2 |  | — | 升 | ref:coding.md§開發規範 ref:overview.md§架構概觀 ref:refs.md§issue-c 參考文件 |
+| smtp | 3 | 1.2 |  | — | 升 | ref:coding.md§開發規範 ref:overview.md§架構概觀 ref:refs.md§issue-c 參考文件 |
+| aggregate | 2 | 0.8 |  | — | 降 | ref:coding.md§開發規範 ref:overview.md§架構概觀 |
+| bounded context | 2 | 0.8 |  | — | 降 | ref:overview.md§架構概觀 ref:refs.md§issue-c 參考文件 |
+| controller | 2 | 0.8 |  | — | 降 | ref:coding.md§開發規範 ref:overview.md§架構概觀 |
+| infrastructure | 2 | 0.8 |  | — | 降 | ref:coding.md§開發規範 ref:overview.md§架構概觀 |
+| inotifier | 2 | 0.8 | INotifier | 2 (src/api/Forms.Infrastructure/EmailNotifier.cs:4) | 升 | ref:refs.md§issue-c 參考文件 |
+| mediatr | 2 | 0.8 |  | — | 降 | ref:coding.md§開發規範 ref:overview.md§架構概觀 |
+| repository | 2 | 0.8 |  | — | 降 | ref:coding.md§開發規範 ref:overview.md§架構概觀 |
 | 外部系統只 | 2 | 0.8 |  | — | 降 | ref:overview.md§架構概觀 ref:refs.md§issue-c 參考文件 |
 | 改狀態 | 2 | 0.8 |  | — | 降 | ref:coding.md§開發規範 ref:refs.md§issue-c 參考文件 |
 | 狀態機放 | 2 | 0.8 |  | — | 降 | ref:coding.md§開發規範 ref:refs.md§issue-c 參考文件 |
@@ -43,7 +54,6 @@
 | 單填寫送出 | 1 | 1.0 | 降 | pm_spec:pm-spec.md§1 背景與目標 |
 | 填寫者送出 | 1 | 1.0 | 降 | pm_spec:pm-spec.md§3.1 送審 |
 | 天提醒審核 | 1 | 1.0 | 降 | pm_spec:pm-spec.md§3.4 逾時提醒 |
-| 平均處理 | 1 | 1.0 | 降 | pm_spec:pm-spec.md§1 背景與目標 |
 | 核期間填寫 | 1 | 1.0 | 降 | pm_spec:pm-spec.md§3.1 送審 |
 | 求送出 | 1 | 1.0 | 降 | pm_spec:pm-spec.md§1 背景與目標 |
 | 王審核 | 1 | 1.0 | 降 | mock:approval.html |

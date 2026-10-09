@@ -77,7 +77,7 @@ class Testcase1Test(unittest.TestCase):
         self.assertTrue(gl.exists()); text = gl.read_text(encoding="utf-8")
         self.assertIn("| 填寫紀錄 | FormSubmission |", text); self.assertIn("issue-b, issue-c", text); self.assertIn("| (無) |", text)
         g = {x["msg"]: x for x in self.tr["gate"] if x["rule"] == "G-SV-evidence"}
-        self.assertTrue(any("填寫紀錄" in m and "已驗證" in m and "解析符號" in m for m in g), list(g)[:5])
+        self.assertTrue(any("填寫紀錄" in m and "已驗證" in m and "解析" in m for m in g), list(g)[:5])
         self.assertTrue(any("必填檢查" in m and '字面 "FIELD_REQUIRED"' in m for m in g))
         self.assertTrue(any(x["rule"] == "G-GL-consistency" and x["level"] == "INFO" and "填寫紀錄" in x["msg"] for x in self.tr["gate"]))
         self.assertFalse(any(x["rule"] == "G-GL-consistency" and x["level"] == "FAIL" for x in self.tr["gate"]))

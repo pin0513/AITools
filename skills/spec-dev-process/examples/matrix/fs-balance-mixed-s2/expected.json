@@ -1,0 +1,68 @@
+{
+  "id": "fs-balance-mixed-s2",
+  "shape": "fs-balance",
+  "lang": "mixed",
+  "scenario": "s2",
+  "title": "會議室預約",
+  "shape_label": "全端(均衡)",
+  "spec": "specs/rd/room-booking/spec",
+  "review": "specs/rd/room-booking/spec-review",
+  "expect": {
+    "fail": 0,
+    "survey_evidences": 8,
+    "min_lexicon_recall": 0.6
+  },
+  "key_terms": [
+    "admin",
+    "book",
+    "booking",
+    "check in",
+    "employee",
+    "release",
+    "room",
+    "system",
+    "timeslot",
+    "view"
+  ],
+  "layers": [
+    "Api",
+    "ApiClient",
+    "Application",
+    "Component",
+    "Domain",
+    "Infrastructure",
+    "Page",
+    "Store"
+  ],
+  "components": 14,
+  "mutants": [
+    {
+      "name": "evidence-line",
+      "file": "specs/rd/room-booking/spec-review/survey-mapping.md",
+      "old": "src/api/Rooms.Domain/Room.cs:5",
+      "new": "src/api/Rooms.Domain/Room.cs:1",
+      "expect_rule": "G-SV-evidence"
+    },
+    {
+      "name": "reverse-dependency",
+      "file": "specs/rd/room-booking/spec/30-architecture-c4.md",
+      "old": "| CMP-012 | Booking (Aggregate) | Domain | Rooms |  |  |  |",
+      "new": "| CMP-012 | Booking (Aggregate) | Domain | Rooms | CMP-013 |  |  |",
+      "expect_rule": "B2"
+    },
+    {
+      "name": "untested-ac",
+      "file": "specs/rd/room-booking/spec/10-requirements.md",
+      "old": "| AC-001-1, AC-001-2 |",
+      "new": "| AC-001-1, AC-001-2, AC-001-9 |",
+      "expect_rule": "B7"
+    },
+    {
+      "name": "namespace-evidence",
+      "file": "specs/rd/room-booking/spec-review/survey-mapping.md",
+      "old": "| modify | Room | src/api/Rooms.Domain/Room.cs:5 |",
+      "new": "| modify | Rooms.Domain.Room | src/api/Rooms.Domain/Room.cs:1 |",
+      "expect_rule": "G-SV-evidence"
+    }
+  ]
+}

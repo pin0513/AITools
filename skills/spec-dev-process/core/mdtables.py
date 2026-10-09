@@ -28,6 +28,27 @@ class Doc:
     text: str = ""
 
 _SEP = re.compile(r"^\s*:?-+:?\s*$")
+_ALIASES = None
+
+def aliases():
+    """process/io-contracts.yaml 的 aliases(英文 → 中文正名)。lazy 載入並快取。"""
+    global _ALIASES
+    if _ALIASES is None:
+        try:
+            from core import config
+            _ALIASES = config.load_contracts().get("aliases") or {}
+        except Exception:
+            _ALIASES = {}
+    return _ALIASES
+
+def canon_heading(text: str) -> str:
+    for en, zh in (aliases().get("headings") or {}).items():
+        if text == en or (text.startswith(en) and not text[len(en):len(en) + 1].isalnum()):
+            return zh + text[len(en):]
+    return text
+
+def canon_column(text: str) -> str:
+    return (aliases().get("columns") or {}).get(text, text)
 
 def _cells(line: str):
     return [c.strip() for c in line.strip().strip("|").split("|")]
@@ -48,12 +69,13 @@ def parse(path, text: str) -> Doc:
             continue
         m = re.match(r"^(#{2,3})\s+(.*)", line)
         if m:
-            d.headings.append((len(m.group(1)), m.group(2).strip(), i + 1))
+            title = canon_heading(m.group(2).strip())
+            d.headings.append((len(m.group(1)), title, i + 1))
             if len(m.group(1)) == 2:
-                cur_h2, cur_h3 = m.group(2).strip(), ""
+                cur_h2, cur_h3 = title, ""
                 d.h2.append(cur_h2)
             else:
-                cur_h3 = m.group(2).strip(); d.h3.append(cur_h3)
+                cur_h3 = title; d.h3.append(cur_h3)
             i += 1
             continue
         if line.lstrip().startswith("|"):
@@ -62,7 +84,7 @@ def parse(path, text: str) -> Doc:
                 block.append(lines[i]); i += 1
             cells = [_cells(b) for b in block]
             if len(cells) >= 2 and all(_SEP.match(c) for c in cells[1]):
-                header = cells[0]
+                header = [canon_column(c) for c in cells[0]]
                 rows = []
                 for k, r in enumerate(cells[2:]):
                     r = r + [""] * (len(header) - len(r))

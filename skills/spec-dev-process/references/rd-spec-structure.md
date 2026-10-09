@@ -5,6 +5,31 @@ description: RD spec 產出目錄結構與每個檔案的必要章節;S5 依此�
 
 # RD Spec 產出結構
 
+## 分層原則
+
+首層放**共用核心**(需求、領域模型、架構與追溯、測試),保證一條需求只有一條追溯鏈;第二層依交付面分 `ui/` 與 `api/`,前後端團隊各自擁有。純前端只有 `ui/`(與它消費的 `api/40`),純後端只有 `api/`。舊結構(40、50 放首層)仍可解析。
+
+```
+spec/
+├── 00-overview  10-requirements  20-domain-model  30-architecture-c4  60-test-design  method-log.jsonl   ← 共用核心
+├── ui/41-ui-spec.md        畫面清單、介面狀態(STM-UI)、欄位驗證                                  ← 前端
+└── api/40-api-contracts.md  介面清單、錯誤碼、失敗模式;api/50-data-model.md  ERD、擁有權              ← 後端 / 兩隊契約
+specs/glossary.md        跨 spec 詞彙表(產生物)
+specs/naming-map.md      分層命名對照表(產生物):名詞 → 符號 → UI / API / Application / Domain / Infrastructure / DB
+specs/naming-overrides.md 手寫覆寫(同欄位,有值的格子覆蓋自動推導)
+```
+
+### 分層命名對照表怎麼來、怎麼用
+
+| 欄 | 來源 |
+|---|---|
+| 名詞、符號 | SA2 實體表(實體 / 英文)、SA3 動作欄開頭的 PascalCase |
+| UI / API / Application / Domain / Infrastructure | 30 的 Component 表:名稱含該符號者,依 Layer 歸欄;API 欄另加 SA3 的 `METHOD path` |
+| DB | 50 的 erDiagram 實體 |
+| 既有程式碼的名字 | survey 的「對應 codebase」欄(點號串取最後一段)+ 證據路徑判層(`*.Application/` → Application、`src/web/` → UI…) |
+
+survey 證據驗證**只用證據所在層的名字**比對:證據在 `*.Domain/`,只認 Domain 欄;在 `src/database/`,才認 DB 欄。這是測試矩陣的突變版逼出來的:跨層通查會讓 `namespace Orders.Domain;` 因 DB 表名 `Orders` 被誤判成證據。
+
 根目錄由 `config.yaml` 的 `output.root` 決定,預設 `docs/rd-spec/{feature-slug}/`。檔名前綴數字固定,不得改名。
 
 ```

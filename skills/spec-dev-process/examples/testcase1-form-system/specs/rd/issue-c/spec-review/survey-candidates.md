@@ -22,14 +22,29 @@
 | Approve | (無) | | |
 | Reject | (無) | | |
 | Remind | (無) | | |
-| 填寫紀錄 → FormSubmission | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
-| 填寫紀錄 → FormSubmission | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
-| 填寫紀錄 → FormSubmission | src/api/Forms.Infrastructure/SqlFormRepository.cs | 16 | `public Task<FormSubmission?> GetAsync(Guid id, CancellationToken ct) => db.FormSubmissions.FirstOrDe` |
-| 填寫紀錄 → FormSubmission | src/api/Forms.Infrastructure/SqlFormRepository.cs | 17 | `public Task AddAsync(FormSubmission submission, CancellationToken ct) => db.FormSubmissions.AddAsync` |
-| 填寫紀錄 → FormSubmission | src/api/Forms.Domain/FormSubmission.cs | 4 | `public sealed class FormSubmission` |
-| Submit (SubmitFormCommandHandler) | src/api/Forms.Api/Controllers/FormsController.cs | 16 | `public async Task<IActionResult> Submit(Guid id, [FromBody] SubmitFormBody body, CancellationToken c` |
-| Submit (SubmitFormCommandHandler) | src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs | 8 | `public sealed class SubmitFormCommandHandler(IFormRepository forms, IFormSubmissionRepository submis` |
-| Submit (SubmitFormCommandHandler) | src/web/src/pages/FormFill.tsx | 4 | `return <button onClick={() => submitForm(formId, {})}>Submit</button>;` |
+| Form → Form/FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| Form → Form/FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 4 | `FormId uniqueidentifier NOT NULL REFERENCES Form(Id),` |
+| Form → Form/FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
+| Form → Form/FormSubmission/SqlFormSubmissionRepository | src/database/001_forms.sql | 2 | `CREATE TABLE Form (` |
+| Form → Form/FormSubmission/SqlFormSubmissionRepository | src/database/001_forms.sql | 9 | `FormId uniqueidentifier NOT NULL REFERENCES Form(Id),` |
+| FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
+| FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
+| FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 16 | `public Task<FormSubmission?> GetAsync(Guid id, CancellationToken ct) => db.FormSubmissions.FirstOrDe` |
+| FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 17 | `public Task AddAsync(FormSubmission submission, CancellationToken ct) => db.FormSubmissions.AddAsync` |
+| 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
+| 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
+| 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 16 | `public Task<FormSubmission?> GetAsync(Guid id, CancellationToken ct) => db.FormSubmissions.FirstOrDe` |
+| 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 17 | `public Task AddAsync(FormSubmission submission, CancellationToken ct) => db.FormSubmissions.AddAsync` |
+| ReviewReminder → ReviewReminder/ReviewReminderJob | (無) | | |
+| Submit (SubmitFormCommandHandler) → Submit/SubmitFormCommandHandler/ResubmitSubmissionCommandHandler | src/api/Forms.Api/Controllers/FormsController.cs | 16 | `public async Task<IActionResult> Submit(Guid id, [FromBody] SubmitFormBody body, CancellationToken c` |
+| Submit (SubmitFormCommandHandler) → Submit/SubmitFormCommandHandler/ResubmitSubmissionCommandHandler | src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs | 8 | `public sealed class SubmitFormCommandHandler(IFormRepository forms, IFormSubmissionRepository submis` |
+| Submit (SubmitFormCommandHandler) → Submit/SubmitFormCommandHandler/ResubmitSubmissionCommandHandler | src/web/src/pages/FormFill.tsx | 4 | `return <button onClick={() => submitForm(formId, {})}>Submit</button>;` |
+| Approve → Approve/approve/ApproveSubmissionCommandHandler | (無) | | |
+| Reject → Reject/reject/RejectSubmissionCommandHandler | (無) | | |
+| Resubmit → Resubmit/resubmit/ResubmitSubmissionCommandHandler | (無) | | |
+| Remind → Remind/ReviewReminderJob/ReviewReminder | (無) | | |
 | INotifier | src/api/Forms.Infrastructure/EmailNotifier.cs | 4 | `public interface INotifier { Task NotifyAsync(Guid userId, string template, object model, Cancellati` |
 | INotifier | src/api/Forms.Infrastructure/EmailNotifier.cs | 6 | `public sealed class EmailNotifier : INotifier` |
 | IFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
@@ -39,11 +54,11 @@
 | FormsDbContext | src/api/Forms.Infrastructure/SqlFormRepository.cs | 7 | `public sealed class SqlFormRepository(FormsDbContext db) : IFormRepository` |
 | FormsDbContext | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
 | FormsDbContext | src/api/Forms.Infrastructure/Persistence/FormsDbContext.cs | 6 | `public sealed class FormsDbContext(DbContextOptions<FormsDbContext> options) : DbContext(options)` |
-| FormSubmission table | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
-| FormSubmission table | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
-| FormSubmission table | src/database/001_forms.sql | 2 | `CREATE TABLE Form (` |
-| FormSubmission table | src/database/001_forms.sql | 8 | `CREATE TABLE FormField (` |
-| FormSubmission table | src/api/Forms.Infrastructure/SqlFormRepository.cs | 16 | `public Task<FormSubmission?> GetAsync(Guid id, CancellationToken ct) => db.FormSubmissions.FirstOrDe` |
+| FormSubmission table → FormSubmission/table/SqlFormSubmissionRepository | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| FormSubmission table → FormSubmission/table/SqlFormSubmissionRepository | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
+| FormSubmission table → FormSubmission/table/SqlFormSubmissionRepository | src/database/001_forms.sql | 2 | `CREATE TABLE Form (` |
+| FormSubmission table → FormSubmission/table/SqlFormSubmissionRepository | src/database/001_forms.sql | 8 | `CREATE TABLE FormField (` |
+| FormSubmission table → FormSubmission/table/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
 | ReviewRecord table | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
 | ReviewRecord table | src/database/001_forms.sql | 2 | `CREATE TABLE Form (` |
 | ReviewRecord table | src/database/001_forms.sql | 8 | `CREATE TABLE FormField (` |

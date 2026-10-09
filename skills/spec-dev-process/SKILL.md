@@ -58,6 +58,8 @@ S1 Analyze ─► S2 Design ─► S3 Boundary ─► S4 Test ─► S5 Assemble
 
 SA 的交接規則(`rules/methodology/sa/<name>.yaml` 的 `hand_off`):02 的實體 → 20 的 Entity/VO 候選;03 的角色動作 → UC;07 的狀態 → STM-DOM;survey 的 existing → 30 的 Component 沿用、modify → 標「既有修改」、new → 新 Component。
 
+RD spec 分層:首層共用核心(00、10、20、30、60),第二層 `ui/41-ui-spec.md` 與 `api/40`、`api/50`;專案層有 `specs/glossary.md` 與 `specs/naming-map.md`(分層命名對照,工具查表,不必掃全檔)。細節見 `references/rd-spec-structure.md`。
+
 目錄慣例(見 `examples/testcase1-form-system/`):`specs/rd/<issue>/spec/`(RD spec,唯一事實來源)與 `specs/rd/<issue>/spec-review/`(SA 素材、survey、產生物);專案 `.spec-dev.yaml` 設 `output.review_dir: ../spec-review`。
 
 | Stage | 誰做 | 輸入 | 方法論 | 產出(檔) | Gate(`process/pipeline.yaml`) |
@@ -147,8 +149,10 @@ B1–B8 定義在 `rules/boundary/`(嚴重度、訊息、參數都是資料),判
 
 `examples/testcase1-form-system/`:**完整端到端案例**。既有 codebase(issue a/b)+ issue c「表單審核流程」的 PM spec / mock / refs → `specs/rd/issue-c/spec-review/sa/`(SA 七步)→ `survey-mapping.md`(19 個模型元素對回 codebase)→ `spec/`(RD spec)→ check board。`specs/tools/spec-reviewer/review.sh issue-c` 一鍵跑;目標 0 FAIL。
 
+`examples/matrix/`:**測試矩陣**。英文 / 中文 / 中英混用 × 3 種商業情境 × 5 種架構形狀(全端重前、全端重後、全端均衡、純前端、純後端),成對覆蓋 15 份完整專案,由 `tests/matrix/gen_matrix.py` 產生。`python3 spec-dev.py matrix examples/matrix` 每份跑 baseline 加 3 到 4 個突變版,產出 `examples/matrix/_board/index.html` 驗收板。
+
 `examples/avatar-upload/`:7 個 md 來源 + `method-log.jsonl`,以及 `spec-dev.py all` 的全部產生物。範例**刻意**留了 1 個 B2 FAIL(Domain 依賴 Infrastructure)、1 個 B7 FAIL(AC 無測試)、2 個 assumed、1 個未結案 Spike,讓面板每種狀態都看得到。
 
 ---
 
-**Version**: 2.0 | **Updated**: 2026-10-09
+**Version**: 2.4 | **Updated**: 2026-10-09

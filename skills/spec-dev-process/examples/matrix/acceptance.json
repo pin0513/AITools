@@ -1,0 +1,1143 @@
+{
+  "summary": {
+    "cases": 15,
+    "accepted": 15,
+    "baseline_clean": 15,
+    "mutants": 57,
+    "mutants_caught": 57,
+    "recall_by_lang": {
+      "en": 1.0,
+      "zh": 0.98,
+      "mixed": 1.0
+    }
+  },
+  "results": [
+    {
+      "id": "be-only-en-s2",
+      "shape": "be-only",
+      "lang": "en",
+      "scenario": "s2",
+      "title": "Meeting room booking",
+      "shape_label": "backend only",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "27/27",
+        "req": 4,
+        "cmp": 8,
+        "tst": 9
+      },
+      "survey": {
+        "verified": 6,
+        "expected": 6
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 12,
+      "layers": [
+        "Api",
+        "Application",
+        "Domain",
+        "Infrastructure"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/room-booking/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "be-only-mixed-s1",
+      "shape": "be-only",
+      "lang": "mixed",
+      "scenario": "s1",
+      "title": "訂單取消與退款",
+      "shape_label": "純後端",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "24/24",
+        "req": 4,
+        "cmp": 7,
+        "tst": 8
+      },
+      "survey": {
+        "verified": 6,
+        "expected": 6
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 10,
+      "layers": [
+        "Api",
+        "Application",
+        "Domain",
+        "Infrastructure"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/order-cancel/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "be-only-zh-s3",
+      "shape": "be-only",
+      "lang": "zh",
+      "scenario": "s3",
+      "title": "會員點數兌換",
+      "shape_label": "純後端",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "22/22",
+        "req": 4,
+        "cmp": 7,
+        "tst": 8
+      },
+      "survey": {
+        "verified": 6,
+        "expected": 6
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 12,
+      "layers": [
+        "Api",
+        "Application",
+        "Domain",
+        "Infrastructure"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/points-redemption/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fe-only-en-s1",
+      "shape": "fe-only",
+      "lang": "en",
+      "scenario": "s1",
+      "title": "Order cancellation and refund",
+      "shape_label": "frontend only",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "18/18",
+        "req": 4,
+        "cmp": 5,
+        "tst": 6
+      },
+      "survey": {
+        "verified": 4,
+        "expected": 4
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 8,
+      "layers": [
+        "ApiClient",
+        "Component",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/order-cancel/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fe-only-mixed-s3",
+      "shape": "fe-only",
+      "lang": "mixed",
+      "scenario": "s3",
+      "title": "會員點數兌換",
+      "shape_label": "純前端",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "17/17",
+        "req": 4,
+        "cmp": 5,
+        "tst": 6
+      },
+      "survey": {
+        "verified": 4,
+        "expected": 4
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 10,
+      "layers": [
+        "ApiClient",
+        "Component",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/points-redemption/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fe-only-zh-s2",
+      "shape": "fe-only",
+      "lang": "zh",
+      "scenario": "s2",
+      "title": "會議室預約",
+      "shape_label": "純前端",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "20/20",
+        "req": 4,
+        "cmp": 6,
+        "tst": 7
+      },
+      "survey": {
+        "verified": 4,
+        "expected": 4
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 10,
+      "layers": [
+        "ApiClient",
+        "Component",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/room-booking/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-back-en-s2",
+      "shape": "fs-back",
+      "lang": "en",
+      "scenario": "s2",
+      "title": "Meeting room booking",
+      "shape_label": "full-stack, back-heavy",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "29/29",
+        "req": 4,
+        "cmp": 10,
+        "tst": 11
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 13,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Domain",
+        "Infrastructure",
+        "Page"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/room-booking/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-back-mixed-s1",
+      "shape": "fs-back",
+      "lang": "mixed",
+      "scenario": "s1",
+      "title": "訂單取消與退款",
+      "shape_label": "全端(輕前、重後)",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "26/26",
+        "req": 4,
+        "cmp": 9,
+        "tst": 10
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 11,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Domain",
+        "Infrastructure",
+        "Page"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/order-cancel/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-back-zh-s3",
+      "shape": "fs-back",
+      "lang": "zh",
+      "scenario": "s3",
+      "title": "會員點數兌換",
+      "shape_label": "全端(輕前、重後)",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "24/24",
+        "req": 4,
+        "cmp": 9,
+        "tst": 10
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 13,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Domain",
+        "Infrastructure",
+        "Page"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/points-redemption/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-balance-en-s3",
+      "shape": "fs-balance",
+      "lang": "en",
+      "scenario": "s3",
+      "title": "Loyalty points redemption",
+      "shape_label": "full-stack, balanced",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "29/29",
+        "req": 4,
+        "cmp": 12,
+        "tst": 13
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 13,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Component",
+        "Domain",
+        "Infrastructure",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/points-redemption/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-balance-mixed-s2",
+      "shape": "fs-balance",
+      "lang": "mixed",
+      "scenario": "s2",
+      "title": "會議室預約",
+      "shape_label": "全端(均衡)",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "36/36",
+        "req": 4,
+        "cmp": 14,
+        "tst": 15
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 13,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Component",
+        "Domain",
+        "Infrastructure",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/room-booking/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-balance-zh-s1",
+      "shape": "fs-balance",
+      "lang": "zh",
+      "scenario": "s1",
+      "title": "訂單取消與退款",
+      "shape_label": "全端(均衡)",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "31/31",
+        "req": 4,
+        "cmp": 12,
+        "tst": 13
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 0.88,
+        "missing": [
+          "退款單"
+        ],
+        "min": 0.6
+      },
+      "naming_rows": 11,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Component",
+        "Domain",
+        "Infrastructure",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/order-cancel/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-front-en-s1",
+      "shape": "fs-front",
+      "lang": "en",
+      "scenario": "s1",
+      "title": "Order cancellation and refund",
+      "shape_label": "full-stack, front-heavy",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "28/28",
+        "req": 4,
+        "cmp": 11,
+        "tst": 12
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 11,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Component",
+        "Infrastructure",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/order-cancel/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-front-mixed-s3",
+      "shape": "fs-front",
+      "lang": "mixed",
+      "scenario": "s3",
+      "title": "會員點數兌換",
+      "shape_label": "全端(重前、輕後)",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "26/26",
+        "req": 4,
+        "cmp": 11,
+        "tst": 12
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 13,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Component",
+        "Infrastructure",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/points-redemption/spec-review/check-panel.html",
+      "accepted": true
+    },
+    {
+      "id": "fs-front-zh-s2",
+      "shape": "fs-front",
+      "lang": "zh",
+      "scenario": "s2",
+      "title": "會議室預約",
+      "shape_label": "全端(重前、輕後)",
+      "baseline": {
+        "fail_rules": [],
+        "fail": 0,
+        "warn": 0,
+        "boundary": "32/32",
+        "req": 4,
+        "cmp": 13,
+        "tst": 14
+      },
+      "survey": {
+        "verified": 8,
+        "expected": 8
+      },
+      "lexicon": {
+        "recall": 1.0,
+        "missing": [],
+        "min": 0.6
+      },
+      "naming_rows": 13,
+      "layers": [
+        "Api",
+        "ApiClient",
+        "Application",
+        "Component",
+        "Infrastructure",
+        "Page",
+        "Store"
+      ],
+      "mutants": [
+        {
+          "name": "evidence-line",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        },
+        {
+          "name": "reverse-dependency",
+          "expect_rule": "B2",
+          "applied": true,
+          "fail_rules": [
+            "B2",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "untested-ac",
+          "expect_rule": "B7",
+          "applied": true,
+          "fail_rules": [
+            "B7",
+            "G-S3-boundary"
+          ],
+          "caught": true
+        },
+        {
+          "name": "namespace-evidence",
+          "expect_rule": "G-SV-evidence",
+          "applied": true,
+          "fail_rules": [
+            "G-SV-evidence"
+          ],
+          "caught": true
+        }
+      ],
+      "panel": "specs/rd/room-booking/spec-review/check-panel.html",
+      "accepted": true
+    }
+  ]
+}

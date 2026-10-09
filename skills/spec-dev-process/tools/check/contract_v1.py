@@ -8,9 +8,11 @@ def check_files(d: pathlib.Path, contracts: dict, files: list, review_dir: pathl
         fname = fname.split("#")[0]
         spec = contracts["files"].get(fname)
         if not spec: continue
-        p = ((review_dir or d) if spec.get("dir") == "review" else d) / fname
+        base = (review_dir or d) if spec.get("dir") == "review" else d
+        p = next((base / rel for rel in (spec.get("paths") or [fname]) if (base / rel).exists()), base / (spec.get("paths") or [fname])[0])
         rule = f"C-{spec.get('stage', '?')}"
         if not p.exists():
+            if spec.get("when_missing") == "ignore": continue
             out.append({"level": "FAIL" if spec.get("required") else "WARN", "rule": rule, "ids": [fname], "msg": f"缺檔 {fname}"}); continue
         if fname.endswith(".jsonl"):
             for n, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):

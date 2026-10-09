@@ -9,7 +9,8 @@
   spec-dev.py extract <dir>                            只抽 traceability.json
   spec-dev.py panel   <dir> [--offline]                = all
   spec-dev.py render  <dir> [--offline]                只渲染 md → html/
-  spec-dev.py glossary <dir>                           只抽跨 spec 詞彙表(寫到 config.glossary.path)
+  spec-dev.py glossary <dir>                           只抽跨 spec 詞彙表與分層命名對照表
+  spec-dev.py matrix  <matrix-root> [--offline]        測試矩陣驗收:每份 baseline + 3 突變版 → acceptance.json、_board/
   spec-dev.py rules                                    列出啟用規則與版本
   spec-dev.py tools                                    列出工具與版本
   選項:--config <path> 指定 .spec-dev.yaml;--offline 內嵌 vendor/mermaid.min.js
@@ -43,9 +44,18 @@ def main(argv):
         for name, e in C.load_registry()["tools"].items():
             print(f"  {name:<18} latest=v{e['latest']}  versions={sorted(e['versions'])}")
         return 0
-    if len(argv) < 3 or cmd not in ("init", "run", "check", "all", "extract", "panel", "render", "glossary"): print(__doc__); return 2
+    if len(argv) < 3 or cmd not in ("init", "run", "check", "all", "extract", "panel", "render", "glossary", "matrix"): print(__doc__); return 2
     d = pathlib.Path(argv[2]); offline = "--offline" in argv
     from tools.execute import runner_v1 as R
+    if cmd == "matrix":
+        from tools.execute import matrix_v1 as MX
+        out = MX.run_matrix(d, offline); s = out["summary"]
+        for r in out["results"]:
+            print(f'  {"PASS" if r["accepted"] else "FAIL"}  {r["id"]:<22} baseline FAIL={r["baseline"]["fail"]} mutants={sum(m["caught"] for m in r["mutants"])}/{len(r["mutants"])} '
+                  f'survey={r["survey"]["verified"]}/{r["survey"]["expected"]} recall={r["lexicon"]["recall"]:.0%} missing={r["lexicon"]["missing"]}')
+        print(f'accepted {s["accepted"]}/{s["cases"]} · baseline clean {s["baseline_clean"]}/{s["cases"]} · mutants caught {s["mutants_caught"]}/{s["mutants"]} · recall {s["recall_by_lang"]}')
+        print(f"board: {d / '_board' / 'index.html'}")
+        return 0 if s["accepted"] == s["cases"] else 1
     if cmd == "init":
         for line in R.init(d, _opt(argv, "--title", d.name), C.load_config(d, _opt(argv, "--config"))): print(line)
         return 0

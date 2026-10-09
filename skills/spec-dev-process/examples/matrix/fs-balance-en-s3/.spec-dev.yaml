@@ -1,0 +1,94 @@
+# 產生器輸出:fs-balance-en-s3
+{
+  "output": {
+    "review_dir": "../spec-review"
+  },
+  "sa_modeling": {
+    "methodology": "uml-wordbreak"
+  },
+  "survey": {
+    "code_roots": [
+      "src"
+    ]
+  },
+  "tech_boundary": {
+    "bounded_contexts": [
+      "Loyalty"
+    ],
+    "tech_allowlist": [
+      "ASP.NET Core",
+      "EF Core",
+      "MediatR",
+      "React",
+      "Zustand",
+      "xUnit",
+      "Vitest",
+      "Playwright",
+      "k6"
+    ]
+  },
+  "rules": {
+    "overrides": {
+      "B2": {
+        "params": {
+          "layers": [
+            "Page",
+            "Component",
+            "Store",
+            "ApiClient",
+            "Api",
+            "Application",
+            "Domain",
+            "Infrastructure"
+          ],
+          "allowed": [
+            [
+              "Page",
+              "Component"
+            ],
+            [
+              "Page",
+              "Store"
+            ],
+            [
+              "Component",
+              "Store"
+            ],
+            [
+              "Store",
+              "ApiClient"
+            ],
+            [
+              "Page",
+              "ApiClient"
+            ],
+            [
+              "ApiClient",
+              "Api"
+            ],
+            [
+              "Api",
+              "Application"
+            ],
+            [
+              "Api",
+              "Domain"
+            ],
+            [
+              "Application",
+              "Domain"
+            ],
+            [
+              "Infrastructure",
+              "Domain"
+            ],
+            [
+              "Infrastructure",
+              "Application"
+            ]
+          ]
+        }
+      }
+    }
+  }
+}

@@ -112,16 +112,16 @@ class TemplateContractTest(unittest.TestCase):
     def test_template_tables_classify_to_every_declared_table(self):
         contracts = C.load_contracts(); sig = {k: v["signature"] for k, v in contracts["tables"].items()}
         found = set()
-        for f in list((C.PATHS["templates"] / "rd-spec").glob("*.md")) + list((C.PATHS["templates"] / "sa").glob("*.md")):
+        for f in list((C.PATHS["templates"] / "rd-spec").rglob("*.md")) + list((C.PATHS["templates"] / "sa").glob("*.md")):
             for t in M.parse(f.name, f.read_text(encoding="utf-8")).tables:
                 n = M.classify(t, sig)
                 if n: found.add(n)
-        generated_only = {"candidates", "glossary_project", "glossary_conflicts", "lexicon"}   # 由工具產生,沒有模板
+        generated_only = {"candidates", "glossary_project", "glossary_conflicts", "lexicon", "naming_map"}   # 由工具產生,沒有模板
         self.assertEqual(found, set(contracts["tables"]) - generated_only, f"模板缺表格 {set(contracts['tables']) - generated_only - found}")
 
     def test_template_mermaid_headings_match_prefixes(self):
         prefixes = tuple(C.load_contracts()["artifacts"]["heading_prefixes"])
-        for f in (C.PATHS["templates"] / "rd-spec").glob("*.md"):
+        for f in (C.PATHS["templates"] / "rd-spec").rglob("*.md"):
             for mm in M.parse(f.name, f.read_text(encoding="utf-8")).mermaid:
                 self.assertTrue(mm.heading.startswith(prefixes), f"{f.name}:{mm.line} mermaid 掛在 '{mm.heading}',不是 artifact 前綴")
 

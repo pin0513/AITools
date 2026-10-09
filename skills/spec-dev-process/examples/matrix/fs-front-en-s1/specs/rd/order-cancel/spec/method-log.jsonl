@@ -1,0 +1,13 @@
+{"seq": 1, "req": "*", "stage": "S0", "method": "Intake.Sectioning", "rule": "S0", "in": "specs/in-progress/order-cancel/pm-spec.md", "out": "PM§1..§5", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 2, "req": "*", "stage": "SA", "method": "SA1.WordBreak", "rule": "SA1", "in": "sa/00-lexicon.md", "out": "sa/01-break-words.md", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 3, "req": "*", "stage": "SA", "method": "SA2.Entities", "rule": "SA2", "in": "sa/01", "out": "sa/02-entities-relations.md", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 4, "req": "*", "stage": "SV", "method": "Survey.Mapping", "rule": "SV", "in": "survey-candidates.md", "out": "survey-mapping.md", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 5, "req": "REQ-001", "stage": "S1", "method": "UseCase", "rule": "M1", "in": "PM§3.1", "out": "UC-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 6, "req": "REQ-001", "stage": "S2", "method": "CleanArch.Layers", "rule": "M15", "in": "UC-001", "out": "CMP-001, CMP-002, CMP-004, CMP-005, CMP-006, CMP-007, CMP-010", "evidence": "explicit", "gaps": [], "note": "fs-front"}
+{"seq": 7, "req": "REQ-002", "stage": "S1", "method": "UseCase", "rule": "M1", "in": "PM§3.2", "out": "UC-002", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 8, "req": "REQ-002", "stage": "S2", "method": "CleanArch.Layers", "rule": "M15", "in": "UC-002", "out": "CMP-001, CMP-004, CMP-005, CMP-006, CMP-008, CMP-010, CMP-011", "evidence": "explicit", "gaps": [], "note": "fs-front"}
+{"seq": 9, "req": "REQ-003", "stage": "S1", "method": "UseCase", "rule": "M1", "in": "PM§3.3", "out": "UC-003", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 10, "req": "REQ-003", "stage": "S2", "method": "CleanArch.Layers", "rule": "M15", "in": "UC-003", "out": "CMP-001, CMP-003, CMP-004, CMP-005, CMP-006, CMP-009, CMP-010", "evidence": "explicit", "gaps": [], "note": "fs-front"}
+{"seq": 11, "req": "NFR-001", "stage": "S1", "method": "QualityScenario", "rule": "M11", "in": "PM§4", "out": "NFR-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 12, "req": "NFR-001", "stage": "S2", "method": "FitnessFunction", "rule": "M12", "in": "NFR-001", "out": "TST-012", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 13, "req": "*", "stage": "S4", "method": "AC.TestMapping", "rule": "M17", "in": "AC-*", "out": "TST-001..012", "evidence": "explicit", "gaps": [], "note": ""}

@@ -62,6 +62,13 @@ PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → �
 
 端到端案例:`examples/testcase1-form-system/`(既有 codebase + issue c 走完整流程,`specs/tools/spec-reviewer/review.sh issue-c`)。
 
+## 測試矩陣驗收
+
+```bash
+python3 tests/matrix/gen_matrix.py              # 重產 15 份(英/中/混 × 3 情境 × 5 形狀,成對覆蓋)
+python3 spec-dev.py matrix examples/matrix      # 每份 baseline + 突變版 → acceptance.json、_board/index.html
+```
+
 ## 三分鐘走一遍
 
 ```bash
@@ -111,4 +118,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.3.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.4.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。

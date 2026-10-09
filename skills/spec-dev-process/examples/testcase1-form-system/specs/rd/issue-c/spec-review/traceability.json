@@ -1185,6 +1185,17 @@
       "text": "- 主要參與者:System(每日排程)\n- 觸發:每日 09:00\n- 前置條件:無\n- 後置條件(成功保證):每筆逾時 Pending 紀錄,今日對每位審核者恰好提醒一次,且寫入 ReviewReminder\n- 主流程:\n  1. 查詢 Pending 且 SubmittedAt + 3 工作天 < 今日 的紀錄\n  2. 排除今日已提醒者\n  3. 經 INotifier 發提醒;寫 ReviewReminder\n- 替代流程:無\n- 例外流程:INotifier 失敗 → 記 log、該筆不寫 ReviewReminder,隔日重試"
     }
   },
+  "screens": [],
+  "ui_validation": [],
+  "doc_paths": {
+    "00-overview.md": "00-overview.md",
+    "10-requirements.md": "10-requirements.md",
+    "20-domain-model.md": "20-domain-model.md",
+    "30-architecture-c4.md": "30-architecture-c4.md",
+    "40-api-contracts.md": "40-api-contracts.md",
+    "50-data-model.md": "50-data-model.md",
+    "60-test-design.md": "60-test-design.md"
+  },
   "sa_files": [
     "sa/00-lexicon.md",
     "sa/01-break-words.md",
@@ -1619,7 +1630,279 @@
       }
     ],
     "conflicts": [],
-    "path": "specs/glossary.md"
+    "path": "specs/glossary.md",
+    "naming": [
+      {
+        "symbol": "Approve",
+        "term": "審核:Pending → Approved,寫 ReviewRecord",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [
+          "POST /submissions/{id}/approve"
+        ],
+        "Application": [
+          "ApproveSubmissionCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Create",
+        "term": "必填檢查",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [
+          "Create"
+        ],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Edit",
+        "term": "退回修改:看理由 → 改答案",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [
+          "限 Rejected"
+        ],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Form",
+        "term": "表單",
+        "specs": [
+          "issue-b",
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [
+          "FormSubmission",
+          "Form"
+        ],
+        "Infrastructure": [
+          "SqlFormSubmissionRepository"
+        ],
+        "DB": [
+          "Form",
+          "FormSubmission"
+        ]
+      },
+      {
+        "symbol": "FormSubmission",
+        "term": "填寫紀錄",
+        "specs": [
+          "issue-b",
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [
+          "FormSubmission"
+        ],
+        "Infrastructure": [
+          "SqlFormSubmissionRepository"
+        ],
+        "DB": [
+          "FormSubmission"
+        ]
+      },
+      {
+        "symbol": "FormsDbContext",
+        "term": "FormsDbContext",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [
+          "FormsDbContext"
+        ],
+        "DB": []
+      },
+      {
+        "symbol": "IFormSubmissionRepository",
+        "term": "IFormSubmissionRepository",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [
+          "IFormSubmissionRepository"
+        ],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "INotifier",
+        "term": "通知",
+        "specs": [
+          "issue-b",
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [
+          "INotifier"
+        ],
+        "DB": []
+      },
+      {
+        "symbol": "ListPending",
+        "term": "看待審清單",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [
+          "GET /reviews/pending"
+        ],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Reject",
+        "term": "審核:Pending → Rejected,寫 ReviewRecord",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [
+          "POST /submissions/{id}/reject, reason ≥ 10"
+        ],
+        "Application": [
+          "RejectSubmissionCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Remind",
+        "term": "逾時:Pending > 3 工作天 → INotifier → ReviewReminder",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [
+          "排程,每日"
+        ],
+        "Application": [
+          "ReviewReminderJob"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": [
+          "ReviewReminder"
+        ]
+      },
+      {
+        "symbol": "Resubmit",
+        "term": "重送:Rejected → Pending",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [
+          "POST /submissions/{id}/resubmit"
+        ],
+        "Application": [
+          "ResubmitSubmissionCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "ReviewRecord",
+        "term": "審核紀錄",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": [
+          "ReviewRecord"
+        ]
+      },
+      {
+        "symbol": "ReviewReminder",
+        "term": "提醒",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [
+          "ReviewReminderJob"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": [
+          "ReviewReminder"
+        ]
+      },
+      {
+        "symbol": "SqlFormSubmissionRepository",
+        "term": "SqlFormSubmissionRepository",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [
+          "SqlFormSubmissionRepository"
+        ],
+        "DB": []
+      },
+      {
+        "symbol": "Submit",
+        "term": "送審:填答 → 送出 → Pending",
+        "specs": [
+          "issue-c"
+        ],
+        "UI": [],
+        "API": [
+          "POST /forms/{id}/submissions",
+          "Submit",
+          "SubmitFormCommandHandler"
+        ],
+        "Application": [
+          "ResubmitSubmissionCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      }
+    ],
+    "naming_path": "specs/naming-map.md"
   },
   "lexicon": {
     "nouns": [
@@ -1770,7 +2053,23 @@
         ],
         "symbol": "",
         "glossary_specs": [],
-        "suggest": "降",
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "forms",
+        "freq": 7,
+        "weight": 2.8,
+        "pm_freq": 7,
+        "where": [
+          "ref:overview.md§架構概觀",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
         "code_hits": null,
         "code_first": ""
       },
@@ -1801,6 +2100,168 @@
           "mock:approval.html",
           "pm_spec:pm-spec.md§1 背景與目標"
         ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "domain",
+        "freq": 4,
+        "weight": 1.6,
+        "pm_freq": 4,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "handler",
+        "freq": 3,
+        "weight": 1.2,
+        "pm_freq": 3,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "smtp",
+        "freq": 3,
+        "weight": 1.2,
+        "pm_freq": 3,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "aggregate",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 2,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "bounded context",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 2,
+        "where": [
+          "ref:overview.md§架構概觀",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "controller",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 2,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "infrastructure",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 2,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "inotifier",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 2,
+        "where": [
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "lang": "en",
+        "symbol": "INotifier",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": 2,
+        "code_first": "src/api/Forms.Infrastructure/EmailNotifier.cs:4"
+      },
+      {
+        "term": "mediatr",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 2,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "repository",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 2,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:overview.md§架構概觀"
+        ],
+        "lang": "en",
         "symbol": "",
         "glossary_specs": [],
         "suggest": "降",
@@ -2036,16 +2497,6 @@
         "suggest": "降"
       },
       {
-        "term": "平均處理",
-        "freq": 1,
-        "weight": 1.0,
-        "pm_freq": 1,
-        "where": [
-          "pm_spec:pm-spec.md§1 背景與目標"
-        ],
-        "suggest": "降"
-      },
-      {
         "term": "核期間填寫",
         "freq": 1,
         "weight": 1.0,
@@ -2196,9 +2647,9 @@
         "ref:overview.md",
         "ref:coding.md"
       ],
-      "cjk_candidates": 325,
-      "after_boundary": 111,
-      "kept": 104
+      "cjk_candidates": 332,
+      "after_boundary": 112,
+      "kept": 105
     }
   },
   "boundary_checks": [
@@ -2893,7 +3344,7 @@
       "ids": [
         "填寫紀錄"
       ],
-      "msg": "填寫紀錄 → src/database/002_submissions.sql:2 已驗證(glossary 解析符號 FormSubmission)",
+      "msg": "填寫紀錄 → src/database/002_submissions.sql:2 已驗證(glossary 解析 FormSubmission)",
       "action": ""
     },
     {
@@ -2902,7 +3353,7 @@
       "ids": [
         "Submit (SubmitFormCommandHandler)"
       ],
-      "msg": "Submit (SubmitFormCommandHandler) → src/api/Forms.Api/Controllers/FormsController.cs:16 已驗證(符號 Submit/SubmitFormCommandHandler)",
+      "msg": "Submit (SubmitFormCommandHandler) → src/api/Forms.Api/Controllers/FormsController.cs:16 已驗證(符號 Submit)",
       "action": ""
     },
     {
@@ -2911,7 +3362,7 @@
       "ids": [
         "Submit (SubmitFormCommandHandler)"
       ],
-      "msg": "Submit (SubmitFormCommandHandler) → src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs:8 已驗證(符號 Submit/SubmitFormCommandHandler)",
+      "msg": "Submit (SubmitFormCommandHandler) → src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs:8 已驗證(符號 SubmitFormCommandHandler)",
       "action": ""
     },
     {
@@ -2956,7 +3407,7 @@
       "ids": [
         "FormSubmission table"
       ],
-      "msg": "FormSubmission table → src/database/002_submissions.sql:2 已驗證(符號 FormSubmission/table)",
+      "msg": "FormSubmission table → src/database/002_submissions.sql:2 已驗證(符號 FormSubmission)",
       "action": ""
     },
     {

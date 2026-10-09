@@ -1,0 +1,11 @@
+# SA0 英文斷詞詞典(資料層;專案用 .spec-dev.yaml 的 lexicon.extra_en_* 擴充)
+version: 1
+max_phrase: 3                 # 名詞片語最長字數
+# 片語動詞:先整組計數(check in 不會被拆成 check + 停用詞 in)
+phrasal_verbs: [check in, check out, sign up, sign in, log in, log out, pick up, roll back, opt out]
+# -ing 結尾但當名詞用的字,不做動詞還原
+nouns_keep: [booking, bookings, meeting, meetings, setting, settings, building, pricing, billing, shipping, listing, mapping, rating]
+verbs: [submit, approve, reject, cancel, refund, book, reserve, release, redeem, earn, expire, notify, remind, create, update, delete, view, list, search, confirm, pay, charge, assign, resubmit, edit, upload, download, export, import, sync, schedule, retry, check, return, ship, place, deduct, credit, fulfill, view, see]
+role_words: [customer, customers, buyer, seller, admin, administrator, user, users, member, members, manager, reviewer, approver, staff, operator, system, scheduler, guest, host, employee, employees, agent, agents, merchant]
+status_words: [pending, approved, rejected, cancelled, canceled, refunded, booked, confirmed, expired, redeemed, active, inactive, draft, released, shipped, placed, completed, failed, checked-in]
+stop_words: [a, an, the, and, or, of, to, in, "on", at, by, for, with, from, into, onto, as, is, are, was, were, be, been, being, it, its, this, that, these, those, can, cannot, must, should, will, would, may, might, not, "no", "yes", if, then, else, when, while, after, before, within, until, each, every, all, any, some, only, also, more, less, than, so, such, via, per, own, their, they, them, he, she, his, her, we, our, you, your, i, my, me, has, have, had, do, does, did, done, need, needs, want, wants, there, here, which, who, whom, what, how, why, up, down, out, over, under, again, once, both, same, other, new, current, already, still, just, very, too, ms, s, min, minutes, hours, days, months, p95, p99, vu, http, api, id, ui, ok, e, g, ie, eg]

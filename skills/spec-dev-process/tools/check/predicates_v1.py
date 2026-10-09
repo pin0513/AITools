@@ -184,8 +184,47 @@ def sa_steps(data, params, ctx):
         out.append(_f("ok", st["id"], [st["id"], f], step=st["id"], file=f, diagrams=n))
     return out
 
+PATH_LAYER = [(".Application/", "Application"), (".Domain/", "Domain"), (".Infrastructure/", "Infrastructure"), (".Api/", "API"),
+              ("src/web/", "UI"), ("src/database/", "DB"), ("/api/", "API")]
+
+def layer_of(path: str):
+    return next((g for pat, g in PATH_LAYER if pat in path), None)
+
+def _layer_names(toks: list, ctx: dict, layer) -> list:
+    """證據行所在層的名字:基礎符號 + 對照表中「該層」的名字。層不明時只用基礎符號。"""
+    import re
+    if not layer: return list(toks)
+    naming = (ctx.get("glossary") or {}).get("naming") or {}
+    low = {k.lower(): v for k, v in naming.items()}
+    out = list(toks)
+    for t in toks:
+        for name in (low.get(t.lower()) or {}).get(layer) or []:
+            for ident in re.findall(r"[A-Za-z_][A-Za-z0-9_]{2,}", name):
+                if ident not in out: out.append(ident)
+    return out
+
+def _with_naming(toks: list, ctx: dict) -> list:
+    """查分層命名對照表:符號 → 各層實際名稱(GetOrder → GetOrderQueryHandler、getOrder)。"""
+    import re
+    naming = (ctx.get("glossary") or {}).get("naming") or {}
+    low = {k.lower(): v for k, v in naming.items()}
+    out = list(toks)
+    for t in toks:
+        row = low.get(t.lower())
+        if not row: continue
+        for col in ("UI", "API", "Application", "Domain", "Infrastructure", "DB"):
+            for name in row.get(col) or []:
+                for ident in re.findall(r"[A-Za-z_][A-Za-z0-9_]{2,}", name):
+                    if t.lower() in ident.lower() and ident not in out: out.append(ident)
+    return out
+
 def resolve_symbols(element: str, data: dict, ctx: dict, min_len=3) -> tuple:
-    """元素名 → 可比對符號清單與來源:ASCII 符號 → 專案詞彙表(名詞→符號)→ 本 spec SA2(實體→英文)。中英文都支援。"""
+    """元素名 → 可比對符號清單與來源:ASCII 符號 → 專案詞彙表(名詞→符號)→ 本 spec SA2(實體→英文);再經分層命名對照表展開。"""
+    toks, how = _resolve_base(element, data, ctx, min_len)
+    full = _with_naming(toks, ctx)
+    return full, (how + "+naming" if len(full) > len(toks) else how)
+
+def _resolve_base(element: str, data: dict, ctx: dict, min_len=3) -> tuple:
     import re
     toks = [t for t in re.split(r"[^A-Za-z0-9_]+", element) if len(t) >= min_len]
     if toks: return toks, "ascii"
@@ -229,7 +268,8 @@ def survey_evidence(data, params, ctx):
     for row in data.get("survey") or []:
         el, st, ev = row["element"], row["status"], row["evidence"]
         if st not in statuses: out.append(_f("bad_status", el, element=el, status=st)); continue
-        toks, how_sym = resolve_symbols(el, data, ctx, min_len)
+        base, how_sym = _resolve_base(el, data, ctx, min_len)
+        toks = _with_naming(base, ctx)          # new 的候選比對用全部層
         if st == "new":
             strong = [c for c in cands.get(el, []) if any(re.search(r"\b" + re.escape(t) + r"\b", c[2]) for t in toks)]
             if strong: out.append(_f("new_but_found", el, element=el, evidence=f"{strong[0][0]}:{strong[0][1]}"))
@@ -246,10 +286,14 @@ def survey_evidence(data, params, ctx):
             if literal is not None:
                 if literal in text: out.append(_f("verified", el, element=el, evidence=one, how=f'字面 "{literal}"'))
                 else: out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=[literal]))
-            elif not toks:
+            elif not base:
                 out.append(_f("no_symbol", el, element=el, evidence=one))
-            elif any(re.search(r"\b" + re.escape(t) + r"\b", text, re.I) for t in toks):
-                out.append(_f("verified", el, element=el, evidence=one, how=("符號 " if how_sym == "ascii" else f"{how_sym} 解析符號 ") + "/".join(toks)))
             else:
-                out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=toks))
+                layer = layer_of(path); names = _layer_names(base, ctx, layer)
+                hit = next((t for t in names if re.search(r"\b" + re.escape(t) + r"\b", text, re.I)), None)
+                if hit:
+                    src = "符號" if hit in base and how_sym == "ascii" else (f"{how_sym} 解析" if hit in base else f"對照表 {layer} 層")
+                    out.append(_f("verified", el, element=el, evidence=one, how=f"{src} {hit}"))
+                else:
+                    out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=names))
     return out

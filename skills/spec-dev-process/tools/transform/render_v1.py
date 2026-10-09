@@ -67,13 +67,13 @@ def script_tag(offline_js: "pathlib.Path|None") -> str:
 def render_dir(d: pathlib.Path, offline_js=None, review_dir: pathlib.Path = None) -> list:
     outdir = (review_dir or d) / "html"; outdir.mkdir(exist_ok=True)
     tag = script_tag(offline_js); done = []
-    sources = sorted(d.glob("*.md"))
+    sources = sorted(d.glob("*.md")) + sorted(d.glob("ui/*.md")) + sorted(d.glob("api/*.md"))
     if review_dir and review_dir != d:
         sources += sorted(review_dir.glob("*.md")) + sorted((review_dir / "sa").glob("*.md"))
     for md in sources:
         body = md_to_html(md.read_text(encoding="utf-8"))
         page = PAGE.format(title=md.stem, body=body, cdn="__MERMAID__").replace('<script src="__MERMAID__"></script>', tag)
-        name = ("sa-" if md.parent.name == "sa" else "") + md.stem + ".html"
+        name = (md.parent.name + "-" if md.parent.name in ("sa", "ui", "api") else "") + md.stem + ".html"
         (outdir / name).write_text(page, encoding="utf-8")
         done.append(md.name)
     return done

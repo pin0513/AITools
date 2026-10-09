@@ -28,6 +28,8 @@ sa_modeling:                                 # SA 建模(可抽換方法論;定�
   methodology: uml-wordbreak
 glossary:                                    # 跨 spec 詞彙表:名詞 ↔ 程式碼符號,由 analyze.glossary 從所有 spec 抽取合併
   path: specs/glossary.md                    # 相對專案根;產生物(衝突表在同檔)
+  naming_path: specs/naming-map.md           # 分層命名對照表(產生物):名詞 → 符號 → UI / API / Application / Domain / Infrastructure / DB
+  naming_overrides: specs/naming-overrides.md   # 手寫覆寫(同欄位;有值的格子覆蓋自動推導)
   spec_roots: [specs/rd]                     # 底下每個 <issue>/spec 都算一份 spec
   sources: [sa_entities, glossary_table, survey]   # 抽哪些表:SA2 實體(實體/英文)、00 名詞表(名詞/定義)、survey(元素/對應)
 lexicon:                                     # SA0 前置解析;詞典在 rules/methodology/sa/lexicon-zh.yaml,這裡只放專案擴充

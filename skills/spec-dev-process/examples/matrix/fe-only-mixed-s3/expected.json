@@ -1,0 +1,56 @@
+{
+  "id": "fe-only-mixed-s3",
+  "shape": "fe-only",
+  "lang": "mixed",
+  "scenario": "s3",
+  "title": "會員點數兌換",
+  "shape_label": "純前端",
+  "spec": "specs/rd/points-redemption/spec",
+  "review": "specs/rd/points-redemption/spec-review",
+  "expect": {
+    "fail": 0,
+    "survey_evidences": 4,
+    "min_lexicon_recall": 0.6
+  },
+  "key_terms": [
+    "expire",
+    "member",
+    "pointsaccount",
+    "pointtransaction",
+    "redeem",
+    "redemption",
+    "reward",
+    "system",
+    "view"
+  ],
+  "layers": [
+    "ApiClient",
+    "Component",
+    "Page",
+    "Store"
+  ],
+  "components": 5,
+  "mutants": [
+    {
+      "name": "evidence-line",
+      "file": "specs/rd/points-redemption/spec-review/survey-mapping.md",
+      "old": "src/web/src/types/PointsAccount.ts:4",
+      "new": "src/web/src/types/PointsAccount.ts:1",
+      "expect_rule": "G-SV-evidence"
+    },
+    {
+      "name": "reverse-dependency",
+      "file": "specs/rd/points-redemption/spec/30-architecture-c4.md",
+      "old": "| CMP-005 | pointsApi | ApiClient | Loyalty |  | BackendAPI |  |",
+      "new": "| CMP-005 | pointsApi | ApiClient | Loyalty | CMP-004 | BackendAPI |  |",
+      "expect_rule": "B2"
+    },
+    {
+      "name": "untested-ac",
+      "file": "specs/rd/points-redemption/spec/10-requirements.md",
+      "old": "| AC-001-1, AC-001-2 |",
+      "new": "| AC-001-1, AC-001-2, AC-001-9 |",
+      "expect_rule": "B7"
+    }
+  ]
+}

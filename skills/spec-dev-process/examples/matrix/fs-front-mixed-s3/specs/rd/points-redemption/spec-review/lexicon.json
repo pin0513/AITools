@@ -1,0 +1,497 @@
+{
+ "nouns": [
+  {
+   "term": "pointtransaction",
+   "freq": 7,
+   "weight": 11.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§3.3 member 可"
+   ],
+   "lang": "en",
+   "symbol": "PointTransaction",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "餘額",
+   "freq": 6,
+   "weight": 11.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§4 非功能需求",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "點數",
+   "freq": 7,
+   "weight": 10.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§3.3 member 可"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "reward",
+   "freq": 5,
+   "weight": 8.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "Reward",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "pointsaccount",
+   "freq": 4,
+   "weight": 6.0,
+   "pm_freq": 4,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "lang": "en",
+   "symbol": "PointsAccount",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 5,
+   "code_first": "src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:7"
+  },
+  {
+   "term": "redemption",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "Redemption",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "member pointtransaction",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "reward redemption",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "rewardvendor",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "RewardVendor",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "扣點",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "日期",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 member 可",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "類型",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 member 可",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "餘額足夠",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  }
+ ],
+ "actions": [
+  {
+   "term": "redeem",
+   "freq": 8,
+   "weight": 13.0,
+   "pm_freq": 8,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 PointsAc"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "expire",
+   "freq": 4,
+   "weight": 6.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "view",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 member 可"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "建立",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "出貨",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 PointsAc"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "member",
+   "freq": 8,
+   "weight": 13.0,
+   "pm_freq": 8,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 PointsAc",
+    "pm_spec:pm-spec.md§3.3 member 可"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "system",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "月排程",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "pending",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§3.1 PointsAc"
+   ],
+   "lang": "en"
+  }
+ ],
+ "english": [
+  {
+   "term": "member",
+   "freq": 8,
+   "weight": 13.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "redeem",
+   "freq": 8,
+   "weight": 13.0,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "PointTransaction",
+   "freq": 7,
+   "weight": 11.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Reward",
+   "freq": 5,
+   "weight": 8.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "PointsAccount",
+   "freq": 4,
+   "weight": 6.0,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 5,
+   "code_first": "src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:7"
+  },
+  {
+   "term": "expire",
+   "freq": 4,
+   "weight": 6.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Redemption",
+   "freq": 3,
+   "weight": 4.0,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "view",
+   "freq": 3,
+   "weight": 4.0,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "RewardVendor",
+   "freq": 2,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "system",
+   "freq": 2,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Pending",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "INSUFFICIENT_POINTS",
+   "freq": 1,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "mock",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:rewards.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:rewards.html"
+   ],
+   "code_hits": 2,
+   "code_first": "src/api/Loyalty.Domain/PointsAccount.cs:3"
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "mock:rewards.html",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 72,
+  "after_boundary": 30,
+  "kept": 29
+ }
+}

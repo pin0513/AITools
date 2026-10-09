@@ -4,7 +4,13 @@ import base64, json, mimetypes, pathlib, re
 from core import mdtables as M
 
 FILES = ["00-overview.md", "10-requirements.md", "20-domain-model.md", "30-architecture-c4.md",
-         "40-api-contracts.md", "50-data-model.md", "60-test-design.md"]
+         "40-api-contracts.md", "41-ui-spec.md", "50-data-model.md", "60-test-design.md"]
+
+def resolve_path(d: pathlib.Path, name: str, contracts: dict):
+    """邏輯檔名 → 實際路徑(契約 paths 依序找;沒有 paths 就是 d/name)。回傳 (path 或 None, 相對路徑字串)。"""
+    for rel in (contracts["files"].get(name, {}).get("paths") or [name]):
+        if (d / rel).exists(): return d / rel, rel
+    return None, (contracts["files"].get(name, {}).get("paths") or [name])[0]
 ID_RE = re.compile(r"\b(REQ|NFR)-\d+\b")
 
 def _kind(code: str, kinds: dict) -> str:
@@ -43,7 +49,7 @@ def gherkin_blocks(text: str):
 def load_sources(d: pathlib.Path, root: pathlib.Path, ov_text: str, max_bytes=400_000):
     """00-overview『## 來源』的 PM spec / Mock / 參考 路徑(相對專案根)→ 原文與 mock 內容。"""
     src = {"pm_spec": None, "mocks": [], "refs": []}
-    m = re.search(r"^## 來源\s*$(.*?)(?=^## |\Z)", ov_text, re.S | re.M)
+    m = re.search(r"^## (?:來源|Sources)\s*$(.*?)(?=^## |\Z)", ov_text, re.S | re.M)
     sec = m.group(1) if m else ""
     for line in sec.splitlines():
         paths = re.findall(r"`([^`]+)`", line)
@@ -52,11 +58,11 @@ def load_sources(d: pathlib.Path, root: pathlib.Path, ov_text: str, max_bytes=40
         for pth in paths:
             fp = root / pth
             entry = {"path": pth, "exists": fp.exists()}
-            if "pm spec" in low or "pm_spec" in low or "pm 規格" in line:
+            if "pm spec" in low or "pm_spec" in low or "pm 規格" in line or "pm 規格" in low:
                 if fp.exists() and fp.suffix.lower() == ".md":
                     text = fp.read_text(encoding="utf-8", errors="ignore"); entry.update(sections=pm_sections(text), lines=len(text.splitlines()))
                 src["pm_spec"] = entry
-            elif "mock" in low:
+            elif "mock" in low or "原型" in line:
                 if fp.exists() and fp.stat().st_size <= max_bytes:
                     mt = mimetypes.guess_type(fp.name)[0] or ""
                     if mt.startswith("image/"): entry["data_uri"] = f"data:{mt};base64," + base64.b64encode(fp.read_bytes()).decode()
@@ -71,11 +77,13 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
     sig = {k: v["signature"] for k, v in contracts["tables"].items()}
     kinds = contracts.get("artifacts", {}).get("kinds") or {}
     prefixes = tuple(contracts.get("artifacts", {}).get("heading_prefixes") or ())
-    errors, docs = [], {}
+    errors, docs, doc_paths = [], {}, {}
     for f in FILES:
-        p = d / f
-        if p.exists():
-            docs[f] = M.parse(f, p.read_text(encoding="utf-8"))
+        p, rel = resolve_path(d, f, contracts)
+        if p is not None:
+            docs[f] = M.parse(rel, p.read_text(encoding="utf-8")); doc_paths[f] = rel
+        elif contracts["files"].get(f, {}).get("when_missing") == "ignore":
+            continue
         else:
             errors.append({"level": "FAIL" if contracts["files"].get(f, {}).get("required") else "WARN",
                            "rule": contracts["files"].get(f, {}).get("stage", "S5"), "ids": [f], "msg": f"缺檔 {f}"})
@@ -105,7 +113,7 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
                       "interface": r["名稱"].split(":")[1].strip() if ":" in r["名稱"] else "", "line": r.get("_line"), "file": "30-architecture-c4.md"})
     ac_links = [{"ac": r["AC"], "component": r["CMP"], "via": r.get("via", ""), "role": r.get("職責", ""), "line": r.get("_line"), "file": "30-architecture-c4.md"} for r in rows("ac_links")]
     apis = [{"id": r["ID"], "method": r["Method"], "path": r["Path"], "reqs": M.split_ids(r.get("對應 REQ", "")),
-             "nfrs": M.split_ids(r.get("綁定 NFR", "")), "component": M.split_ids(r.get("CMP", "")), "line": r.get("_line"), "file": "40-api-contracts.md"} for r in rows("apis")]
+             "nfrs": M.split_ids(r.get("綁定 NFR", "")), "component": M.split_ids(r.get("CMP", "")), "line": r.get("_line"), "file": doc_paths.get("40-api-contracts.md", "40-api-contracts.md")} for r in rows("apis")]
     failure_modes = [{"system": r["外部系統"], "component": M.split_ids(r["呼叫點 CMP"]), "timeout": r.get("逾時", ""),
                       "retry": r.get("重試", ""), "degrade": r.get("降級", ""), "compensate": r.get("補償", "")} for r in rows("failure_modes")]
     ownership = [{"table": r["表"], "owner": r["Owner Context"], "access": r.get("其他 Context 存取方式", "")} for r in rows("ownership")]
@@ -118,6 +126,10 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
         if "non_functional" in r["types"] and not str(r.get("source", "")).startswith("PM§"):
             hit = next((m["in"] for m in io_map if m["in"].startswith("PM§") and any(o.strip() == r["id"] for o in m["out"])), None)
             r["stimulus_source"], r["source"] = r.get("source", ""), (hit.split(" ")[0] if hit else r.get("source", ""))
+    screens = [{"screen": r["畫面"], "route": r.get("路由", ""), "components": M.split_ids(r.get("元件", "")), "mock": r.get("Mock", ""),
+                "reqs": M.split_ids(r.get("對應 REQ", "")), "line": r.get("_line"), "file": doc_paths.get("41-ui-spec.md", "")} for r in rows("screens")]
+    ui_validation = [{"screen": r["畫面"], "field": r.get("欄位", ""), "rule": r.get("規則", ""), "message": r.get("錯誤訊息", ""),
+                      "acs": M.split_ids(r.get("對應 AC", "")), "line": r.get("_line")} for r in rows("ui_validation")]
     gaps = [{"n": r["#"], "question": r["問題"], "reqs": M.split_ids(r.get("影響 REQ", "")), "assumption": r.get("暫時假設", "")} for r in rows("gaps")]
 
     artifacts = []
@@ -135,9 +147,10 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
             m = re.match(r"^(UC-\d+)", h)
             if m:
                 body = dm.text.split("### " + h, 1)[1].split("\n### ", 1)[0] if "### " + h in dm.text else ""
+                low = body.lower()
                 ucs.append({"id": m.group(1), "heading": h,
-                            "has_pre": "前置條件" in body, "has_post": "後置條件" in body, "has_trigger": "觸發" in body,
-                            "has_exception": "例外流程" in body})
+                            "has_pre": "前置條件" in body or "precondition" in low, "has_post": "後置條件" in body or "postcondition" in low,
+                            "has_trigger": "觸發" in body or "trigger" in low, "has_exception": "例外流程" in body or "exception" in low})
     # ERD 實體名
     erd_entities = []
     for a in artifacts:
@@ -185,7 +198,7 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
         "io_map": io_map, "requirements": reqs, "components": comps, "ac_links": ac_links, "apis": apis,
         "failure_modes": failure_modes, "ownership": ownership, "erd_entities": sorted(set(erd_entities)),
         "tests": tests, "fitness": fitness, "gaps": gaps, "use_cases": ucs, "artifacts": artifacts,
-        "sources": sources, "ac_text": acs_text, "uc_text": uc_text,
+        "sources": sources, "ac_text": acs_text, "uc_text": uc_text, "screens": screens, "ui_validation": ui_validation, "doc_paths": doc_paths,
         "sa_files": sa_files, "sa_artifacts": sa_artifacts, "sa_entities": sa_entities, "sa_roles": sa_roles, "sa_word_count": sa_words, "survey": survey,
         "extract_errors": errors,
     }

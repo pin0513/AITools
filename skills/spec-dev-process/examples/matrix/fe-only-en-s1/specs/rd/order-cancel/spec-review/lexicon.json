@@ -1,0 +1,1093 @@
+{
+ "nouns": [
+  {
+   "term": "order",
+   "freq": 21,
+   "weight": 21.0,
+   "pm_freq": 21,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 A custom"
+   ],
+   "lang": "en",
+   "symbol": "Order",
+   "glossary_specs": [
+    "order-cancel",
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 3,
+   "code_first": "src/web/src/types/Order.ts:4"
+  },
+  {
+   "term": "payment gateway",
+   "freq": 5,
+   "weight": 5.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "PaymentGateway",
+   "glossary_specs": [
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "issues",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§3.1 A custom",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "support",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.3 A suppor",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "cancellation",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.3 A suppor",
+    "pm_spec:pm-spec.md§4 Non-functi"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "history",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.3 A suppor",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "order status",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§3.1 A custom",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "system issues",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "times",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "cancellation history",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.3 A suppor"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "order records",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§4 Non-functi",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "reason",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 A suppor",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "retries",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "through",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§3.2 The syst"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "time",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 A suppor",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  }
+ ],
+ "actions": [
+  {
+   "term": "cancel",
+   "freq": 8,
+   "weight": 8.0,
+   "pm_freq": 8,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 A custom"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "refund",
+   "freq": 7,
+   "weight": 7.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§4 Non-functi"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "view",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§3.3 A suppor"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "customer",
+   "freq": 5,
+   "weight": 5.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 A custom",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "system",
+   "freq": 5,
+   "weight": 5.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "support agent",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.3 A suppor",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "cancelled",
+   "freq": 8,
+   "weight": 8.0,
+   "pm_freq": 8,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 A custom",
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "placed",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§3.1 A custom",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "shipped",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 A custom",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "refunded",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 The syst",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en"
+  }
+ ],
+ "english": [
+  {
+   "term": "order",
+   "freq": 20,
+   "weight": 20.0,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 3,
+   "code_first": "src/web/src/types/Order.ts:4"
+  },
+  {
+   "term": "cancelled",
+   "freq": 8,
+   "weight": 8.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "refund",
+   "freq": 7,
+   "weight": 7.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "cancel",
+   "freq": 6,
+   "weight": 6.0,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "customer",
+   "freq": 5,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "gateway",
+   "freq": 5,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "payment",
+   "freq": 5,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "system",
+   "freq": 5,
+   "weight": 5.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "issues",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 1,
+   "code_first": "src/web/src/types/Order.ts:6"
+  },
+  {
+   "term": "support",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "agent",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "cancellation",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "history",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "times",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "After",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "cancels",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "must",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "placed",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 1,
+   "code_first": "src/web/src/types/Order.ts:2"
+  },
+  {
+   "term": "reason",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "records",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "refunded",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "retries",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "shipped",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 1,
+   "code_first": "src/web/src/types/Order.ts:2"
+  },
+  {
+   "term": "through",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "time",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "view",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Goal",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "ORDER_SHIPPED",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Placed",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:order.html"
+   ],
+   "code_hits": 1,
+   "code_first": "src/web/src/types/Order.ts:2"
+  },
+  {
+   "term": "Today",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "When",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "after",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "already",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "automatic",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "becomes",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "called",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "cannot",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "each",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "every",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "fails",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "finish",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "including",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "keeps",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "marks",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "minutes",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "mock",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:order.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "needs",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "opens",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "paid",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "phone",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "quickly",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "response",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "self",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "service",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "shows",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "stays",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "successful",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "that",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "unchanged",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "wants",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "were",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "while",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "within",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "frontend",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "only",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "mock:order.html",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 0,
+  "after_boundary": 0,
+  "kept": 0
+ }
+}

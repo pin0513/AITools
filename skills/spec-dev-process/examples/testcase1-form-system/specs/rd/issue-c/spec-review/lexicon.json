@@ -147,7 +147,23 @@
    ],
    "symbol": "",
    "glossary_specs": [],
-   "suggest": "降",
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "forms",
+   "freq": 7,
+   "weight": 2.8,
+   "pm_freq": 7,
+   "where": [
+    "ref:overview.md§架構概觀",
+    "ref:refs.md§issue-c 參考文件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
    "code_hits": null,
    "code_first": ""
   },
@@ -178,6 +194,168 @@
     "mock:approval.html",
     "pm_spec:pm-spec.md§1 背景與目標"
    ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "domain",
+   "freq": 4,
+   "weight": 1.6,
+   "pm_freq": 4,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀",
+    "ref:refs.md§issue-c 參考文件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "handler",
+   "freq": 3,
+   "weight": 1.2,
+   "pm_freq": 3,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀",
+    "ref:refs.md§issue-c 參考文件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "smtp",
+   "freq": 3,
+   "weight": 1.2,
+   "pm_freq": 3,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀",
+    "ref:refs.md§issue-c 參考文件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "aggregate",
+   "freq": 2,
+   "weight": 0.8,
+   "pm_freq": 2,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "bounded context",
+   "freq": 2,
+   "weight": 0.8,
+   "pm_freq": 2,
+   "where": [
+    "ref:overview.md§架構概觀",
+    "ref:refs.md§issue-c 參考文件"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "controller",
+   "freq": 2,
+   "weight": 0.8,
+   "pm_freq": 2,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "infrastructure",
+   "freq": 2,
+   "weight": 0.8,
+   "pm_freq": 2,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "inotifier",
+   "freq": 2,
+   "weight": 0.8,
+   "pm_freq": 2,
+   "where": [
+    "ref:refs.md§issue-c 參考文件"
+   ],
+   "lang": "en",
+   "symbol": "INotifier",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 2,
+   "code_first": "src/api/Forms.Infrastructure/EmailNotifier.cs:4"
+  },
+  {
+   "term": "mediatr",
+   "freq": 2,
+   "weight": 0.8,
+   "pm_freq": 2,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "repository",
+   "freq": 2,
+   "weight": 0.8,
+   "pm_freq": 2,
+   "where": [
+    "ref:coding.md§開發規範",
+    "ref:overview.md§架構概觀"
+   ],
+   "lang": "en",
    "symbol": "",
    "glossary_specs": [],
    "suggest": "降",
@@ -409,16 +587,6 @@
    "pm_freq": 1,
    "where": [
     "pm_spec:pm-spec.md§3.4 逾時提醒"
-   ],
-   "suggest": "降"
-  },
-  {
-   "term": "平均處理",
-   "freq": 1,
-   "weight": 1.0,
-   "pm_freq": 1,
-   "where": [
-    "pm_spec:pm-spec.md§1 背景與目標"
    ],
    "suggest": "降"
   },
@@ -869,8 +1037,8 @@
    "ref:overview.md",
    "ref:coding.md"
   ],
-  "cjk_candidates": 325,
-  "after_boundary": 111,
-  "kept": 104
+  "cjk_candidates": 332,
+  "after_boundary": 112,
+  "kept": 105
  }
 }
