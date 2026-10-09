@@ -1,0 +1,12 @@
+id: B7
+version: 1
+category: boundary
+name: 測試覆蓋
+description: 每條 AC ≥ 1 個測試元件(FAIL);每個 CMP ≥ 1 個測試元件(WARN)
+predicate: test_coverage
+inputs: [requirements, components, tests]
+params: {}
+outcomes:
+  ac_tested:    {status: PASS, message: "→ {tests}"}
+  ac_untested:  {status: FAIL, message: "{ac}({req})無測試元件", action: "60-test-design.md 補對應"}
+  cmp_untested: {status: WARN, message: "無測試元件", action: "新增 {suggest}"}

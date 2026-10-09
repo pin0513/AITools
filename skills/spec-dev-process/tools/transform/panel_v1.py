@@ -1,8 +1,8 @@
-"""一頁核對面板:把 traceability.json(含 boundary/gate/kpis)+ method-log 注入 templates/check-panel.html。"""
+"""transform.panel v1:traceability + log + boundary + gate + kpis → check-panel.html(模板:process/templates/check-panel.html)。"""
 import json, pathlib
+from core import config as C
 
-HERE = pathlib.Path(__file__).resolve().parent
-TEMPLATE = HERE.parent / "templates" / "check-panel.html"
+TEMPLATE = C.PATHS["templates"] / "check-panel.html"
 CDN_TAG = '<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.1/mermaid.min.js"></script>'
 
 def build(d: pathlib.Path, tr: dict, log: list, boundary: list, g: list, k: dict, offline_js=None, template=TEMPLATE) -> pathlib.Path:
@@ -14,3 +14,10 @@ def build(d: pathlib.Path, tr: dict, log: list, boundary: list, g: list, k: dict
     out = d / "check-panel.html"
     out.write_text(html, encoding="utf-8")
     return out
+
+def run(ctx: dict) -> dict:
+    from tools.check.engine_v1 import run_gate
+    if not ctx.get("kpis"): run_gate(ctx)
+    build(ctx["dir"], ctx["data"], ctx["log"], ctx.get("boundary") or [], ctx.get("gate") or [], ctx["kpis"],
+          C.PATHS["vendor_mermaid"] if ctx.get("offline") else None)
+    return ctx

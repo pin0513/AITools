@@ -1,0 +1,5 @@
+rule: G-S3-boundary
+cases:
+  - name: boundary_fail_becomes_gate_fail
+    boundary: [{rule: B2, target: CMP-003, status: FAIL, evidence: x, action: "", ids: [CMP-003]}, {rule: B7, target: CMP-001, status: WARN, evidence: y, action: "", ids: [CMP-001]}]
+    expect: [{outcome: fail, target: CMP-003, status: FAIL}]

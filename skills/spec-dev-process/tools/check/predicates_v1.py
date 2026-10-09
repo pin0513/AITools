@@ -1,0 +1,163 @@
+"""predicate 函式庫 v1。每個函式:(data, params, ctx) -> [{"outcome", "target", "ids", "vars"}]。
+只回報「發生哪種情況」,不決定嚴重度、不組訊息(那是 rules/*.yaml)。"""
+from collections import Counter
+
+def _f(outcome, target, ids=None, **vars):
+    vars.setdefault("target", target)
+    return {"outcome": outcome, "target": target, "ids": ids or [target], "vars": vars}
+
+def _links_by_req(data):
+    cmps = {c["id"] for c in data["components"]}
+    ac_owner = {ac: r["id"] for r in data["requirements"] for ac in r["acs"]}
+    by = {}
+    for l in data["ac_links"]:
+        rid = ac_owner.get(l["ac"])
+        if rid: by.setdefault(rid, set()).add(l["component"])
+    for r in data["requirements"]:
+        for b in r.get("binds", []):
+            if b in cmps: by.setdefault(r["id"], set()).add(b)
+            for a in data["apis"]:
+                if a["id"] == b:
+                    for c in a["component"]: by.setdefault(r["id"], set()).add(c)
+    return by
+
+# ---------- boundary ----------
+def requirement_link(data, params, ctx):
+    cmps = {c["id"]: c for c in data["components"]}
+    by = _links_by_req(data); out = []
+    for r in data["requirements"]:
+        cs = by.get(r["id"], set())
+        if not cs:
+            out.append(_f("no_link", r["id"])); continue
+        bad = sorted(c for c in cs if c not in cmps or not cmps[c]["layer"] or not cmps[c]["context"])
+        if bad: out.append(_f("bad_component", r["id"], [r["id"]] + bad, bad=", ".join(bad)))
+        else: out.append(_f("linked", r["id"], [r["id"]] + sorted(cs), cmps=", ".join(sorted(cs))))
+        for ac in r["acs"]:
+            if not any(l["ac"] == ac for l in data["ac_links"]) and not r.get("binds"):
+                out.append(_f("ac_unassigned", ac, [ac, r["id"]], ac=ac))
+    return out
+
+def dependency_direction(data, params, ctx):
+    layers = list(params.get("layers") or []); allowed = {tuple(x) for x in params.get("allowed") or []}
+    cmps = {c["id"]: c for c in data["components"]}; out = []
+    for cid, c in cmps.items():
+        if c["layer"] not in layers:
+            out.append(_f("bad_layer", cid, layer=c["layer"], layers=layers)); continue
+        for dep in c["depends"]:
+            t = cmps.get(dep)
+            if not t: out.append(_f("missing_dep", cid, [cid, dep], dep=dep)); continue
+            if t["context"] != c["context"]: continue  # B3 的事
+            fl, tl = c["layer"], t["layer"]; v = dict(dep=dep, dep_name=t["name"].split(":")[0].strip(), from_layer=fl, to_layer=tl, interface=t.get("interface", ""))
+            if fl == tl: out.append(_f("same_layer", cid, [cid, dep], **v))
+            elif (fl, tl) in allowed: out.append(_f("allowed", cid, [cid, dep], **v))
+            elif fl == "Application" and tl == "Infrastructure":
+                out.append(_f("via_interface" if t.get("interface") else "concrete_infra", cid, [cid, dep], **v))
+            elif fl == "Api" and tl == "Infrastructure": out.append(_f("api_to_infra", cid, [cid, dep], **v))
+            else: out.append(_f("reverse", cid, [cid, dep], **v))
+    return out
+
+def cross_context(data, params, ctx):
+    hard = set(params.get("hard_layers") or []); cmps = {c["id"]: c for c in data["components"]}; out = []
+    for cid, c in cmps.items():
+        for dep in c["depends"]:
+            t = cmps.get(dep)
+            if t and t["context"] != c["context"]:
+                out.append(_f("direct" if t["layer"] in hard else "soft", cid, [cid, dep], dep=dep, to_context=t["context"], to_layer=t["layer"]))
+    return out
+
+def external_calls(data, params, ctx):
+    adapter = params.get("adapter_layer", "Infrastructure")
+    fm = {(f["system"], c) for f in data["failure_modes"] for c in f["component"]}; out = []
+    for c in data["components"]:
+        for ext in c["external"]:
+            if c["layer"] != adapter: out.append(_f("wrong_layer", c["id"], ext=ext, layer=c["layer"]))
+            elif (ext, c["id"]) not in fm: out.append(_f("no_failure", c["id"], ext=ext, layer=c["layer"]))
+            else: out.append(_f("ok", c["id"], ext=ext, layer=c["layer"]))
+    return out
+
+def data_ownership(data, params, ctx):
+    own = Counter(o["table"] for o in data["ownership"] if o["owner"]); out = []
+    for t in data["erd_entities"]:
+        n = own.get(t, 0)
+        if n == 0: out.append(_f("no_owner", t))
+        elif n > 1: out.append(_f("multi", t, n=n))
+        else: out.append(_f("ok", t, owner=next(o["owner"] for o in data["ownership"] if o["table"] == t)))
+    for o in data["ownership"]:
+        if o["table"] not in data["erd_entities"]: out.append(_f("no_entity", o["table"]))
+    return out
+
+def nfr_binding(data, params, ctx):
+    cmps = {c["id"] for c in data["components"]}; apis = {a["id"] for a in data["apis"]}; out = []
+    for r in data["requirements"]:
+        if "non_functional" not in r["types"]: continue
+        ok = [b for b in r.get("binds", []) if b in cmps or b in apis]
+        out.append(_f("bound", r["id"], [r["id"]] + ok, binds=", ".join(ok)) if ok else _f("unbound", r["id"]))
+        if not any(f["nfr"] == r["id"] for f in data["fitness"]): out.append(_f("no_fitness", r["id"]))
+    return out
+
+def test_coverage(data, params, ctx):
+    tests = data["tests"]; tested_cmp = {c for t in tests for c in t["components"]}; tested_ac = {a for t in tests for a in t["acs"]}; out = []
+    for c in data["components"]:
+        if c["id"] not in tested_cmp: out.append(_f("cmp_untested", c["id"], suggest=c["name"].split(":")[0].strip() + "Tests"))
+    for r in data["requirements"]:
+        for ac in r["acs"]:
+            if ac in tested_ac: out.append(_f("ac_tested", ac, tests=", ".join(t["id"] for t in tests if ac in t["acs"])))
+            else: out.append(_f("ac_untested", ac, [ac, r["id"]], ac=ac, req=r["id"]))
+    return out
+
+def tech_whitelist(data, params, ctx):
+    tb = (ctx.get("config") or {}).get("tech_boundary") or {}
+    wl = {str(v).lower() for v in (tb.get("stack") or {}).values()} | {str(x).lower() for x in (tb.get("tech_allowlist") or [])} | {str(x).lower() for x in params.get("extra_allowlist") or []}
+    allowed = lambda t: any(t.lower() == w or t.lower().startswith(w + ".") or t.lower().startswith(w + " ") for w in wl)
+    prefix = str(params.get("spike_method_prefix", "spike")).lower(); closed = tuple(str(x).upper() for x in params.get("closed_outcomes") or ["PASS"])
+    out = []
+    for c in data["components"]:
+        bad = [t for t in c["tech"] if not allowed(t)]
+        if not bad: continue
+        spikes = [e for e in ctx.get("live_log") or [] if str(e.get("method", "")).lower().startswith(prefix) and c["id"] in str(e.get("in", ""))]
+        if not spikes: out.append(_f("no_spike", c["id"], bad=", ".join(bad)))
+        elif any(str(e.get("out", "")).upper().startswith(closed) for e in spikes): out.append(_f("accepted", c["id"], bad=", ".join(bad)))
+        else: out.append(_f("spike_open", c["id"], bad=", ".join(bad)))
+    return out
+
+# ---------- gates ----------
+def extract_errors(data, params, ctx):
+    return [_f("fail" if e["level"] == "FAIL" else "warn", e.get("ids", [""])[0] if e.get("ids") else "", e.get("ids") or [], msg=e["msg"]) for e in data.get("extract_errors", [])]
+
+def reference_integrity(data, params, ctx):
+    out = []
+    for kind, items in (("REQ", data["requirements"]), ("CMP", data["components"]), ("TST", data["tests"])):
+        seen = set()
+        for x in items:
+            if x["id"] in seen: out.append(_f("dup", x["id"], kind=kind, id=x["id"]))
+            seen.add(x["id"])
+    acs = {ac for r in data["requirements"] for ac in r["acs"]}; cmps = {c["id"] for c in data["components"]}
+    for l in data["ac_links"]:
+        if l["ac"] not in acs: out.append(_f("missing_ac", l["ac"], id=l["ac"]))
+        if l["component"] not in cmps: out.append(_f("missing_cmp", l["component"], where="追溯表", id=l["component"]))
+    for t in data["tests"]:
+        for c in t["components"]:
+            if c not in cmps: out.append(_f("missing_cmp", c, [t["id"], c], where=t["id"], id=c))
+    return out
+
+def method_log_presence(data, params, ctx):
+    stages = set(params.get("stages") or ["S1", "S2"])
+    logged = {e["req"] for e in ctx.get("live_log") or [] if e.get("stage") in stages}
+    return [_f("none", r["id"], req=r["id"]) for r in data["requirements"] if r["id"] not in logged]
+
+def usecase_postcondition(data, params, ctx):
+    return [_f("missing", uc["id"], uc=uc["id"]) for uc in data.get("use_cases", []) if not uc["has_post"]]
+
+def assumed_evidence(data, params, ctx):
+    gap_reqs = {r for g in data.get("gaps", []) for r in g["reqs"]}; out = []
+    for e in ctx.get("live_log") or []:
+        if e.get("evidence") != "assumed": continue
+        v = dict(req=e["req"], stage=e["stage"], method=e["method"], gap="; ".join(e.get("gaps") or []) or e.get("note", ""))
+        out.append(_f("listed" if e["req"] in gap_reqs or e["req"] == "*" else "unlisted", e["req"], **v))
+    return out
+
+def orphans(data, params, ctx):
+    return [_f("orphan_test", t["id"], id=t["id"]) for t in data["tests"] if not t["acs"]]
+
+def boundary_failures(data, params, ctx):
+    return [_f("fail", b["target"], b["ids"], evidence=b["evidence"]) for b in ctx.get("boundary") or [] if b["status"] == "FAIL"]

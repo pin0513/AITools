@@ -45,7 +45,7 @@ description: 方法論 log 的儲存格式(JSONL)與面板單行表示法;每一
 規則:
 - 被 `supersedes` 取代的行以刪除線顯示,不刪除。
 - `ev=assumed` 黃底;`out` 為 `FAIL` 紅底;`gaps` 非空在行尾加 `gap="..."`。
-- **S3 的 B1–B8 不寫 log**:那是 `spec-dev.py check` 算的,寫進 `boundary-report.md`。log 只記 LLM 的判斷(型態判定、方法論套用、Spike)。
+- **S3 的 B1–B8 不寫 log**:那是 `spec-dev.py check` 算的,寫進 `boundary-report.md`。log 只記 LLM 的判斷(型態判定、方法論套用、Spike)。欄位契約在 `process/io-contracts.yaml` 的 `method-log.jsonl`。
 - 預設整區收合(`<details>` 未展開);展開後可依 `req`、`stage`、`rule` 篩選。
 
 ## 面板用 log 做的三個檢查

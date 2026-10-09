@@ -1,0 +1,5 @@
+rule: G-M1-post
+cases:
+  - name: missing_post
+    patch: {replace: {use_cases: [{id: UC-001, heading: UC-001 x, has_pre: true, has_post: false, has_trigger: true, has_exception: true}]}}
+    expect: [{outcome: missing, target: UC-001, status: WARN}]

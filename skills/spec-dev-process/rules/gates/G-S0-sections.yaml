@@ -1,0 +1,11 @@
+id: G-S0-sections
+version: 1
+category: gate
+stage: S0
+name: 必要檔案與章節
+description: 必要 md 存在、必要 h2 章節存在、需求清單與 Component 表格可被辨識(由 extract 的結構錯誤轉入)
+predicate: extract_errors
+params: {}
+outcomes:
+  fail: {status: FAIL, message: "{msg}"}
+  warn: {status: WARN, message: "{msg}"}

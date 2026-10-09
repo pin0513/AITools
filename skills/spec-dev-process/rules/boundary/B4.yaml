@@ -1,0 +1,13 @@
+id: B4
+version: 1
+category: boundary
+name: 外部系統呼叫位置與失敗模式
+description: external 只能在 Infrastructure;且 40-api-contracts.md 有該 (外部系統, CMP) 的失敗模式列
+predicate: external_calls
+inputs: [components, failure_modes]
+params:
+  adapter_layer: Infrastructure
+outcomes:
+  ok:            {status: PASS, message: "{ext} 在 {layer} 且有失敗模式"}
+  wrong_layer:   {status: FAIL, message: "外部系統 {ext} 呼叫出現在 {layer} 層", action: "移到 Infrastructure Adapter"}
+  no_failure:    {status: WARN, message: "{ext} 呼叫在 Infrastructure,但 40-api-contracts.md 無失敗模式列", action: "補逾時/重試/降級/補償"}

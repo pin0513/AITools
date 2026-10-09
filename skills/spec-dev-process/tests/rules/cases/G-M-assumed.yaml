@@ -1,0 +1,9 @@
+rule: G-M-assumed
+cases:
+  - name: assumed_listed_in_gaps
+    patch: {replace: {gaps: [{n: "1", question: q, reqs: [REQ-001], assumption: a}]}}
+    log: [{seq: 1, req: REQ-001, stage: S1, method: UseCase, rule: M1, in: PM§1, out: UC-001, evidence: assumed, gaps: [x]}]
+    expect: [{outcome: listed, target: REQ-001, status: WARN}]
+  - name: assumed_not_listed
+    log: [{seq: 1, req: REQ-001, stage: S1, method: UseCase, rule: M1, in: PM§1, out: UC-001, evidence: assumed, gaps: [x]}]
+    expect: [{outcome: unlisted, target: REQ-001, status: FAIL}]

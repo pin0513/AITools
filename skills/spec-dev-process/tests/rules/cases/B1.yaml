@@ -1,0 +1,15 @@
+rule: B1
+cases:
+  - name: linked
+    expect: [{outcome: linked, target: REQ-001, status: PASS}]
+  - name: no_link
+    patch: {replace: {ac_links: []}}
+    expect: [{outcome: no_link, target: REQ-001, status: FAIL}]
+  - name: ac_unassigned_when_other_ac_linked
+    patch:
+      set: {"requirements[0].acs": [AC-001-1, AC-001-2]}
+    expect: [{outcome: linked, target: REQ-001}, {outcome: ac_unassigned, target: AC-001-2, status: WARN}]
+  - name: bad_component_missing_layer
+    patch: {set: {"components[1].layer": ""}}
+    expect: [{outcome: bad_component, target: REQ-001, status: FAIL}]
+    exact: false

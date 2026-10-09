@@ -30,7 +30,7 @@
 
 | 等級 | 規則 | 訊息 |
 |---|---|---|
-| WARN | M* | REQ-002 S2 DDD.ValueObject 證據=assumed:最小邊長 PM 未定義 |
-| WARN | M* | NFR-001 S1 QualityScenario 證據=assumed:PM 原文只寫『要快』,2s 為假設 |
-| FAIL | B2 | CMP-003: 反向依賴:Domain → CMP-005 (Infrastructure) |
-| FAIL | B7 | AC-003-1: AC-003-1(REQ-003)無測試元件 |
+| WARN | G-M-assumed | REQ-002 S2 DDD.ValueObject 證據=assumed:最小邊長 PM 未定義 |
+| WARN | G-M-assumed | NFR-001 S1 QualityScenario 證據=assumed:PM 原文只寫『要快』,2s 為假設 |
+| FAIL | G-S3-boundary | CMP-003: 反向依賴:Domain → CMP-005 (Infrastructure) |
+| FAIL | G-S3-boundary | AC-003-1: AC-003-1(REQ-003)無測試元件 |

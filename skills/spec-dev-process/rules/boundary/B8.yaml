@@ -1,0 +1,15 @@
+id: B8
+version: 1
+category: boundary
+name: 技術白名單
+description: Component 技術欄 ⊆ config stack 值 + tech_allowlist(不分大小寫、允許前綴);例外要有 Spike 記錄
+predicate: tech_whitelist
+inputs: [components]
+params:
+  extra_allowlist: []
+  spike_method_prefix: spike
+  closed_outcomes: [PASS, ACCEPT, 採用]
+outcomes:
+  accepted:   {status: PASS, message: "{bad} 經 Spike 採用"}
+  no_spike:   {status: FAIL, message: "技術 {bad} 不在白名單且無 Spike 記錄", action: "加入 tech_allowlist 或開 Spike(method-log method=Spike.*)"}
+  spike_open: {status: WARN, message: "{bad} 有 Spike 但未結案", action: "Spike 結案後 out 寫 PASS/採用"}

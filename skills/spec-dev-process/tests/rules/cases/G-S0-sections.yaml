@@ -1,0 +1,5 @@
+rule: G-S0-sections
+cases:
+  - name: extract_errors_pass_through
+    patch: {replace: {extract_errors: [{level: FAIL, rule: S0, ids: [10-requirements.md], msg: 缺表格}, {level: WARN, rule: S5, ids: [40-api-contracts.md], msg: 缺檔}]}}
+    expect: [{outcome: fail, target: 10-requirements.md, status: FAIL}, {outcome: warn, target: 40-api-contracts.md, status: WARN}]

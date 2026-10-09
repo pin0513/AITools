@@ -1,0 +1,13 @@
+id: B5
+version: 1
+category: boundary
+name: 資料擁有權
+description: erDiagram 的每個實體在擁有權表有唯一 owner
+predicate: data_ownership
+inputs: [erd_entities, ownership]
+params: {}
+outcomes:
+  ok:        {status: PASS, message: "owner = {owner}"}
+  no_owner:  {status: FAIL, message: "erDiagram 有此表但擁有權表無 owner", action: "50-data-model.md 擁有權表補列"}
+  multi:     {status: FAIL, message: "多 owner({n})", action: "只留一個 owner"}
+  no_entity: {status: WARN, message: "擁有權表有列但 erDiagram 無此實體", action: "補 erDiagram 或刪列"}

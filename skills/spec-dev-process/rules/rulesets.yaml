@@ -1,0 +1,5 @@
+# 啟用的規則與執行順序。專案在 .spec-dev.yaml 用 rules.disable / rules.overrides 調整。
+version: 1
+default:
+  boundary: [B1, B2, B3, B4, B5, B6, B7, B8]
+  gates: [G-S0-sections, G-S5-extract, G-M-log, G-M1-post, G-M-assumed, G-S5-orphans, G-S3-boundary]

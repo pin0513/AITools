@@ -1,0 +1,16 @@
+rule: B8
+cases:
+  - name: whitelisted_prefix_and_case
+    patch: {set: {"components[3].tech": [ef core, ".NET 8"]}}
+    expect: []
+  - name: unknown_tech_no_spike
+    patch: {set: {"components[3].tech": [Azure.Storage.Blobs]}}
+    expect: [{outcome: no_spike, target: CMP-004, status: FAIL}]
+  - name: spike_open
+    patch: {set: {"components[3].tech": [Azure.Storage.Blobs]}}
+    log: [{seq: 1, req: "*", stage: S3, method: Spike.Blob, rule: B8, in: CMP-004, out: OPEN, evidence: explicit, gaps: []}]
+    expect: [{outcome: spike_open, target: CMP-004, status: WARN}]
+  - name: spike_accepted
+    patch: {set: {"components[3].tech": [Azure.Storage.Blobs]}}
+    log: [{seq: 1, req: "*", stage: S3, method: Spike.Blob, rule: B8, in: CMP-004, out: PASS, evidence: explicit, gaps: []}]
+    expect: [{outcome: accepted, target: CMP-004, status: PASS}]

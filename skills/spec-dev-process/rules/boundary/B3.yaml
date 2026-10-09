@@ -1,0 +1,12 @@
+id: B3
+version: 1
+category: boundary
+name: 跨 Bounded Context 契約
+description: 跨 context 只能經 API/Event;不得直接依賴他 context 的 Domain / Infrastructure
+predicate: cross_context
+inputs: [components]
+params:
+  hard_layers: [Infrastructure, Domain]
+outcomes:
+  direct:   {status: FAIL, message: "跨 context 直接依賴 {dep} ({to_context}/{to_layer})", action: "改經 API/Event 契約"}
+  soft:     {status: WARN, message: "跨 context 依賴 {dep} ({to_context}/{to_layer}),需有 API/Event 定義", action: "在 40-api-contracts.md 定義契約"}

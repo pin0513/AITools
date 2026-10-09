@@ -1,0 +1,14 @@
+rule: B5
+cases:
+  - name: entity_without_owner
+    patch: {replace: {erd_entities: [Foo]}}
+    expect: [{outcome: no_owner, target: Foo, status: FAIL}]
+  - name: owned
+    patch: {replace: {erd_entities: [Foo], ownership: [{table: Foo, owner: A, access: ""}]}}
+    expect: [{outcome: ok, target: Foo, status: PASS}]
+  - name: multi_owner
+    patch: {replace: {erd_entities: [Foo], ownership: [{table: Foo, owner: A, access: ""}, {table: Foo, owner: B, access: ""}]}}
+    expect: [{outcome: multi, target: Foo, status: FAIL}]
+  - name: owner_row_without_entity
+    patch: {replace: {ownership: [{table: Bar, owner: A, access: ""}]}}
+    expect: [{outcome: no_entity, target: Bar, status: WARN}]

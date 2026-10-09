@@ -1,44 +1,65 @@
 # spec-dev-process
 
-PM spec → RD spec 的工程化轉換流程。可攜套件:**只需 python3(3.9+),零第三方相依**,整個資料夾就是一個 Claude Code skill,也可以純 CLI 使用。
+PM spec → RD spec 的工程化轉換流程。可攜套件:**只需 python3(3.9+),零第三方相依**。整個資料夾就是一個 Claude Code skill,也可純 CLI 使用。
+
+## 四層架構
 
 ```
 spec-dev-process/
-├── SKILL.md            Claude Code skill 入口(流程、LLM 規定、方法論路由)
-├── config.yaml         流程能力設定(預設);專案用 .spec-dev.yaml 覆寫
-├── spec-dev.py         CLI:init / extract / check / panel / render / all
-├── specdev/            核心:md 解析、規則 B1–B8、報告、面板、渲染、YAML 子集解析
-├── references/         方法論路由表、log 表示法、產出結構、邊界規則
-├── templates/          rd-spec 7 個 md 模板 + check-panel.html
-├── vendor/             mermaid.min.js 11.4.1(MIT)供 --offline
-├── examples/avatar-upload/   完整範例(含刻意留的 FAIL/WARN)
-├── tests/              python3 -m unittest discover tests
-└── install.sh          連結或複製到 ~/.claude/skills/
+├── process/                 1. 骨幹:流程與 I/O 契約
+│   ├── pipeline.yaml           S0–S6:owner(llm|tool)、inputs、outputs、tools@version、gates、stop_on
+│   ├── io-contracts.yaml       每個檔要有的章節、表格簽名、必要欄;artifact 前綴;產生物清單
+│   └── templates/              rd-spec 7 個 md 模板 + check-panel.html
+├── tools/                   2. 工具:可迭代版本
+│   ├── registry.yaml           name → {latest, versions{n: module[:fn]}};pipeline 以 name@n 引用
+│   ├── analyze/extract_v1.py   md → traceability dict
+│   ├── check/engine_v1.py      規則引擎(載 YAML、呼叫 predicate、outcome → 狀態/訊息)
+│   ├── check/predicates_v1.py  predicate 函式庫(只回報情況,不決定嚴重度)
+│   ├── check/contract_v1.py    llm stage 產物契約檢查
+│   ├── transform/              report / panel / render
+│   └── execute/runner_v1.py    依 pipeline 跑 stage;init 骨架
+├── rules/                   3. 規則資料層(YAML)
+│   ├── boundary/B1..B8.yaml    技術邊界
+│   ├── gates/G-*.yaml          Stage 放行
+│   ├── methodology/routing.yaml 需求型態 → M1–M18
+│   └── rulesets.yaml           啟用與順序;專案可 disable / overrides
+├── tests/                   4. 測試
+│   ├── unit/                   core、引擎、設定載入
+│   ├── rules/cases/*.yaml      每條規則的資料驅動 case(引擎真的跑規則 YAML)
+│   ├── contract/               四層引用一致(pipeline↔registry↔rules↔predicates↔contracts↔templates↔docs)
+│   └── e2e/                    真的跑 CLI:範例、乾淨骨架、專案覆寫、嚴格停止
+├── core/                    共用:md 解析、YAML 子集解析(有 PyYAML 優先)、設定/規則/流程載入
+├── references/              人讀的方法論說明
+├── examples/avatar-upload/  完整範例(刻意留 FAIL/WARN)
+├── vendor/mermaid.min.js    11.4.1(MIT),--offline 內嵌
+├── config.yaml / SKILL.md / spec-dev.py / install.sh / VERSION
+```
+
+```
+          ┌──────────── process/pipeline.yaml ────────────┐
+ stage →  │ owner=llm:契約檢查   owner=tool:registry 解析 │
+          └───────┬──────────────────────┬────────────────┘
+                  ▼                      ▼
+        process/io-contracts.yaml   tools/*_vN.py ──► tools/check/engine ──► rules/*.yaml
+                                                             │                    │
+                                                        predicates_vN     outcome→status/message
 ```
 
 ## 安裝
 
 ```bash
-# A. Claude Code skill(符號連結,之後 git pull 即更新)
-./install.sh
-
-# B. 複製一份(不想依賴原路徑)
-./install.sh --copy
-
-# C. 純 CLI,不裝 skill
-python3 spec-dev.py all docs/rd-spec/<feature> --offline
+./install.sh            # 檢查 python3 → 跑測試 → 符號連結到 ~/.claude/skills/
+./install.sh --copy     # 複製一份
+python3 spec-dev.py all docs/rd-spec/<feature> --offline     # 純 CLI
 ```
-
-`install.sh` 會檢查 python3 版本、跑一次測試、建立 `~/.claude/skills/spec-dev-process`。Windows 用 PowerShell:`New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\spec-dev-process -Target (Get-Location)`。
 
 ## 三分鐘走一遍
 
 ```bash
-python3 spec-dev.py all examples/avatar-upload --offline
-open examples/avatar-upload/check-panel.html     # macOS;Linux 用 xdg-open
+python3 spec-dev.py all examples/avatar-upload --offline   # 退出碼 1:範例刻意留 B2 / B7 FAIL
+python3 spec-dev.py run examples/avatar-upload --to S6     # 嚴格模式:S3 FAIL 就停
+python3 spec-dev.py rules; python3 spec-dev.py tools       # 看啟用規則與工具版本
 ```
-
-預期輸出:退出碼 1,因為範例刻意留了 1 個 B2 FAIL、1 個 B7 FAIL、2 個 B8 FAIL。面板上每種狀態都看得到。
 
 ## 開一個新功能
 
@@ -46,31 +67,38 @@ open examples/avatar-upload/check-panel.html     # macOS;Linux 用 xdg-open
 python3 spec-dev.py init docs/rd-spec/order-cancel --title "訂單取消"
 # LLM(或你)依 SKILL.md 填 7 個 md 與 method-log.jsonl
 python3 spec-dev.py check docs/rd-spec/order-cancel     # 反覆跑到 0 FAIL
-python3 spec-dev.py all   docs/rd-spec/order-cancel     # 產面板與 html
+python3 spec-dev.py all   docs/rd-spec/order-cancel     # 面板與 html
 ```
 
-## 專案覆寫設定
-
-在 repo 根目錄(或 rd-spec 目錄的任一上層)放 `.spec-dev.yaml`,只寫要改的頂層鍵:
+## 專案覆寫(.spec-dev.yaml,放 rd-spec 目錄任一上層)
 
 ```yaml
 tech_boundary:
-  layers: [Api, Application, Domain, Infrastructure]
   bounded_contexts: [Member, Order, Payment]
-  stack: { language: C#, runtime: .NET, db: SQL Server, cache: Redis, messaging: MediatR, cloud: Azure }
-  tech_allowlist: [ASP.NET Core, EF Core, StackExchange.Redis, xUnit, NSubstitute, FluentAssertions, NetArchTest, k6, Polly]
+  tech_allowlist: [ASP.NET Core, EF Core, StackExchange.Redis, xUnit, NSubstitute, NetArchTest, k6, Polly]
+rules:
+  disable: [B8]
+  overrides:
+    B2: { outcomes: { concrete_infra: { status: FAIL } } }
 ```
 
-## 設計原則
+## 迭代方式
 
-| 原則 | 落實 |
-|---|---|
-| 單一事實來源 | 7 個 md 的表格;json/報告/面板全是產生物 |
-| 能機械判定的不交給 LLM | B1–B8、孤兒、KPI 全在 `specdev/rules.py` |
-| LLM 的判斷要留證據 | `method-log.jsonl` 每筆 `evidence ∈ explicit/inferred/assumed`;assumed 必須進缺口表 |
-| 追溯到 AC | 追溯表 AC → CMP(職責),REQ 層由 AC 彙總 |
-| 宣告要能變強制 | 架構測試表(NetArchTest)把 B2/B3 搬進 CI |
+| 要改什麼 | 改哪裡 | 不用動 |
+|---|---|---|
+| 規則嚴重度 / 訊息 / 參數 | `rules/<cat>/<ID>.yaml` 或專案 overrides | 程式 |
+| 新規則 | `rules/` 加 YAML + `tools/check/predicates_v1.py` 加函式 + `rulesets.yaml` + `tests/rules/cases/` | pipeline |
+| 工具新版 | `tools/<cat>/<name>_v2.py` + `registry.yaml` 加版本 | 舊版繼續可釘 |
+| 流程順序 / Gate / stop 行為 | `process/pipeline.yaml` | 工具 |
+| 表格欄位 / 章節 | `process/io-contracts.yaml` + 模板 | extract(簽名驅動) |
+
+## 測試
+
+```bash
+python3 -m unittest discover -s tests -t .        # 全部
+python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
+```
 
 ## 版本
 
-見 `VERSION`。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.0.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。

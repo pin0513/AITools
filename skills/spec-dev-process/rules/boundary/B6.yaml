@@ -1,0 +1,12 @@
+id: B6
+version: 1
+category: boundary
+name: NFR 綁定與 Fitness Function
+description: 每個 NFR 綁到具體 CMP 或 API,且 60-test-design.md 有 Fitness Function
+predicate: nfr_binding
+inputs: [requirements, components, apis, fitness]
+params: {}
+outcomes:
+  bound:      {status: PASS, message: "綁定 {binds}"}
+  unbound:    {status: WARN, message: "未綁定任何 CMP/API", action: "NFR 表「綁定 CMP/API」欄填入"}
+  no_fitness: {status: WARN, message: "無 Fitness Function", action: "60-test-design.md 補量測方式與門檻"}

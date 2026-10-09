@@ -1,0 +1,30 @@
+# 需求型態 → 方法論路由(S1/S2)。人讀版在 references/methodology-map.md,tests/contract 會檢查兩邊的 M-id 一致。
+version: 1
+types:
+  functional:     {signals: ["使用者可以", "系統應", 有明確操作者與結果], methods: [M1, M2, M4, M18]}
+  state_heavy:    {signals: ["狀態詞 ≥ 3 且狀態會持久化或影響業務規則"], methods: [M3]}
+  domain_rich:    {signals: ["業務規則 ≥ 3", 計算公式, 一致性約束], methods: [M5]}
+  data:           {signals: [新增欄位/表, 匯入匯出, 報表, 歷史保留], methods: [M6, M7]}
+  integration:    {signals: [第三方, API, Webhook, 同步, 排程], methods: [M8, M9, M10]}
+  non_functional: {signals: [時間/量/率/安全/合規的數字或形容詞], methods: [M11, M12]}
+  architecture:   {signals: [所有功能都需要], methods: [M13, M14, M15]}
+  test:           {signals: [所有 AC 都需要], methods: [M16, M17]}
+methods:
+  M1:  {name: Use Case (Cockburn), artifact: UC-xxx, notation: 文字 + flowchart, file: 20-domain-model.md, requires: [前置條件, 後置條件, 觸發, 主流程, 替代流程, 例外流程]}
+  M2:  {name: Gherkin, artifact: AC-xxx-n, notation: gherkin, file: 10-requirements.md}
+  M3:  {name: UML State Machine, artifact: STM-DOM-xxx / STM-UI-xxx, notation: stateDiagram-v2, file: 20-domain-model.md, note: UI 狀態不進 Aggregate}
+  M4:  {name: UML Sequence, artifact: SEQ-xxx, notation: sequenceDiagram, file: 30-architecture-c4.md, note: 例外流程用 alt/opt fragment}
+  M5:  {name: DDD 戰術模式, artifact: Entity/VO/Aggregate/Event 清單, notation: 表格 + classDiagram, file: 20-domain-model.md, note: 有生命週期 且 跨物件一致性 才建 Aggregate}
+  M6:  {name: ERD, artifact: ERD-xxx, notation: erDiagram, file: 50-data-model.md}
+  M7:  {name: Data Ownership, artifact: 擁有權表, notation: 表格, file: 50-data-model.md}
+  M8:  {name: C4 Context, artifact: C4-L1, notation: C4Context, file: 30-architecture-c4.md}
+  M9:  {name: Contract-first, artifact: API-xxx, notation: 表格 + JSON, file: 40-api-contracts.md}
+  M10: {name: Failure Modes, artifact: 失敗模式表, notation: 表格, file: 40-api-contracts.md}
+  M11: {name: Quality Scenario (SEI), artifact: NFR-xxx, notation: 表格, file: 10-requirements.md}
+  M12: {name: Fitness Function, artifact: Fitness 表, notation: 表格, file: 60-test-design.md}
+  M13: {name: C4 Container, artifact: C4-L2, notation: C4Container, file: 30-architecture-c4.md}
+  M14: {name: C4 Component, artifact: CMP-xxx + C4-L3, notation: 表格 + C4Component, file: 30-architecture-c4.md}
+  M15: {name: Clean Architecture Layers, artifact: Component.Layer, notation: 表格, file: 30-architecture-c4.md}
+  M16: {name: Test Pyramid, artifact: TST-xxx, notation: 表格, file: 60-test-design.md}
+  M17: {name: AC→Test Mapping, artifact: 測試表 對應 AC 欄, notation: 表格, file: 60-test-design.md}
+  M18: {name: AC→Component 追溯, artifact: 追溯表, notation: 表格, file: 30-architecture-c4.md}

@@ -54,7 +54,7 @@ docs/rd-spec/{feature-slug}/
 
 ## extract 讀哪些表格
 
-表格靠**表頭前幾欄**辨識,順序與字樣要一致;章節標題可自由。
+表格靠**表頭前幾欄**辨識(簽名定義在 `process/io-contracts.yaml`,這裡是人讀版),順序與字樣要一致;章節標題可自由。
 
 | 表(所在檔)| 表頭簽名 | 用途 |
 |---|---|---|
@@ -70,7 +70,7 @@ docs/rd-spec/{feature-slug}/
 | 測試元件(60)| `ID \| 名稱 \| kind \| 對應 CMP \| 對應 AC` | B7、矩陣 |
 | Fitness(60)| `NFR \| 量測方式 \| 門檻 \| 執行點` | B6 |
 
-mermaid 區塊掛到最近的 h3;h3 以 `UC- / STM- / SEQ- / CLS- / ERD- / C4-` 開頭才會被當成 artifact,括號內的 `REQ-xxx` / `NFR-xxx` 決定它在面板哪一列展開。
+mermaid 區塊掛到最近的 h3;h3 以 `process/io-contracts.yaml` `artifacts.heading_prefixes`(UC- / STM- / SEQ- / CLS- / ERD- / C4-)開頭才會被當成 artifact,括號內的 `REQ-xxx` / `NFR-xxx` 決定它在面板哪一列展開。
 
 ## traceability.json(產生物)
 

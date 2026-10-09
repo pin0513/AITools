@@ -1,33 +1,35 @@
-"""md(唯一事實來源)→ traceability.json。只做抽取與結構驗證,不做規則判定(那是 rules.py)。"""
+"""analyze.extract v1:md(唯一事實來源)→ traceability dict。只抽取 + 結構錯誤,不做規則判定(那是 rules/ + check.*)。
+工具介面:run(ctx) 讀 ctx["dir"]、ctx["contracts"],寫 ctx["data"]、ctx["log"]。"""
 import json, pathlib, re
-from . import mdtables as M
+from core import mdtables as M
 
 FILES = ["00-overview.md", "10-requirements.md", "20-domain-model.md", "30-architecture-c4.md",
          "40-api-contracts.md", "50-data-model.md", "60-test-design.md"]
 ID_RE = re.compile(r"\b(REQ|NFR)-\d+\b")
 
-def _kind(code: str) -> str:
+def _kind(code: str, kinds: dict) -> str:
     head = code.strip().splitlines()[0].strip() if code.strip() else ""
-    for k, v in (("sequenceDiagram", "sequence"), ("stateDiagram", "state"), ("classDiagram", "class"),
-                 ("erDiagram", "erd"), ("C4Context", "c4-context"), ("C4Container", "c4-container"),
-                 ("C4Component", "c4-component"), ("flowchart", "flowchart"), ("graph", "flowchart")):
+    for k, v in kinds.items():
         if head.startswith(k):
             return v
     return "other"
 
-def extract(d: pathlib.Path):
+def extract(d: pathlib.Path, contracts: dict):
+    sig = {k: v["signature"] for k, v in contracts["tables"].items()}
+    kinds = contracts.get("artifacts", {}).get("kinds") or {}
+    prefixes = tuple(contracts.get("artifacts", {}).get("heading_prefixes") or ())
     errors, docs = [], {}
     for f in FILES:
         p = d / f
         if p.exists():
             docs[f] = M.parse(f, p.read_text(encoding="utf-8"))
         else:
-            errors.append({"level": "FAIL" if f in ("10-requirements.md", "30-architecture-c4.md", "60-test-design.md") else "WARN",
-                           "rule": "S5", "ids": [], "msg": f"缺檔 {f}"})
+            errors.append({"level": "FAIL" if contracts["files"].get(f, {}).get("required") else "WARN",
+                           "rule": "S5", "ids": [f], "msg": f"缺檔 {f}"})
     tables = {}
     for doc in docs.values():
         for t in doc.tables:
-            name = M.classify(t)
+            name = M.classify(t, sig)
             if name:
                 tables.setdefault(name, []).extend(t.rows)
 
@@ -63,9 +65,9 @@ def extract(d: pathlib.Path):
     artifacts = []
     for doc in docs.values():
         for mm in doc.mermaid:
-            mid = re.match(r"^((?:UC|STM|SEQ|CLS|ERD|C4)[\w-]*)", mm.heading)
+            mid = re.match(r"^([A-Z0-9][\w-]*)", mm.heading) if mm.heading.startswith(prefixes) else None
             req = ID_RE.search(mm.heading)
-            artifacts.append({"id": mid.group(1) if mid else f"{doc.file}:{mm.line}", "kind": _kind(mm.code),
+            artifacts.append({"id": mid.group(1) if mid else f"{doc.file}:{mm.line}", "kind": _kind(mm.code, kinds),
                               "file": doc.file, "line": mm.line, "heading": mm.heading, "req": req.group(0) if req else "*", "mermaid": mm.code})
     # 20-domain-model 的 UC 章節:抓 pre/post 條件是否存在
     ucs = []
@@ -84,24 +86,8 @@ def extract(d: pathlib.Path):
         if a["kind"] == "erd":
             erd_entities += re.findall(r"^\s*([A-Za-z_]\w*)\s*\{", a["mermaid"], re.M)
 
-    # 結構驗證
-    def dup(items, key="id"):
-        seen, out = set(), []
-        for x in items:
-            if x[key] in seen: out.append(x[key])
-            seen.add(x[key])
-        return out
-    for name, items in (("REQ", reqs), ("CMP", comps), ("TST", tests)):
-        for dd in dup(items):
-            errors.append({"level": "FAIL", "rule": "S5", "ids": [dd], "msg": f"{name} ID 重複:{dd}"})
-    if not reqs: errors.append({"level": "FAIL", "rule": "S0", "ids": [], "msg": "10-requirements.md 沒有需求清單表格(表頭 ID | 需求 | 型態 …)"})
-    if not comps: errors.append({"level": "FAIL", "rule": "S2", "ids": [], "msg": "30-architecture-c4.md 沒有 Component 表格(表頭 ID | 名稱 | Layer …)"})
-    for sec in ("需求清單", "驗收條件", "非功能需求"):
-        if "10-requirements.md" in docs and sec not in docs["10-requirements.md"].h2:
-            errors.append({"level": "FAIL", "rule": "S0", "ids": [], "msg": f"10-requirements.md 缺章節 ## {sec}"})
-    for sec in ("Context", "Container", "Component", "Sequence"):
-        if "30-architecture-c4.md" in docs and not any(h.startswith(sec) for h in docs["30-architecture-c4.md"].h2):
-            errors.append({"level": "FAIL", "rule": "S2", "ids": [], "msg": f"30-architecture-c4.md 缺章節 ## {sec}"})
+    if not reqs: errors.append({"level": "FAIL", "rule": "S0", "ids": ["10-requirements.md"], "msg": "10-requirements.md 沒有需求清單表格(表頭 ID | 需求 | 型態 …)"})
+    if not comps: errors.append({"level": "FAIL", "rule": "S2", "ids": ["30-architecture-c4.md"], "msg": "30-architecture-c4.md 沒有 Component 表格(表頭 ID | 名稱 | Layer …)"})
 
     ov = docs.get("00-overview.md")
     title = ov.text.splitlines()[0].lstrip("# ").split(" — ")[0].strip() if ov else d.name
@@ -124,3 +110,9 @@ def load_log(d: pathlib.Path):
                 except json.JSONDecodeError as e:
                     raise SystemExit(f"method-log.jsonl 第 {n} 行不是合法 JSON: {e}")
     return log
+
+
+def run(ctx: dict) -> dict:
+    ctx["data"] = extract(ctx["dir"], ctx["contracts"])
+    ctx["log"] = load_log(ctx["dir"])
+    return ctx

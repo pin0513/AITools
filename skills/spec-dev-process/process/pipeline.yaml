@@ -1,0 +1,67 @@
+# 流程骨幹。每個 stage:誰執行(llm|tool)、輸入、輸出、用哪些工具(name@version)、放行規則。
+# runner(tools/execute/runner_v*.py)照順序跑;llm stage 只做契約檢查(產物存在且合約),tool stage 真的執行。
+version: 1
+pipeline: pm-to-rd-spec
+stages:
+  - id: S0
+    name: Intake
+    owner: llm
+    inputs:  [pm_spec.md, "mock (optional)"]
+    outputs: [00-overview.md, 10-requirements.md]
+    methods: [S0 段落切片, 型態判定]
+    gates:   [G-S0-sections]
+    stop_on: FAIL
+
+  - id: S1
+    name: Analyze
+    owner: llm
+    inputs:  [10-requirements.md]
+    outputs: [10-requirements.md#驗收條件, 10-requirements.md#非功能需求, 20-domain-model.md, method-log.jsonl]
+    methods: [M1, M2, M3, M5, M11]
+    gates:   [G-M-log, G-M1-post]
+    stop_on: FAIL
+
+  - id: S2
+    name: Design
+    owner: llm
+    inputs:  [10-requirements.md, 20-domain-model.md]
+    outputs: [30-architecture-c4.md, 40-api-contracts.md, 50-data-model.md, method-log.jsonl]
+    methods: [M4, M6, M7, M8, M9, M10, M13, M14, M15, M18]
+    gates:   [G-S5-extract]
+    stop_on: FAIL
+
+  - id: S3
+    name: Boundary
+    owner: tool
+    inputs:  [30-architecture-c4.md, 40-api-contracts.md, 50-data-model.md, method-log.jsonl]
+    tools:   [analyze.extract@1, check.boundary@1, transform.report@1]
+    outputs: [boundary-report.md]
+    gates:   [G-S3-boundary]
+    stop_on: FAIL
+
+  - id: S4
+    name: Test
+    owner: llm
+    inputs:  [10-requirements.md, 30-architecture-c4.md]
+    outputs: [60-test-design.md, method-log.jsonl]
+    methods: [M12, M16, M17]
+    gates:   []
+    stop_on: FAIL
+
+  - id: S5
+    name: Assemble
+    owner: tool
+    inputs:  [00-overview.md, 10-requirements.md, 20-domain-model.md, 30-architecture-c4.md, 40-api-contracts.md, 50-data-model.md, 60-test-design.md, method-log.jsonl]
+    tools:   [analyze.extract@1, check.boundary@1, check.gate@1, transform.report@1]
+    outputs: [traceability.json, 90-traceability.md, boundary-report.md]
+    gates:   [G-S5-orphans, G-M-assumed]
+    stop_on: FAIL
+
+  - id: S6
+    name: Panel
+    owner: tool
+    inputs:  [traceability.json, method-log.jsonl]
+    tools:   [transform.panel@1, transform.render@1]
+    outputs: [check-panel.html, html/]
+    gates:   []
+    stop_on: NONE

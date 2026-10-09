@@ -1,0 +1,27 @@
+rule: B2
+cases:
+  - name: clean
+    expect:
+      - {outcome: allowed, target: CMP-001}
+      - {outcome: allowed, target: CMP-002}
+      - {outcome: via_interface, target: CMP-002, status: PASS}
+  - name: domain_to_infrastructure_reverse
+    patch: {set: {"components[2].depends": [CMP-004]}}
+    expect: [{outcome: reverse, target: CMP-003, status: FAIL}]
+    exact: false
+  - name: application_to_concrete_infra
+    patch: {set: {"components[3].name": Repo, "components[3].interface": ""}}
+    expect: [{outcome: concrete_infra, target: CMP-002, status: WARN}]
+    exact: false
+  - name: api_to_infra
+    patch: {set: {"components[0].depends": [CMP-004]}}
+    expect: [{outcome: api_to_infra, target: CMP-001, status: WARN}]
+    exact: false
+  - name: missing_dep
+    patch: {set: {"components[0].depends": [CMP-999]}}
+    expect: [{outcome: missing_dep, target: CMP-001, status: FAIL}]
+    exact: false
+  - name: bad_layer
+    patch: {set: {"components[0].layer": Presentation}}
+    expect: [{outcome: bad_layer, target: CMP-001, status: FAIL}]
+    exact: false

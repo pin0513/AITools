@@ -1,0 +1,11 @@
+rule: B3
+cases:
+  - name: same_context_no_findings
+    expect: []
+  - name: cross_context_infrastructure_direct
+    patch: {set: {"components[3].context": B}}
+    expect: [{outcome: direct, target: CMP-002, status: FAIL}]
+  - name: cross_context_application_soft
+    patch: {set: {"components[1].context": B}}
+    expect: [{outcome: soft, target: CMP-001, status: WARN}, {outcome: direct, target: CMP-002}]
+    exact: false

@@ -1,0 +1,10 @@
+rule: B7
+cases:
+  - name: all_covered
+    expect: [{outcome: ac_tested, target: AC-001-1, status: PASS}]
+  - name: ac_untested
+    patch: {set: {"tests[0].acs": []}}
+    expect: [{outcome: ac_untested, target: AC-001-1, status: FAIL}]
+  - name: cmp_untested
+    patch: {set: {"tests[0].components": [CMP-001]}}
+    expect: [{outcome: cmp_untested, target: CMP-002, status: WARN}, {outcome: cmp_untested, target: CMP-003}, {outcome: cmp_untested, target: CMP-004}, {outcome: ac_tested, target: AC-001-1}]

@@ -1,0 +1,10 @@
+rule: B6
+cases:
+  - name: unbound_and_no_fitness
+    patch: {append: {requirements: {id: NFR-001, title: n, types: [non_functional], source: "", acs: [], binds: []}}}
+    expect: [{outcome: unbound, target: NFR-001, status: WARN}, {outcome: no_fitness, target: NFR-001, status: WARN}]
+  - name: bound_with_fitness
+    patch:
+      append: {requirements: {id: NFR-001, title: n, types: [non_functional], source: "", acs: [], binds: [CMP-001]}}
+      replace: {fitness: [{nfr: NFR-001, how: k6, threshold: "", where: ""}]}
+    expect: [{outcome: bound, target: NFR-001, status: PASS}]

@@ -5,7 +5,7 @@ description: S3 技術邊界核對規則 B1–B8;對象是 S2 的 Component 與 
 
 # 技術邊界核對規則
 
-**全部由 `spec-dev.py check` 機械計算**(`specdev/rules.py`),LLM 不手填結果。輸入是 md 表格(Component、追溯、失敗模式、擁有權、測試),輸出每條規則對每個目標一筆 PASS/WARN/FAIL + evidence + action,寫入 `boundary-report.md` 與 `traceability.json.boundary_checks`。LLM 的工作是把資料填對,以及對 WARN/FAIL 決定處置。
+**全部由 `spec-dev.py check` 機械計算**(規則資料 `rules/boundary/`,判定 `tools/check/predicates_v1.py`),LLM 不手填結果。輸入是 md 表格(Component、追溯、失敗模式、擁有權、測試),輸出每條規則對每個目標一筆 PASS/WARN/FAIL + evidence + action,寫入 `boundary-report.md` 與 `traceability.json.boundary_checks`。LLM 的工作是把資料填對,以及對 WARN/FAIL 決定處置。
 
 ## 規則表
 

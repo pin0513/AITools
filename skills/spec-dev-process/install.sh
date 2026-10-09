@@ -19,7 +19,7 @@ import sys; v=sys.version_info
 assert v >= (3, 9), f"python3 版本 {v.major}.{v.minor} 太舊,需要 3.9+"
 print(f"python3 {v.major}.{v.minor}.{v.micro} OK")
 PY
-echo "執行測試..."; (cd "$HERE" && python3 -m unittest discover -s tests -q) || { echo "測試失敗,停止安裝"; exit 1; }
+echo "執行測試..."; (cd "$HERE" && python3 -m unittest discover -s tests -t . -q) || { echo "測試失敗,停止安裝"; exit 1; }
 mkdir -p "$DEST"
 TARGET="$DEST/spec-dev-process"
 if [[ -e "$TARGET" || -L "$TARGET" ]]; then

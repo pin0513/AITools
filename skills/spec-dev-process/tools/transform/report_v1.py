@@ -1,4 +1,4 @@
-"""由核對結果產生 90-traceability.md 與 boundary-report.md(皆為產生物,不手改)。"""
+"""transform.report v1:由 ctx 的 data/boundary/gate/kpis 產生 90-traceability.md 與 boundary-report.md(產生物,不手改)。"""
 LAYERS = ["Api", "Application", "Domain", "Infrastructure"]
 KINDS = ["unit", "integration", "contract", "e2e"]
 
@@ -42,3 +42,13 @@ def boundary_md(tr, boundary):
     for b in sorted(boundary, key=lambda b: (order[b["status"]], b["rule"], b["target"])):
         lines.append(f"| {b['rule']} | {b['target']} | {b['status']} | {b['evidence']} | {b['action']} |")
     return "\n".join(lines) + "\n"
+
+
+def run(ctx: dict) -> dict:
+    d, tr = ctx["dir"], ctx["data"]
+    boundary, g = ctx.get("boundary") or [], ctx.get("gate") or []
+    from tools.check.engine_v1 import kpis
+    k = ctx.get("kpis") or kpis(tr, boundary, g)
+    (d / "boundary-report.md").write_text(boundary_md(tr, boundary), encoding="utf-8")
+    (d / "90-traceability.md").write_text(traceability_md(tr, boundary, g, k), encoding="utf-8")
+    return ctx

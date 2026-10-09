@@ -1,0 +1,10 @@
+id: G-S3-boundary
+version: 1
+category: gate
+stage: S3
+name: 技術邊界 0 FAIL
+description: 把 B1–B8 的 FAIL 轉為 Gate FAIL
+predicate: boundary_failures
+params: {}
+outcomes:
+  fail: {status: FAIL, message: "{target}: {evidence}"}

@@ -1,0 +1,11 @@
+id: G-M-assumed
+version: 1
+category: gate
+stage: S5
+name: 假設證據要有缺口對照
+description: evidence=assumed 的 log 必須在 10-requirements.md 缺口表有對應 REQ 的列
+predicate: assumed_evidence
+params: {}
+outcomes:
+  listed:   {status: WARN, message: "{req} {stage} {method} 證據=assumed:{gap}"}
+  unlisted: {status: FAIL, message: "{req} {stage} {method} 證據=assumed 但缺口表沒有這條 REQ", action: "10-requirements.md 缺口表補列"}

@@ -5,7 +5,7 @@ description: 需求型態 → 方法論 → 表示法(UML / C4 / Gherkin / ERD)�
 
 # 方法論路由表
 
-每條需求先判型態,再查表決定要產出哪些分析/設計產物。一條需求可命中多個型態,每個命中都要各寫一筆 method-log。
+每條需求先判型態,再查表決定要產出哪些分析/設計產物。資料版:`rules/methodology/routing.yaml`。一條需求可命中多個型態,每個命中都要各寫一筆 method-log。
 
 ## 型態判定訊號
 

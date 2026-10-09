@@ -1,0 +1,10 @@
+id: G-M1-post
+version: 1
+category: gate
+stage: S1
+name: Use Case 有後置條件
+description: Cockburn 後置條件是不變量與測試斷言的來源
+predicate: usecase_postcondition
+params: {}
+outcomes:
+  missing: {status: WARN, message: "{uc} 缺後置條件(不變量與測試斷言的來源)"}

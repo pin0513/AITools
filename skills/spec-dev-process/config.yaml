@@ -64,11 +64,11 @@ check_panel:
   method_log_default: hidden                 # 方法論 log 預設隱藏
   mermaid: cdn                               # cdn | offline(--offline 內嵌 vendor/mermaid.min.js,+2.5MB)
 
-gates:                                       # 每個 stage 的放行條件;FAIL 則停在該 stage
+gates:                                       # 人讀摘要;機器用的是 process/pipeline.yaml 的 gates 與 rules/gates/
   S0: "需求清單每條有唯一 ID 與來源段落;required_sections 齊全"
   S1: "每條需求有需求型態與至少一個分析產物 (UC/State/Domain/NFR scenario)"
   S2: "C4 L1-L3 齊全;每個 Component 有 layer 與 context;每個 UC 主流程有 sequence"
-  S3: "B1–B8 由 spec-dev.py check 計算,0 FAIL;WARN 需在 boundary-report 處置欄有對策"
+  S3: "B1–B8(rules/boundary)由 check.boundary 計算,0 FAIL;WARN 需在 boundary-report 處置欄有對策"
   S4: "每條 AC 至少一個測試元件;每個 Component 至少一個測試元件"
   S5: "md 表格可被 extract 解析;無孤兒節點;assumed 證據都對應缺口表一列"
   S6: "spec-dev.py all 退出碼 0;check-panel.html 可開啟(--offline 時完全離線)"

@@ -1,0 +1,11 @@
+id: G-M-log
+version: 1
+category: gate
+stage: S1
+name: 每條需求有方法論 log
+description: 每條 REQ/NFR 在 S1/S2 至少一筆未被取代的 method-log
+predicate: method_log_presence
+params:
+  stages: [S1, S2]
+outcomes:
+  none: {status: FAIL, message: "{req} 在 S1/S2 無方法論 log(0 筆)"}

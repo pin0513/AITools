@@ -1,0 +1,66 @@
+# I/O 契約:每個檔要有哪些章節、哪些表格(表頭簽名 + 必要欄)。extract 用 tables 辨識表格;contract 檢查用 files 驗證 llm stage 產物。
+version: 1
+files:
+  00-overview.md:
+    stage: S0
+    required: false
+    sections: [背景與目標, 範圍, 來源對照]
+    tables: [io_map]
+  10-requirements.md:
+    stage: S0
+    required: true
+    sections: [需求清單, 驗收條件, 非功能需求]
+    tables: [requirements, nfr, gaps]
+    required_tables: [requirements]
+  20-domain-model.md:
+    stage: S1
+    required: true
+    sections: [Use Case, 狀態機, 領域模型]
+    tables: []
+  30-architecture-c4.md:
+    stage: S2
+    required: true
+    sections: [Context, Container, Component, 追溯, Sequence]
+    tables: [components, ac_links]
+    required_tables: [components, ac_links]
+  40-api-contracts.md:
+    stage: S2
+    required: false
+    sections: [介面清單]
+    tables: [apis, failure_modes]
+  50-data-model.md:
+    stage: S2
+    required: false
+    sections: [資料表, 擁有權]
+    tables: [ownership]
+  60-test-design.md:
+    stage: S4
+    required: true
+    sections: [測試元件清單, Fitness Function]
+    tables: [tests, fitness]
+    required_tables: [tests]
+  method-log.jsonl:
+    stage: S1
+    required: true
+    jsonl_fields: [seq, req, stage, method, rule, in, out, evidence]
+    evidence: [explicit, inferred, assumed]
+
+tables:
+  requirements:  {signature: [ID, 需求, 型態],            columns: [ID, 需求, 型態, 來源錨點, AC]}
+  nfr:           {signature: [ID, 刺激],                  columns: [ID, 刺激, 來源, 環境, 產物, 回應, 量測, 綁定 CMP/API, AC]}
+  gaps:          {signature: ["#", 問題],                 columns: ["#", 問題, 影響 REQ, 暫時假設]}
+  io_map:        {signature: [PM 來源, RD 產物],          columns: [PM 來源, RD 產物]}
+  glossary:      {signature: [名詞, 定義],                columns: [名詞, 定義, 來源]}
+  components:    {signature: [ID, 名稱, Layer],           columns: [ID, 名稱, Layer, Context, depends, external, 技術]}
+  ac_links:      {signature: [AC, CMP],                   columns: [AC, CMP, via, 職責]}
+  apis:          {signature: [ID, Method],                columns: [ID, Method, Path, 對應 REQ, 綁定 NFR, CMP]}
+  failure_modes: {signature: [外部系統, 呼叫點 CMP],      columns: [外部系統, 呼叫點 CMP, 逾時, 重試, 降級, 補償]}
+  ownership:     {signature: [表, Owner Context],         columns: [表, Owner Context]}
+  tests:         {signature: [ID, 名稱, kind],            columns: [ID, 名稱, kind, 對應 CMP, 對應 AC]}
+  fitness:       {signature: [NFR, 量測方式],             columns: [NFR, 量測方式, 門檻, 執行點]}
+
+artifacts:
+  heading_prefixes: [UC-, STM-, SEQ-, CLS-, ERD-, C4-]     # mermaid 掛在這些開頭的 h3 下才算 artifact
+  kinds: {sequenceDiagram: sequence, stateDiagram: state, classDiagram: class, erDiagram: erd, C4Context: c4-context, C4Container: c4-container, C4Component: c4-component, flowchart: flowchart, graph: flowchart}
+
+generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/]

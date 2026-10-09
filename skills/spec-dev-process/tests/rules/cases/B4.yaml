@@ -1,0 +1,13 @@
+rule: B4
+cases:
+  - name: external_in_application
+    patch: {set: {"components[1].external": [Blob]}}
+    expect: [{outcome: wrong_layer, target: CMP-002, status: FAIL}]
+  - name: external_in_infra_without_failure_mode
+    patch: {set: {"components[3].external": [Blob]}}
+    expect: [{outcome: no_failure, target: CMP-004, status: WARN}]
+  - name: external_with_failure_mode
+    patch:
+      set: {"components[3].external": [Blob]}
+      replace: {failure_modes: [{system: Blob, component: [CMP-004], timeout: 10s, retry: "3", degrade: "503", compensate: ""}]}
+    expect: [{outcome: ok, target: CMP-004, status: PASS}]

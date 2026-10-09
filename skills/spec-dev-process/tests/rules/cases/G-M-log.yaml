@@ -1,0 +1,7 @@
+rule: G-M-log
+cases:
+  - name: no_log
+    expect: [{outcome: none, target: REQ-001, status: FAIL}]
+  - name: has_s1_log
+    log: [{seq: 1, req: REQ-001, stage: S1, method: UseCase, rule: M1, in: PM§1, out: UC-001, evidence: explicit, gaps: []}]
+    expect: []

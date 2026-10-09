@@ -1,0 +1,10 @@
+id: G-S5-orphans
+version: 1
+category: gate
+stage: S5
+name: 無孤兒節點
+description: 測試元件必須對應 AC;AC 與 CMP 的覆蓋由 B7 判定
+predicate: orphans
+params: {}
+outcomes:
+  orphan_test: {status: FAIL, message: "{id} 未對應任何 AC(孤兒測試)"}

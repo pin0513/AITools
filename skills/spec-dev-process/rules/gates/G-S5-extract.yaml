@@ -1,0 +1,12 @@
+id: G-S5-extract
+version: 1
+category: gate
+stage: S5
+name: ID 唯一與引用存在
+description: REQ/CMP/TST ID 不重複;追溯表與測試表引用的 AC/CMP 必須存在
+predicate: reference_integrity
+params: {}
+outcomes:
+  dup:         {status: FAIL, message: "{kind} ID 重複:{id}"}
+  missing_ac:  {status: FAIL, message: "追溯表 AC {id} 不存在於需求清單"}
+  missing_cmp: {status: FAIL, message: "{where} 引用不存在的 {id}"}

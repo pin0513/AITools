@@ -1,0 +1,19 @@
+id: B2
+version: 1
+category: boundary
+name: 依賴方向
+description: Api → Application → Domain ← Infrastructure;Domain 不依賴外層;Application 依賴 Infrastructure 須經介面
+predicate: dependency_direction
+inputs: [components]
+params:
+  layers: [Api, Application, Domain, Infrastructure]
+  allowed: [[Api, Application], [Api, Domain], [Application, Domain], [Infrastructure, Domain], [Infrastructure, Application]]
+outcomes:
+  same_layer:     {status: PASS, message: "→ {dep} 同層 {from_layer}"}
+  allowed:        {status: PASS, message: "{from_layer} → {dep} ({to_layer})"}
+  via_interface:  {status: PASS, message: "Application → {dep} 經介面 {interface}"}
+  concrete_infra: {status: WARN, message: "Application 依賴 Infrastructure 具體類別 {dep}", action: "為 {dep_name} 定義介面(名稱欄寫 'Impl : IFoo'),Handler 改依賴介面"}
+  api_to_infra:   {status: WARN, message: "Api 直接依賴 Infrastructure {dep}", action: "經 Application 或 DI 組態"}
+  reverse:        {status: FAIL, message: "反向依賴:{from_layer} → {dep} ({to_layer})", action: "在 Domain 定義介面,由 {to_layer} 實作"}
+  missing_dep:    {status: FAIL, message: "depends 指向不存在的 {dep}", action: "修正 depends"}
+  bad_layer:      {status: FAIL, message: "layer '{layer}' 不在 {layers}", action: "修正 Layer 欄"}

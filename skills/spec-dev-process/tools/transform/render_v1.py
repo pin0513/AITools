@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""把 rd-spec 目錄下的每個 *.md 渲染成 html/<name>.html。mermaid 預設走 CDN;offline=True 時內嵌 vendor/mermaid.min.js。
+"""transform.render v1:rd-spec 目錄下每個 *.md → html/<name>.html。mermaid 預設走 CDN;offline=True 時內嵌 vendor/mermaid.min.js。
 只做標題/表格/程式碼區塊/mermaid 的最小轉換,其餘段落原樣輸出。"""
 import html, pathlib, re, sys
 
@@ -73,3 +73,9 @@ def render_dir(d: pathlib.Path, offline_js=None) -> list:
         (outdir / (md.stem + ".html")).write_text(page, encoding="utf-8")
         done.append(md.name)
     return done
+
+
+def run(ctx: dict) -> dict:
+    from core import config as C
+    ctx["rendered"] = render_dir(ctx["dir"], C.PATHS["vendor_mermaid"] if ctx.get("offline") else None)
+    return ctx

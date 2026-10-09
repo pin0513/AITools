@@ -1,0 +1,13 @@
+# 工具登錄:pipeline 用 name@version 引用;不寫版本取 latest。新版本 = 新檔 *_v2.py + 這裡加一列,舊 pipeline 可繼續釘舊版。
+# 值為 'pkg.module'(取 run)或 'pkg.module:function'。工具介面:run(ctx: dict) -> dict。
+version: 1
+tools:
+  analyze.extract:   {latest: 1, versions: {1: tools.analyze.extract_v1}}
+  check.boundary:    {latest: 1, versions: {1: tools.check.engine_v1:run_boundary}}
+  check.gate:        {latest: 1, versions: {1: tools.check.engine_v1:run_gate}}
+  check.contract:    {latest: 1, versions: {1: tools.check.contract_v1}}
+  transform.report:  {latest: 1, versions: {1: tools.transform.report_v1}}
+  transform.panel:   {latest: 1, versions: {1: tools.transform.panel_v1}}
+  transform.render:  {latest: 1, versions: {1: tools.transform.render_v1}}
+  execute.init:      {latest: 1, versions: {1: tools.execute.runner_v1:init}}
+  execute.run:       {latest: 1, versions: {1: tools.execute.runner_v1:run_pipeline}}

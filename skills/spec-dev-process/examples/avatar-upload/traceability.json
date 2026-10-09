@@ -522,6 +522,8 @@
   "boundary_checks": [
     {
       "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
       "target": "REQ-001",
       "status": "PASS",
       "evidence": "link → CMP-001, CMP-002, CMP-003, CMP-004",
@@ -536,6 +538,8 @@
     },
     {
       "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
       "target": "REQ-002",
       "status": "PASS",
       "evidence": "link → CMP-003, CMP-005",
@@ -548,6 +552,8 @@
     },
     {
       "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
       "target": "REQ-003",
       "status": "PASS",
       "evidence": "link → CMP-006",
@@ -559,6 +565,8 @@
     },
     {
       "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
       "target": "NFR-001",
       "status": "PASS",
       "evidence": "link → CMP-001",
@@ -570,6 +578,8 @@
     },
     {
       "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
       "target": "NFR-002",
       "status": "PASS",
       "evidence": "link → CMP-001, CMP-004",
@@ -582,6 +592,8 @@
     },
     {
       "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
       "target": "CMP-001",
       "status": "PASS",
       "evidence": "Api → CMP-002 (Application)",
@@ -593,6 +605,8 @@
     },
     {
       "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
       "target": "CMP-001",
       "status": "PASS",
       "evidence": "Api → CMP-006 (Application)",
@@ -604,6 +618,8 @@
     },
     {
       "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
       "target": "CMP-002",
       "status": "PASS",
       "evidence": "Application → CMP-003 (Domain)",
@@ -615,6 +631,8 @@
     },
     {
       "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
       "target": "CMP-002",
       "status": "PASS",
       "evidence": "Application → CMP-004 經介面 IAvatarStorage",
@@ -626,6 +644,8 @@
     },
     {
       "rule": "B2",
+      "rule_version": 1,
+      "outcome": "concrete_infra",
       "target": "CMP-002",
       "status": "WARN",
       "evidence": "Application 依賴 Infrastructure 具體類別 CMP-005",
@@ -637,6 +657,8 @@
     },
     {
       "rule": "B2",
+      "rule_version": 1,
+      "outcome": "reverse",
       "target": "CMP-003",
       "status": "FAIL",
       "evidence": "反向依賴:Domain → CMP-005 (Infrastructure)",
@@ -648,6 +670,8 @@
     },
     {
       "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
       "target": "CMP-006",
       "status": "PASS",
       "evidence": "Application → CMP-004 經介面 IAvatarStorage",
@@ -659,6 +683,8 @@
     },
     {
       "rule": "B4",
+      "rule_version": 1,
+      "outcome": "ok",
       "target": "CMP-004",
       "status": "PASS",
       "evidence": "AzureBlob 在 Infrastructure 且有失敗模式",
@@ -669,6 +695,8 @@
     },
     {
       "rule": "B5",
+      "rule_version": 1,
+      "outcome": "ok",
       "target": "MemberAvatar",
       "status": "PASS",
       "evidence": "owner = Member",
@@ -679,6 +707,8 @@
     },
     {
       "rule": "B6",
+      "rule_version": 1,
+      "outcome": "bound",
       "target": "NFR-001",
       "status": "PASS",
       "evidence": "綁定 API-001",
@@ -690,6 +720,8 @@
     },
     {
       "rule": "B6",
+      "rule_version": 1,
+      "outcome": "bound",
       "target": "NFR-002",
       "status": "PASS",
       "evidence": "綁定 API-002, CMP-004",
@@ -702,6 +734,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "cmp_untested",
       "target": "CMP-005",
       "status": "WARN",
       "evidence": "無測試元件",
@@ -712,6 +746,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "cmp_untested",
       "target": "CMP-006",
       "status": "WARN",
       "evidence": "無測試元件",
@@ -722,6 +758,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
       "target": "AC-001-1",
       "status": "PASS",
       "evidence": "→ TST-001, TST-002, TST-003",
@@ -732,6 +770,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
       "target": "AC-001-2",
       "status": "PASS",
       "evidence": "→ TST-003",
@@ -742,6 +782,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
       "target": "AC-001-3",
       "status": "PASS",
       "evidence": "→ TST-001, TST-004",
@@ -752,6 +794,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
       "target": "AC-002-1",
       "status": "PASS",
       "evidence": "→ TST-002",
@@ -762,6 +806,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_untested",
       "target": "AC-003-1",
       "status": "FAIL",
       "evidence": "AC-003-1(REQ-003)無測試元件",
@@ -773,6 +819,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
       "target": "AC-N01-1",
       "status": "PASS",
       "evidence": "→ TST-005",
@@ -783,6 +831,8 @@
     },
     {
       "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
       "target": "AC-N02-1",
       "status": "PASS",
       "evidence": "→ TST-004",
@@ -793,6 +843,8 @@
     },
     {
       "rule": "B8",
+      "rule_version": 1,
+      "outcome": "spike_open",
       "target": "CMP-005",
       "status": "WARN",
       "evidence": "SixLabors.ImageSharp 有 Spike 但未結案",
@@ -805,37 +857,41 @@
   "gate": [
     {
       "level": "WARN",
-      "rule": "M*",
+      "rule": "G-M-assumed",
       "ids": [
         "REQ-002"
       ],
-      "msg": "REQ-002 S2 DDD.ValueObject 證據=assumed:最小邊長 PM 未定義"
+      "msg": "REQ-002 S2 DDD.ValueObject 證據=assumed:最小邊長 PM 未定義",
+      "action": ""
     },
     {
       "level": "WARN",
-      "rule": "M*",
+      "rule": "G-M-assumed",
       "ids": [
         "NFR-001"
       ],
-      "msg": "NFR-001 S1 QualityScenario 證據=assumed:PM 原文只寫『要快』,2s 為假設"
+      "msg": "NFR-001 S1 QualityScenario 證據=assumed:PM 原文只寫『要快』,2s 為假設",
+      "action": ""
     },
     {
       "level": "FAIL",
-      "rule": "B2",
+      "rule": "G-S3-boundary",
       "ids": [
         "CMP-003",
         "CMP-005"
       ],
-      "msg": "CMP-003: 反向依賴:Domain → CMP-005 (Infrastructure)"
+      "msg": "CMP-003: 反向依賴:Domain → CMP-005 (Infrastructure)",
+      "action": ""
     },
     {
       "level": "FAIL",
-      "rule": "B7",
+      "rule": "G-S3-boundary",
       "ids": [
         "AC-003-1",
         "REQ-003"
       ],
-      "msg": "AC-003-1: AC-003-1(REQ-003)無測試元件"
+      "msg": "AC-003-1: AC-003-1(REQ-003)無測試元件",
+      "action": ""
     }
   ],
   "kpis": {

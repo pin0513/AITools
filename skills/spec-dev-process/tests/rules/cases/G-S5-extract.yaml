@@ -1,0 +1,10 @@
+rule: G-S5-extract
+cases:
+  - name: clean
+    expect: []
+  - name: duplicate_component
+    patch: {append: {components: {id: CMP-001, name: Dup, layer: Api, context: A, depends: [], external: [], tech: [], interface: ""}}}
+    expect: [{outcome: dup, target: CMP-001, status: FAIL}]
+  - name: link_to_missing_ac_and_cmp
+    patch: {replace: {ac_links: [{ac: AC-9-9, component: CMP-999, via: "", role: ""}]}}
+    expect: [{outcome: missing_ac, target: AC-9-9, status: FAIL}, {outcome: missing_cmp, target: CMP-999, status: FAIL}]

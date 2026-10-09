@@ -1,0 +1,5 @@
+rule: G-S5-orphans
+cases:
+  - name: orphan_test
+    patch: {set: {"tests[0].acs": []}}
+    expect: [{outcome: orphan_test, target: TST-001, status: FAIL}]

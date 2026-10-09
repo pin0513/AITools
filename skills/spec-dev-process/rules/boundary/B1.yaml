@@ -1,0 +1,13 @@
+id: B1
+version: 1
+category: boundary
+name: 需求映射到技術元件
+description: 每條需求經追溯表(AC→CMP)或 NFR 綁定映射到 ≥ 1 個有 layer/context 的 Component;每條 AC 指定由哪個 CMP 強制
+predicate: requirement_link
+inputs: [requirements, ac_links, apis, components]
+params: {}
+outcomes:
+  linked:        {status: PASS, message: "link → {cmps}"}
+  no_link:       {status: FAIL, message: "無任何 AC→CMP link(或 NFR 綁定)", action: "在 30-architecture-c4.md 的追溯表補 AC→CMP"}
+  bad_component: {status: FAIL, message: "link 到的 CMP 不存在或缺 layer/context: {bad}", action: "補 Component 表格"}
+  ac_unassigned: {status: WARN, message: "{ac} 未指定由哪個 CMP 強制", action: "追溯表補 AC→CMP 與職責"}

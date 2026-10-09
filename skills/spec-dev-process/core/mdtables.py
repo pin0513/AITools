@@ -71,26 +71,12 @@ def parse(path, text: str) -> Doc:
         i += 1
     return d
 
-# 表頭簽名:前綴比對(忽略大小寫與全形/半形空白)
-SIGNATURES = {
-    "requirements":  ("ID", "需求", "型態"),
-    "nfr":           ("ID", "刺激"),
-    "components":    ("ID", "名稱", "Layer"),
-    "ac_links":      ("AC", "CMP"),
-    "apis":          ("ID", "Method"),
-    "failure_modes": ("外部系統", "呼叫點 CMP"),
-    "ownership":     ("表", "Owner Context"),
-    "tests":         ("ID", "名稱", "kind"),
-    "fitness":       ("NFR", "量測方式"),
-    "io_map":        ("PM 來源", "RD 產物"),
-    "gaps":          ("#", "問題"),
-    "glossary":      ("名詞", "定義"),
-}
-
-def classify(t: Table):
+def classify(t: Table, signatures: dict):
+    """signatures: {name: [表頭前綴...]}(來自 process/io-contracts.yaml tables.*.signature)。前綴比對。"""
     norm = [h.replace("　", " ").strip() for h in t.header]
-    for name, sig in SIGNATURES.items():
-        if tuple(norm[:len(sig)]) == sig:
+    for name, sig in signatures.items():
+        sig = [str(x) for x in sig]
+        if norm[:len(sig)] == sig:
             return name
     return None
 
