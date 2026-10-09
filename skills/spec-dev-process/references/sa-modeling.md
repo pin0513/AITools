@@ -39,4 +39,26 @@ description: SA 建模階段的方法論 A(uml-wordbreak)人讀說明:七步各�
 | modify | 既有要改 | 同上,說明欄寫改什麼 |
 | new | 不存在 | 不填證據;若候選表有強命中 → WARN,要你確認 |
 
-G-SV-evidence 會真的打開檔案、讀那一行、比對符號。證據錯一個字就 FAIL,這是刻意的:survey 的價值就在「能回溯」。
+G-SV-evidence 會真的打開檔案、讀那一行、比對符號(或 `path:line "字面文字"` 的文字)。證據錯一個字就 FAIL,這是刻意的:survey 的價值就在「能回溯」。
+
+### 能力邊界(要知道的)
+
+| 它能抓 | 它抓不到 | 怎麼補 |
+|---|---|---|
+| 宣稱 existing/modify 卻沒附檔案與行號 | — | — |
+| 行號指錯行(那行沒有該符號) | 行號對、符號在,但那個符號根本不是這個功能(代理指標 ≠ 結論) | 證據指到**行為所在行**並用 `"字面文字"` 鎖定(運算子清單裡的那一項,不是函式宣告) |
+| 元素標 new 但 codebase 有同名候選 | 元素標 new 但 codebase 用別的名字實作了同一功能 | 看 `survey-candidates.md` 時把動作詞也掃進來(SA3 的動作欄) |
+| — | 純中文元素名(無 ASCII 符號) | 寫成「中文 (CodeSymbol)」;否則 WARN 請人確認 |
+
+結論:這條規則把「有沒有附證據」從人工審查裡拿掉,讓人只需要審「證據對不對」。它不取代讀碼。
+
+### 中英文元素與跨 spec 詞彙表
+
+| 元素寫法 | 符號怎麼來 | 結果 |
+|---|---|---|
+| `FormSubmission` | 元素名本身的 ASCII 符號 | 驗 |
+| `填寫紀錄 (FormSubmission)` | 括號內符號 | 驗 |
+| `填寫紀錄` | 專案詞彙表 `specs/glossary.md`(名詞 → 符號)→ 本 spec SA2 實體表(實體 → 英文) | 驗;都查不到 → WARN 請人確認 |
+| 任何 + `path:line "字面文字"` | 不用符號,驗該行含字面文字 | 驗(最強,指到行為行) |
+
+詞彙表由 `analyze.glossary` 從 `glossary.spec_roots` 下每個 `<issue>/spec` 抽取(00 名詞表的「名詞 (Symbol)」、SA2 實體表、survey 的「中文 (Symbol)」),合併後寫到 `glossary.path`;同名詞不同符號列入衝突表,`G-GL-consistency` 對本 spec 的 SA2 出 FAIL(同名詞不同符號)或 WARN(同符號不同名詞)。已完成的舊 spec 只要補一份 `00-overview.md` 名詞表(或 SA2)就能進詞彙表,不必整份回填。

@@ -3,12 +3,16 @@ version: 1
 category: gate
 stage: SV
 name: Survey 證據可回溯
-description: survey-mapping 每列 existing/modify 的證據 path:line 必須存在於 codebase 且該行含模型元素的符號;new 不得有強候選
+description: |
+  survey-mapping 每列 existing/modify 的證據 path:line 必須存在於 codebase,且該行含模型元素的 ASCII 符號(或 path:line "字面文字" 時含該文字);new 不得有強候選。
+  能力邊界:這是代理指標(名字/文字出現在那一行),不是行為存在的證明。它抓的是「宣稱沒有錨點」與「錨點指錯行」,抓不到「錨點正確但宣稱錯誤」。
+  要提高證據強度,證據指到能證明行為的那一行並用 "字面文字" 鎖定,而不是指到函式宣告。
 predicate: survey_evidence
 params:
   min_token_len: 3
 outcomes:
-  verified:      {status: INFO, message: "{element} → {evidence} 已驗證"}
+  verified:      {status: INFO, message: "{element} → {evidence} 已驗證({how})"}
+  no_symbol:     {status: WARN, message: "{element} 沒有可比對的 ASCII 符號(純中文),無法機器驗證,請人確認 {evidence}", action: "元素名寫成「中文 (CodeSymbol)」或證據加 \"字面文字\""}
   bad_status:    {status: FAIL, message: "{element} 狀態 '{status}' 不在 existing/modify/new"}
   no_evidence:   {status: FAIL, message: "{element} 標 {status} 但無證據(path:line)", action: "填 path:line,或改 new"}
   path_missing:  {status: FAIL, message: "{element} 證據 {evidence} 檔案不存在", action: "修正路徑(相對專案根)"}

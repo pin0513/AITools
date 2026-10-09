@@ -26,6 +26,10 @@ output:
 
 sa_modeling:                                 # SA 建模(可抽換方法論;定義在 rules/methodology/sa/<name>.yaml)
   methodology: uml-wordbreak
+glossary:                                    # 跨 spec 詞彙表:名詞 ↔ 程式碼符號,由 analyze.glossary 從所有 spec 抽取合併
+  path: specs/glossary.md                    # 相對專案根;產生物(衝突表在同檔)
+  spec_roots: [specs/rd]                     # 底下每個 <issue>/spec 都算一份 spec
+  sources: [sa_entities, glossary_table, survey]   # 抽哪些表:SA2 實體(實體/英文)、00 名詞表(名詞/定義)、survey(元素/對應)
 survey:                                      # Survey Mapping:掃 codebase 找模型元素的對應
   code_roots: [src]                          # 相對專案根(.spec-dev.yaml 所在目錄)
   extensions: [.cs, .ts, .tsx, .js, .sql, .py, .java, .go]

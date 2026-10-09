@@ -1,0 +1,26 @@
+rule: G-GL-consistency
+cases:
+  - name: reused_same_symbol_is_info
+    ctx:
+      spec_name: issue-c
+      glossary: {terms: {填寫紀錄: {symbol: FormSubmission, specs: [issue-b, issue-c], definition: "", source: x}}}
+    patch: {replace: {sa_entities: [{name: 填寫紀錄, en: FormSubmission, attrs: "", source: ""}]}}
+    expect: [{outcome: reused, target: 填寫紀錄, status: INFO}]
+  - name: same_term_different_symbol_fails
+    ctx:
+      spec_name: issue-c
+      glossary: {terms: {填寫紀錄: {symbol: Submission, specs: [issue-b], definition: "", source: x}}}
+    patch: {replace: {sa_entities: [{name: 填寫紀錄, en: FormSubmission, attrs: "", source: ""}]}}
+    expect: [{outcome: term_conflict, target: 填寫紀錄, status: FAIL}]
+  - name: same_symbol_different_term_warns
+    ctx:
+      spec_name: issue-c
+      glossary: {terms: {送出紀錄: {symbol: FormSubmission, specs: [issue-b], definition: "", source: x}}}
+    patch: {replace: {sa_entities: [{name: 填寫紀錄, en: FormSubmission, attrs: "", source: ""}]}}
+    expect: [{outcome: symbol_conflict, target: 填寫紀錄, status: WARN}]
+  - name: only_this_spec_no_findings
+    ctx:
+      spec_name: issue-c
+      glossary: {terms: {填寫紀錄: {symbol: FormSubmission, specs: [issue-c], definition: "", source: x}}}
+    patch: {replace: {sa_entities: [{name: 填寫紀錄, en: FormSubmission, attrs: "", source: ""}]}}
+    expect: []

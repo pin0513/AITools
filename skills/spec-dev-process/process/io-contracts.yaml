@@ -112,10 +112,12 @@ tables:
   sa_roles:      {signature: [角色, 動作],                columns: [角色, 動作, 流程, 對應 REQ]}
   survey:        {signature: [模型元素, 類型],            columns: [模型元素, 類型, 狀態, 對應 codebase, 證據, 說明]}
   candidates:    {signature: [模型元素, 候選檔案],        columns: [模型元素, 候選檔案, 行, 片段]}
+  glossary_project: {signature: [名詞, 符號],             columns: [名詞, 符號, 定義, 來源 spec, 來源]}
+  glossary_conflicts: {signature: [名詞, 符號 A],         columns: [名詞, 符號 A, 來源 A, 符號 B, 來源 B]}
 
 artifacts:
   heading_prefixes: [UC-, STM-, SEQ-, CLS-, ERD-, C4-, UCD-, ACT-]     # mermaid 掛在這些開頭的 h3 下才算 artifact(UCD/ACT 為 SA 建模圖)
   kinds: {sequenceDiagram: sequence, stateDiagram: state, classDiagram: class, erDiagram: erd, C4Context: c4-context, C4Container: c4-container, C4Component: c4-component, flowchart: flowchart, graph: flowchart}
 
-generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/, survey-candidates.md]
+generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/, survey-candidates.md, glossary.md]
 survey_status: [existing, modify, new]

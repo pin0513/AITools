@@ -184,27 +184,72 @@ def sa_steps(data, params, ctx):
         out.append(_f("ok", st["id"], [st["id"], f], step=st["id"], file=f, diagrams=n))
     return out
 
+def resolve_symbols(element: str, data: dict, ctx: dict, min_len=3) -> tuple:
+    """元素名 → 可比對符號清單與來源:ASCII 符號 → 專案詞彙表(名詞→符號)→ 本 spec SA2(實體→英文)。中英文都支援。"""
+    import re
+    toks = [t for t in re.split(r"[^A-Za-z0-9_]+", element) if len(t) >= min_len]
+    if toks: return toks, "ascii"
+    zh = re.sub(r"\s*\([^)]*\)", "", element).strip()
+    terms = ((ctx.get("glossary") or {}).get("terms") or {})
+    g = terms.get(zh) or terms.get(element)
+    if g and g.get("symbol"): return [t for t in re.split(r"[^A-Za-z0-9_]+", g["symbol"]) if len(t) >= min_len], "glossary"
+    for e in data.get("sa_entities") or []:
+        if e["name"] in (zh, element) and e.get("en"): return [t for t in re.split(r"[^A-Za-z0-9_]+", e["en"]) if len(t) >= min_len], "sa2"
+    return [], "none"
+
+def glossary_consistency(data, params, ctx):
+    """本 spec 的 SA2 實體 vs 專案詞彙表(其他 spec 的條目)。"""
+    gl = ctx.get("glossary") or {}; terms = gl.get("terms") or {}
+    me = ctx.get("spec_name") or ""; out = []
+    by_symbol = {}
+    for k, v in terms.items():
+        if v.get("symbol"): by_symbol.setdefault(v["symbol"], []).append((k, v))
+    for e in data.get("sa_entities") or []:
+        if not e.get("en"): continue
+        g = terms.get(e["name"])
+        others = [s for s in (g["specs"] if g else []) if s != me]
+        if g and g.get("symbol") and g["symbol"] != e["en"] and others:
+            out.append(_f("term_conflict", e["name"], term=e["name"], symbol=e["en"], other_spec=others[0], other_symbol=g["symbol"]))
+        elif g and others:
+            out.append(_f("reused", e["name"], term=e["name"], symbol=e["en"], other_spec=others[0]))
+        for k, v in by_symbol.get(e["en"], []):
+            if k != e["name"] and any(s != me for s in v["specs"]):
+                out.append(_f("symbol_conflict", e["name"], term=e["name"], symbol=e["en"], other_spec=[s for s in v["specs"] if s != me][0], other_term=k))
+    return out
+
 def survey_evidence(data, params, ctx):
+    """證據格式:path:line  或  path:line "字面文字"(多筆以 ; 分隔)。
+    有字面文字 → 驗該行含該文字(區分大小寫);否則驗該行含元素符號(ASCII → 詞彙表 → SA2,不分大小寫)。
+    解析不到符號且無字面文字 → no_symbol(WARN,請人確認)。"""
     import pathlib, re
     root = ctx.get("project_root"); statuses = set((ctx.get("contracts") or {}).get("survey_status") or ["existing", "modify", "new"])
     min_len = int(params.get("min_token_len", 3)); cands = ctx.get("survey_candidates") or {}
+    EV = re.compile(r'^\s*(.+?):(\d+)(?:\s+"(.+)")?\s*$')
     out = []
     for row in data.get("survey") or []:
         el, st, ev = row["element"], row["status"], row["evidence"]
         if st not in statuses: out.append(_f("bad_status", el, element=el, status=st)); continue
-        toks = [t for t in re.split(r"[^A-Za-z0-9_]+", el) if len(t) >= min_len]
+        toks, how_sym = resolve_symbols(el, data, ctx, min_len)
         if st == "new":
             strong = [c for c in cands.get(el, []) if any(re.search(r"\b" + re.escape(t) + r"\b", c[2]) for t in toks)]
             if strong: out.append(_f("new_but_found", el, element=el, evidence=f"{strong[0][0]}:{strong[0][1]}"))
             continue
         if not ev or ":" not in ev: out.append(_f("no_evidence", el, element=el, status=st)); continue
         for one in [e.strip() for e in ev.split(";") if e.strip()]:
-            path, _, line = one.rpartition(":")
+            m = EV.match(one)
+            if not m: out.append(_f("path_missing", el, element=el, evidence=one)); continue
+            path, line, literal = m.group(1), int(m.group(2)), m.group(3)
             fp = (pathlib.Path(root) / path) if root else None
             if not fp or not fp.exists(): out.append(_f("path_missing", el, element=el, evidence=one)); continue
-            try: text = fp.read_text(encoding="utf-8", errors="ignore").splitlines()[int(line) - 1]
-            except (ValueError, IndexError): out.append(_f("path_missing", el, element=el, evidence=one)); continue
-            if not any(re.search(r"\b" + re.escape(t) + r"\b", text, re.I) for t in toks):
-                out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=toks)); continue
-            out.append(_f("verified", el, element=el, evidence=one))
+            try: text = fp.read_text(encoding="utf-8", errors="ignore").splitlines()[line - 1]
+            except IndexError: out.append(_f("path_missing", el, element=el, evidence=one)); continue
+            if literal is not None:
+                if literal in text: out.append(_f("verified", el, element=el, evidence=one, how=f'字面 "{literal}"'))
+                else: out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=[literal]))
+            elif not toks:
+                out.append(_f("no_symbol", el, element=el, evidence=one))
+            elif any(re.search(r"\b" + re.escape(t) + r"\b", text, re.I) for t in toks):
+                out.append(_f("verified", el, element=el, evidence=one, how=("符號 " if how_sym == "ascii" else f"{how_sym} 解析符號 ") + "/".join(toks)))
+            else:
+                out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=toks))
     return out

@@ -7,6 +7,8 @@
 |---|---|---|---|---|---|
 | Form | Aggregate | modify | Forms.Domain.Form | src/api/Forms.Domain/Form.cs:6 | 加 ReviewerIds(審核者指派;PM 未展開,見缺口 #1) |
 | FormSubmission | Aggregate | modify | Forms.Domain.FormSubmission | src/api/Forms.Domain/FormSubmission.cs:4 | 加 Status 狀態機、Approve/Reject/Resubmit、ResubmitCount |
+| 必填檢查 | Rule | existing | FormSubmission.Create 的必填迴圈 | src/api/Forms.Domain/FormSubmission.cs:16 "FIELD_REQUIRED" | 重送時沿用(issue-b);證據鎖定行為行的字面文字 |
+| 填寫紀錄 | Table | modify | FormSubmission 表 | src/database/002_submissions.sql:2 | 中文元素:符號經 SA2 實體表解析為 FormSubmission |
 | ReviewRecord | Entity | new | Forms.Domain.ReviewRecord | | 屬 FormSubmission aggregate 內的 Entity |
 | ReviewReminder | Entity | new | Forms.Domain.ReviewReminder | | 記錄已提醒,避免同日重複 |
 | Submit (SubmitFormCommandHandler) | Command | modify | FormsController.Submit / SubmitFormCommandHandler | src/api/Forms.Api/Controllers/FormsController.cs:16; src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs:8 | 送出後 Status=Pending(原本直接生效) |

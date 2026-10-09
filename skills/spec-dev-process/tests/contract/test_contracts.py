@@ -115,7 +115,7 @@ class TemplateContractTest(unittest.TestCase):
             for t in M.parse(f.name, f.read_text(encoding="utf-8")).tables:
                 n = M.classify(t, sig)
                 if n: found.add(n)
-        generated_only = {"candidates"}   # survey-candidates.md 由工具產生,沒有模板
+        generated_only = {"candidates", "glossary_project", "glossary_conflicts"}   # 由工具產生,沒有模板
         self.assertEqual(found, set(contracts["tables"]) - generated_only, f"模板缺表格 {set(contracts['tables']) - generated_only - found}")
 
     def test_template_mermaid_headings_match_prefixes(self):

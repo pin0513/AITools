@@ -1,0 +1,12 @@
+id: G-GL-consistency
+version: 1
+category: gate
+stage: SV
+name: 跨 spec 詞彙一致
+description: 本 spec 的 SA2 實體(名詞 → 符號)不得與其他 spec 的詞彙表衝突:同名詞不同符號 → FAIL;同符號不同名詞 → WARN
+predicate: glossary_consistency
+params: {}
+outcomes:
+  term_conflict:   {status: FAIL, message: "名詞「{term}」本 spec 用 {symbol},{other_spec} 用 {other_symbol}", action: "統一符號,或在名詞表說明兩者不同"}
+  symbol_conflict: {status: WARN, message: "符號 {symbol} 本 spec 叫「{term}」,{other_spec} 叫「{other_term}」", action: "確認是否同一概念"}
+  reused:          {status: INFO, message: "「{term}」→ {symbol} 與 {other_spec} 一致"}

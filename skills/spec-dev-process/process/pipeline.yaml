@@ -26,10 +26,10 @@ stages:
     name: Survey Mapping
     owner: tool+llm
     requires: sa_modeling               # sa_modeling.methodology = none 時與 SA 一起跳過
-    inputs:  [review_dir/sa/*.md, codebase]
-    tools:   [analyze.survey@1]          # 掃 codebase 產 survey-candidates.md;人/LLM 定案 survey-mapping.md
+    inputs:  [review_dir/sa/*.md, codebase, 其他 spec 的 sa/02 與名詞表]
+    tools:   [analyze.glossary@1, analyze.survey@1]   # 先抽跨 spec 詞彙表(專案根 glossary.md),再掃 codebase 產 survey-candidates.md;人/LLM 定案 survey-mapping.md
     outputs: [survey-candidates.md, survey-mapping.md]
-    gates:   [G-SV-evidence]
+    gates:   [G-GL-consistency, G-SV-evidence]
     stop_on: FAIL
 
   - id: S1

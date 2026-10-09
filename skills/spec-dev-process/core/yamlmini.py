@@ -1,4 +1,4 @@
-"""最小 YAML 子集解析:巢狀 map(縮排)、純量、行內 list [a, b]、行內 map {k: v}(可巢狀)、區塊 list - x、# 註解、引號字串。
+"""最小 YAML 子集解析:巢狀 map(縮排)、純量、行內 list [a, b]、行內 map {k: v}(可巢狀)、區塊 list - x、| 與 > 區塊字串(不保留空行)、# 註解、引號字串。
 有 PyYAML 時優先用 PyYAML。只為 config.yaml 服務,不支援多行字串與錨點。"""
 import re
 
@@ -7,7 +7,8 @@ def _scalar(s: str):
     if s == "" or s == "~" or s == "null":
         return None
     if s[0] in "\"'" and s[-1] == s[0] and len(s) >= 2:
-        return s[1:-1]
+        inner = s[1:-1]
+        return inner.replace('\\"', '"').replace("\\\\", "\\") if s[0] == '"' else inner.replace("''", "'")
     if s.startswith("[") and s.endswith("]"):
         inner = s[1:-1].strip()
         return [_scalar(x) for x in _split_top(inner, ",")] if inner else []
@@ -94,7 +95,14 @@ def loads(text: str):
                 raise ValueError(f"yamlmini: 無法解析 '{line}'")
             key, rest = _scalar(key.strip()), rest.strip()
             pos += 1
-            if rest == "":
+            if rest in ("|", ">", "|-", ">-"):
+                block = []
+                base = lines[pos][0] if pos < len(lines) and lines[pos][0] > indent else indent + 1
+                while pos < len(lines) and lines[pos][0] > indent:
+                    ind, txt = lines[pos]; block.append(" " * max(0, ind - base) + txt); pos += 1
+                text = "\n".join(block) if rest.startswith("|") else " ".join(b.strip() for b in block)
+                obj[key] = text + ("" if rest.endswith("-") else "\n")
+            elif rest == "":
                 if pos < len(lines) and lines[pos][0] > indent:
                     obj[key] = parse_block(lines[pos][0])
                 else:

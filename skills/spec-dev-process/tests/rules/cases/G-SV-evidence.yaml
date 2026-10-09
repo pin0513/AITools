@@ -30,3 +30,32 @@ cases:
     ctx: {project_root: examples/testcase1-form-system}
     patch: {replace: {survey: [{element: ReviewRecord, kind: x, status: new, target: x, evidence: "", note: ""}]}}
     expect: []
+  - name: chinese_element_without_symbol_is_warn_not_fail
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: 填寫紀錄, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]}}
+    expect: [{outcome: no_symbol, target: 填寫紀錄, status: WARN}]
+  - name: chinese_element_with_symbol_in_parens
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: "填寫紀錄 (FormSubmission)", kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]}}
+    expect: [{outcome: verified, target: "填寫紀錄 (FormSubmission)", status: INFO}]
+  - name: literal_text_pins_the_behavior_line
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: 必填檢查, kind: Rule, status: existing, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:16 \"FIELD_REQUIRED\"", note: ""}]}}
+    expect: [{outcome: verified, target: 必填檢查, status: INFO}]
+  - name: literal_text_mismatch_fails
+    ctx: {project_root: examples/testcase1-form-system}
+    patch: {replace: {survey: [{element: 必填檢查, kind: Rule, status: existing, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:16 \"FIELD_OPTIONAL\"", note: ""}]}}
+    expect: [{outcome: line_mismatch, target: 必填檢查, status: FAIL}]
+  - name: chinese_element_resolved_via_glossary
+    ctx:
+      project_root: examples/testcase1-form-system
+      glossary: {terms: {填寫紀錄: {symbol: FormSubmission, specs: [issue-b], definition: "", source: x}}}
+    patch: {replace: {survey: [{element: 填寫紀錄, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]}}
+    expect: [{outcome: verified, target: 填寫紀錄, status: INFO}]
+  - name: chinese_element_resolved_via_sa2
+    ctx: {project_root: examples/testcase1-form-system}
+    patch:
+      replace:
+        survey: [{element: 填寫紀錄, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]
+        sa_entities: [{name: 填寫紀錄, en: FormSubmission, attrs: "", source: ""}]
+    expect: [{outcome: verified, target: 填寫紀錄, status: INFO}]

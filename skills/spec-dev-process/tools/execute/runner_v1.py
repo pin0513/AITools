@@ -11,7 +11,7 @@ def make_ctx(d: pathlib.Path, cfg: dict, offline=False) -> dict:
     root = pathlib.Path(override).parent if override else d
     meth_name = (cfg.get("sa_modeling") or {}).get("methodology")
     meth = C.load_methodology(meth_name) if meth_name and meth_name != "none" else {}
-    return {"dir": d, "review_dir": review, "project_root": root, "config": cfg, "rules": C.load_rules(cfg), "contracts": C.load_contracts(),
+    return {"dir": d, "review_dir": review, "project_root": root, "spec_name": d.parent.name if d.name == "spec" else d.name, "config": cfg, "rules": C.load_rules(cfg), "contracts": C.load_contracts(),
             "registry": C.load_registry(), "methodology": meth, "offline": offline, "data": None, "log": [], "boundary": [], "gate": [],
             "contract_findings": [], "kpis": {}, "trace": []}
 
@@ -29,6 +29,9 @@ def run_stage(ctx: dict, stage: dict) -> dict:
         if not ctx["contract_findings"]: ctx["trace"].append(f"  contract OK: {', '.join(stage['outputs'])}")
         elif not stage.get("gates"):
             for f in ctx["contract_findings"]: ctx["trace"].append(f"  [{f['level']}] {f['rule']} {f['msg']}")
+    if stage["owner"] == "tool+llm" and ctx.get("data") is None:
+        from tools.analyze import extract_v1 as X
+        X.run(ctx)
     if stage["owner"] in ("tool", "tool+llm"):
         for ref in stage.get("tools") or []:
             fn, ver = C.resolve_tool(ref, ctx["registry"])

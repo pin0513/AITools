@@ -9,6 +9,7 @@
   spec-dev.py extract <dir>                            只抽 traceability.json
   spec-dev.py panel   <dir> [--offline]                = all
   spec-dev.py render  <dir> [--offline]                只渲染 md → html/
+  spec-dev.py glossary <dir>                           只抽跨 spec 詞彙表(寫到 config.glossary.path)
   spec-dev.py rules                                    列出啟用規則與版本
   spec-dev.py tools                                    列出工具與版本
   選項:--config <path> 指定 .spec-dev.yaml;--offline 內嵌 vendor/mermaid.min.js
@@ -42,7 +43,7 @@ def main(argv):
         for name, e in C.load_registry()["tools"].items():
             print(f"  {name:<18} latest=v{e['latest']}  versions={sorted(e['versions'])}")
         return 0
-    if len(argv) < 3 or cmd not in ("init", "run", "check", "all", "extract", "panel", "render"): print(__doc__); return 2
+    if len(argv) < 3 or cmd not in ("init", "run", "check", "all", "extract", "panel", "render", "glossary"): print(__doc__); return 2
     d = pathlib.Path(argv[2]); offline = "--offline" in argv
     from tools.execute import runner_v1 as R
     if cmd == "init":
@@ -54,6 +55,12 @@ def main(argv):
     ctx = R.make_ctx(d, cfg, offline)
     if cmd == "render":
         fn, _ = C.resolve_tool("transform.render", ctx["registry"]); ctx = fn(ctx); print("rendered:", ", ".join(ctx.get("rendered", []))); return 0
+    if cmd == "glossary":
+        fx, _ = C.resolve_tool("analyze.extract", ctx["registry"]); ctx = fx(ctx)
+        fn, _ = C.resolve_tool("analyze.glossary", ctx["registry"]); ctx = fn(ctx)
+        g = ctx["glossary"]; print(f"wrote {g['path']}: {len(g['terms'])} 詞, {len(g['conflicts'])} 衝突")
+        for c in g["conflicts"]: print(f"  [CONFLICT] {c['term']}: {c['symbol_a']} ({c['source_a']}) vs {c['symbol_b']} ({c['source_b']})")
+        return 1 if g["conflicts"] else 0
     if cmd == "extract":
         fn, _ = C.resolve_tool("analyze.extract", ctx["registry"]); ctx = fn(ctx)
         import json; (d / "traceability.json").write_text(json.dumps(ctx["data"], ensure_ascii=False, indent=2), encoding="utf-8")

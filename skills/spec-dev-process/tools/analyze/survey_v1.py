@@ -64,6 +64,13 @@ def candidates_md(hits: dict) -> str:
 def run(ctx: dict) -> dict:
     review, root = ctx["review_dir"], ctx["project_root"]
     els = elements_from_sa(review, ctx["contracts"], ctx.get("data") or {})
+    # survey-mapping.md 裡已定案的元素(含中文)也掃:中文經詞彙表 / SA2 解析成符號
+    from tools.check.predicates_v1 import resolve_symbols
+    data = ctx.get("data") or {}
+    for row in data.get("survey") or []:
+        toks, how = resolve_symbols(row["element"], data, ctx)
+        key = row["element"] if how == "ascii" else (f'{row["element"]} → {"/".join(toks)}' if toks else row["element"])
+        if key not in els: els.append(key)
     hits = scan(root, ctx["config"], els)
     (review / "survey-candidates.md").write_text(candidates_md(hits), encoding="utf-8")
     ctx["survey_candidates"] = hits

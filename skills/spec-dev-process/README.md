@@ -14,6 +14,7 @@ spec-dev-process/
 │   ├── registry.yaml           name → {latest, versions{n: module[:fn]}};pipeline 以 name@n 引用
 │   ├── analyze/extract_v1.py   md → traceability dict(含 spec-review 的 SA 素材與 survey)
 │   ├── analyze/survey_v1.py    掃 codebase 產 survey 候選
+│   ├── analyze/glossary_v1.py  跨 spec 詞彙表(名詞 ↔ 符號 ↔ 定義 ↔ 來源),衝突偵測
 │   ├── check/engine_v1.py      規則引擎(載 YAML、呼叫 predicate、outcome → 狀態/訊息)
 │   ├── check/predicates_v1.py  predicate 函式庫(只回報情況,不決定嚴重度)
 │   ├── check/contract_v1.py    llm stage 產物契約檢查
@@ -57,7 +58,7 @@ python3 spec-dev.py all docs/rd-spec/<feature> --offline     # 純 CLI
 
 ## 主流程(2.1)
 
-PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → 角色/流程 → UCD/ACT/SEQ/STM)→ **Survey Mapping**(工具掃 codebase 出候選,定案後工具回 codebase 驗證證據)→ S1–S6 → check board(**證據鏈**:PM 原文/mock 內嵌 ↔ RD 片段附行號;**分析鏈**:方法論步驟與 UML,預設收合;**邏輯鏈**:每條需求命中的規則與證據;另有 SA 素材、survey、矩陣、邊界、log)→ 看板 → 改 md → 再跑。
+PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → 角色/流程 → UCD/ACT/SEQ/STM)→ **跨 spec 詞彙表**(`analyze.glossary` 合併所有 spec 的名詞 ↔ 符號,衝突另列)→ **Survey Mapping**(工具掃 codebase 出候選,定案後工具回 codebase 驗證證據;元素中英文皆可,中文經詞彙表 / SA2 解析符號)→ S1–S6 → check board(**證據鏈**:PM 原文/mock 內嵌 ↔ RD 片段附行號;**分析鏈**:方法論步驟與 UML,預設收合;**邏輯鏈**:每條需求命中的規則與證據;另有 SA 素材、survey、矩陣、邊界、log)→ 看板 → 改 md → 再跑。
 
 端到端案例:`examples/testcase1-form-system/`(既有 codebase + issue c 走完整流程,`specs/tools/spec-reviewer/review.sh issue-c`)。
 
@@ -67,6 +68,7 @@ PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → �
 python3 spec-dev.py all examples/avatar-upload --offline   # 退出碼 1:範例刻意留 B2 / B7 FAIL
 python3 spec-dev.py run examples/avatar-upload --to S6     # 嚴格模式:S3 FAIL 就停
 python3 spec-dev.py rules; python3 spec-dev.py tools       # 看啟用規則與工具版本
+python3 spec-dev.py glossary examples/testcase1-form-system/specs/rd/issue-c/spec   # 只抽跨 spec 詞彙表
 ```
 
 ## 開一個新功能

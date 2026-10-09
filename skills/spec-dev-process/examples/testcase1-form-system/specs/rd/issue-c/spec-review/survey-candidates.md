@@ -22,3 +22,33 @@
 | Approve | (無) | | |
 | Reject | (無) | | |
 | Remind | (無) | | |
+| 填寫紀錄 → FormSubmission | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| 填寫紀錄 → FormSubmission | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
+| 填寫紀錄 → FormSubmission | src/api/Forms.Infrastructure/SqlFormRepository.cs | 16 | `public Task<FormSubmission?> GetAsync(Guid id, CancellationToken ct) => db.FormSubmissions.FirstOrDe` |
+| 填寫紀錄 → FormSubmission | src/api/Forms.Infrastructure/SqlFormRepository.cs | 17 | `public Task AddAsync(FormSubmission submission, CancellationToken ct) => db.FormSubmissions.AddAsync` |
+| 填寫紀錄 → FormSubmission | src/api/Forms.Domain/FormSubmission.cs | 4 | `public sealed class FormSubmission` |
+| Submit (SubmitFormCommandHandler) | src/api/Forms.Api/Controllers/FormsController.cs | 16 | `public async Task<IActionResult> Submit(Guid id, [FromBody] SubmitFormBody body, CancellationToken c` |
+| Submit (SubmitFormCommandHandler) | src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs | 8 | `public sealed class SubmitFormCommandHandler(IFormRepository forms, IFormSubmissionRepository submis` |
+| Submit (SubmitFormCommandHandler) | src/web/src/pages/FormFill.tsx | 4 | `return <button onClick={() => submitForm(formId, {})}>Submit</button>;` |
+| INotifier | src/api/Forms.Infrastructure/EmailNotifier.cs | 4 | `public interface INotifier { Task NotifyAsync(Guid userId, string template, object model, Cancellati` |
+| INotifier | src/api/Forms.Infrastructure/EmailNotifier.cs | 6 | `public sealed class EmailNotifier : INotifier` |
+| IFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
+| IFormSubmissionRepository | src/api/Forms.Domain/IFormRepository.cs | 10 | `public interface IFormSubmissionRepository` |
+| IFormSubmissionRepository | src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs | 8 | `public sealed class SubmitFormCommandHandler(IFormRepository forms, IFormSubmissionRepository submis` |
+| SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
+| FormsDbContext | src/api/Forms.Infrastructure/SqlFormRepository.cs | 7 | `public sealed class SqlFormRepository(FormsDbContext db) : IFormRepository` |
+| FormsDbContext | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
+| FormsDbContext | src/api/Forms.Infrastructure/Persistence/FormsDbContext.cs | 6 | `public sealed class FormsDbContext(DbContextOptions<FormsDbContext> options) : DbContext(options)` |
+| FormSubmission table | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| FormSubmission table | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
+| FormSubmission table | src/database/001_forms.sql | 2 | `CREATE TABLE Form (` |
+| FormSubmission table | src/database/001_forms.sql | 8 | `CREATE TABLE FormField (` |
+| FormSubmission table | src/api/Forms.Infrastructure/SqlFormRepository.cs | 16 | `public Task<FormSubmission?> GetAsync(Guid id, CancellationToken ct) => db.FormSubmissions.FirstOrDe` |
+| ReviewRecord table | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| ReviewRecord table | src/database/001_forms.sql | 2 | `CREATE TABLE Form (` |
+| ReviewRecord table | src/database/001_forms.sql | 8 | `CREATE TABLE FormField (` |
+| FormFill | src/web/src/pages/FormFill.tsx | 2 | `export function FormFill({ formId }: { formId: string }) {` |
+| ReviewPanel | (無) | | |
+| submitForm | src/web/src/api/client.ts | 4 | `export async function submitForm(formId: string, answers: Record<string, string>): Promise<{ id: str` |
+| submitForm | src/web/src/pages/FormFill.tsx | 1 | `import { submitForm } from '../api/client';` |
+| submitForm | src/web/src/pages/FormFill.tsx | 4 | `return <button onClick={() => submitForm(formId, {})}>Submit</button>;` |

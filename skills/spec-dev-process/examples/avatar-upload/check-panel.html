@@ -142,6 +142,13 @@ if(SAF.length){
   for(const f of SAF){const arts=byFile[f]||[];h+=`<details><summary>${esc(f)} <small>${arts.length} 張圖</small></summary>${arts.map(mer).join('')||'<small>(無圖)</small>'}</details>`}
   h+=`</div></section>`;
 }
+// ---- 詞彙表(跨 spec)----
+const GL=T.glossary||{};
+if((GL.terms||[]).length){
+  h+=`<section><h2>詞彙表(跨 spec) <small>${GL.terms.length} 詞 · 衝突 ${(GL.conflicts||[]).length} · ${esc(GL.path||'')}</small></h2><div class="body">`;
+  if((GL.conflicts||[]).length)h+=`<table><tr><th>名詞</th><th>符號 A</th><th>來源 A</th><th>符號 B</th><th>來源 B</th></tr>${GL.conflicts.map(c=>`<tr><td>${badge('FAIL')} ${esc(c.term)}</td><td>${esc(c.symbol_a)}</td><td><small>${esc(c.source_a)}</small></td><td>${esc(c.symbol_b)}</td><td><small>${esc(c.source_b)}</small></td></tr>`).join('')}</table>`;
+  h+=`<details><summary>全部詞彙</summary><table><tr><th>名詞</th><th>符號</th><th>定義</th><th>來源 spec</th><th>來源</th></tr>${GL.terms.map(t=>`<tr><td>${esc(t.term)}</td><td class="mono">${esc(t.symbol)}</td><td><small>${esc(t.definition)}</small></td><td><small>${(t.specs||[]).map(esc).join(', ')}</small></td><td class="mono"><small>${esc(t.source)}</small></td></tr>`).join('')}</table></details></div></section>`;
+}
 // ---- Survey Mapping ----
 const SV=T.survey||[];
 if(SV.length){

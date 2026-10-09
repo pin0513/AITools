@@ -32,16 +32,19 @@ class Testcase1Test(unittest.TestCase):
 
     def test_prove_survey_evidence_resolves_to_real_code(self):
         rows = [r for r in self.tr["survey"] if r["status"] in ("existing", "modify")]
-        self.assertGreaterEqual(len(rows), 8)
+        self.assertGreaterEqual(len(rows), 10)
         verified = [g for g in self.tr["gate"] if g["rule"] == "G-SV-evidence" and "已驗證" in g["msg"]]
         n_ev = sum(len([e for e in r["evidence"].split(";") if e.strip()]) for r in rows)
         self.assertEqual(len(verified), n_ev)
+        sa2 = {e["name"]: e["en"] for e in self.tr["sa_entities"]}
         for r in rows:                                    # 獨立於規則引擎再比對一次
             for ev in [e.strip() for e in r["evidence"].split(";") if e.strip()]:
-                path, _, line = ev.rpartition(":")
-                text = (self.proj / path).read_text(encoding="utf-8").splitlines()[int(line) - 1]
-                toks = [t for t in re.split(r"[^A-Za-z0-9_]+", r["element"]) if len(t) >= 3]
-                self.assertTrue(any(re.search(r"\b" + re.escape(t) + r"\b", text, re.I) for t in toks), f"{r['element']} {ev}: {text}")
+                m = re.match(r'^(.+?):(\d+)(?:\s+"(.+)")?$', ev); path, line, literal = m.group(1), int(m.group(2)), m.group(3)
+                text = (self.proj / path).read_text(encoding="utf-8").splitlines()[line - 1]
+                if literal: self.assertIn(literal, text, f"{r['element']} {ev}"); continue
+                name = r["element"] if re.search(r"[A-Za-z]{3}", r["element"]) else sa2.get(re.sub(r"\s*\(.*\)", "", r["element"]), "")
+                toks = [t for t in re.split(r"[^A-Za-z0-9_]+", name) if len(t) >= 3]
+                self.assertTrue(toks and any(re.search(r"\b" + re.escape(t) + r"\b", text, re.I) for t in toks), f"{r['element']} {ev}: {text}")
 
     def test_prove_sa_hand_off_into_rd_spec(self):
         """SA 的實體要出現在 RD spec 的 Component 或領域模型;survey 的 new 元素要是 Component 表的 new。"""
@@ -65,6 +68,18 @@ class Testcase1Test(unittest.TestCase):
         self.assertEqual(sorted(self.tr["uc_text"]), ["UC-001", "UC-002", "UC-003", "UC-004"])
         html = (self.review / "check-panel.html").read_text(encoding="utf-8")
         self.assertIn("E. 證據鏈", html); self.assertIn("srcdoc=", html)   # mock 內嵌在面板裡
+
+    def test_bilingual_elements_and_cross_spec_glossary(self):
+        """中文元素經詞彙表 / SA2 解析後可驗;跨 spec 詞彙表由 issue-b + issue-c 合併;本 spec 命名與 issue-b 一致。"""
+        gl = self.proj / "specs" / "glossary.md"
+        self.assertTrue(gl.exists()); text = gl.read_text(encoding="utf-8")
+        self.assertIn("| 填寫紀錄 | FormSubmission |", text); self.assertIn("issue-b, issue-c", text); self.assertIn("| (無) |", text)
+        g = {x["msg"]: x for x in self.tr["gate"] if x["rule"] == "G-SV-evidence"}
+        self.assertTrue(any("填寫紀錄" in m and "已驗證" in m and "解析符號" in m for m in g), list(g)[:5])
+        self.assertTrue(any("必填檢查" in m and '字面 "FIELD_REQUIRED"' in m for m in g))
+        self.assertTrue(any(x["rule"] == "G-GL-consistency" and x["level"] == "INFO" and "填寫紀錄" in x["msg"] for x in self.tr["gate"]))
+        self.assertFalse(any(x["rule"] == "G-GL-consistency" and x["level"] == "FAIL" for x in self.tr["gate"]))
+        self.assertGreaterEqual(len(self.tr["glossary"]["terms"]), 8); self.assertEqual(self.tr["glossary"]["conflicts"], [])
 
     def test_check_board_shows_sa_materials_and_survey(self):
         html = (self.review / "check-panel.html").read_text(encoding="utf-8")
