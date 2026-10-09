@@ -68,6 +68,13 @@ def run_matrix(root: pathlib.Path, offline=False) -> dict:
     for r, c in zip(results, cases):
         src = c / r["panel"]
         if src.exists(): shutil.copy(src, board / "tc" / f'{r["id"]}.html')
+    # 其他範例(同層 examples/ 下有 spec-review 面板的專案,例如 testcase1)一併放進驗收板,方便試查找框與已知資產
+    extras = []
+    for panel in sorted(root.parent.glob("*/specs/rd/*/spec-review/check-panel.html")):
+        proj, issue = panel.parents[4].name, panel.parents[1].name
+        if proj == root.name: continue
+        name = f"{proj.split('-')[0]}-{issue}"; shutil.copy(panel, board / "tc" / f"{name}.html"); extras.append((name, f"{proj} · {issue}"))
+    out["extras"] = extras
     body = board_body(out)
     (board / "page.html").write_text(body, encoding="utf-8")
     (board / "index.html").write_text("<!doctype html><html lang=\"zh-Hant\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"></head><body>" + body + "</body></html>", encoding="utf-8")
@@ -154,6 +161,7 @@ td.empty{{color:var(--muted)}}
 <section class="notes">
 <div class="note"><h2>成對覆蓋</h2><p>情境 = (形狀序號 + 語言序號) mod 3。任兩個維度的每種組合至少出現一次:形狀 × 語言 15 組、形狀 × 情境 15 組、語言 × 情境 9 組。</p></div>
 <div class="note"><h2>突變版</h2><ul><li><b>證據行號</b>:把一條 survey 證據改指第 1 行,應由 <code>G-SV-evidence</code> 抓到。</li><li><b>反向依賴</b>:Domain 依賴 Repository,或 ApiClient 依賴 Store,應由 <code>B2</code> 抓到。</li><li><b>無測試 AC</b>:在需求表加一條沒有測試的 AC,應由 <code>B7</code> 抓到。</li><li><b>命名空間證據</b>(有後端的形狀):對應欄寫 <code>Ctx.Domain.Entity</code>、證據指 namespace 行,應由 <code>G-SV-evidence</code> 抓到。</li></ul></div>
+{"".join(f'<div class="note"><h2>其他範例</h2><p><a class="open" href="tc/{e(n)}.html">{e(lbl)}</a>:有 <code>docs/</code> 與 <code>specs/done/</code> 既有文件,適合試證據鏈頂端的查找框與「詞彙與已知資產」。</p></div>' for n, lbl in out.get("extras") or [])}
 <div class="note"><h2>驗收條件</h2><ul><li>baseline 0 FAIL</li><li>每個突變版都被指定規則抓到</li><li>survey 證據驗證數 = 預期數</li><li>SA0 斷詞召回 ≥ 60%(對照情境定義的實體、角色、動作詞)</li></ul></div>
 </section>
 </div>"""

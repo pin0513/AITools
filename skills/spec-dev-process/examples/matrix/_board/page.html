@@ -55,6 +55,7 @@ td.empty{color:var(--muted)}
 <section class="notes">
 <div class="note"><h2>成對覆蓋</h2><p>情境 = (形狀序號 + 語言序號) mod 3。任兩個維度的每種組合至少出現一次:形狀 × 語言 15 組、形狀 × 情境 15 組、語言 × 情境 9 組。</p></div>
 <div class="note"><h2>突變版</h2><ul><li><b>證據行號</b>:把一條 survey 證據改指第 1 行,應由 <code>G-SV-evidence</code> 抓到。</li><li><b>反向依賴</b>:Domain 依賴 Repository,或 ApiClient 依賴 Store,應由 <code>B2</code> 抓到。</li><li><b>無測試 AC</b>:在需求表加一條沒有測試的 AC,應由 <code>B7</code> 抓到。</li><li><b>命名空間證據</b>(有後端的形狀):對應欄寫 <code>Ctx.Domain.Entity</code>、證據指 namespace 行,應由 <code>G-SV-evidence</code> 抓到。</li></ul></div>
+<div class="note"><h2>其他範例</h2><p><a class="open" href="tc/testcase1-issue-c.html">testcase1-form-system · issue-c</a>:有 <code>docs/</code> 與 <code>specs/done/</code> 既有文件,適合試證據鏈頂端的查找框與「詞彙與已知資產」。</p></div>
 <div class="note"><h2>驗收條件</h2><ul><li>baseline 0 FAIL</li><li>每個突變版都被指定規則抓到</li><li>survey 證據驗證數 = 預期數</li><li>SA0 斷詞召回 ≥ 60%(對照情境定義的實體、角色、動作詞)</li></ul></div>
 </section>
 </div>
