@@ -111,4 +111,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.1.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.2.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
