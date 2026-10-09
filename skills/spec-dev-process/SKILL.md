@@ -28,7 +28,7 @@ python3 spec-dev.py all   docs/rd-spec/avatar-upload [--offline]               #
 python3 spec-dev.py check docs/rd-spec/avatar-upload                           # 只核對;退出碼 1 = 有 FAIL
 python3 spec-dev.py run   docs/rd-spec/avatar-upload --to S6                   # 嚴格:依 pipeline stop_on 停
 python3 spec-dev.py review docs/rd-spec/avatar-upload                          # 全流程 + spec-reviewer 審計 + 瀏覽器渲染驗證
-python3 spec-dev.py serve  docs/rd-spec/avatar-upload --port 8110              # 一站式審查站台:PM / QA / RD(可同一人)在看板上確認、提問、看原文
+python3 spec-dev.py signoff docs/rd-spec/avatar-upload --id SEQ-001 --duty buildable --hash <hash> --by 名字   # 確認(看板只顯示;由 AI 呼叫)
 ```
 
 設定讀取順序:套件 `config.yaml` → rd-spec 目錄或任一上層的 `.spec-dev.yaml`(深合併覆寫,含 `rules.disable` / `rules.overrides`)。

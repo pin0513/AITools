@@ -7,6 +7,7 @@
     "20-domain-model.md",
     "30-architecture-c4.md",
     "40-api-contracts.md",
+    "41-ui-spec.md",
     "50-data-model.md",
     "60-test-design.md"
   ],
@@ -576,6 +577,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 6,
       "file": "40-api-contracts.md"
     },
@@ -593,6 +595,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 7,
       "file": "40-api-contracts.md"
     },
@@ -610,6 +613,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 8,
       "file": "40-api-contracts.md"
     },
@@ -624,6 +628,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 9,
       "file": "40-api-contracts.md"
     },
@@ -638,6 +643,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 10,
       "file": "40-api-contracts.md"
     }
@@ -1130,7 +1136,51 @@
       {
         "path": "specs/in-progress/issue-c/mock/approval.html",
         "exists": true,
-        "html": "<!doctype html><html lang=\"zh-Hant\"><meta charset=\"utf-8\"><title>mock: 審核</title>\n<body style=\"font-family:system-ui\">\n<h2>填寫紀錄 #1234 <span id=\"status\" data-state=\"pending\">待審核</span></h2>\n<!-- 狀態:pending(待審核) / approved(已核准) / rejected(已退回) -->\n<section id=\"answers\"><label>部門 <input name=\"dept\" disabled></label></section>\n<section id=\"submitter-actions\"><button id=\"edit\" disabled>修改</button><button id=\"resubmit\" hidden>重新送出</button></section>\n<section id=\"reviewer-actions\">\n  <button id=\"approve\">核准</button>\n  <button id=\"reject\">退回</button>\n  <textarea id=\"reason\" placeholder=\"退回理由(至少 10 字)\" minlength=\"10\"></textarea>\n</section>\n<section id=\"history\"><h3>審核紀錄</h3><ul><li>2026-10-01 王審核 退回:缺少附件說明</li></ul></section>\n</body></html>\n"
+        "html": "<!doctype html><html lang=\"zh-Hant-TW\"><meta charset=\"utf-8\"><title>mock: 審核</title>\n<body style=\"font-family:system-ui\">\n<h2>填寫紀錄 #1234 <span id=\"status\" data-state=\"pending\">待審核</span></h2>\n<!-- 狀態:pending(待審核) / approved(已核准) / rejected(已退回) -->\n<section id=\"answers\"><label>部門 <input name=\"dept\" disabled></label></section>\n<section id=\"submitter-actions\"><button id=\"edit\" disabled>修改</button><button id=\"resubmit\" hidden>重新送出</button></section>\n<section id=\"reviewer-actions\">\n  <button id=\"approve\">核准</button>\n  <button id=\"reject\">退回</button>\n  <textarea id=\"reason\" placeholder=\"退回理由(至少 10 字)\" minlength=\"10\"></textarea>\n</section>\n<section id=\"history\"><h3>審核紀錄</h3><ul><li>2026-10-01 王審核 退回:缺少附件說明</li></ul></section>\n</body></html>\n",
+        "elements": [
+          {
+            "tag": "input",
+            "id": "",
+            "name": "dept",
+            "text": "",
+            "line": 5
+          },
+          {
+            "tag": "button",
+            "id": "edit",
+            "name": "",
+            "text": "修改",
+            "line": 6
+          },
+          {
+            "tag": "button",
+            "id": "resubmit",
+            "name": "",
+            "text": "重新送出",
+            "line": 6
+          },
+          {
+            "tag": "button",
+            "id": "approve",
+            "name": "",
+            "text": "核准",
+            "line": 8
+          },
+          {
+            "tag": "button",
+            "id": "reject",
+            "name": "",
+            "text": "退回",
+            "line": 9
+          },
+          {
+            "tag": "textarea",
+            "id": "reason",
+            "name": "",
+            "text": "退回理由(至少 10 字)",
+            "line": 10
+          }
+        ]
       }
     ],
     "refs": [
@@ -1208,14 +1258,175 @@
       "text": "- 主要參與者:System(每日排程)\n- 觸發:每日 09:00\n- 前置條件:無\n- 後置條件(成功保證):每筆逾時 Pending 紀錄,今日對每位審核者恰好提醒一次,且寫入 ReviewReminder\n- 主流程:\n  1. 查詢 Pending 且 SubmittedAt + 3 工作天 < 今日 的紀錄\n  2. 排除今日已提醒者\n  3. 經 INotifier 發提醒;寫 ReviewReminder\n- 替代流程:無\n- 例外流程:INotifier 失敗 → 記 log、該筆不寫 ReviewReminder,隔日重試"
     }
   },
-  "screens": [],
-  "ui_validation": [],
+  "screens": [
+    {
+      "screen": "審核頁",
+      "route": "/submissions/{id}",
+      "components": [],
+      "mock": "specs/in-progress/issue-c/mock/approval.html",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "line": 9,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "填寫頁",
+      "route": "/forms/{id}/fill",
+      "components": [],
+      "mock": "",
+      "reqs": [
+        "REQ-001"
+      ],
+      "line": 10,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "審核清單",
+      "route": "/reviews",
+      "components": [],
+      "mock": "",
+      "reqs": [
+        "REQ-002"
+      ],
+      "line": 11,
+      "file": "ui/41-ui-spec.md"
+    }
+  ],
+  "ui_elements": [
+    {
+      "screen": "審核頁",
+      "element": "#approve",
+      "kind": "button",
+      "action": "核准",
+      "apis": [
+        "API-002"
+      ],
+      "enabled": "狀態 = Pending 且操作者是審核者",
+      "acs": [
+        "AC-002-1"
+      ],
+      "line": 16,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "審核頁",
+      "element": "#reject",
+      "kind": "button",
+      "action": "退回",
+      "apis": [
+        "API-003"
+      ],
+      "enabled": "狀態 = Pending 且操作者是審核者",
+      "acs": [
+        "AC-002-3"
+      ],
+      "line": 17,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "審核頁",
+      "element": "#reason",
+      "kind": "textarea",
+      "action": "輸入退回理由",
+      "apis": [],
+      "enabled": "退回時必填,至少 10 字",
+      "acs": [
+        "AC-002-2"
+      ],
+      "line": 18,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "審核頁",
+      "element": "#edit",
+      "kind": "button",
+      "action": "修改",
+      "apis": [],
+      "enabled": "狀態 = Rejected(Pending / Approved 時停用)",
+      "acs": [
+        "AC-001-2",
+        "AC-003-2"
+      ],
+      "line": 19,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "審核頁",
+      "element": "#resubmit",
+      "kind": "button",
+      "action": "重新送出",
+      "apis": [
+        "API-004"
+      ],
+      "enabled": "狀態 = Rejected",
+      "acs": [
+        "AC-003-1"
+      ],
+      "line": 20,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "審核頁",
+      "element": "dept",
+      "kind": "input",
+      "action": "無",
+      "apis": [],
+      "enabled": "永遠唯讀(顯示填寫內容)",
+      "acs": [],
+      "line": 21,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "填寫頁",
+      "element": "submit",
+      "kind": "button",
+      "action": "送出",
+      "apis": [
+        "API-001"
+      ],
+      "enabled": "必填欄位已填",
+      "acs": [
+        "AC-001-1"
+      ],
+      "line": 22,
+      "file": "ui/41-ui-spec.md"
+    },
+    {
+      "screen": "審核清單",
+      "element": "待審清單",
+      "kind": "list",
+      "action": "載入待審清單",
+      "apis": [
+        "API-005"
+      ],
+      "enabled": "操作者是審核者",
+      "acs": [],
+      "line": 23,
+      "file": "ui/41-ui-spec.md"
+    }
+  ],
+  "ui_validation": [
+    {
+      "screen": "審核頁",
+      "field": "#reason",
+      "rule": "至少 10 字",
+      "message": "退回理由至少 10 字(REASON_TOO_SHORT)",
+      "acs": [
+        "AC-002-2"
+      ],
+      "line": 28
+    }
+  ],
   "doc_paths": {
     "00-overview.md": "00-overview.md",
     "10-requirements.md": "10-requirements.md",
     "20-domain-model.md": "20-domain-model.md",
     "30-architecture-c4.md": "30-architecture-c4.md",
     "40-api-contracts.md": "40-api-contracts.md",
+    "41-ui-spec.md": "ui/41-ui-spec.md",
     "50-data-model.md": "50-data-model.md",
     "60-test-design.md": "60-test-design.md"
   },
@@ -2290,7 +2501,7 @@
         "類型": "Web",
         "狀態": "modify",
         "對應 codebase": "src/web/src/pages/FormFill.tsx",
-        "證據": "src/web/src/pages/FormFill.tsx:2",
+        "證據": "src/web/src/pages/FormFill.tsx:2; src/web/src/pages/FormFill.tsx:4 \"submitForm(formId\"",
         "說明": "Pending 時停用修改;Rejected 顯示理由與重送",
         "_line": 26,
         "_file": "survey-mapping.md"
@@ -2310,7 +2521,7 @@
         "類型": "Web",
         "狀態": "modify",
         "對應 codebase": "src/web/src/api/client.ts",
-        "證據": "src/web/src/api/client.ts:4",
+        "證據": "src/web/src/api/client.ts:4; src/web/src/api/client.ts:5 \"/submissions\"",
         "說明": "加 approve / reject / resubmit / listPending 呼叫",
         "_line": 28,
         "_file": "survey-mapping.md"
@@ -2610,7 +2821,7 @@
       "kind": "Web",
       "status": "modify",
       "target": "src/web/src/pages/FormFill.tsx",
-      "evidence": "src/web/src/pages/FormFill.tsx:2",
+      "evidence": "src/web/src/pages/FormFill.tsx:2; src/web/src/pages/FormFill.tsx:4 \"submitForm(formId\"",
       "note": "Pending 時停用修改;Rejected 顯示理由與重送",
       "line": 26,
       "file": "survey-mapping.md"
@@ -2630,7 +2841,7 @@
       "kind": "Web",
       "status": "modify",
       "target": "src/web/src/api/client.ts",
-      "evidence": "src/web/src/api/client.ts:4",
+      "evidence": "src/web/src/api/client.ts:4; src/web/src/api/client.ts:5 \"/submissions\"",
       "note": "加 approve / reject / resubmit / listPending 呼叫",
       "line": 28,
       "file": "survey-mapping.md"
@@ -4432,8 +4643,8 @@
       "ids": [
         "Form"
       ],
-      "msg": "Form → src/api/Forms.Domain/Form.cs:6 已驗證(符號 Form)",
-      "action": ""
+      "msg": "Form → src/api/Forms.Domain/Form.cs:6 已放行·弱證據(符號 Form;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4441,8 +4652,8 @@
       "ids": [
         "FormSubmission"
       ],
-      "msg": "FormSubmission → src/api/Forms.Domain/FormSubmission.cs:4 已驗證(符號 FormSubmission)",
-      "action": ""
+      "msg": "FormSubmission → src/api/Forms.Domain/FormSubmission.cs:4 已放行·弱證據(符號 FormSubmission;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4450,7 +4661,7 @@
       "ids": [
         "必填檢查"
       ],
-      "msg": "必填檢查 → src/api/Forms.Domain/FormSubmission.cs:16 \"FIELD_REQUIRED\" 已驗證(字面 \"FIELD_REQUIRED\")",
+      "msg": "必填檢查 → src/api/Forms.Domain/FormSubmission.cs:16 \"FIELD_REQUIRED\" 已放行·強證據(字面 \"FIELD_REQUIRED\")",
       "action": ""
     },
     {
@@ -4459,8 +4670,8 @@
       "ids": [
         "填寫紀錄"
       ],
-      "msg": "填寫紀錄 → src/database/002_submissions.sql:2 已驗證(glossary 解析 FormSubmission)",
-      "action": ""
+      "msg": "填寫紀錄 → src/database/002_submissions.sql:2 已放行·弱證據(glossary 解析 FormSubmission;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4468,17 +4679,8 @@
       "ids": [
         "Submit (SubmitFormCommandHandler)"
       ],
-      "msg": "Submit (SubmitFormCommandHandler) → src/api/Forms.Api/Controllers/FormsController.cs:16 已驗證(符號 Submit)",
-      "action": ""
-    },
-    {
-      "level": "INFO",
-      "rule": "G-SV-evidence",
-      "ids": [
-        "Submit (SubmitFormCommandHandler)"
-      ],
-      "msg": "Submit (SubmitFormCommandHandler) → src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs:8 已驗證(符號 SubmitFormCommandHandler)",
-      "action": ""
+      "msg": "Submit (SubmitFormCommandHandler) → src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs:8 已放行·弱證據(符號 SubmitFormCommandHandler;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4486,8 +4688,8 @@
       "ids": [
         "INotifier"
       ],
-      "msg": "INotifier → src/api/Forms.Infrastructure/EmailNotifier.cs:4 已驗證(符號 INotifier)",
-      "action": ""
+      "msg": "INotifier → src/api/Forms.Infrastructure/EmailNotifier.cs:4 已放行·弱證據(符號 INotifier;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4495,8 +4697,8 @@
       "ids": [
         "IFormSubmissionRepository"
       ],
-      "msg": "IFormSubmissionRepository → src/api/Forms.Domain/IFormRepository.cs:10 已驗證(符號 IFormSubmissionRepository)",
-      "action": ""
+      "msg": "IFormSubmissionRepository → src/api/Forms.Domain/IFormRepository.cs:10 已放行·弱證據(符號 IFormSubmissionRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4504,8 +4706,8 @@
       "ids": [
         "SqlFormSubmissionRepository"
       ],
-      "msg": "SqlFormSubmissionRepository → src/api/Forms.Infrastructure/SqlFormRepository.cs:14 已驗證(符號 SqlFormSubmissionRepository)",
-      "action": ""
+      "msg": "SqlFormSubmissionRepository → src/api/Forms.Infrastructure/SqlFormRepository.cs:14 已放行·弱證據(符號 SqlFormSubmissionRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4513,8 +4715,8 @@
       "ids": [
         "FormsDbContext"
       ],
-      "msg": "FormsDbContext → src/api/Forms.Infrastructure/Persistence/FormsDbContext.cs:6 已驗證(符號 FormsDbContext)",
-      "action": ""
+      "msg": "FormsDbContext → src/api/Forms.Infrastructure/Persistence/FormsDbContext.cs:6 已放行·弱證據(符號 FormsDbContext;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4522,8 +4724,8 @@
       "ids": [
         "FormSubmission table"
       ],
-      "msg": "FormSubmission table → src/database/002_submissions.sql:2 已驗證(符號 FormSubmission)",
-      "action": ""
+      "msg": "FormSubmission table → src/database/002_submissions.sql:2 已放行·弱證據(符號 FormSubmission;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -4531,7 +4733,7 @@
       "ids": [
         "FormFill"
       ],
-      "msg": "FormFill → src/web/src/pages/FormFill.tsx:2 已驗證(符號 FormFill)",
+      "msg": "FormFill → src/web/src/pages/FormFill.tsx:4 \"submitForm(formId\" 已放行·強證據(字面 \"submitForm(formId\")",
       "action": ""
     },
     {
@@ -4540,7 +4742,7 @@
       "ids": [
         "submitForm"
       ],
-      "msg": "submitForm → src/web/src/api/client.ts:4 已驗證(符號 submitForm)",
+      "msg": "submitForm → src/web/src/api/client.ts:5 \"/submissions\" 已放行·強證據(字面 \"/submissions\")",
       "action": ""
     },
     {
@@ -4578,6 +4780,80 @@
       ],
       "msg": "NFR-001 S1 QualityScenario 證據=assumed:沒有數字",
       "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-UI-API",
+      "ids": [
+        "審核頁 #approve",
+        "API-002",
+        "AC-002-1"
+      ],
+      "msg": "審核頁 #approve → API-002 → CMP-001 · AC AC-002-1",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-UI-API",
+      "ids": [
+        "審核頁 #reject",
+        "API-003",
+        "AC-002-3"
+      ],
+      "msg": "審核頁 #reject → API-003 → CMP-001 · AC AC-002-3",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-UI-API",
+      "ids": [
+        "審核頁 #reason",
+        "AC-002-2"
+      ],
+      "msg": "審核頁 #reason → (無 API) → — · AC AC-002-2",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-UI-API",
+      "ids": [
+        "審核頁 #edit",
+        "AC-001-2",
+        "AC-003-2"
+      ],
+      "msg": "審核頁 #edit → (無 API) → — · AC AC-001-2, AC-003-2",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-UI-API",
+      "ids": [
+        "審核頁 #resubmit",
+        "API-004",
+        "AC-003-1"
+      ],
+      "msg": "審核頁 #resubmit → API-004 → CMP-001 · AC AC-003-1",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-UI-API",
+      "ids": [
+        "填寫頁 submit",
+        "API-001",
+        "AC-001-1"
+      ],
+      "msg": "填寫頁 submit → API-001 → CMP-001 · AC AC-001-1",
+      "action": ""
+    },
+    {
+      "level": "WARN",
+      "rule": "G-UI-API",
+      "ids": [
+        "審核清單 待審清單"
+      ],
+      "msg": "審核清單 待審清單(載入待審清單)有動作但沒有對應 AC",
+      "action": "補對應 AC,或在 10 補一條 AC"
     },
     {
       "level": "INFO",
@@ -5051,14 +5327,90 @@
     "assumed": 4
   },
   "versions": {
-    "current": 1,
-    "at": "2026-10-09T11:19:52",
+    "current": 4,
+    "at": "2026-10-09T16:40:50",
     "git": {
-      "commit": "dc55c1a",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
-      "dirty": []
+      "dirty": [
+        "kills/spec-dev-process/examples/testcase1-form-system/specs/rd/issue-c/spec-review/survey-mapping.md",
+        "skills/spec-dev-process/examples/testcase1-form-system/specs/rd/issue-c/spec/ui/41-ui-spec.md"
+      ]
     },
     "timeline": [
+      {
+        "v": 4,
+        "at": "2026-10-09T16:40:50",
+        "git": {
+          "commit": "552a863",
+          "branch": "feat/pm-to-rd-spec-workflow",
+          "dirty": [
+            "kills/spec-dev-process/examples/testcase1-form-system/specs/rd/issue-c/spec-review/survey-mapping.md",
+            "skills/spec-dev-process/examples/testcase1-form-system/specs/rd/issue-c/spec/ui/41-ui-spec.md"
+          ]
+        },
+        "changed": [
+          {
+            "path": "specs/rd/issue-c/spec/ui/41-ui-spec.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "欄位驗證",
+              "畫面元素",
+              "畫面清單",
+              "表單審核流程 — UI spec"
+            ],
+            "more": 0
+          }
+        ],
+        "keys": []
+      },
+      {
+        "v": 3,
+        "at": "2026-10-09T16:16:58",
+        "git": {
+          "commit": "552a863",
+          "branch": "feat/pm-to-rd-spec-workflow",
+          "dirty": [
+            "kills/spec-dev-process/examples/testcase1-form-system/specs/rd/issue-c/spec-review/survey-mapping.md"
+          ]
+        },
+        "changed": [
+          {
+            "path": "specs/rd/issue-c/spec-review/survey-mapping.md",
+            "kind": "SA",
+            "status": "changed",
+            "sections": [
+              "對應表"
+            ],
+            "more": 0,
+            "add": 2,
+            "dele": 2
+          }
+        ],
+        "keys": []
+      },
+      {
+        "v": 2,
+        "at": "2026-10-09T16:15:24",
+        "git": {
+          "commit": "552a863",
+          "branch": "feat/pm-to-rd-spec-workflow",
+          "dirty": []
+        },
+        "changed": [
+          {
+            "path": "specs/in-progress/issue-c/mock/approval.html",
+            "kind": "PM",
+            "status": "changed",
+            "sections": [],
+            "more": 0,
+            "add": 0,
+            "dele": 0
+          }
+        ],
+        "keys": []
+      },
       {
         "v": 1,
         "at": "2026-10-09T11:19:52",
@@ -5361,16 +5713,37 @@
     ],
     "docs": [
       {
-        "path": "specs/in-progress/issue-c/mock/approval.html",
-        "kind": "PM",
-        "hash": "a198f331245e",
-        "lines": 14,
-        "changed_in": 1,
+        "path": "specs/rd/issue-c/spec/ui/41-ui-spec.md",
+        "kind": "RD",
+        "hash": "1fdedac69006",
+        "lines": 29,
+        "changed_in": 4,
+        "git": null
+      },
+      {
+        "path": "specs/rd/issue-c/spec-review/survey-mapping.md",
+        "kind": "SA",
+        "hash": "30c93092e1f2",
+        "lines": 29,
+        "changed_in": 3,
         "git": {
-          "commit": "8a8d5e0",
+          "commit": "7cd90fa",
           "date": "2026-10-09",
           "author": "Claude",
-          "subject": "feat: spec-dev-process 2.1 — SA modeling (pluggable methodology) + survey mappin"
+          "subject": "feat: bilingual survey evidence + cross-spec glossary"
+        }
+      },
+      {
+        "path": "specs/in-progress/issue-c/mock/approval.html",
+        "kind": "PM",
+        "hash": "ca5047d59443",
+        "lines": 14,
+        "changed_in": 2,
+        "git": {
+          "commit": "3d33904",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "html lang: zh-Hant -> zh-Hant-TW (content uses Taiwan terminology)"
         }
       },
       {
@@ -5582,19 +5955,6 @@
         }
       },
       {
-        "path": "specs/rd/issue-c/spec-review/survey-mapping.md",
-        "kind": "SA",
-        "hash": "153dc4f823cf",
-        "lines": 29,
-        "changed_in": 1,
-        "git": {
-          "commit": "7cd90fa",
-          "date": "2026-10-09",
-          "author": "Claude",
-          "subject": "feat: bilingual survey evidence + cross-spec glossary"
-        }
-      },
-      {
         "path": "docs/architectures/overview.md",
         "kind": "參考",
         "hash": "e9c9af22968e",
@@ -5660,7 +6020,31 @@
         }
       }
     ],
-    "diffs": {},
+    "diffs": {
+      "2:specs/in-progress/issue-c/mock/approval.html": {
+        "add": 0,
+        "del": 0,
+        "lines": [],
+        "truncated": false
+      },
+      "3:specs/rd/issue-c/spec-review/survey-mapping.md": {
+        "add": 2,
+        "del": 2,
+        "lines": [
+          "--- specs/rd/issue-c/spec-review/survey-mapping.md @v2",
+          "+++ specs/rd/issue-c/spec-review/survey-mapping.md @v3",
+          "@@ -24,5 +24,5 @@",
+          " | FormSubmission table | Table | modify | src/database/002_submissions.sql | src/database/002_submissions.sql:2 | 加 Status、ResubmitCount 欄 |",
+          " | ReviewRecord table | Table | new | src/database/003_reviews.sql | | 新表,禁止 DELETE(NFR-002) |",
+          "-| FormFill | Web | modify | src/web/src/pages/FormFill.tsx | src/web/src/pages/FormFill.tsx:2 | Pending 時停用修改;Rejected 顯示理由與重送 |",
+          "+| FormFill | Web | modify | src/web/src/pages/FormFill.tsx | src/web/src/pages/FormFill.tsx:2; src/web/src/pages/FormFill.tsx:4 \"submitForm(formId\" | Pending 時停用修改;Rejected 顯示理由與重送 |",
+          " | ReviewPanel | Web | new | src/web/src/pages/ReviewPanel.tsx | | 待審清單、核准/退回 |",
+          "-| submitForm | Web | modify | src/web/src/api/client.ts | src/web/src/api/client.ts:4 | 加 approve / reject / resubmit / listPending 呼叫 |",
+          "+| submitForm | Web | modify | src/web/src/api/client.ts | src/web/src/api/client.ts:4; src/web/src/api/client.ts:5 \"/submissions\" | 加 approve / reject / resubmit / listPending 呼叫 |"
+        ],
+        "truncated": false
+      }
+    },
     "key_changes": {}
   },
   "auto_diagrams": [
@@ -6005,8 +6389,7 @@
     }
   ],
   "audit": {
-    "version": 1,
-    "threads": [],
+    "version": 4,
     "summary": {
       "diagrams": 29,
       "table_rows": 30,
@@ -6051,8 +6434,7 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
-      "version": 1
+      "version": 4
     },
     "items": [
       {
@@ -7919,7 +8301,7 @@
       "reason": "",
       "modal": "ok",
       "cards": 7,
-      "tabs": 9,
+      "tabs": 10,
       "visible_dg": 0,
       "visible_svgs": 0,
       "overflow": false,
@@ -7965,7 +8347,7 @@
     },
     "modal": "ok",
     "cards": 7,
-    "tabs": 9,
+    "tabs": 10,
     "visible_dg": 0,
     "visible_svgs": 0,
     "overflow": false,

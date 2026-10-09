@@ -49,6 +49,11 @@ spec-dev-process/
                                                         predicates_vN     outcome→status/message
 ```
 
+## 放置位置
+
+這是有 CLI 與測試的**工具套件**,與放在哪裡無關(路徑都相對套件本身)。依「給人讀放 `docs/`、給機器跑放 `tools/`」的慣例,
+團隊 repo 建議放在 tools 目錄下(例:tools 底下的 spec-dev-process 資料夾),教學放 docs/learn;Claude Code skill 用 `install.sh --dest` 連結過去即可。
+
 ## 安裝
 
 ```bash
@@ -65,12 +70,12 @@ PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → �
 
 ## spec-reviewer(S6):一站式審查
 
-每張圖、每列 SA 表都可查來源 / 過程 / 目標,機器先核對圖與表一致,再由人逐項確認(是不是要的 / 測得出來 / 做得出來;以事情區分,同一人可一次做完)。
+各司其職:input 是 md、tools 給 AI 呼叫、rules 是 YAML、看板只給人看。每張圖、每列 SA 表都可查來源 / 過程 / 目標,機器先核對圖與表一致,再由人逐項確認(是不是要的 / 測得出來 / 做得出來;以事情區分,誰都可以確認)。
 看板是分頁彈性架構(`board.tabs`),圖與名詞表預設不展開,點晶片開 modal。文件有變就記一版(`audit/versions.jsonl`),看板「版本」分頁看時間軸與 diff;已通過的確認若它依據的需求或 PM 段落之後變了,自動標「上游已變,請重看」。細節見 `references/spec-reviewer.md`。
 
 ```bash
-python3 spec-dev.py review <spec>                 # 靜態快照:判斷存在本機,產生 signoff 指令
-python3 spec-dev.py serve  <spec> --port 8110     # 站台:直接寫回 audit/signoff.md、threads.md;點「檔:行」看原文
+python3 spec-dev.py review  <spec> [--watch]      # 全流程 + 審計 + 版本;看板只給人看(--watch:md 一改就重建)
+python3 spec-dev.py signoff <spec> --id SEQ-001 --duty buildable --hash <看到的 hash> --by 名字   # 確認(給 AI 呼叫)
 ```
 
 ## 測試矩陣驗收
@@ -129,4 +134,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.7.1(語系標 zh-Hant-TW、矩陣語言代碼 zh-TW;2.7.0 文件版本追蹤進看板與審計;2.6.0 spec-reviewer 子系統、一站式審查站台、看板分頁 + modal)。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.8.0(各司其職:看板只給人看、工具給 AI 呼叫;UI / API 各自的顆粒度;依使用回饋:證據強弱與宣告行 WARN、靜態面板可看原文、複製一行簽核、--watch、安全安裝、測試分組;改了什麼見 `CHANGELOG.md`。2.7.1 語系標 zh-Hant-TW、矩陣語言代碼 zh-TW;2.7.0 文件版本追蹤進看板與審計;2.6.0 spec-reviewer 子系統、一站式審查站台、看板分頁 + modal)。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。

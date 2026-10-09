@@ -37,11 +37,11 @@
 | INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(3 張圖) |
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「訂單」→ Order 與 prev 一致 |
-| INFO | G-SV-evidence | 訂單 (Order) → src/api/Orders.Domain/Order.cs:5 已驗證(符號 Order) |
-| INFO | G-SV-evidence | Shipped rule → src/api/Orders.Domain/Order.cs:3 "Shipped" 已驗證(字面 "Shipped") |
-| INFO | G-SV-evidence | GetOrder → src/api/Orders.Application/GetOrderQueryHandler.cs:8 已驗證(對照表 Application 層 GetOrderQueryHandler) |
-| INFO | G-SV-evidence | SqlOrderRepository → src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 已驗證(符號 SqlOrderRepository) |
-| INFO | G-SV-evidence | PaymentGatewayClient → src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 已驗證(符號 PaymentGatewayClient) |
-| INFO | G-SV-evidence | OrdersController → src/api/Orders.Api/Controllers/OrdersController.cs:8 已驗證(符號 OrdersController) |
-| INFO | G-SV-evidence | OrderDetailPage → src/web/src/pages/OrderDetailPage.tsx:3 已驗證(符號 OrderDetailPage) |
-| INFO | G-SV-evidence | Order type → src/web/src/types/Order.ts:4 已驗證(符號 Order) |
+| INFO | G-SV-evidence | 訂單 (Order) → src/api/Orders.Domain/Order.cs:5 已放行·弱證據(符號 Order;只比對到名字) |
+| INFO | G-SV-evidence | Shipped rule → src/api/Orders.Domain/Order.cs:3 "Shipped" 已放行·強證據(字面 "Shipped") |
+| INFO | G-SV-evidence | GetOrder → src/api/Orders.Application/GetOrderQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 GetOrderQueryHandler;只比對到名字) |
+| INFO | G-SV-evidence | SqlOrderRepository → src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 已放行·弱證據(符號 SqlOrderRepository;只比對到名字) |
+| INFO | G-SV-evidence | PaymentGatewayClient → src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 已放行·弱證據(符號 PaymentGatewayClient;只比對到名字) |
+| INFO | G-SV-evidence | OrdersController → src/api/Orders.Api/Controllers/OrdersController.cs:8 已放行·弱證據(符號 OrdersController;只比對到名字) |
+| INFO | G-SV-evidence | OrderDetailPage → src/web/src/pages/OrderDetailPage.tsx:4 "getOrder(id)" 已放行·強證據(字面 "getOrder(id)") |
+| INFO | G-SV-evidence | Order type → src/web/src/types/Order.ts:4 已放行·弱證據(符號 Order;只比對到名字) |

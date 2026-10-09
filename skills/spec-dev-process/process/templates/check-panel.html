@@ -45,13 +45,11 @@ small{color:var(--muted)}.mermaid{background:var(--bg);margin:6px 0;overflow-x:a
 .aud[open]>summary{border-bottom:1px solid var(--line);background:var(--head)}
 .audg{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px;padding:10px 12px}@media(max-width:900px){.audg{grid-template-columns:minmax(0,1fr)}}
 .prov{display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:6px 10px;margin:0}.prov dt{color:var(--muted);font-size:12px}.prov dd{margin:0;min-width:0}
-.dec{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-top:10px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}.dec.bad{border-color:var(--fail)}
+.dec{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-top:10px;display:grid;gap:6px}code.tc{display:block;font:11px ui-monospace,Menlo,monospace;color:var(--muted);word-break:break-all;user-select:all}.dec.bad{border-color:var(--fail)}
 .dec .note{flex:1 1 220px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg)}
 .audbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}.audbar button{font:inherit;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--fg);cursor:pointer}
 .audbar button.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}.audbar button:focus-visible,.dec input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .audbar .who{margin-left:auto;font-size:12px}.audbar .who input{font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg);width:9em}
-.soout{display:grid;gap:6px;margin-top:12px;padding:10px;border:1px dashed var(--line);border-radius:6px}.soout textarea{font:12px ui-monospace,Menlo,monospace;width:100%;box-sizing:border-box;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:4px;padding:6px}
-.soout .row{display:flex;gap:8px;align-items:center}.soout button{font:inherit;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:4px;background:var(--head);color:var(--fg);cursor:pointer}
 .lookup{display:grid;gap:6px;margin:0 0 10px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--head)}
 .lookup input{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg);width:100%;box-sizing:border-box}
 .lkout{display:grid;gap:8px;max-height:60vh;overflow:auto}
@@ -60,12 +58,7 @@ small{color:var(--muted)}.mermaid{background:var(--bg);margin:6px 0;overflow-x:a
 .chain{font-size:12px;line-height:1.7}.chain .n{display:inline-block;padding:0 6px;border:1px solid var(--line);border-radius:4px;background:var(--head);font-family:ui-monospace,Menlo,monospace}.chain .m{color:var(--accent);font-family:ui-monospace,Menlo,monospace}.chain .ev{color:var(--muted)}
 ul{margin:4px 0;padding-left:18px}
 .duty{display:grid;gap:4px;padding:6px 0;border-top:1px dashed var(--line)}.duty:first-of-type{border-top:0}.duty .opts{display:flex;flex-wrap:wrap;gap:4px 12px}.duty .hint{color:var(--muted)}
-.decbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%}.decbar button,.ask button,.qa button,.stale-note button{font:inherit;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:4px;background:var(--head);color:var(--fg);cursor:pointer}
 .decbar .send{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.qs{margin-top:10px;display:grid;gap:6px}.q{border-left:3px solid var(--warn);padding:4px 8px}.q.closed{border-left-color:var(--line);opacity:.8}.q .ans{color:var(--muted)}
-.ask,.qa{display:flex;flex-wrap:wrap;gap:6px}.ask input,.qa input,.ask select{font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg)}.ask input,.qa input{flex:1 1 200px}
-.qinbox{margin:8px 0;padding:6px 10px;border:1px solid var(--line);border-radius:6px}.qinbox div{margin:4px 0}
-.stale-note{position:sticky;top:0;z-index:9;padding:8px 12px;background:var(--warnbg);color:var(--warn);border-bottom:1px solid var(--line);font-size:13px}
 .loc.link{cursor:pointer;text-decoration:underline dotted}.loc.link:focus-visible{outline:2px solid var(--accent)}
 dialog#srcv{margin:0 0 0 auto;height:100vh;max-height:100vh;width:min(720px,100vw);padding:0;border:0;border-left:1px solid var(--line);background:var(--bg);color:var(--fg);box-shadow:-4px 0 16px rgba(0,0,0,.15)}dialog#srcv[open]{display:flex;flex-direction:column}
 #srcv .b{overflow:auto;flex:1}#srcv pre{margin:0;font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word}
@@ -123,6 +116,7 @@ const logLine=e=>`<div class="${superseded.has(e.seq)?'dead':(String(e.out).toUp
 const DGS={},MODAL={};
 const chip=(key,label,sub,icon)=>`<button type="button" class="chip" data-open="${esc(key)}">${icon} ${esc(label)}${sub?` <small>${esc(sub)}</small>`:''}</button>`;
 const mer=a=>{DGS[a.id]=a;return chip('dg:'+a.id,a.id,[a.kind,a.file?a.file+(a.line?':'+a.line:''):(a.auto?'自動':'')].filter(Boolean).join(' · '),'◫')};
+const pill_=(cls,t)=>`<span class="st ${cls}">${esc(t)}</span>`;
 const tbl=(key,title,html,sub)=>{MODAL['tb:'+key]={title,html};return chip('tb:'+key,title,sub,'▦')};
 const VR=T.versions||null;
 const diffHtml=d=>`<div class="mmeta"><span class="st PASS">+${d.add}</span> <span class="st FAIL">−${d.del}</span>${d.truncated?' <small>(只顯示前 400 行)</small>':''}</div><pre class="diff">${d.lines.map(l=>`<span class="${l.startsWith('@@')?'hk':l.startsWith('+')&&!l.startsWith('+++')?'ad':l.startsWith('-')&&!l.startsWith('---')?'dl':''}">${esc(l)}</span>`).join('\n')}</pre>`;
@@ -218,18 +212,14 @@ h+=`</div></section>`;
 }
 // ================= F. 圖與表審計:看板優先,與人一起確認(以事情區分,不以人區分) =================
 const AU=T.audit||null;
-const SERVE=window.__SERVE__||null;
 if(AU){
-  const S=AU.summary, items=AU.items||[], DU=AU.duties||{}, TH=AU.threads||[];
-  const SKEY='specdev-signoff:'+(T.feature||'')+':';
-  const lsGet=k=>{try{return JSON.parse(localStorage.getItem(SKEY+k)||'null')}catch(e){return null}};
+  const S=AU.summary, items=AU.items||[], DU=AU.duties||{};
   const gOf=it=>G.filter(g=>(g.ids||[])[0]===it.id&&/^G-(DG-(target|process|consistency)|SA-tables)/.test(g.rule));
   const gOf2=it=>G.filter(g=>(g.ids||[])[0]===it.id&&g.rule==='G-S6-render');
   const lvOf=it=>{const g=gOf(it).concat(gOf2(it));return g.some(x=>x.level==='FAIL')?'FAIL':(g.some(x=>x.level==='WARN')?'WARN':'OK')};
   const changed=new Set(S.changed_since_last||[]);
   const todoDuties=it=>Object.entries(it.signoffs||{}).filter(([k,s])=>!['approved','n/a'].includes(s.status)).map(([k])=>k);
-  const openQ=it=>TH.filter(q=>q.item===it.id&&q.status==='open').length;
-  const rank=it=>it.signoff==='rejected'?0:lvOf(it)==='FAIL'?1:(it.signoff==='stale'||it.signoff==='upstream')?2:openQ(it)?3:lvOf(it)==='WARN'?4:changed.has(it.id)?5:(it.type==='diagram'&&todoDuties(it).length)?6:9;
+  const rank=it=>it.signoff==='rejected'?0:lvOf(it)==='FAIL'?1:(it.signoff==='stale'||it.signoff==='upstream')?2:lvOf(it)==='WARN'?4:changed.has(it.id)?5:(it.type==='diagram'&&todoDuties(it).length)?6:9;
   const order=[...items].sort((a,b)=>rank(a)-rank(b)||a.id.localeCompare(b.id));
   const SO={approved:['PASS','通過'],'n/a':['INFO','不需要'],stale:['WARN','通過後已變更'],upstream:['WARN','上游已變,請重看'],pending:['INFO','待確認'],rejected:['FAIL','退回']};
   const pill=(cls,t)=>`<span class="st ${cls}">${esc(t)}</span>`;
@@ -241,32 +231,23 @@ if(AU){
     const det=g.map(x=>`<tr><td class="loc">${esc(x.rule)}</td><td>${pill(x.level,x.level)} <small>${esc(x.msg)}${x.action?'<br>處置:'+esc(x.action):''}</small></td></tr>`).join('');
     return `<div class="tw"><table>${rows}${det}${(!rows&&!det)?'<tr><td><small>此類型沒有機器核對規格,由人確認</small></td></tr>':''}</table></div>`};
   const chips=it=>Object.entries(it.signoffs||{}).map(([k,s])=>{const m=SO[s.status]||SO.pending;return `<span class="st ${m[0]}" title="${esc(m[1])}${s.by?' · '+esc(s.by):''}">${esc(dLabel(k))} ${s.status==='approved'?'✓':s.status==='n/a'?'—':s.status==='rejected'?'✗':(s.status==='stale'||s.status==='upstream')?'!':'…'}</span>`}).join(' ');
-  /* 確認清單:一張圖要做的每件事一列;同一個人可以全部做完(跨職能) */
+  /* 確認事項:看板只顯示狀態;要確認時告訴 AI,由 AI 呼叫 signoff 工具(或自己執行下面那行) */
+  const specDir=T.spec_dir||'<spec 目錄>';
   const checklist=it=>{const ks=Object.keys(it.signoffs||{});if(!ks.length)return '';
-    const row=k=>{const s=it.signoffs[k];const loc_=lsGet(it.id+'@'+it.hash+'#'+k)||{};
-      const v=SERVE?((s.status==='stale'||s.status==='upstream'||s.status==='pending')?'':s.status):(loc_.v||'');const note=SERVE?(s.note||''):(loc_.note||'');
-      const r=(val,lab)=>`<label><input type="radio" name="d-${esc(it.id)}-${esc(k)}" value="${val}" ${v===val?'checked':''}> ${lab}</label>`;
-      return `<div class="duty" data-duty="${esc(k)}"><div><b>${esc(dLabel(k))}</b> <small class="hint">${esc((DU[k]||{}).hint||'')} 視角</small> ${SO[s.status]?pill(SO[s.status][0],SO[s.status][1]):''}${s.by?` <small>${esc(s.by)} ${esc(s.date||'')}${s.version?' @v'+esc(s.version):''}</small>`:''}${(s.upstream||[]).length?`<div class="chips"><small>上游變更(點開看 diff):</small>${s.upstream.map(u=>keyDiff(u.key,u.v)).join('')}</div>`:''}
-        <div><small>${esc((DU[k]||{}).ask||'')}</small></div></div>
-        <div class="opts">${r('approved','通過')}${r('rejected','退回')}${r('n/a','不需要')}${r('','未決')}</div>
-        <input type="text" class="note" placeholder="備註(退回寫怎麼改;不需要寫理由)" value="${esc(note)}"></div>`};
-    return `<fieldset class="dec" data-id="${esc(it.id)}" data-hash="${esc(it.hash)}" data-kind="${esc(it.kind)}" data-tg="${esc((it.targets||[]).join(', ')||'*')}">
-      <legend>要做的確認 <small>以事情區分;同一人可一次做完</small></legend>${ks.map(row).join('')}
-      <div class="decbar"><button type="button" class="allok">全部通過</button>${SERVE?'<button type="button" class="send">送出</button>':''}<span class="decmsg loc" aria-live="polite"></span></div></fieldset>`};
-  const thread=q=>`<div class="q ${q.status}"><div><b>Q${q.n}</b> <small>${esc(q.from)} → ${esc(q.to)} · ${esc(q.at)}</small> ${q.status==='open'?pill('WARN','未結'):pill('PASS','已結')}</div>
-      <div>${esc(q.text)}</div>${q.answer?`<div class="ans"><small>${esc(q.answer)}</small></div>`:''}
-      ${SERVE&&q.status==='open'?`<div class="qa" data-n="${q.n}"><input type="text" class="atext" placeholder="回答"><button type="button" class="abtn">回答並結案</button><button type="button" class="rbtn">只回覆</button></div>`:''}</div>`;
-  const threads=it=>{const qs=TH.filter(q=>q.item===it.id);
-    return `<div class="qs"><b>提問</b> <small>${qs.length} 則</small>${qs.map(thread).join('')}
-      ${SERVE?`<div class="ask" data-item="${esc(it.id)}"><select class="qto" aria-label="希望誰回答"><option value="">任何人</option><option>PM</option><option>QA</option><option>RD</option></select><input type="text" class="qtext" placeholder="對這張圖有疑問?寫下來"><button type="button" class="qbtn">提問</button></div>`:(qs.length?'':'<div><small>要提問請用 spec-dev.py serve 開站台</small></div>')}</div>`};
+    const row=k=>{const s=it.signoffs[k];
+      return `<div class="duty"><div><b>${esc(dLabel(k))}</b> <small class="hint">${esc((DU[k]||{}).hint||'')} 視角</small> ${SO[s.status]?pill(SO[s.status][0],SO[s.status][1]):''}${s.by?` <small>${esc(s.by)} ${esc(s.date||'')}${s.version?' @v'+esc(s.version):''}${s.note?' · '+esc(s.note):''}</small>`:''}</div>
+        <div><small>${esc((DU[k]||{}).ask||'')}</small></div>
+        ${(s.upstream||[]).length?`<div class="chips"><small>上游變更(點開看 diff):</small>${s.upstream.map(u=>keyDiff(u.key,u.v)).join('')}</div>`:''}
+        ${s.status==='approved'||s.status==='n/a'?'':`<code class="tc">spec-dev.py signoff ${esc(specDir)} --id ${esc(it.id)} --duty ${esc(k)} --hash ${esc(it.hash)} --by 名字</code>`}</div>`};
+    return `<div class="dec"><b>要做的確認</b> <small>以事情區分,誰都可以確認,名字只是紀錄。看板只顯示;確認由 AI 呼叫 signoff 工具(退回加 --reject --note,不需要加 --na --note)</small>${ks.map(row).join('')}</div>`};
   /* 表格列:把整張 SA 表顯示出來,標出這一列 */
   const saTable=it=>{const rows=((T.sa_tables||{})[it.kind]||[]).filter(r=>it.source===`${r._file}:${r._line}`||r._file===it.source.split(':')[0]);
     const cols=rows.length?Object.keys(rows[0]).filter(k=>!k.startsWith('_')):[];
     return rows.length?`<div class="tw"><table><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr>${rows.map(r=>`<tr class="${it.source===`${r._file}:${r._line}`?'hit':''}">${cols.map(c=>`<td><small>${esc(r[c])}</small></td>`).join('')}</tr>`).join('')}</table></div>`
       :`<pre class="pre" style="color:var(--fg)">${esc(it.heading)}</pre>`};
   const AUDB={};window.__AUDB=AUDB;
-  const itemHtml=it=>{const lv=lvOf(it);const so=it.type==='diagram'?SO[it.signoff]:null;const nq=openQ(it);
-    const head=`${lv!=='OK'?pill(lv,lv==='FAIL'?'機器 FAIL':'機器 WARN'):pill('PASS','機器通過')} ${so?pill(so[0],so[1]==='通過'?'全部做完':so[1]):''} ${changed.has(it.id)?pill('WARN','自上次審計變動'):''} ${nq?pill('WARN','未結提問 '+nq):''}
+  const itemHtml=it=>{const lv=lvOf(it);const so=it.type==='diagram'?SO[it.signoff]:null;
+    const head=`${lv!=='OK'?pill(lv,lv==='FAIL'?'機器 FAIL':'機器 WARN'):pill('PASS','機器通過')} ${so?pill(so[0],so[1]==='通過'?'全部做完':so[1]):''} ${changed.has(it.id)?pill('WARN','自上次審計變動'):''}
       <b>${esc(it.id)}</b> <small>${esc(it.phase)} · ${esc(it.kind)} · ${(it.targets||[]).map(esc).join(', ')||'—'}</small> ${chips(it)}`;
     const left=it.type==='diagram'?`<div class="dg"><pre class="mermaid" data-did="${esc(it.id)}">${esc(narrow(it.mermaid))}</pre></div><details><summary><small>原始碼</small></summary><pre class="pre">${esc(it.mermaid)}</pre></details>`
       :saTable(it);
@@ -277,37 +258,44 @@ if(AU){
       <dt>機器核對</dt><dd>${checkRows(it)}</dd>
       ${it.type==='diagram'?`<dt>渲染</dt><dd>${it.render==='ok'?pill('PASS','瀏覽器可渲染'):(it.render?pill(it.render==='未驗證'?'WARN':'FAIL',it.render):'<small>站台模式:看左邊有沒有畫出來</small>')}</dd>`:''}
       ${it.type==='diagram'?`<dt>內容 hash</dt><dd class="loc">${esc(it.hash)}</dd>`:''}
-    </dl>${it.type==='diagram'?checklist(it):''}${threads(it)}`;
+    </dl>${it.type==='diagram'?checklist(it):''}`;
     const dus=Object.keys(it.signoffs||{}).join(' ');
     AUDB[it.id]={title:`${it.id} · ${it.phase} · ${it.kind}`,html:`<div class="audhead">${head}</div><div class="audg"><div>${left}</div><div>${right}</div></div>`};
     return `<button type="button" class="aud" id="aud-${esc(it.id)}" data-open="aud:${esc(it.id)}" data-id="${esc(it.id)}" data-rank="${rank(it)}" data-phase="${esc(it.phase)}" data-type="${esc(it.type)}" data-todo="${esc(todoDuties(it).join(' '))}" data-duties="${esc(dus)}">${head}</button>`};
   const todo=order.filter(it=>rank(it)<9).length;
   const dRows=Object.values(S.by_duty||{}).reduce((a,x)=>a+Object.values(x).reduce((p,q)=>p+q,0),0);
   const dDone=Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.approved||0)+(x['n/a']||0),0);
-  const openAll=TH.filter(q=>q.status==='open');
-  h+=`<section id="audit"><h2>F. 圖與表審計 <small>${SERVE?'站台模式:直接確認、提問,寫回 audit/signoff.md、threads.md':'靜態快照:判斷存在本機,產生指令'} · 方法論 ${esc(AU.methodology||'—')}</small></h2><div class="body">
+  h+=`<section id="audit"><h2>F. 圖與表審計 <small>只顯示;確認紀錄在 ${esc(AU.signoff_path||'audit/signoff.md')} · 方法論 ${esc(AU.methodology||'—')}</small></h2><div class="body">
   <div class="kpis">
     <div class="kpi ${todo?'warn':'pass'}"><b>${todo}</b><span>還要處理的項目</span></div>
     <div class="kpi ${dDone<dRows?'warn':'pass'}"><b>${dDone}/${dRows}</b><span>確認事項已做 · 退回 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.rejected||0),0)} · 過期 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.stale||0),0)} · 上游已變 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.upstream||0),0)}</span></div>
     ${Object.entries(S.by_duty||{}).map(([k,x])=>`<div class="kpi ${(x.pending||x.stale||x.rejected)?'warn':'pass'}"><b>${(x.approved||0)+(x['n/a']||0)}/${Object.values(x).reduce((p,q)=>p+q,0)}</b><span>${esc(dLabel(k))} <small>(${esc((DU[k]||{}).hint||'')} 視角)</small></span></div>`).join('')}
-    <div class="kpi ${openAll.length?'warn':'pass'}"><b>${openAll.length}</b><span>未結提問</span></div>
     <div class="kpi"><b>${S.diagrams}</b><span>圖 · SA ${S.by_phase.SA} · RD ${S.by_phase.RD} · 自動 ${S.by_phase.AUTO} · 表格列 ${S.table_rows}</span></div>
     <div class="kpi ${S.with_findings?'warn':'pass'}"><b>${S.with_findings}</b><span>有機器發現</span></div>
     <div class="kpi ${changed.size?'warn':'pass'}"><b>${changed.size}</b><span>自上次審計變動</span></div>
   </div>
-  ${openAll.length?`<details open class="qinbox"><summary><b>未結提問 ${openAll.length}</b></summary>${openAll.map(q=>`<div><a href="#open=aud:${esc(q.item)}" class="qjump" data-open="aud:${esc(q.item)}">Q${q.n} ${esc(q.item)}</a> <small>${esc(q.from)} → ${esc(q.to)}</small> ${esc(q.text)}</div>`).join('')}</details>`:''}
   <div class="audbar" role="toolbar" aria-label="篩選">
     <button type="button" data-f="todo" class="on">還要處理 ${todo}</button><button type="button" data-f="all">全部 ${items.length}</button>
     ${Object.keys(DU).map(k=>`<button type="button" data-f="duty:${esc(k)}">待「${esc(dLabel(k))}」 ${order.filter(it=>todoDuties(it).includes(k)).length}</button>`).join('')}
     <button type="button" data-f="SA">SA</button><button type="button" data-f="RD">RD</button><button type="button" data-f="AUTO">自動</button><button type="button" data-f="table-row">SA 表格列</button>
-    <label class="who">審核者 <input type="text" id="reviewer" placeholder="你的名字" autocomplete="name"></label>
   </div>
   <div id="audlist">${order.map(itemHtml).join('')}</div>
-  ${SERVE?'':`<div class="soout"><b>簽核輸出</b> <small>靜態快照:你的判斷先存在這個瀏覽器;要生效,執行下面的指令(或把 md 列貼進 ${esc(AU.signoff_path||'audit/signoff.md')}),再重跑 review。多人共同核對請用 spec-dev.py serve。</small>
-    <textarea id="socmd" readonly rows="4" aria-label="簽核指令"></textarea>
-    <div class="row"><button type="button" id="socopy">複製指令</button><button type="button" id="somd">改顯示 md 列</button><span id="sostat" class="loc"></span></div></div>`}
   </div></section>`;
 }
+// ---- 放行清單:核對時最需要看的是「放行了什麼」、憑什麼放行(證據強弱)----
+{const SVG=G.filter(g=>g.rule==='G-SV-evidence');
+  const strength=g=>g.level!=='INFO'?['WARN','宣告行 / 待確認']:/強證據/.test(g.msg)?['PASS','強']:/弱證據/.test(g.msg)?['WARN','弱']:['INFO','—'];
+  const passed=SVG.filter(g=>g.level==='INFO'&&/已放行/.test(g.msg)),weak=passed.filter(g=>/弱證據/.test(g.msg)),strong=passed.filter(g=>/強證據/.test(g.msg));
+  const warn=SVG.filter(g=>g.level==='WARN'),fail=SVG.filter(g=>g.level==='FAIL');
+  if(SVG.length){
+    const row=g=>{const s=strength(g);const m=g.msg.match(/^(.*?) → (\S+:\d+)(?: "([^"]*)")?/)||[];
+      return `<tr><td>${pill_(s[0],s[1])}</td><td>${esc(m[1]||(g.ids||[])[0]||'')}</td><td>${m[2]?loc(m[2],''):''}${m[3]?` <small>"${esc(m[3])}"</small>`:''}</td><td><small>${esc(g.msg.replace(/^.*?(已放行|指在|沒有|標 )/,'$1'))}${g.action?'<br>→ '+esc(g.action):''}</small></td></tr>`};
+    h+=`<section id="passed"><h2>已放行 <small>existing / modify 憑什麼放行 · 強 = 字面鎖定行為行;弱 = 只比對到名字;宣告行 = 只證明函式存在</small></h2><div class="body">
+    <div class="kpis"><div class="kpi ${weak.length?'warn':'pass'}"><b>${weak.length}</b><span>existing / modify 只有弱證據</span></div>
+      <div class="kpi pass"><b>${strong.length}</b><span>強證據</span></div>
+      <div class="kpi ${warn.length?'warn':'pass'}"><b>${warn.length}</b><span>宣告行 / 請人確認</span></div>
+      <div class="kpi ${fail.length?'fail':'pass'}"><b>${fail.length}</b><span>證據對不上(FAIL)</span></div></div>
+    <div class="tw"><table><tr><th>強度</th><th>元素</th><th>證據</th><th>判定</th></tr>${[...fail,...warn,...weak,...strong].map(row).join('')}</table></div></div></section>`}}
 h+=`<div class="two"><section><h2>A. 輸入 ↔ 輸出</h2><div class="body"><table><tr><th>PM spec / mock</th><th>RD spec 產物</th></tr>`;
 for(const m of (T.io_map||[]))h+=`<tr><td>${esc(m.in)}</td><td>${m.out.map(esc).join(', ')}</td></tr>`;
 h+=`</table>${(T.gaps||[]).length?`<details><summary>待 PM 確認缺口 (${T.gaps.length})</summary><table><tr><th>#</th><th>問題</th><th>影響</th><th>暫時假設</th></tr>${T.gaps.map(g=>`<tr><td>${esc(g.n)}</td><td>${esc(g.question)}</td><td>${g.reqs.map(esc).join(', ')}</td><td>${esc(g.assumption)}</td></tr>`).join('')}</table></details>`:''}</div></section>
@@ -382,6 +370,30 @@ if(VR&&VR.current){
       <td><small>${d.git?`${esc(d.git.commit)} · ${esc(d.git.date)} · ${esc(d.git.author)}<br>${esc(d.git.subject)}`:'—'}</small></td><td class="loc">${esc(d.hash)}</td></tr>`}).join('')}</table></div>
   </div></section>`;
 }
+// ---- U. UI × API:各自的顆粒度(UI = 畫面元素,API = endpoint),只顯示 ----
+{const UE=T.ui_elements||[],AP=T.apis||[],SC=T.screens||[];
+  if(UE.length||(SC.length&&AP.length)){
+    const gU=G.filter(g=>g.rule==='G-UI-API');
+    const stOf=key=>{const g=gU.filter(x=>(x.ids||[])[0]===key);return g.some(x=>x.level==='FAIL')?['FAIL',g.find(x=>x.level==='FAIL').msg]:g.some(x=>x.level==='WARN')?['WARN',g.find(x=>x.level==='WARN').msg]:g.length?['PASS','對上']:['INFO','—']};
+    const testsOf=acs=>[...new Set((T.tests||[]).filter(x=>x.acs.some(a=>acs.includes(a))).map(x=>x.id))];
+    const callers=id=>UE.filter(e=>e.apis.includes(id));
+    const mockOf=s=>((T.sources||{}).mocks||[]).find(m=>s.mock&&(m.path===s.mock||m.path.endsWith('/'+s.mock.split('/').pop())));
+    const linked=gU.filter(g=>g.level==='INFO').length,warn=gU.filter(g=>g.level==='WARN').length,fail=gU.filter(g=>g.level==='FAIL').length;
+    const noCaller=AP.filter(a=>!callers(a.id).length);
+    h+=`<section id="uiapi"><h2>U. UI × API <small>UI 顆粒度:畫面元素(按鈕 / 欄位 / 連結)· API 顆粒度:endpoint · 元素 → endpoint → 元件 → AC → 測試</small></h2><div class="body">
+    <div class="kpis"><div class="kpi"><b>${UE.length}</b><span>畫面元素 · ${SC.length} 個畫面</span></div><div class="kpi"><b>${AP.length}</b><span>endpoint · 沒有畫面元素呼叫 ${noCaller.length}</span></div>
+      <div class="kpi ${fail?'fail':'pass'}"><b>${fail}</b><span>對不上(FAIL)</span></div><div class="kpi ${warn?'warn':'pass'}"><b>${warn}</b><span>待補(WARN)</span></div><div class="kpi pass"><b>${linked}</b><span>元素對上</span></div></div>
+    ${gU.filter(g=>g.level!=='INFO').length?`<table>${gU.filter(g=>g.level!=='INFO').map(g=>`<tr><td>${badge(g.level)}</td><td>${esc(g.msg)}${g.action?'<br><small>→ '+esc(g.action)+'</small>':''}</td></tr>`).join('')}</table>`:''}
+    <div class="two"><div><h3>畫面元素(UI)</h3>${SC.map(s=>{const es=UE.filter(e=>e.screen===s.screen);const m=mockOf(s);
+        return `<div class="chips"><b>${esc(s.screen)}</b> <small>${esc(s.route||'')} · ${(s.reqs||[]).map(esc).join(', ')}</small>${m?tbl('mock:'+s.screen,s.screen+' · mock',mockView(m),m.path.split('/').pop()):''}</div>
+        ${es.length?`<div class="tw"><table><tr><th></th><th>元素</th><th>動作</th><th>→ endpoint</th><th>AC</th><th>測試</th></tr>${es.map(e=>{const st=stOf(e.screen+' '+e.element);
+          return `<tr><td>${pill_(st[0],st[0]==='PASS'?'✓':st[0]==='INFO'?'—':st[0])}</td><td><code>${esc(e.element)}</code> <small>${esc(e.kind)}</small>${e.enabled?`<br><small>${esc(e.enabled)}</small>`:''}</td><td><small>${esc(e.action)}</small></td>
+            <td><small>${e.apis.map(a=>{const x=AP.find(y=>y.id===a);return x?`${esc(a)} ${esc(x.method)} <span class="loc">${esc(x.path)}</span>`:`${esc(a)} ${pill_('FAIL','不存在')}`}).join('<br>')||'—'}</small></td>
+            <td><small>${e.acs.map(esc).join(', ')||'—'}</small></td><td><small>${testsOf(e.acs).map(esc).join(', ')||'—'}</small></td></tr>`}).join('')}</table></div>`:'<small>(沒有列元素)</small>'}`}).join('')}</div>
+      <div><h3>Endpoint(API)</h3><div class="tw"><table><tr><th>ID</th><th>endpoint</th><th>呼叫者</th><th>元件</th><th>REQ</th></tr>${AP.map(a=>{const cs=callers(a.id);
+        return `<tr><td>${esc(a.id)}</td><td><small>${esc(a.method)}</small> <span class="loc">${esc(a.path)}</span></td><td><small>${cs.map(e=>esc(e.screen)+' <code>'+esc(e.element)+'</code>').join('<br>')||(a.caller?esc(a.caller):pill_(UE.length?'WARN':'INFO','無畫面元素'))}</small></td>
+          <td><small>${(a.component||[]).map(c=>esc(c)+' '+esc(((cmp[c]||{}).name||'').split(' ')[0])).join('<br>')}</small></td><td><small>${(a.reqs||[]).map(esc).join(', ')}</small></td></tr>`}).join('')}</table></div></div></div>
+    </div></section>`}}
 h+=`<section><h2>B. 需求 × 技術元件 × 測試元件 <small>點列展開明細</small></h2><div class="body"><table>
 <tr class="grp"><th rowspan="2">需求</th><th rowspan="2">型態</th><th colspan="${LAYERS.length}">技術元件 (layer)</th><th colspan="${KINDS.length}">測試元件 (kind)</th><th rowspan="2">狀態</th></tr>
 <tr>${LAYERS.map(l=>`<th>${l}</th>`).join('')}${KINDS.map(k=>`<th>${k}</th>`).join('')}</tr>`;
@@ -423,8 +435,9 @@ window.__renderVisible=()=>runMermaid(document);
 /* ================= 分頁(彈性架構)+ modal ================= */
 /* 分頁登錄表:依區塊標題歸到分頁;順序與顯示由 .spec-dev.yaml 的 board.tabs 決定(沒設就用這裡的順序),board.default_tab 決定預設分頁 */
 const TABDEF=[
-  {id:'overview',title:'總覽',match:/^(A\.|Gate 問題)/},
+  {id:'overview',title:'總覽',match:/^(已放行|A\.|Gate 問題)/},
   {id:'evidence',title:'證據鏈',match:/^E\./},
+  {id:'uiapi',title:'UI × API',match:/^U\./},
   {id:'audit',title:'審計與確認',match:/^F\./},
   {id:'versions',title:'版本',match:/^V\./},
   {id:'matrix',title:'需求 × 元件 × 測試',match:/^B\./},
@@ -482,78 +495,33 @@ mdl.addEventListener('input',e=>{if(!e.target.classList.contains('mfilter'))retu
   for(const tr of [...tb.querySelectorAll('tr')].slice(1))tr.hidden=!!q&&!tr.textContent.toLowerCase().includes(q)});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(!b)return;e.preventDefault();openKey(b.dataset.open)});
 {const a=hashArgs();showTab(a.tab||'');if(a.open)openKey(a.open)}
-(function(){const list=document.getElementById('audlist');if(!list)return;
-  const SERVE=window.__SERVE__||null,AUD=T.audit||{};
-  const KEY='specdev-signoff:'+((DATA.trace||{}).feature||'')+':';
-  const set=(k,v)=>{try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch(e){}};
-  const get=k=>{try{return JSON.parse(localStorage.getItem(KEY+k)||'null')}catch(e){return null}};
-  let who='';try{who=localStorage.getItem('specdev-reviewer')||''}catch(e){}
-  const W=document.getElementById('reviewer');W.value=who;W.addEventListener('input',()=>{who=W.value.trim();try{localStorage.setItem('specdev-reviewer',who)}catch(e){};render()});
-  let mode='cmd';
+(function(){const list=document.getElementById('audlist');if(!list)return;   /* 看板只負責看:篩選 */
   const filt=f=>{for(const d of list.children){const r=+d.dataset.rank;
       d.hidden=!(f==='all'||(f==='todo'&&r<9)||(f.startsWith('duty:')&&d.dataset.todo.split(' ').includes(f.slice(5)))||d.dataset.phase===f||d.dataset.type===f)}
     for(const b of document.querySelectorAll('.audbar button'))b.classList.toggle('on',b.dataset.f===f)};
   document.querySelectorAll('.audbar button').forEach(b=>b.addEventListener('click',()=>filt(b.dataset.f)));filt('todo');
-  const today=new Date().toISOString().slice(0,10);
-  const specDir=(SERVE&&SERVE.spec_dir)||(DATA.trace||{}).spec_dir||'<spec 目錄>';
-  const rowsOf=fs=>[...fs.querySelectorAll('.duty')].map(d=>({duty:d.dataset.duty,v:(d.querySelector('input[type=radio]:checked')||{}).value||'',note:d.querySelector('.note').value.trim()}));
-  const bad=rs=>rs.some(r=>(r.v==='rejected'||r.v==='n/a')&&!r.note);
-  const save=fs=>{const rs=rowsOf(fs);fs.classList.toggle('bad',bad(rs));if(SERVE)return;for(const r of rs)set(fs.dataset.id+'@'+fs.dataset.hash+'#'+r.duty,{v:r.v,note:r.note})};
-  /* 靜態快照:判斷存在本機(每張圖 × 確認事項),輸出指令由全部判斷組成 */
-  function render(){if(SERVE)return;const rows=[];
-    for(const it of AUD.items||[]){if(it.type!=='diagram')continue;for(const k of Object.keys(it.signoffs||{})){const d=get(it.id+'@'+it.hash+'#'+k);
-      if(d&&d.v)rows.push({id:it.id,hash:it.hash,kind:it.kind,tg:(it.targets||[]).join(', ')||'*',duty:k,v:d.v,note:d.note||''})}}
-    const ta=document.getElementById('socmd');const q=s=>s.replace(/"/g,"'");
-    ta.value=rows.length?(mode==='cmd'?rows.map(r=>`python3 spec-dev.py signoff ${specDir} ${r.id} --duty ${r.duty} --hash ${r.hash} --by "${who||'審核者'}"${r.v==='rejected'?' --reject':r.v==='n/a'?' --na':''}${r.note?` --note "${q(r.note)}"`:''}`).join('\n')
-      :rows.map(r=>`| ${r.id} | ${r.duty} | ${r.kind} | ${r.tg} | ${r.v==='approved'?r.hash:''} | ${r.hash} | ${r.v} | ${who} | ${today} | ${r.note.replace(/\|/g,'/')} |`).join('\n')):'';
-    document.getElementById('sostat').textContent=rows.length?`${rows.length} 筆判斷${bad(rows)?' · 有退回或不需要沒寫理由':''}`:'尚未做任何判斷';}
-  mdl.addEventListener('change',e=>{const fs=e.target.closest('fieldset.dec');if(fs){save(fs);render()}});
-  mdl.addEventListener('input',e=>{if(e.target.classList.contains('note')){const fs=e.target.closest('fieldset.dec');if(fs){save(fs);render()}}});
-  mdl.addEventListener('click',e=>{const b=e.target.closest('button.allok');if(!b)return;const fs=b.closest('fieldset.dec');
-    fs.querySelectorAll('.duty input[value="approved"]').forEach(r=>{r.checked=true});save(fs);render()});
-  if(!SERVE){
-    document.getElementById('somd').addEventListener('click',e=>{mode=mode==='cmd'?'md':'cmd';e.target.textContent=mode==='cmd'?'改顯示 md 列':'改顯示指令';render()});
-    document.getElementById('socopy').addEventListener('click',()=>{const ta=document.getElementById('socmd');
-      (navigator.clipboard?navigator.clipboard.writeText(ta.value):Promise.reject()).then(()=>{document.getElementById('sostat').textContent='已複製'}).catch(()=>{ta.select();document.getElementById('sostat').textContent='請按 Ctrl/⌘+C 複製'})});
-    render();return}
-  /* ---- 站台模式:直接寫回 SSOT(audit/signoff.md、threads.md),重新整理後回到同一個項目 ---- */
-  const post=(path,body)=>fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());
-  const needWho=()=>{if(who)return false;mdl.close();showTab('audit');W.placeholder='先填你的名字再送出';W.focus();return true};
-  const reloadAt=key=>{location.hash='tab=audit&open='+encodeURIComponent(key);location.reload()};
-  mdl.addEventListener('click',async e=>{
-    const send=e.target.closest('button.send');
-    if(send){const fs=send.closest('fieldset.dec'),msg=fs.querySelector('.decmsg');if(needWho())return;
-      const groups={};for(const r of rowsOf(fs)){if(!r.v)continue;const k=r.v+'\u0000'+r.note;(groups[k]=groups[k]||{decision:r.v,note:r.note,duties:[]}).duties.push(r.duty)}
-      if(!Object.keys(groups).length){msg.textContent='沒有選任何決定';return}
-      send.disabled=true;const errs=[];
-      for(const g of Object.values(groups)){const res=await post('/api/signoff',{id:fs.dataset.id,hash:fs.dataset.hash,by:who,...g}).catch(x=>({error:String(x)}));if(res.error)errs.push(res.error)}
-      send.disabled=false;if(errs.length){msg.textContent=errs.join(' / ');return}reloadAt('aud:'+fs.dataset.id);return}
-    const qb=e.target.closest('button.qbtn');
-    if(qb){const box=qb.closest('.ask');const t=box.querySelector('.qtext');if(needWho())return;
-      const res=await post('/api/ask',{item:box.dataset.item,to:box.querySelector('.qto').value,by:who,text:t.value});
-      if(res.error){t.setCustomValidity(res.error);t.reportValidity();setTimeout(()=>t.setCustomValidity(''),2000);return}reloadAt('aud:'+box.dataset.item);return}
-    const ab=e.target.closest('button.abtn,button.rbtn');
-    if(ab){const box=ab.closest('.qa');const t=box.querySelector('.atext');if(needWho())return;
-      const res=await post('/api/answer',{n:box.dataset.n,by:who,text:t.value,close:ab.classList.contains('abtn')});
-      if(res.error){t.setCustomValidity(res.error);t.reportValidity();return}reloadAt(mdl.dataset.key)}});
-  /* 別人改了 md 或做了確認 → 提示重新整理(不自動刷,避免吃掉你正在打的字) */
-  setInterval(()=>fetch('/api/state').then(r=>r.json()).then(s=>{if(s.changed||s.version!==SERVE.version){let n=document.getElementById('stale-note');
-    if(!n){n=document.createElement('div');n.id='stale-note';n.setAttribute('role','status');n.className='stale-note';n.innerHTML='內容有更新(md 或別人的確認)。<button type="button">重新整理</button>';
-      n.querySelector('button').onclick=()=>location.reload();document.body.prepend(n)}}}).catch(()=>{}),15000);
 })();
-/* ---- 點「檔:行」看原文(站台模式);用 dialog 疊在 modal 上面 ---- */
-(function(){if(!window.__SERVE__)return;
+/* ---- 點「檔:行」看原文:用面板內嵌的原文(追蹤中的文件全文、survey 引用的程式碼前後幾行)。dialog 疊在 modal 上面 ---- */
+(function(){const EMB=DATA.src||{},FILES=EMB.files||{},SNIPS=EMB.snippets||{};
+  const DOCP=Object.values(T.doc_paths||{});
+  const findKey=p=>{if(FILES[p]!=null)return p;const ks=Object.keys(FILES);
+    if(/^\d{2}$/.test(p)){const dp=DOCP.find(x=>x.split('/').pop().startsWith(p+'-'));if(dp)p=dp}
+    return ks.find(k=>k===p)||ks.find(k=>k.endsWith('/'+p))||null};
+  const readEmbedded=(p,line)=>{const k=findKey(p);if(k)return Promise.resolve({path:k,text:FILES[k]});
+    const s=SNIPS[p+':'+line]||Object.values(SNIPS).find(x=>x.path===p||x.path.endsWith('/'+p));
+    if(s)return Promise.resolve({path:s.path,text:s.lines.join('\n'),start:s.start,note:'只嵌入引用行前後幾行'});
+    return Promise.resolve({error:'這份檔案沒有嵌入面板'})};
   const box=document.createElement('dialog');box.id='srcv';box.setAttribute('aria-label','原文');
   box.innerHTML='<header><b class="p"></b><button type="button" class="x" aria-label="關閉">✕</button></header><div class="b"></div>';document.body.appendChild(box);
   box.querySelector('.x').onclick=()=>box.close();box.addEventListener('click',e=>{if(e.target===box)box.close()});
-  const RX=/^([^\s:]+?\.[A-Za-z0-9]+|\d{2})(?::L?(\d+))?/;
+  const RX=/^([^\s:]+\.[A-Za-z0-9]+|\d{2})(?::L?(\d+))?/;
   const mark=root=>root.querySelectorAll('.loc').forEach(s=>{if(RX.test(s.textContent.trim())&&!s.closest('fieldset')){s.classList.add('link');s.tabIndex=0;s.setAttribute('role','link')}});
   mark(document);mdl.addEventListener('opened',()=>mark(mdl));
   document.addEventListener('click',e=>{const s=e.target.closest('.loc.link');if(!s||s.closest('#srcv'))return;
     const m=s.textContent.trim().match(RX);if(!m)return;e.preventDefault();const line=+(m[2]||0);
-    fetch('/api/read?p='+encodeURIComponent(m[1])).then(r=>r.json()).then(d=>{const b=box.querySelector('.b');
-      box.querySelector('.p').textContent=d.error?m[1]:d.path+(line?':'+line:'');
-      b.innerHTML=d.error?'<p>'+esc(d.error)+'</p>':'<pre>'+d.text.split('\n').map((l,i)=>`<span class="ln${i+1===line?' hit':''}"><i>${i+1}</i>${esc(l)}</span>`).join('\n')+'</pre>';
+    readEmbedded(m[1],line).then(d=>{const b=box.querySelector('.b');const st=d.start||1;
+      box.querySelector('.p').textContent=d.error?m[1]:d.path+(line?':'+line:'')+(d.note?' · '+d.note:'');
+      b.innerHTML=d.error?'<p>'+esc(d.error)+'</p>':'<pre>'+d.text.split('\n').map((l,i)=>`<span class="ln${i+st===line?' hit':''}"><i>${i+st}</i>${esc(l)}</span>`).join('\n')+'</pre>';
       if(!box.open)box.showModal();const hit=b.querySelector('.hit');if(hit)hit.scrollIntoView({block:'center'})})});
   document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('link'))e.target.click()});
 })();

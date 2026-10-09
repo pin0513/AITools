@@ -1,0 +1,26 @@
+rule: G-UI-API
+cases:
+  - name: no_elements_table_no_check
+    patch: {replace: {apis: [{id: API-001, method: GET, path: /x, reqs: [REQ-001], nfrs: [], component: [CMP-001], caller: ""}]}}
+    expect: []
+  - name: linked_and_missing_endpoint_and_ac
+    patch: {replace: {apis: [{id: API-001, method: POST, path: /orders, reqs: [REQ-001], nfrs: [], component: [CMP-001], caller: ""}],
+                      ui_elements: [{screen: 訂單頁, element: "#submit", kind: button, action: 送出, apis: [API-001], enabled: "", acs: [AC-001-1]},
+                                    {screen: 訂單頁, element: "#cancel", kind: button, action: 取消, apis: [API-009], enabled: "", acs: [AC-001-9]}]}}
+    expect: [{outcome: linked, target: "訂單頁 #submit", status: INFO}, {outcome: api_missing, target: "訂單頁 #cancel", status: FAIL},
+             {outcome: ac_missing, target: "訂單頁 #cancel", status: FAIL}]
+  - name: action_without_ac_and_endpoint_without_caller
+    patch: {replace: {apis: [{id: API-001, method: POST, path: /orders, reqs: [REQ-001], nfrs: [], component: [CMP-001], caller: ""},
+                             {id: API-002, method: GET, path: /orders, reqs: [REQ-001], nfrs: [], component: [CMP-001], caller: ""},
+                             {id: API-003, method: POST, path: /jobs/expire, reqs: [REQ-001], nfrs: [], component: [CMP-002], caller: "排程"}],
+                      ui_elements: [{screen: 訂單頁, element: "#submit", kind: button, action: 送出, apis: [API-001], enabled: "", acs: []}]}}
+    expect: [{outcome: no_ac, target: "訂單頁 #submit", status: WARN}, {outcome: api_no_caller, target: API-002, status: WARN}]
+  - name: mock_coverage_both_directions
+    patch: {replace: {screens: [{screen: 訂單頁, route: /o, components: [], mock: mock/order.html, reqs: [REQ-001]}],
+                      sources: {mocks: [{path: specs/x/mock/order.html, elements: [{tag: button, id: submit, name: "", text: 送出, line: 3},
+                                                                              {tag: button, id: delete, name: "", text: 刪除, line: 4},
+                                                                              {tag: input, id: "", name: qty, text: "", line: 5}]}]},
+                      ui_elements: [{screen: 訂單頁, element: "#submit", kind: button, action: 無, apis: [], enabled: "", acs: []},
+                                    {screen: 訂單頁, element: qty, kind: input, action: 無, apis: [], enabled: "", acs: []},
+                                    {screen: 訂單頁, element: "#ghost", kind: button, action: 無, apis: [], enabled: "", acs: []}]}}
+    expect: [{outcome: mock_uncovered, target: "訂單頁 #delete", status: WARN}, {outcome: not_in_mock, target: "訂單頁 #ghost", status: WARN}]

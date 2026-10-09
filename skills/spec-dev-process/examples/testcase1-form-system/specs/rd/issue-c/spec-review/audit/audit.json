@@ -1,6 +1,5 @@
 {
- "version": 1,
- "threads": [],
+ "version": 4,
  "summary": {
   "diagrams": 29,
   "table_rows": 30,
@@ -45,8 +44,7 @@
   },
   "changed_since_last": [],
   "removed_since_last": [],
-  "threads_open": 0,
-  "version": 1
+  "version": 4
  },
  "items": [
   {
@@ -1913,7 +1911,7 @@
   "reason": "",
   "modal": "ok",
   "cards": 7,
-  "tabs": 9,
+  "tabs": 10,
   "visible_dg": 0,
   "visible_svgs": 0,
   "overflow": false,

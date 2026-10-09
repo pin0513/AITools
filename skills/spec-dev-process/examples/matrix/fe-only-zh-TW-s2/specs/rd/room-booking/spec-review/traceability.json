@@ -398,6 +398,7 @@
       "component": [
         "CMP-006"
       ],
+      "caller": "",
       "line": 6,
       "file": "api/40-api-contracts.md"
     },
@@ -412,6 +413,7 @@
       "component": [
         "CMP-006"
       ],
+      "caller": "",
       "line": 7,
       "file": "api/40-api-contracts.md"
     },
@@ -426,6 +428,7 @@
       "component": [
         "CMP-006"
       ],
+      "caller": "",
       "line": 8,
       "file": "api/40-api-contracts.md"
     }
@@ -803,7 +806,30 @@
       {
         "path": "specs/in-progress/room-booking/mock/booking.html",
         "exists": true,
-        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>預約單 <span data-state=\"Booked\">Booked</span></h2><!-- states: Booked/CheckedIn/Released --><button data-action=\"BookRoom\">預約</button><button data-action=\"CheckInBooking\">報到</button><button data-action=\"ListDailyBookings\">查看</button><table><tr><th>會議室</th><th>status</th></tr></table></body></html>\n"
+        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>預約單 <span data-state=\"Booked\">Booked</span></h2><!-- states: Booked/CheckedIn/Released --><button data-action=\"BookRoom\">預約</button><button data-action=\"CheckInBooking\">報到</button><button data-action=\"ListDailyBookings\">查看</button><table><tr><th>會議室</th><th>status</th></tr></table></body></html>\n",
+        "elements": [
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "預約",
+            "line": 1
+          },
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "報到",
+            "line": 1
+          },
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "查看",
+            "line": 1
+          }
+        ]
       }
     ],
     "refs": [
@@ -874,6 +900,7 @@
       "file": "ui/41-ui-spec.md"
     }
   ],
+  "ui_elements": [],
   "ui_validation": [
     {
       "screen": "RoomBookingPage",
@@ -1521,7 +1548,7 @@
         "類型": "Query",
         "狀態": "existing",
         "對應 codebase": "listRooms",
-        "證據": "src/web/src/api/roomsApi.ts:3",
+        "證據": "src/web/src/api/roomsApi.ts:3; src/web/src/api/roomsApi.ts:4 \"/rooms\"",
         "說明": "",
         "_line": 9,
         "_file": "survey-mapping.md"
@@ -1571,7 +1598,7 @@
         "類型": "Page",
         "狀態": "modify",
         "對應 codebase": "RoomBookingPage",
-        "證據": "src/web/src/pages/RoomBookingPage.tsx:3",
+        "證據": "src/web/src/pages/RoomBookingPage.tsx:3; src/web/src/pages/RoomBookingPage.tsx:4 \"listRooms(id)\"",
         "說明": "",
         "_line": 14,
         "_file": "survey-mapping.md"
@@ -1683,7 +1710,7 @@
       "kind": "Query",
       "status": "existing",
       "target": "listRooms",
-      "evidence": "src/web/src/api/roomsApi.ts:3",
+      "evidence": "src/web/src/api/roomsApi.ts:3; src/web/src/api/roomsApi.ts:4 \"/rooms\"",
       "note": "",
       "line": 9,
       "file": "survey-mapping.md"
@@ -1733,7 +1760,7 @@
       "kind": "Page",
       "status": "modify",
       "target": "RoomBookingPage",
-      "evidence": "src/web/src/pages/RoomBookingPage.tsx:3",
+      "evidence": "src/web/src/pages/RoomBookingPage.tsx:3; src/web/src/pages/RoomBookingPage.tsx:4 \"listRooms(id)\"",
       "note": "",
       "line": 14,
       "file": "survey-mapping.md"
@@ -2730,8 +2757,8 @@
       "ids": [
         "會議室"
       ],
-      "msg": "會議室 → src/web/src/types/Room.ts:4 已驗證(glossary 解析 Room)",
-      "action": ""
+      "msg": "會議室 → src/web/src/types/Room.ts:4 已放行·弱證據(glossary 解析 Room;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2739,7 +2766,7 @@
       "ids": [
         "Capacity rule"
       ],
-      "msg": "Capacity rule → src/web/src/types/Room.ts:2 \"Capacity\" 已驗證(字面 \"Capacity\")",
+      "msg": "Capacity rule → src/web/src/types/Room.ts:2 \"Capacity\" 已放行·強證據(字面 \"Capacity\")",
       "action": ""
     },
     {
@@ -2748,7 +2775,7 @@
       "ids": [
         "ListRooms"
       ],
-      "msg": "ListRooms → src/web/src/api/roomsApi.ts:3 已驗證(符號 ListRooms)",
+      "msg": "ListRooms → src/web/src/api/roomsApi.ts:4 \"/rooms\" 已放行·強證據(字面 \"/rooms\")",
       "action": ""
     },
     {
@@ -2757,7 +2784,7 @@
       "ids": [
         "RoomBookingPage"
       ],
-      "msg": "RoomBookingPage → src/web/src/pages/RoomBookingPage.tsx:3 已驗證(符號 RoomBookingPage)",
+      "msg": "RoomBookingPage → src/web/src/pages/RoomBookingPage.tsx:4 \"listRooms(id)\" 已放行·強證據(字面 \"listRooms(id)\")",
       "action": ""
     },
     {
@@ -3278,59 +3305,23 @@
   },
   "versions": {
     "current": 1,
-    "at": "2026-10-09T15:29:19",
+    "at": "2026-10-09T16:43:52",
     "git": {
-      "commit": "3d33904",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
       "dirty": [
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/in-progress/room-booking/mock/booking.html",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/in-progress/room-booking/pm-spec.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/in-progress/room-booking/refs.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/00-lexicon.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/01-break-words.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/02-entities-relations.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/03-roles.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/04-usecase.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/05-activity.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/06-sequence.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/07-state.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/survey-mapping.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/00-overview.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/10-requirements.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/20-domain-model.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/30-architecture-c4.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/60-test-design.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/api/40-api-contracts.md",
-        "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/ui/41-ui-spec.md"
+        "kills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/survey-mapping.md"
       ]
     },
     "timeline": [
       {
         "v": 1,
-        "at": "2026-10-09T15:29:19",
+        "at": "2026-10-09T16:43:52",
         "git": {
-          "commit": "3d33904",
+          "commit": "552a863",
           "branch": "feat/pm-to-rd-spec-workflow",
           "dirty": [
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/in-progress/room-booking/mock/booking.html",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/in-progress/room-booking/pm-spec.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/in-progress/room-booking/refs.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/00-lexicon.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/01-break-words.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/02-entities-relations.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/03-roles.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/04-usecase.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/05-activity.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/06-sequence.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/sa/07-state.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/survey-mapping.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/00-overview.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/10-requirements.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/20-domain-model.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/30-architecture-c4.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/60-test-design.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/api/40-api-contracts.md",
-            "skills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec/ui/41-ui-spec.md"
+            "kills/spec-dev-process/examples/matrix/fe-only-zh-TW-s2/specs/rd/room-booking/spec-review/survey-mapping.md"
           ]
         },
         "changed": [
@@ -3588,7 +3579,12 @@
         "hash": "c1130d99cd66",
         "lines": 2,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/in-progress/room-booking/pm-spec.md",
@@ -3596,7 +3592,12 @@
         "hash": "aec804fdead7",
         "lines": 28,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec/00-overview.md",
@@ -3604,7 +3605,12 @@
         "hash": "618b60853e85",
         "lines": 30,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec/10-requirements.md",
@@ -3612,7 +3618,12 @@
         "hash": "b1e789e480a2",
         "lines": 47,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec/20-domain-model.md",
@@ -3620,7 +3631,12 @@
         "hash": "c6f51ee47200",
         "lines": 77,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec/30-architecture-c4.md",
@@ -3628,7 +3644,12 @@
         "hash": "1903bbd3d0a3",
         "lines": 130,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec/60-test-design.md",
@@ -3636,7 +3657,12 @@
         "hash": "37921d50f6e0",
         "lines": 18,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec/api/40-api-contracts.md",
@@ -3644,7 +3670,12 @@
         "hash": "1b5ed5427669",
         "lines": 14,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec/ui/41-ui-spec.md",
@@ -3652,7 +3683,12 @@
         "hash": "5b3ca1552748",
         "lines": 22,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/00-lexicon.md",
@@ -3660,7 +3696,12 @@
         "hash": "097f843dcd15",
         "lines": 68,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/01-break-words.md",
@@ -3668,7 +3709,12 @@
         "hash": "705b7e32c070",
         "lines": 25,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/02-entities-relations.md",
@@ -3676,7 +3722,12 @@
         "hash": "17ba382ddbbc",
         "lines": 25,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/03-roles.md",
@@ -3684,7 +3735,12 @@
         "hash": "d6b9ceb9270d",
         "lines": 10,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/04-usecase.md",
@@ -3692,7 +3748,12 @@
         "hash": "cc6c15dfc8bd",
         "lines": 12,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/05-activity.md",
@@ -3700,7 +3761,12 @@
         "hash": "0f34a05bf288",
         "lines": 28,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/06-sequence.md",
@@ -3708,7 +3774,12 @@
         "hash": "20a8e6322afa",
         "lines": 37,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/sa/07-state.md",
@@ -3716,15 +3787,25 @@
         "hash": "f6276707ca70",
         "lines": 11,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/room-booking/spec-review/survey-mapping.md",
         "kind": "SA",
-        "hash": "d26e19255f58",
+        "hash": "fe607d1a4fec",
         "lines": 15,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/in-progress/room-booking/refs.md",
@@ -3732,7 +3813,12 @@
         "hash": "ebfb43f753e1",
         "lines": 5,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       }
     ],
     "diffs": {},
@@ -3947,7 +4033,6 @@
   ],
   "audit": {
     "version": 1,
-    "threads": [],
     "summary": {
       "diagrams": 29,
       "table_rows": 18,
@@ -3992,7 +4077,6 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
       "version": 1
     },
     "items": [
@@ -5717,7 +5801,7 @@
       "reason": "",
       "modal": "ok",
       "cards": 4,
-      "tabs": 9,
+      "tabs": 10,
       "visible_dg": 0,
       "visible_svgs": 0,
       "overflow": false,
@@ -5763,7 +5847,7 @@
     },
     "modal": "ok",
     "cards": 4,
-    "tabs": 9,
+    "tabs": 10,
     "visible_dg": 0,
     "visible_svgs": 0,
     "overflow": false,

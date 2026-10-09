@@ -37,7 +37,7 @@
 | INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(3 張圖) |
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「會議室」→ Room 與 prev 一致 |
-| INFO | G-SV-evidence | 會議室 → src/web/src/types/Room.ts:4 已驗證(glossary 解析 Room) |
-| INFO | G-SV-evidence | Capacity rule → src/web/src/types/Room.ts:2 "Capacity" 已驗證(字面 "Capacity") |
-| INFO | G-SV-evidence | ListRooms → src/web/src/api/roomsApi.ts:3 已驗證(符號 ListRooms) |
-| INFO | G-SV-evidence | RoomBookingPage → src/web/src/pages/RoomBookingPage.tsx:3 已驗證(符號 RoomBookingPage) |
+| INFO | G-SV-evidence | 會議室 → src/web/src/types/Room.ts:4 已放行·弱證據(glossary 解析 Room;只比對到名字) |
+| INFO | G-SV-evidence | Capacity rule → src/web/src/types/Room.ts:2 "Capacity" 已放行·強證據(字面 "Capacity") |
+| INFO | G-SV-evidence | ListRooms → src/web/src/api/roomsApi.ts:4 "/rooms" 已放行·強證據(字面 "/rooms") |
+| INFO | G-SV-evidence | RoomBookingPage → src/web/src/pages/RoomBookingPage.tsx:4 "listRooms(id)" 已放行·強證據(字面 "listRooms(id)") |

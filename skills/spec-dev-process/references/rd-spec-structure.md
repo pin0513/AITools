@@ -12,12 +12,23 @@ description: RD spec 產出目錄結構與每個檔案的必要章節;S5 依此�
 ```
 spec/
 ├── 00-overview  10-requirements  20-domain-model  30-architecture-c4  60-test-design  method-log.jsonl   ← 共用核心
-├── ui/41-ui-spec.md        畫面清單、介面狀態(STM-UI)、欄位驗證                                  ← 前端
-└── api/40-api-contracts.md  介面清單、錯誤碼、失敗模式;api/50-data-model.md  ERD、擁有權              ← 後端 / 兩隊契約
+├── ui/41-ui-spec.md        畫面清單、**畫面元素**、介面狀態(STM-UI)、欄位驗證                      ← 前端
+└── api/40-api-contracts.md  介面清單(endpoint,含呼叫者)、錯誤碼、失敗模式;api/50-data-model.md  ERD、擁有權  ← 後端 / 兩隊契約
 specs/glossary.md        跨 spec 詞彙表(產生物)
 specs/naming-map.md      分層命名對照表(產生物):名詞 → 符號 → UI / API / Application / Domain / Infrastructure / DB
 specs/naming-overrides.md 手寫覆寫(同欄位,有值的格子覆蓋自動推導)
 ```
+
+### UI 與 API 各自的顆粒度
+
+| | 顆粒度 | 表 | 對到哪裡 |
+|---|---|---|---|
+| UI spec | **畫面元素**(按鈕、欄位、連結、清單) | `ui/41`「畫面元素」:畫面、元素(mock 的 `#id` 或 `name`)、類型、動作、呼叫 API、啟用條件、對應 AC | mock html 的可互動元素;endpoint;AC |
+| API spec | **endpoint** | `api/40`「介面清單」:ID、Method、Path…、CMP、呼叫者 | 畫面元素(誰呼叫);進入點元件;REQ |
+
+`G-UI-API` 核對(rules/gates/G-UI-API.yaml):元素呼叫的 endpoint 不存在 → FAIL;對應 AC 不存在 → FAIL;有動作沒 AC → WARN;
+mock 上的可互動元素沒列 → WARN;列了但 mock 找不到 → WARN;endpoint 沒有畫面元素呼叫、也沒在「呼叫者」註明排程 / 外部 → WARN。
+沒有「畫面元素」表就不核對。看板「UI × API」分頁左右並排兩種顆粒度:元素 → endpoint → 元件 → AC → 測試。
 
 ### 分層命名對照表怎麼來、怎麼用
 

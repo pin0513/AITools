@@ -75,7 +75,7 @@ stages:
     inputs:  [00-overview.md, 10-requirements.md, 20-domain-model.md, 30-architecture-c4.md, 40-api-contracts.md, 50-data-model.md, 60-test-design.md, method-log.jsonl]
     tools:   [analyze.extract@1, check.boundary@1, check.gate@1, transform.report@1]
     outputs: [traceability.json, 90-traceability.md, boundary-report.md]
-    gates:   [G-S5-orphans, G-M-assumed]
+    gates:   [G-S5-orphans, G-UI-API, G-M-assumed]
     stop_on: FAIL
 
   - id: S6
@@ -85,5 +85,5 @@ stages:
     # 看板先建一次 → 瀏覽器驗證 → 把渲染結果併進審計清單後再建一次(看板上每張圖都帶渲染狀態)
     tools:   [review.versions@1, review.diagrams@1, review.audit@1, transform.panel@1, review.render_check@1, transform.panel@1, transform.render@1]
     outputs: [check-panel.html, audit/audit.json, audit/signoff.md, audit/versions.jsonl, html/]
-    gates:   [G-DG-target, G-DG-process, G-DG-consistency, G-SA-tables, G-DG-signoff, G-S6-render, G-RV-threads]
+    gates:   [G-DG-target, G-DG-process, G-DG-consistency, G-SA-tables, G-DG-signoff, G-S6-render]
     stop_on: FAIL

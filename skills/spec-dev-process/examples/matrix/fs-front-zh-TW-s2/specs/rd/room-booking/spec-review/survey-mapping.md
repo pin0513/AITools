@@ -14,5 +14,5 @@
 | SqlRoomRepository | Adapter | modify | SqlRoomRepository | src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 | |
 | CalendarServiceClient | Adapter | existing | CalendarServiceClient | src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 | |
 | RoomsController | Api | modify | RoomsController | src/api/Rooms.Api/Controllers/RoomsController.cs:8 | |
-| RoomBookingPage | Page | modify | RoomBookingPage | src/web/src/pages/RoomBookingPage.tsx:3 | |
+| RoomBookingPage | Page | modify | RoomBookingPage | src/web/src/pages/RoomBookingPage.tsx:3; src/web/src/pages/RoomBookingPage.tsx:4 "listRooms(id)" | |
 | Room type | Type | existing | Room | src/web/src/types/Room.ts:4 | |

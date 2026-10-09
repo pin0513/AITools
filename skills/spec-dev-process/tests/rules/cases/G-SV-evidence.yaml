@@ -3,7 +3,7 @@ cases:
   - name: verified_against_testcase1_codebase
     ctx: {project_root: examples/testcase1-form-system}
     patch: {replace: {survey: [{element: FormSubmission, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]}}
-    expect: [{outcome: verified, target: FormSubmission, status: INFO}]
+    expect: [{outcome: verified_weak, target: FormSubmission, status: INFO}]
   - name: wrong_line
     ctx: {project_root: examples/testcase1-form-system}
     patch: {replace: {survey: [{element: FormSubmission, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:1", note: ""}]}}
@@ -37,7 +37,7 @@ cases:
   - name: chinese_element_with_symbol_in_parens
     ctx: {project_root: examples/testcase1-form-system}
     patch: {replace: {survey: [{element: "填寫紀錄 (FormSubmission)", kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]}}
-    expect: [{outcome: verified, target: "填寫紀錄 (FormSubmission)", status: INFO}]
+    expect: [{outcome: verified_weak, target: "填寫紀錄 (FormSubmission)", status: INFO}]
   - name: literal_text_pins_the_behavior_line
     ctx: {project_root: examples/testcase1-form-system}
     patch: {replace: {survey: [{element: 必填檢查, kind: Rule, status: existing, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:16 \"FIELD_REQUIRED\"", note: ""}]}}
@@ -51,11 +51,62 @@ cases:
       project_root: examples/testcase1-form-system
       glossary: {terms: {填寫紀錄: {symbol: FormSubmission, specs: [issue-b], definition: "", source: x}}}
     patch: {replace: {survey: [{element: 填寫紀錄, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]}}
-    expect: [{outcome: verified, target: 填寫紀錄, status: INFO}]
+    expect: [{outcome: verified_weak, target: 填寫紀錄, status: INFO}]
   - name: chinese_element_resolved_via_sa2
     ctx: {project_root: examples/testcase1-form-system}
     patch:
       replace:
         survey: [{element: 填寫紀錄, kind: Aggregate, status: modify, target: x, evidence: "src/api/Forms.Domain/FormSubmission.cs:4", note: ""}]
         sa_entities: [{name: 填寫紀錄, en: FormSubmission, attrs: "", source: ""}]
-    expect: [{outcome: verified, target: 填寫紀錄, status: INFO}]
+    expect: [{outcome: verified_weak, target: 填寫紀錄, status: INFO}]
+  # ---- 固定對照組(FEEDBACK v2.7.1,MAYOFORM-1818 的去識別版):PM 宣稱「包含運算子現行已有」,實際 getOperatorList 只有 EQUAL / NOT_EQUAL ----
+  - name: control_A_claim_existing_symbol_absent
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: ContainsOperator, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:4", note: ""}]}}
+    expect: [{outcome: line_mismatch, target: ContainsOperator, status: FAIL}]
+  - name: control_B_function_name_on_declaration_line
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: getOperatorList, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:2", note: ""}]}}
+    expect: [{outcome: decl_only, target: getOperatorList, status: WARN}]
+  - name: control_C_honest_new
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: ContainsOperator, kind: entity, status: new, target: "", evidence: "", note: ""}]}}
+    expect: []
+  - name: control_D_pure_chinese_without_mapping
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: 包含運算子, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:4", note: ""}]}}
+    expect: [{outcome: no_symbol, target: 包含運算子, status: WARN}]
+  - name: control_D2_pure_chinese_resolved_by_naming_map
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: 包含運算子, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:4", note: ""}],
+                      glossary: {naming: [{term: 包含運算子, symbol: ContainsOperator}]}}}
+    expect: [{outcome: line_mismatch, target: 包含運算子, status: FAIL}]
+  - name: control_D3_pure_chinese_resolved_by_lexicon
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: 包含運算子, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:4", note: ""}],
+                      lexicon: {nouns: [{term: 包含運算子, symbol: ContainsOperator}]}}}
+    expect: [{outcome: line_mismatch, target: 包含運算子, status: FAIL}]
+  - name: control_E_function_name_plus_literal_lock
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: getOperatorList, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:2 \"CONTAINS\"", note: ""}]}}
+    expect: [{outcome: line_mismatch, target: getOperatorList, status: FAIL}]
+  - name: control_F_chinese_with_symbol
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: 包含運算子 (ContainsOperator), kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:4", note: ""}]}}
+    expect: [{outcome: line_mismatch, target: 包含運算子 (ContainsOperator), status: FAIL}]
+  - name: control_G_real_literal_passes_strong
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: 不等於運算子 (NotEqualOperator), kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:5 \"NOT_EQUAL\"", note: ""}]}}
+    expect: [{outcome: verified, target: 不等於運算子 (NotEqualOperator), status: INFO}]
+  - name: symbol_match_on_body_line_is_weak
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: NOT_EQUAL, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:5", note: ""}]}}
+    expect: [{outcome: verified_weak, target: NOT_EQUAL, status: INFO}]
+  - name: class_declaration_proves_entity_existence
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: ConditionForm, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:10", note: ""}]}}
+    expect: [{outcome: verified_weak, target: ConditionForm, status: INFO}]
+  - name: declaration_plus_behavior_line_clears_warning
+    ctx: {project_root: tests/fixtures/control-group}
+    patch: {replace: {survey: [{element: getOperatorList, kind: entity, status: existing, target: "", evidence: "web/src/conditions.ts:2; web/src/conditions.ts:5 \"NOT_EQUAL\"", note: ""}]}}
+    expect: [{outcome: verified, target: getOperatorList, status: INFO}]

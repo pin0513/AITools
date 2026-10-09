@@ -35,9 +35,11 @@ class Testcase1Test(unittest.TestCase):
     def test_prove_survey_evidence_resolves_to_real_code(self):
         rows = [r for r in self.tr["survey"] if r["status"] in ("existing", "modify")]
         self.assertGreaterEqual(len(rows), 10)
-        verified = [g for g in self.tr["gate"] if g["rule"] == "G-SV-evidence" and "已驗證" in g["msg"]]
-        n_ev = sum(len([e for e in r["evidence"].split(";") if e.strip()]) for r in rows)
-        self.assertEqual(len(verified), n_ev)
+        sv = [g for g in self.tr["gate"] if g["rule"] == "G-SV-evidence"]
+        released = {g["ids"][0] for g in sv if "已放行" in g["msg"]}
+        self.assertEqual(released, {r["element"] for r in rows}, "每一列 existing / modify 都要放行")
+        self.assertEqual([g["msg"] for g in sv if g["level"] != "INFO"], [], "testcase1 沒有宣告行或對不上的證據")
+        self.assertGreaterEqual(sum("強證據" in g["msg"] for g in sv), 3, "示範寫法:行為行 + 字面鎖定")
         sa2 = {e["name"]: e["en"] for e in self.tr["sa_entities"]}
         for r in rows:                                    # 獨立於規則引擎再比對一次
             for ev in [e.strip() for e in r["evidence"].split(";") if e.strip()]:
@@ -77,7 +79,7 @@ class Testcase1Test(unittest.TestCase):
         self.assertTrue(gl.exists()); text = gl.read_text(encoding="utf-8")
         self.assertIn("| 填寫紀錄 | FormSubmission |", text); self.assertIn("issue-b, issue-c", text); self.assertIn("| (無) |", text)
         g = {x["msg"]: x for x in self.tr["gate"] if x["rule"] == "G-SV-evidence"}
-        self.assertTrue(any("填寫紀錄" in m and "已驗證" in m and "解析" in m for m in g), list(g)[:5])
+        self.assertTrue(any("填寫紀錄" in m and "已放行" in m and "解析" in m for m in g), list(g)[:5])
         self.assertTrue(any("必填檢查" in m and '字面 "FIELD_REQUIRED"' in m for m in g))
         self.assertTrue(any(x["rule"] == "G-GL-consistency" and x["level"] == "INFO" and "填寫紀錄" in x["msg"] for x in self.tr["gate"]))
         self.assertFalse(any(x["rule"] == "G-GL-consistency" and x["level"] == "FAIL" for x in self.tr["gate"]))

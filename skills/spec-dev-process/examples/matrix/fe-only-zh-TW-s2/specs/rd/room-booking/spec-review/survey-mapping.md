@@ -6,9 +6,9 @@
 | 會議室 | Aggregate | modify | Room | src/web/src/types/Room.ts:4 | |
 | Capacity rule | Rule | existing | Room.Capacity | src/web/src/types/Room.ts:2 "Capacity" | |
 | 預約單 | Entity | new | Booking | | |
-| ListRooms | Query | existing | listRooms | src/web/src/api/roomsApi.ts:3 | |
+| ListRooms | Query | existing | listRooms | src/web/src/api/roomsApi.ts:3; src/web/src/api/roomsApi.ts:4 "/rooms" | |
 | BookRoom | Command | new | BookRoom | | |
 | CheckInBooking | Command | new | CheckInBooking | | |
 | ReleaseNoShow | Job | new | ReleaseNoShow | | |
 | ListDailyBookings | Query | new | ListDailyBookings | | |
-| RoomBookingPage | Page | modify | RoomBookingPage | src/web/src/pages/RoomBookingPage.tsx:3 | |
+| RoomBookingPage | Page | modify | RoomBookingPage | src/web/src/pages/RoomBookingPage.tsx:3; src/web/src/pages/RoomBookingPage.tsx:4 "listRooms(id)" | |

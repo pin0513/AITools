@@ -142,3 +142,4 @@ class VersionsUnitTest(unittest.TestCase):
             ch = s["timeline"][0]["changed"][0]; self.assertEqual((ch["path"], ch["sections"], ch["add"], ch["dele"]), ("spec/10-requirements.md", ["R"], 1, 1))
             self.assertIn("+REQ-001 b", s["diffs"]["2:spec/10-requirements.md"]["lines"])
         finally: shutil.rmtree(tmp)
+

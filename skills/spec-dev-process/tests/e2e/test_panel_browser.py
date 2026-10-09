@@ -108,29 +108,20 @@ const [lib, panel] = process.argv.slice(2); const LIB = fs.readFileSync(lib, 'ut
   await p.click('.audbar button[data-f="SA"]'); out.sa = await vis();
   await p.click('.audbar button[data-f="table-row"]'); out.rows = await vis();
   await p.click('.audbar button[data-f="all"]');
-  await p.fill('#reviewer', 'Paul');
   await p.click('#audlist > .aud[data-id="AUTO-SEQ-REQ-001"]'); await p.waitForTimeout(1000);
   const m = p.locator('#mdl'); out.modalOpen = await m.evaluate(d => d.open); out.hash = await p.evaluate(() => location.hash);
   out.svg = await m.locator('.audg .dg svg').count();
   out.prov = await m.locator('dl.prov dt').allTextContents();
-  const duty = m.locator('.duty').first();
-  await duty.locator('input[value="approved"]').check(); await p.waitForTimeout(100);
-  out.cmdApprove = await p.inputValue('#socmd');
-  await duty.locator('input[value="rejected"]').check(); await p.waitForTimeout(100);
-  out.statRejectNoNote = await p.textContent('#sostat');
-  await duty.locator('input.note').fill('補上 Repository'); await p.waitForTimeout(100);
-  out.cmdReject = await p.inputValue('#socmd');
-  await p.keyboard.press('Escape');
-  await p.click('#somd'); await p.waitForTimeout(100); out.md = await p.inputValue('#socmd');
-  await p.goto('file://' + panel + '#tab=audit&open=aud:AUTO-SEQ-REQ-001', { waitUntil: 'load' }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(1000);
-  out.persisted = await p.evaluate(() => !!document.querySelector('#mdl[open] fieldset.dec input[value="rejected"]:checked'));
+  out.inputs = await p.locator('#app input:not([type=search]), #app textarea, #mdl input:not(.mfilter), #mdl textarea, #mdl fieldset').count();
+  out.toolCall = await m.locator('code.tc').first().textContent();
+  out.storage = await p.evaluate(() => { try { return localStorage.length; } catch (e) { return -1; } });
   out.errs = errs; console.log(JSON.stringify(out)); await b.close(); })();
 """
 
 @unittest.skipUnless(_node_ok(), "需要 node + playwright + /opt/pw-browsers")
 class AuditBoardBrowserTest(unittest.TestCase):
-    """F. 圖與表審計:看板上和人一起確認——篩選、展開看圖與來源/過程/目標、做判斷 → 產生 signoff 指令 / md 列,判斷留在瀏覽器。"""
-    def test_audit_queue_and_human_decisions_produce_signoff_commands(self):
+    """F. 圖與表審計:看板只負責看 —— 篩選、點開 modal 看圖與來源 / 過程 / 目標 / 確認狀態;沒有表單、不存瀏覽器狀態;確認由 AI 呼叫 signoff 工具。"""
+    def test_audit_board_is_display_only(self):
         panel = ROOT / "examples" / "testcase1-form-system" / "specs" / "rd" / "issue-c" / "spec-review" / "check-panel.html"
         audit = json.loads((panel.parent / "audit" / "audit.json").read_text(encoding="utf-8"))
         tmp = pathlib.Path(tempfile.mkdtemp())
@@ -147,8 +138,6 @@ class AuditBoardBrowserTest(unittest.TestCase):
         self.assertTrue(o["modalOpen"]); self.assertIn("open=aud%3AAUTO-SEQ-REQ-001", o["hash"], "modal 有可分享的連結")
         self.assertEqual(o["svg"], 1, "點開後圖要畫出來")
         for k in ("來源", "過程", "目標", "機器核對", "渲染", "內容 hash"): self.assertIn(k, o["prov"])
-        self.assertRegex(o["cmdApprove"], r'^python3 spec-dev\.py signoff \S+ AUTO-SEQ-REQ-001 --duty buildable --hash [0-9a-f]{12} --by "Paul"$')
-        self.assertIn("有退回或不需要沒寫理由", o["statRejectNoNote"])
-        self.assertIn("--reject", o["cmdReject"]); self.assertIn('--note "補上 Repository"', o["cmdReject"])
-        self.assertRegex(o["md"], r"^\| AUTO-SEQ-REQ-001 \| buildable \| .* \| rejected \| Paul \| \d{4}-\d{2}-\d{2} \| 補上 Repository \|$")
-        self.assertTrue(o["persisted"], "判斷要留在瀏覽器,用連結重開不丟")
+        self.assertEqual(o["inputs"], 0, "看板只負責看:沒有表單")
+        self.assertEqual(o["storage"], 0, "不在瀏覽器存任何狀態")
+        self.assertRegex(o["toolCall"], r"^spec-dev\.py signoff \S+ --id AUTO-SEQ-REQ-001 --duty buildable --hash [0-9a-f]{12} --by 名字$")

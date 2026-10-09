@@ -36,7 +36,7 @@
 | INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(3 張圖) |
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「點數帳戶」→ PointsAccount 與 prev 一致 |
-| INFO | G-SV-evidence | 點數帳戶 (PointsAccount) → src/web/src/types/PointsAccount.ts:4 已驗證(符號 PointsAccount) |
-| INFO | G-SV-evidence | Balance rule → src/web/src/types/PointsAccount.ts:2 "Balance" 已驗證(字面 "Balance") |
-| INFO | G-SV-evidence | GetBalance → src/web/src/api/pointsApi.ts:3 已驗證(符號 GetBalance) |
-| INFO | G-SV-evidence | RewardsPage → src/web/src/pages/RewardsPage.tsx:3 已驗證(符號 RewardsPage) |
+| INFO | G-SV-evidence | 點數帳戶 (PointsAccount) → src/web/src/types/PointsAccount.ts:4 已放行·弱證據(符號 PointsAccount;只比對到名字) |
+| INFO | G-SV-evidence | Balance rule → src/web/src/types/PointsAccount.ts:2 "Balance" 已放行·強證據(字面 "Balance") |
+| INFO | G-SV-evidence | GetBalance → src/web/src/api/pointsApi.ts:4 "/members" 已放行·強證據(字面 "/members") |
+| INFO | G-SV-evidence | RewardsPage → src/web/src/pages/RewardsPage.tsx:4 "getBalance(id)" 已放行·強證據(字面 "getBalance(id)") |

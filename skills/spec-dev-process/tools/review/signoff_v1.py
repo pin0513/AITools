@@ -34,3 +34,4 @@ def apply(review_dir: pathlib.Path, diagram: str, by: str, decision: str, seen_h
             path.write_text("\n".join(text) + "\n", encoding="utf-8")
             return f"{diagram}「{duty}」: {decision} by {by} @ {cur}" + (f" (v{ver})" if ver else "")
     raise Refused(f"signoff.md 沒有 {diagram} / {duty} 這一列,請先跑 spec-dev.py review")
+

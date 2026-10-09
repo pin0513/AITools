@@ -47,20 +47,26 @@
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「表單」→ Form 與 issue-b 一致 |
 | INFO | G-GL-consistency | 「填寫紀錄」→ FormSubmission 與 issue-b 一致 |
-| INFO | G-SV-evidence | Form → src/api/Forms.Domain/Form.cs:6 已驗證(符號 Form) |
-| INFO | G-SV-evidence | FormSubmission → src/api/Forms.Domain/FormSubmission.cs:4 已驗證(符號 FormSubmission) |
-| INFO | G-SV-evidence | 必填檢查 → src/api/Forms.Domain/FormSubmission.cs:16 "FIELD_REQUIRED" 已驗證(字面 "FIELD_REQUIRED") |
-| INFO | G-SV-evidence | 填寫紀錄 → src/database/002_submissions.sql:2 已驗證(glossary 解析 FormSubmission) |
-| INFO | G-SV-evidence | Submit (SubmitFormCommandHandler) → src/api/Forms.Api/Controllers/FormsController.cs:16 已驗證(符號 Submit) |
-| INFO | G-SV-evidence | Submit (SubmitFormCommandHandler) → src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs:8 已驗證(符號 SubmitFormCommandHandler) |
-| INFO | G-SV-evidence | INotifier → src/api/Forms.Infrastructure/EmailNotifier.cs:4 已驗證(符號 INotifier) |
-| INFO | G-SV-evidence | IFormSubmissionRepository → src/api/Forms.Domain/IFormRepository.cs:10 已驗證(符號 IFormSubmissionRepository) |
-| INFO | G-SV-evidence | SqlFormSubmissionRepository → src/api/Forms.Infrastructure/SqlFormRepository.cs:14 已驗證(符號 SqlFormSubmissionRepository) |
-| INFO | G-SV-evidence | FormsDbContext → src/api/Forms.Infrastructure/Persistence/FormsDbContext.cs:6 已驗證(符號 FormsDbContext) |
-| INFO | G-SV-evidence | FormSubmission table → src/database/002_submissions.sql:2 已驗證(符號 FormSubmission) |
-| INFO | G-SV-evidence | FormFill → src/web/src/pages/FormFill.tsx:2 已驗證(符號 FormFill) |
-| INFO | G-SV-evidence | submitForm → src/web/src/api/client.ts:4 已驗證(符號 submitForm) |
+| INFO | G-SV-evidence | Form → src/api/Forms.Domain/Form.cs:6 已放行·弱證據(符號 Form;只比對到名字) |
+| INFO | G-SV-evidence | FormSubmission → src/api/Forms.Domain/FormSubmission.cs:4 已放行·弱證據(符號 FormSubmission;只比對到名字) |
+| INFO | G-SV-evidence | 必填檢查 → src/api/Forms.Domain/FormSubmission.cs:16 "FIELD_REQUIRED" 已放行·強證據(字面 "FIELD_REQUIRED") |
+| INFO | G-SV-evidence | 填寫紀錄 → src/database/002_submissions.sql:2 已放行·弱證據(glossary 解析 FormSubmission;只比對到名字) |
+| INFO | G-SV-evidence | Submit (SubmitFormCommandHandler) → src/api/Forms.Application/Forms/SubmitFormCommandHandler.cs:8 已放行·弱證據(符號 SubmitFormCommandHandler;只比對到名字) |
+| INFO | G-SV-evidence | INotifier → src/api/Forms.Infrastructure/EmailNotifier.cs:4 已放行·弱證據(符號 INotifier;只比對到名字) |
+| INFO | G-SV-evidence | IFormSubmissionRepository → src/api/Forms.Domain/IFormRepository.cs:10 已放行·弱證據(符號 IFormSubmissionRepository;只比對到名字) |
+| INFO | G-SV-evidence | SqlFormSubmissionRepository → src/api/Forms.Infrastructure/SqlFormRepository.cs:14 已放行·弱證據(符號 SqlFormSubmissionRepository;只比對到名字) |
+| INFO | G-SV-evidence | FormsDbContext → src/api/Forms.Infrastructure/Persistence/FormsDbContext.cs:6 已放行·弱證據(符號 FormsDbContext;只比對到名字) |
+| INFO | G-SV-evidence | FormSubmission table → src/database/002_submissions.sql:2 已放行·弱證據(符號 FormSubmission;只比對到名字) |
+| INFO | G-SV-evidence | FormFill → src/web/src/pages/FormFill.tsx:4 "submitForm(formId" 已放行·強證據(字面 "submitForm(formId") |
+| INFO | G-SV-evidence | submitForm → src/web/src/api/client.ts:5 "/submissions" 已放行·強證據(字面 "/submissions") |
 | WARN | G-M-assumed | REQ-002 S1 UseCase 證據=assumed:審核者指派方式 PM 未展開 |
 | WARN | G-M-assumed | REQ-002 S2 Contract 證據=assumed:PM 未明寫退回通知 |
 | WARN | G-M-assumed | REQ-004 S1 QualityScenario 證據=assumed:工作天是否含國定假日 |
 | WARN | G-M-assumed | NFR-001 S1 QualityScenario 證據=assumed:沒有數字 |
+| INFO | G-UI-API | 審核頁 #approve → API-002 → CMP-001 · AC AC-002-1 |
+| INFO | G-UI-API | 審核頁 #reject → API-003 → CMP-001 · AC AC-002-3 |
+| INFO | G-UI-API | 審核頁 #reason → (無 API) → — · AC AC-002-2 |
+| INFO | G-UI-API | 審核頁 #edit → (無 API) → — · AC AC-001-2, AC-003-2 |
+| INFO | G-UI-API | 審核頁 #resubmit → API-004 → CMP-001 · AC AC-003-1 |
+| INFO | G-UI-API | 填寫頁 submit → API-001 → CMP-001 · AC AC-001-1 |
+| WARN | G-UI-API | 審核清單 待審清單(載入待審清單)有動作但沒有對應 AC |

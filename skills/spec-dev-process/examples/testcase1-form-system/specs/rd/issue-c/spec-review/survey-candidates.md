@@ -32,6 +32,11 @@
 | FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |
 | FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 16 | `public Task<FormSubmission?> GetAsync(Guid id, CancellationToken ct) => db.FormSubmissions.FirstOrDe` |
 | FormSubmission → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 17 | `public Task AddAsync(FormSubmission submission, CancellationToken ct) => db.FormSubmissions.AddAsync` |
+| 必填檢查 → Create | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
+| 必填檢查 → Create | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
+| 必填檢查 → Create | src/database/001_forms.sql | 2 | `CREATE TABLE Form (` |
+| 必填檢查 → Create | src/database/001_forms.sql | 8 | `CREATE TABLE FormField (` |
+| 必填檢查 → Create | src/api/Forms.Domain/FormSubmission.cs | 12 | `public static FormSubmission Create(Form form, Guid submitterId, IReadOnlyDictionary<string, string>` |
 | 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 2 | `CREATE TABLE FormSubmission (` |
 | 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/database/002_submissions.sql | 9 | `CREATE INDEX IX_FormSubmission_FormId ON FormSubmission(FormId);` |
 | 填寫紀錄 → FormSubmission/SqlFormSubmissionRepository | src/api/Forms.Infrastructure/SqlFormRepository.cs | 14 | `public sealed class SqlFormSubmissionRepository(FormsDbContext db) : IFormSubmissionRepository` |

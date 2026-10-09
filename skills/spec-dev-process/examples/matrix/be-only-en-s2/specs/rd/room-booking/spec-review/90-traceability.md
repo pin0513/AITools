@@ -37,9 +37,9 @@
 | INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(3 張圖) |
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「meeting room」→ Room 與 prev 一致 |
-| INFO | G-SV-evidence | Room → src/api/Rooms.Domain/Room.cs:5 已驗證(符號 Room) |
-| INFO | G-SV-evidence | Capacity rule → src/api/Rooms.Domain/Room.cs:8 "Capacity" 已驗證(字面 "Capacity") |
-| INFO | G-SV-evidence | ListRooms → src/api/Rooms.Application/ListRoomsQueryHandler.cs:8 已驗證(對照表 Application 層 ListRoomsQueryHandler) |
-| INFO | G-SV-evidence | SqlRoomRepository → src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 已驗證(符號 SqlRoomRepository) |
-| INFO | G-SV-evidence | CalendarServiceClient → src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 已驗證(符號 CalendarServiceClient) |
-| INFO | G-SV-evidence | RoomsController → src/api/Rooms.Api/Controllers/RoomsController.cs:8 已驗證(符號 RoomsController) |
+| INFO | G-SV-evidence | Room → src/api/Rooms.Domain/Room.cs:5 已放行·弱證據(符號 Room;只比對到名字) |
+| INFO | G-SV-evidence | Capacity rule → src/api/Rooms.Domain/Room.cs:8 "Capacity" 已放行·強證據(字面 "Capacity") |
+| INFO | G-SV-evidence | ListRooms → src/api/Rooms.Application/ListRoomsQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 ListRoomsQueryHandler;只比對到名字) |
+| INFO | G-SV-evidence | SqlRoomRepository → src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 已放行·弱證據(符號 SqlRoomRepository;只比對到名字) |
+| INFO | G-SV-evidence | CalendarServiceClient → src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 已放行·弱證據(符號 CalendarServiceClient;只比對到名字) |
+| INFO | G-SV-evidence | RoomsController → src/api/Rooms.Api/Controllers/RoomsController.cs:8 已放行·弱證據(符號 RoomsController;只比對到名字) |

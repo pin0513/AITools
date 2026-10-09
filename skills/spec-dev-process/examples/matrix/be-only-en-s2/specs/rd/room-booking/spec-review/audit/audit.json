@@ -1,6 +1,5 @@
 {
  "version": 1,
- "threads": [],
  "summary": {
   "diagrams": 29,
   "table_rows": 18,
@@ -45,7 +44,6 @@
   },
   "changed_since_last": [],
   "removed_since_last": [],
-  "threads_open": 0,
   "version": 1
  },
  "items": [

@@ -13,5 +13,5 @@
 | SqlPointsAccountRepository | Adapter | modify | SqlPointsAccountRepository | src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:5 | |
 | RewardVendorClient | Adapter | existing | RewardVendorClient | src/api/Loyalty.Infrastructure/RewardVendorClient.cs:5 | |
 | PointsController | Api | modify | PointsController | src/api/Loyalty.Api/Controllers/PointsController.cs:8 | |
-| RewardsPage | Page | modify | RewardsPage | src/web/src/pages/RewardsPage.tsx:3 | |
+| RewardsPage | Page | modify | RewardsPage | src/web/src/pages/RewardsPage.tsx:3; src/web/src/pages/RewardsPage.tsx:4 "getBalance(id)" | |
 | PointsAccount type | Type | existing | PointsAccount | src/web/src/types/PointsAccount.ts:4 | |

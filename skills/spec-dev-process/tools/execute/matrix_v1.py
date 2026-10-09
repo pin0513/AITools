@@ -26,7 +26,7 @@ def run_case(case: pathlib.Path, offline=False) -> dict:
     spec = case / exp["spec"]; review = case / exp["review"]
     ctx = _run(spec, "S6", offline)
     fails = _fail_rules(ctx)
-    verified = sum(1 for g in ctx["gate"] if g["rule"] == "G-SV-evidence" and "已驗證" in g["msg"])
+    verified = sum(1 for g in ctx["gate"] if g["rule"] == "G-SV-evidence" and "已放行" in g["msg"])
     recall, missing = _recall(review, exp["key_terms"])
     naming = ((ctx.get("glossary") or {}).get("naming")) or {}
     k = ctx.get("kpis") or {}

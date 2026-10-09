@@ -471,6 +471,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 6,
       "file": "api/40-api-contracts.md"
     },
@@ -485,6 +486,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 7,
       "file": "api/40-api-contracts.md"
     },
@@ -499,6 +501,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 8,
       "file": "api/40-api-contracts.md"
     }
@@ -962,6 +965,7 @@
     }
   },
   "screens": [],
+  "ui_elements": [],
   "ui_validation": [],
   "doc_paths": {
     "00-overview.md": "00-overview.md",
@@ -2788,8 +2792,8 @@
       "ids": [
         "Room"
       ],
-      "msg": "Room → src/api/Rooms.Domain/Room.cs:5 已驗證(符號 Room)",
-      "action": ""
+      "msg": "Room → src/api/Rooms.Domain/Room.cs:5 已放行·弱證據(符號 Room;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2797,7 +2801,7 @@
       "ids": [
         "Capacity rule"
       ],
-      "msg": "Capacity rule → src/api/Rooms.Domain/Room.cs:8 \"Capacity\" 已驗證(字面 \"Capacity\")",
+      "msg": "Capacity rule → src/api/Rooms.Domain/Room.cs:8 \"Capacity\" 已放行·強證據(字面 \"Capacity\")",
       "action": ""
     },
     {
@@ -2806,8 +2810,8 @@
       "ids": [
         "ListRooms"
       ],
-      "msg": "ListRooms → src/api/Rooms.Application/ListRoomsQueryHandler.cs:8 已驗證(對照表 Application 層 ListRoomsQueryHandler)",
-      "action": ""
+      "msg": "ListRooms → src/api/Rooms.Application/ListRoomsQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 ListRoomsQueryHandler;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2815,8 +2819,8 @@
       "ids": [
         "SqlRoomRepository"
       ],
-      "msg": "SqlRoomRepository → src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 已驗證(符號 SqlRoomRepository)",
-      "action": ""
+      "msg": "SqlRoomRepository → src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 已放行·弱證據(符號 SqlRoomRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2824,8 +2828,8 @@
       "ids": [
         "CalendarServiceClient"
       ],
-      "msg": "CalendarServiceClient → src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 已驗證(符號 CalendarServiceClient)",
-      "action": ""
+      "msg": "CalendarServiceClient → src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 已放行·弱證據(符號 CalendarServiceClient;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2833,8 +2837,8 @@
       "ids": [
         "RoomsController"
       ],
-      "msg": "RoomsController → src/api/Rooms.Api/Controllers/RoomsController.cs:8 已驗證(符號 RoomsController)",
-      "action": ""
+      "msg": "RoomsController → src/api/Rooms.Api/Controllers/RoomsController.cs:8 已放行·弱證據(符號 RoomsController;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3343,18 +3347,18 @@
   },
   "versions": {
     "current": 1,
-    "at": "2026-10-09T15:28:33",
+    "at": "2026-10-09T16:43:13",
     "git": {
-      "commit": "3d33904",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
       "dirty": []
     },
     "timeline": [
       {
         "v": 1,
-        "at": "2026-10-09T15:28:33",
+        "at": "2026-10-09T16:43:13",
         "git": {
-          "commit": "3d33904",
+          "commit": "552a863",
           "branch": "feat/pm-to-rd-spec-workflow",
           "dirty": []
         },
@@ -4061,7 +4065,6 @@
   ],
   "audit": {
     "version": 1,
-    "threads": [],
     "summary": {
       "diagrams": 29,
       "table_rows": 18,
@@ -4106,7 +4109,6 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
       "version": 1
     },
     "items": [

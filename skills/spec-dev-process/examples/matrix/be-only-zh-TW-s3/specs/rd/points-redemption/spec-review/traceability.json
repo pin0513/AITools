@@ -379,6 +379,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 6,
       "file": "api/40-api-contracts.md"
     },
@@ -393,6 +394,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 7,
       "file": "api/40-api-contracts.md"
     }
@@ -830,6 +832,7 @@
     }
   },
   "screens": [],
+  "ui_elements": [],
   "ui_validation": [],
   "doc_paths": {
     "00-overview.md": "00-overview.md",
@@ -2846,8 +2849,8 @@
       "ids": [
         "點數帳戶"
       ],
-      "msg": "點數帳戶 → src/api/Loyalty.Domain/PointsAccount.cs:5 已驗證(glossary 解析 PointsAccount)",
-      "action": ""
+      "msg": "點數帳戶 → src/api/Loyalty.Domain/PointsAccount.cs:5 已放行·弱證據(glossary 解析 PointsAccount;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2855,7 +2858,7 @@
       "ids": [
         "Balance rule"
       ],
-      "msg": "Balance rule → src/api/Loyalty.Domain/PointsAccount.cs:8 \"Balance\" 已驗證(字面 \"Balance\")",
+      "msg": "Balance rule → src/api/Loyalty.Domain/PointsAccount.cs:8 \"Balance\" 已放行·強證據(字面 \"Balance\")",
       "action": ""
     },
     {
@@ -2864,8 +2867,8 @@
       "ids": [
         "GetBalance"
       ],
-      "msg": "GetBalance → src/api/Loyalty.Application/GetBalanceQueryHandler.cs:8 已驗證(對照表 Application 層 GetBalanceQueryHandler)",
-      "action": ""
+      "msg": "GetBalance → src/api/Loyalty.Application/GetBalanceQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 GetBalanceQueryHandler;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2873,8 +2876,8 @@
       "ids": [
         "SqlPointsAccountRepository"
       ],
-      "msg": "SqlPointsAccountRepository → src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:5 已驗證(符號 SqlPointsAccountRepository)",
-      "action": ""
+      "msg": "SqlPointsAccountRepository → src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:5 已放行·弱證據(符號 SqlPointsAccountRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2882,8 +2885,8 @@
       "ids": [
         "RewardVendorClient"
       ],
-      "msg": "RewardVendorClient → src/api/Loyalty.Infrastructure/RewardVendorClient.cs:5 已驗證(符號 RewardVendorClient)",
-      "action": ""
+      "msg": "RewardVendorClient → src/api/Loyalty.Infrastructure/RewardVendorClient.cs:5 已放行·弱證據(符號 RewardVendorClient;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2891,8 +2894,8 @@
       "ids": [
         "PointsController"
       ],
-      "msg": "PointsController → src/api/Loyalty.Api/Controllers/PointsController.cs:8 已驗證(符號 PointsController)",
-      "action": ""
+      "msg": "PointsController → src/api/Loyalty.Api/Controllers/PointsController.cs:8 已放行·弱證據(符號 PointsController;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "WARN",
@@ -3437,58 +3440,20 @@
   },
   "versions": {
     "current": 1,
-    "at": "2026-10-09T15:28:54",
+    "at": "2026-10-09T16:43:29",
     "git": {
-      "commit": "3d33904",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
-      "dirty": [
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/in-progress/points-redemption/pm-spec.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/in-progress/points-redemption/refs.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/00-lexicon.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/01-break-words.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/02-entities-relations.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/03-roles.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/04-usecase.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/05-activity.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/06-sequence.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/07-state.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/survey-mapping.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/00-overview.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/10-requirements.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/20-domain-model.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/30-architecture-c4.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/60-test-design.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/api/40-api-contracts.md",
-        "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/api/50-data-model.md"
-      ]
+      "dirty": []
     },
     "timeline": [
       {
         "v": 1,
-        "at": "2026-10-09T15:28:54",
+        "at": "2026-10-09T16:43:29",
         "git": {
-          "commit": "3d33904",
+          "commit": "552a863",
           "branch": "feat/pm-to-rd-spec-workflow",
-          "dirty": [
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/in-progress/points-redemption/pm-spec.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/in-progress/points-redemption/refs.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/00-lexicon.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/01-break-words.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/02-entities-relations.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/03-roles.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/04-usecase.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/05-activity.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/06-sequence.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/sa/07-state.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec-review/survey-mapping.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/00-overview.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/10-requirements.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/20-domain-model.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/30-architecture-c4.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/60-test-design.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/api/40-api-contracts.md",
-            "skills/spec-dev-process/examples/matrix/be-only-zh-TW-s3/specs/rd/points-redemption/spec/api/50-data-model.md"
-          ]
+          "dirty": []
         },
         "changed": [
           {
@@ -3736,7 +3701,12 @@
         "hash": "53bd8deab504",
         "lines": 27,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec/00-overview.md",
@@ -3744,7 +3714,12 @@
         "hash": "5e101df838c3",
         "lines": 29,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec/10-requirements.md",
@@ -3752,7 +3727,12 @@
         "hash": "5105fe251db4",
         "lines": 42,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec/20-domain-model.md",
@@ -3760,7 +3740,12 @@
         "hash": "7a5194a90c14",
         "lines": 78,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec/30-architecture-c4.md",
@@ -3768,7 +3753,12 @@
         "hash": "7536a92f28b3",
         "lines": 131,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec/60-test-design.md",
@@ -3776,7 +3766,12 @@
         "hash": "95e6ed75c96c",
         "lines": 19,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec/api/40-api-contracts.md",
@@ -3784,7 +3779,12 @@
         "hash": "5486569fb221",
         "lines": 13,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec/api/50-data-model.md",
@@ -3792,7 +3792,12 @@
         "hash": "cc61bb5d964e",
         "lines": 21,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/00-lexicon.md",
@@ -3800,7 +3805,12 @@
         "hash": "549b1741e136",
         "lines": 66,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/01-break-words.md",
@@ -3808,7 +3818,12 @@
         "hash": "d515475d05fd",
         "lines": 24,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/02-entities-relations.md",
@@ -3816,7 +3831,12 @@
         "hash": "f32ebb35bf71",
         "lines": 29,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/03-roles.md",
@@ -3824,7 +3844,12 @@
         "hash": "eeffad2091b6",
         "lines": 9,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/04-usecase.md",
@@ -3832,7 +3857,12 @@
         "hash": "6ad9ca34d834",
         "lines": 11,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/05-activity.md",
@@ -3840,7 +3870,12 @@
         "hash": "c2642642a594",
         "lines": 28,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/06-sequence.md",
@@ -3848,7 +3883,12 @@
         "hash": "867322328905",
         "lines": 43,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/sa/07-state.md",
@@ -3856,7 +3896,12 @@
         "hash": "fd4568434b7d",
         "lines": 11,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/rd/points-redemption/spec-review/survey-mapping.md",
@@ -3864,7 +3909,12 @@
         "hash": "cf7dab90fc36",
         "lines": 16,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       },
       {
         "path": "specs/in-progress/points-redemption/refs.md",
@@ -3872,7 +3922,12 @@
         "hash": "4043bb7e4384",
         "lines": 5,
         "changed_in": 1,
-        "git": null
+        "git": {
+          "commit": "38b91df",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "matrix: language dimension code zh -> zh-TW (case folders *-zh-TW-*)"
+        }
       }
     ],
     "diffs": {},
@@ -4083,7 +4138,6 @@
   ],
   "audit": {
     "version": 1,
-    "threads": [],
     "summary": {
       "diagrams": 29,
       "table_rows": 17,
@@ -4128,7 +4182,6 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
       "version": 1
     },
     "items": [

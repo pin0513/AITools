@@ -36,11 +36,11 @@
 | INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(3 張圖) |
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「點數帳戶」→ PointsAccount 與 prev 一致 |
-| INFO | G-SV-evidence | 點數帳戶 → src/api/Loyalty.Domain/PointsAccount.cs:5 已驗證(glossary 解析 PointsAccount) |
-| INFO | G-SV-evidence | Balance rule → src/api/Loyalty.Domain/PointsAccount.cs:8 "Balance" 已驗證(字面 "Balance") |
-| INFO | G-SV-evidence | GetBalance → src/api/Loyalty.Application/GetBalanceQueryHandler.cs:8 已驗證(對照表 Application 層 GetBalanceQueryHandler) |
-| INFO | G-SV-evidence | SqlPointsAccountRepository → src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:5 已驗證(符號 SqlPointsAccountRepository) |
-| INFO | G-SV-evidence | RewardVendorClient → src/api/Loyalty.Infrastructure/RewardVendorClient.cs:5 已驗證(符號 RewardVendorClient) |
-| INFO | G-SV-evidence | PointsController → src/api/Loyalty.Api/Controllers/PointsController.cs:8 已驗證(符號 PointsController) |
-| INFO | G-SV-evidence | RewardsPage → src/web/src/pages/RewardsPage.tsx:3 已驗證(符號 RewardsPage) |
-| INFO | G-SV-evidence | PointsAccount type → src/web/src/types/PointsAccount.ts:4 已驗證(符號 PointsAccount) |
+| INFO | G-SV-evidence | 點數帳戶 → src/api/Loyalty.Domain/PointsAccount.cs:5 已放行·弱證據(glossary 解析 PointsAccount;只比對到名字) |
+| INFO | G-SV-evidence | Balance rule → src/api/Loyalty.Domain/PointsAccount.cs:8 "Balance" 已放行·強證據(字面 "Balance") |
+| INFO | G-SV-evidence | GetBalance → src/api/Loyalty.Application/GetBalanceQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 GetBalanceQueryHandler;只比對到名字) |
+| INFO | G-SV-evidence | SqlPointsAccountRepository → src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:5 已放行·弱證據(符號 SqlPointsAccountRepository;只比對到名字) |
+| INFO | G-SV-evidence | RewardVendorClient → src/api/Loyalty.Infrastructure/RewardVendorClient.cs:5 已放行·弱證據(符號 RewardVendorClient;只比對到名字) |
+| INFO | G-SV-evidence | PointsController → src/api/Loyalty.Api/Controllers/PointsController.cs:8 已放行·弱證據(符號 PointsController;只比對到名字) |
+| INFO | G-SV-evidence | RewardsPage → src/web/src/pages/RewardsPage.tsx:4 "getBalance(id)" 已放行·強證據(字面 "getBalance(id)") |
+| INFO | G-SV-evidence | PointsAccount type → src/web/src/types/PointsAccount.ts:4 已放行·弱證據(符號 PointsAccount;只比對到名字) |

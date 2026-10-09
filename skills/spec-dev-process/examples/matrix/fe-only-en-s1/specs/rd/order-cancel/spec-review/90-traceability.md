@@ -37,7 +37,7 @@
 | INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(3 張圖) |
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「order」→ Order 與 prev 一致 |
-| INFO | G-SV-evidence | Order → src/web/src/types/Order.ts:4 已驗證(符號 Order) |
-| INFO | G-SV-evidence | Shipped rule → src/web/src/types/Order.ts:2 "Shipped" 已驗證(字面 "Shipped") |
-| INFO | G-SV-evidence | GetOrder → src/web/src/api/ordersApi.ts:3 已驗證(符號 GetOrder) |
-| INFO | G-SV-evidence | OrderDetailPage → src/web/src/pages/OrderDetailPage.tsx:3 已驗證(符號 OrderDetailPage) |
+| INFO | G-SV-evidence | Order → src/web/src/types/Order.ts:4 已放行·弱證據(符號 Order;只比對到名字) |
+| INFO | G-SV-evidence | Shipped rule → src/web/src/types/Order.ts:2 "Shipped" 已放行·強證據(字面 "Shipped") |
+| INFO | G-SV-evidence | GetOrder → src/web/src/api/ordersApi.ts:4 "/orders" 已放行·強證據(字面 "/orders") |
+| INFO | G-SV-evidence | OrderDetailPage → src/web/src/pages/OrderDetailPage.tsx:4 "getOrder(id)" 已放行·強證據(字面 "getOrder(id)") |

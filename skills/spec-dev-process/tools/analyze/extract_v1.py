@@ -66,12 +66,33 @@ def load_sources(d: pathlib.Path, root: pathlib.Path, ov_text: str, max_bytes=40
                 if fp.exists() and fp.stat().st_size <= max_bytes:
                     mt = mimetypes.guess_type(fp.name)[0] or ""
                     if mt.startswith("image/"): entry["data_uri"] = f"data:{mt};base64," + base64.b64encode(fp.read_bytes()).decode()
-                    elif fp.suffix.lower() in (".html", ".htm"): entry["html"] = fp.read_text(encoding="utf-8", errors="ignore")
+                    elif fp.suffix.lower() in (".html", ".htm"):
+                        entry["html"] = fp.read_text(encoding="utf-8", errors="ignore"); entry["elements"] = mock_elements(entry["html"])
                     else: entry["text"] = fp.read_text(encoding="utf-8", errors="ignore")[:4000]
                 src["mocks"].append(entry)
             else:
                 src["refs"].append(entry)
     return src
+
+def mock_elements(html: str) -> list:
+    """mock html 裡可互動的元素(button / input / textarea / select / a[href])→ [{tag, id, name, text, line}]。UI spec 的「元素」用 #id 或 name 對到它。"""
+    from html.parser import HTMLParser
+    out = []
+    class P(HTMLParser):
+        def __init__(self): super().__init__(); self.cur = None
+        def handle_starttag(self, tag, attrs):
+            a = dict(attrs)
+            if tag in ("button", "input", "textarea", "select") or (tag == "a" and a.get("href")):
+                if tag == "input" and (a.get("type") or "").lower() == "hidden": return
+                self.cur = {"tag": tag, "id": a.get("id") or "", "name": a.get("name") or "", "text": a.get("placeholder") or a.get("value") or "", "line": self.getpos()[0]}
+                out.append(self.cur)
+                if tag in ("input",): self.cur = None
+        def handle_data(self, data):
+            if self.cur is not None and data.strip() and not self.cur["text"]: self.cur["text"] = data.strip()[:40]
+        def handle_endtag(self, tag):
+            if self.cur is not None and tag == self.cur["tag"]: self.cur = None
+    P().feed(html)
+    return out
 
 def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, project_root: pathlib.Path = None):
     sig = {k: v["signature"] for k, v in contracts["tables"].items()}
@@ -113,7 +134,7 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
                       "interface": r["名稱"].split(":")[1].strip() if ":" in r["名稱"] else "", "line": r.get("_line"), "file": "30-architecture-c4.md"})
     ac_links = [{"ac": r["AC"], "component": r["CMP"], "via": r.get("via", ""), "role": r.get("職責", ""), "line": r.get("_line"), "file": "30-architecture-c4.md"} for r in rows("ac_links")]
     apis = [{"id": r["ID"], "method": r["Method"], "path": r["Path"], "reqs": M.split_ids(r.get("對應 REQ", "")),
-             "nfrs": M.split_ids(r.get("綁定 NFR", "")), "component": M.split_ids(r.get("CMP", "")), "line": r.get("_line"), "file": doc_paths.get("40-api-contracts.md", "40-api-contracts.md")} for r in rows("apis")]
+             "nfrs": M.split_ids(r.get("綁定 NFR", "")), "component": M.split_ids(r.get("CMP", "")), "caller": (r.get("呼叫者") or "").strip(), "line": r.get("_line"), "file": doc_paths.get("40-api-contracts.md", "40-api-contracts.md")} for r in rows("apis")]
     failure_modes = [{"system": r["外部系統"], "component": M.split_ids(r["呼叫點 CMP"]), "timeout": r.get("逾時", ""),
                       "retry": r.get("重試", ""), "degrade": r.get("降級", ""), "compensate": r.get("補償", "")} for r in rows("failure_modes")]
     ownership = [{"table": r["表"], "owner": r["Owner Context"], "access": r.get("其他 Context 存取方式", "")} for r in rows("ownership")]
@@ -128,6 +149,9 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
             r["stimulus_source"], r["source"] = r.get("source", ""), (hit.split(" ")[0] if hit else r.get("source", ""))
     screens = [{"screen": r["畫面"], "route": r.get("路由", ""), "components": M.split_ids(r.get("元件", "")), "mock": r.get("Mock", ""),
                 "reqs": M.split_ids(r.get("對應 REQ", "")), "line": r.get("_line"), "file": doc_paths.get("41-ui-spec.md", "")} for r in rows("screens")]
+    ui_elements = [{"screen": r["畫面"], "element": (r.get("元素") or "").strip(), "kind": (r.get("類型") or "").strip(), "action": (r.get("動作") or "").strip(),
+                    "apis": M.split_ids(r.get("呼叫 API", "")), "enabled": r.get("啟用條件", ""), "acs": M.split_ids(r.get("對應 AC", "")),
+                    "line": r.get("_line"), "file": doc_paths.get("41-ui-spec.md", "")} for r in rows("ui_elements")]
     ui_validation = [{"screen": r["畫面"], "field": r.get("欄位", ""), "rule": r.get("規則", ""), "message": r.get("錯誤訊息", ""),
                       "acs": M.split_ids(r.get("對應 AC", "")), "line": r.get("_line")} for r in rows("ui_validation")]
     gaps = [{"n": r["#"], "question": r["問題"], "reqs": M.split_ids(r.get("影響 REQ", "")), "assumption": r.get("暫時假設", "")} for r in rows("gaps")]
@@ -203,7 +227,7 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
         "failure_modes": failure_modes, "ownership": ownership, "erd_entities": sorted(set(erd_entities)),
         "tests": tests, "fitness": fitness, "gaps": gaps, "use_cases": ucs, "artifacts": artifacts,
         "spec_dir": (str(d.resolve().relative_to(pathlib.Path(project_root).resolve())) if project_root and d.resolve().is_relative_to(pathlib.Path(project_root).resolve()) else str(d)),
-        "sources": sources, "ac_text": acs_text, "uc_text": uc_text, "screens": screens, "ui_validation": ui_validation, "doc_paths": doc_paths,
+        "sources": sources, "ac_text": acs_text, "uc_text": uc_text, "screens": screens, "ui_elements": ui_elements, "ui_validation": ui_validation, "doc_paths": doc_paths,
         "sa_files": sa_files, "sa_artifacts": sa_artifacts, "sa_tables": sa_tables, "sa_entities": sa_entities, "sa_roles": sa_roles, "sa_word_count": sa_words, "survey": survey,
         "extract_errors": errors,
     }

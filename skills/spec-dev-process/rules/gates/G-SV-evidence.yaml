@@ -6,12 +6,15 @@ name: Survey 證據可回溯
 description: |
   survey-mapping 每列 existing/modify 的證據 path:line 必須存在於 codebase,且該行含模型元素的 ASCII 符號(或 path:line "字面文字" 時含該文字);new 不得有強候選。
   能力邊界:這是代理指標(名字/文字出現在那一行),不是行為存在的證明。它抓的是「宣稱沒有錨點」與「錨點指錯行」,抓不到「錨點正確但宣稱錯誤」。
+  證據強度:字面鎖定且不在函式宣告行 = 強;只比對到名字 = 弱(放行但看板標出);指在函式 / 方法宣告行 = WARN(只證明函式存在)。
   要提高證據強度,證據指到能證明行為的那一行並用 "字面文字" 鎖定,而不是指到函式宣告。
 predicate: survey_evidence
 params:
   min_token_len: 3
 outcomes:
-  verified:      {status: INFO, message: "{element} → {evidence} 已驗證({how})"}
+  verified:      {status: INFO, message: "{element} → {evidence} 已放行·強證據({how})"}
+  verified_weak: {status: INFO, message: "{element} → {evidence} 已放行·弱證據({how};只比對到名字)", action: "要變強:證據指到能證明行為的那一行並加 \"字面文字\""}
+  decl_only:     {status: WARN, message: "{element} → {evidence} 指在函式宣告行「{line}」:這一行只證明函式存在,不證明行為", action: "證據改指到行為所在的那一行(例:清單裡的那一項)並加 \"字面文字\""}
   no_symbol:     {status: WARN, message: "{element} 沒有可比對的 ASCII 符號(純中文),無法機器驗證,請人確認 {evidence}", action: "元素名寫成「中文 (CodeSymbol)」或證據加 \"字面文字\""}
   bad_status:    {status: FAIL, message: "{element} 狀態 '{status}' 不在 existing/modify/new"}
   no_evidence:   {status: FAIL, message: "{element} 標 {status} 但無證據(path:line)", action: "填 path:line,或改 new"}

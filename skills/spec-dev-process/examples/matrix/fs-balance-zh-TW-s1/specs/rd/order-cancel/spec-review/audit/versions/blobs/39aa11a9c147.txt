@@ -13,5 +13,5 @@
 | SqlOrderRepository | Adapter | modify | SqlOrderRepository | src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 | |
 | PaymentGatewayClient | Adapter | existing | PaymentGatewayClient | src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 | |
 | OrdersController | Api | modify | OrdersController | src/api/Orders.Api/Controllers/OrdersController.cs:8 | |
-| OrderDetailPage | Page | modify | OrderDetailPage | src/web/src/pages/OrderDetailPage.tsx:3 | |
+| OrderDetailPage | Page | modify | OrderDetailPage | src/web/src/pages/OrderDetailPage.tsx:3; src/web/src/pages/OrderDetailPage.tsx:4 "getOrder(id)" | |
 | Order type | Type | existing | Order | src/web/src/types/Order.ts:4 | |

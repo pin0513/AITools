@@ -535,6 +535,7 @@
       "component": [
         "CMP-003"
       ],
+      "caller": "",
       "line": 6,
       "file": "api/40-api-contracts.md"
     },
@@ -551,6 +552,7 @@
       "component": [
         "CMP-003"
       ],
+      "caller": "",
       "line": 7,
       "file": "api/40-api-contracts.md"
     },
@@ -565,6 +567,7 @@
       "component": [
         "CMP-003"
       ],
+      "caller": "",
       "line": 8,
       "file": "api/40-api-contracts.md"
     }
@@ -1014,7 +1017,23 @@
       {
         "path": "specs/in-progress/order-cancel/mock/order.html",
         "exists": true,
-        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>Order <span data-state=\"Placed\">Placed</span></h2><!-- states: Placed/Shipped/Cancelled/Refunded --><button data-action=\"CancelOrder\">cancel</button><button data-action=\"ListCancellations\">view</button><table><tr><th>Order</th><th>status</th></tr></table></body></html>\n"
+        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>Order <span data-state=\"Placed\">Placed</span></h2><!-- states: Placed/Shipped/Cancelled/Refunded --><button data-action=\"CancelOrder\">cancel</button><button data-action=\"ListCancellations\">view</button><table><tr><th>Order</th><th>status</th></tr></table></body></html>\n",
+        "elements": [
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "cancel",
+            "line": 1
+          },
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "view",
+            "line": 1
+          }
+        ]
       }
     ],
     "refs": [
@@ -1081,6 +1100,7 @@
       "file": "ui/41-ui-spec.md"
     }
   ],
+  "ui_elements": [],
   "ui_validation": [
     {
       "screen": "OrderDetailPage",
@@ -1672,7 +1692,7 @@
         "類型": "Page",
         "狀態": "modify",
         "對應 codebase": "OrderDetailPage",
-        "證據": "src/web/src/pages/OrderDetailPage.tsx:3",
+        "證據": "src/web/src/pages/OrderDetailPage.tsx:3; src/web/src/pages/OrderDetailPage.tsx:4 \"getOrder(id)\"",
         "說明": "",
         "_line": 16,
         "_file": "survey-mapping.md"
@@ -1846,7 +1866,7 @@
       "kind": "Page",
       "status": "modify",
       "target": "OrderDetailPage",
-      "evidence": "src/web/src/pages/OrderDetailPage.tsx:3",
+      "evidence": "src/web/src/pages/OrderDetailPage.tsx:3; src/web/src/pages/OrderDetailPage.tsx:4 \"getOrder(id)\"",
       "note": "",
       "line": 16,
       "file": "survey-mapping.md"
@@ -2863,8 +2883,8 @@
       "ids": [
         "訂單 (Order)"
       ],
-      "msg": "訂單 (Order) → src/api/Orders.Domain/Order.cs:5 已驗證(符號 Order)",
-      "action": ""
+      "msg": "訂單 (Order) → src/api/Orders.Domain/Order.cs:5 已放行·弱證據(符號 Order;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2872,7 +2892,7 @@
       "ids": [
         "Shipped rule"
       ],
-      "msg": "Shipped rule → src/api/Orders.Domain/Order.cs:3 \"Shipped\" 已驗證(字面 \"Shipped\")",
+      "msg": "Shipped rule → src/api/Orders.Domain/Order.cs:3 \"Shipped\" 已放行·強證據(字面 \"Shipped\")",
       "action": ""
     },
     {
@@ -2881,8 +2901,8 @@
       "ids": [
         "GetOrder"
       ],
-      "msg": "GetOrder → src/api/Orders.Application/GetOrderQueryHandler.cs:8 已驗證(對照表 Application 層 GetOrderQueryHandler)",
-      "action": ""
+      "msg": "GetOrder → src/api/Orders.Application/GetOrderQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 GetOrderQueryHandler;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2890,8 +2910,8 @@
       "ids": [
         "SqlOrderRepository"
       ],
-      "msg": "SqlOrderRepository → src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 已驗證(符號 SqlOrderRepository)",
-      "action": ""
+      "msg": "SqlOrderRepository → src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 已放行·弱證據(符號 SqlOrderRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2899,8 +2919,8 @@
       "ids": [
         "PaymentGatewayClient"
       ],
-      "msg": "PaymentGatewayClient → src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 已驗證(符號 PaymentGatewayClient)",
-      "action": ""
+      "msg": "PaymentGatewayClient → src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 已放行·弱證據(符號 PaymentGatewayClient;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2908,8 +2928,8 @@
       "ids": [
         "OrdersController"
       ],
-      "msg": "OrdersController → src/api/Orders.Api/Controllers/OrdersController.cs:8 已驗證(符號 OrdersController)",
-      "action": ""
+      "msg": "OrdersController → src/api/Orders.Api/Controllers/OrdersController.cs:8 已放行·弱證據(符號 OrdersController;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2917,7 +2937,7 @@
       "ids": [
         "OrderDetailPage"
       ],
-      "msg": "OrderDetailPage → src/web/src/pages/OrderDetailPage.tsx:3 已驗證(符號 OrderDetailPage)",
+      "msg": "OrderDetailPage → src/web/src/pages/OrderDetailPage.tsx:4 \"getOrder(id)\" 已放行·強證據(字面 \"getOrder(id)\")",
       "action": ""
     },
     {
@@ -2926,8 +2946,8 @@
       "ids": [
         "Order type"
       ],
-      "msg": "Order type → src/web/src/types/Order.ts:4 已驗證(符號 Order)",
-      "action": ""
+      "msg": "Order type → src/web/src/types/Order.ts:4 已放行·弱證據(符號 Order;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "WARN",
@@ -3478,20 +3498,24 @@
   },
   "versions": {
     "current": 1,
-    "at": "2026-10-09T15:29:37",
+    "at": "2026-10-09T16:44:09",
     "git": {
-      "commit": "3d33904",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
-      "dirty": []
+      "dirty": [
+        "kills/spec-dev-process/examples/matrix/fs-back-mixed-s1/specs/rd/order-cancel/spec-review/survey-mapping.md"
+      ]
     },
     "timeline": [
       {
         "v": 1,
-        "at": "2026-10-09T15:29:37",
+        "at": "2026-10-09T16:44:09",
         "git": {
-          "commit": "3d33904",
+          "commit": "552a863",
           "branch": "feat/pm-to-rd-spec-workflow",
-          "dirty": []
+          "dirty": [
+            "kills/spec-dev-process/examples/matrix/fs-back-mixed-s1/specs/rd/order-cancel/spec-review/survey-mapping.md"
+          ]
         },
         "changed": [
           {
@@ -3991,7 +4015,7 @@
       {
         "path": "specs/rd/order-cancel/spec-review/survey-mapping.md",
         "kind": "SA",
-        "hash": "a25e4e1dc78f",
+        "hash": "d61576e31b9b",
         "lines": 18,
         "changed_in": 1,
         "git": {
@@ -4260,7 +4284,6 @@
   ],
   "audit": {
     "version": 1,
-    "threads": [],
     "summary": {
       "diagrams": 30,
       "table_rows": 14,
@@ -4305,7 +4328,6 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
       "version": 1
     },
     "items": [
@@ -6067,7 +6089,7 @@
       "reason": "",
       "modal": "ok",
       "cards": 4,
-      "tabs": 9,
+      "tabs": 10,
       "visible_dg": 0,
       "visible_svgs": 0,
       "overflow": false,
@@ -6114,7 +6136,7 @@
     },
     "modal": "ok",
     "cards": 4,
-    "tabs": 9,
+    "tabs": 10,
     "visible_dg": 0,
     "visible_svgs": 0,
     "overflow": false,

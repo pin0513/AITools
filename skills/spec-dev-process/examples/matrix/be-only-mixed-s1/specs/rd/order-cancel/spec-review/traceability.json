@@ -418,6 +418,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 6,
       "file": "api/40-api-contracts.md"
     },
@@ -434,6 +435,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 7,
       "file": "api/40-api-contracts.md"
     },
@@ -448,6 +450,7 @@
       "component": [
         "CMP-001"
       ],
+      "caller": "",
       "line": 8,
       "file": "api/40-api-contracts.md"
     }
@@ -895,6 +898,7 @@
     }
   },
   "screens": [],
+  "ui_elements": [],
   "ui_validation": [],
   "doc_paths": {
     "00-overview.md": "00-overview.md",
@@ -2571,8 +2575,8 @@
       "ids": [
         "訂單 (Order)"
       ],
-      "msg": "訂單 (Order) → src/api/Orders.Domain/Order.cs:5 已驗證(符號 Order)",
-      "action": ""
+      "msg": "訂單 (Order) → src/api/Orders.Domain/Order.cs:5 已放行·弱證據(符號 Order;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2580,7 +2584,7 @@
       "ids": [
         "Shipped rule"
       ],
-      "msg": "Shipped rule → src/api/Orders.Domain/Order.cs:3 \"Shipped\" 已驗證(字面 \"Shipped\")",
+      "msg": "Shipped rule → src/api/Orders.Domain/Order.cs:3 \"Shipped\" 已放行·強證據(字面 \"Shipped\")",
       "action": ""
     },
     {
@@ -2589,8 +2593,8 @@
       "ids": [
         "GetOrder"
       ],
-      "msg": "GetOrder → src/api/Orders.Application/GetOrderQueryHandler.cs:8 已驗證(對照表 Application 層 GetOrderQueryHandler)",
-      "action": ""
+      "msg": "GetOrder → src/api/Orders.Application/GetOrderQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 GetOrderQueryHandler;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2598,8 +2602,8 @@
       "ids": [
         "SqlOrderRepository"
       ],
-      "msg": "SqlOrderRepository → src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 已驗證(符號 SqlOrderRepository)",
-      "action": ""
+      "msg": "SqlOrderRepository → src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 已放行·弱證據(符號 SqlOrderRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2607,8 +2611,8 @@
       "ids": [
         "PaymentGatewayClient"
       ],
-      "msg": "PaymentGatewayClient → src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 已驗證(符號 PaymentGatewayClient)",
-      "action": ""
+      "msg": "PaymentGatewayClient → src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 已放行·弱證據(符號 PaymentGatewayClient;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -2616,8 +2620,8 @@
       "ids": [
         "OrdersController"
       ],
-      "msg": "OrdersController → src/api/Orders.Api/Controllers/OrdersController.cs:8 已驗證(符號 OrdersController)",
-      "action": ""
+      "msg": "OrdersController → src/api/Orders.Api/Controllers/OrdersController.cs:8 已放行·弱證據(符號 OrdersController;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "WARN",
@@ -3148,18 +3152,18 @@
   },
   "versions": {
     "current": 1,
-    "at": "2026-10-09T15:28:45",
+    "at": "2026-10-09T16:43:21",
     "git": {
-      "commit": "3d33904",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
       "dirty": []
     },
     "timeline": [
       {
         "v": 1,
-        "at": "2026-10-09T15:28:45",
+        "at": "2026-10-09T16:43:21",
         "git": {
-          "commit": "3d33904",
+          "commit": "552a863",
           "branch": "feat/pm-to-rd-spec-workflow",
           "dirty": []
         },
@@ -3856,7 +3860,6 @@
   ],
   "audit": {
     "version": 1,
-    "threads": [],
     "summary": {
       "diagrams": 29,
       "table_rows": 14,
@@ -3901,7 +3904,6 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
       "version": 1
     },
     "items": [

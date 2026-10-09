@@ -86,3 +86,11 @@ class ConfigTest(unittest.TestCase):
         fn, ver = C.resolve_tool("check.boundary@1", reg); self.assertEqual(fn.__name__, "run_boundary")
         with self.assertRaises(KeyError): C.resolve_tool("analyze.extract@9", reg)
         with self.assertRaises(KeyError): C.resolve_tool("nope.tool", reg)
+
+class MockElementsTest(unittest.TestCase):
+    def test_interactive_elements_from_mock_html(self):
+        from tools.analyze.extract_v1 import mock_elements
+        els = mock_elements('<section><button id="approve">核准</button><input name="dept" disabled><input type="hidden" name="t">'
+                            '<textarea id="reason" placeholder="理由"></textarea><a href="/x">連結</a><a>不是連結</a><select name="s"><option>1</option></select></section>')
+        self.assertEqual([(e["tag"], e["id"] or e["name"], e["text"]) for e in els],
+                         [("button", "approve", "核准"), ("input", "dept", ""), ("textarea", "reason", "理由"), ("a", "", "連結"), ("select", "s", "1")])

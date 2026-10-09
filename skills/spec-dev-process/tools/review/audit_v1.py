@@ -153,11 +153,8 @@ def audit(ctx: dict) -> dict:
         with hist.open("a", encoding="utf-8") as f:
             f.write(json.dumps({"at": datetime.datetime.now().isoformat(timespec="seconds"), "hashes": snap, "summary": summary}, ensure_ascii=False) + "\n")
     summary["changed_since_last"] = changed if prev else []; summary["removed_since_last"] = removed
-    from tools.review import threads_v1 as TH
-    threads = TH.load(sodir / "threads.md")
-    summary["threads_open"] = sum(1 for x in threads if x["status"] == "open")
     summary["version"] = vers.get("current", 0)
-    res = {"version": vers.get("current", 0), "threads": threads, "summary": summary, "items": items, "methodology": meth.get("id", ""), "duties": duty_spec.get("duties") or {}, "signoff_path": str((sodir / "signoff.md").relative_to(ctx["project_root"])) if (sodir / "signoff.md").resolve().is_relative_to(ctx["project_root"]) else "audit/signoff.md"}
+    res = {"version": vers.get("current", 0), "summary": summary, "items": items, "methodology": meth.get("id", ""), "duties": duty_spec.get("duties") or {}, "signoff_path": str((sodir / "signoff.md").relative_to(ctx["project_root"])) if (sodir / "signoff.md").resolve().is_relative_to(ctx["project_root"]) else "audit/signoff.md"}
     (sodir / "audit.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     return res
 

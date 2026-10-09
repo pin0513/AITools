@@ -735,6 +735,7 @@
       "component": [
         "CMP-007"
       ],
+      "caller": "",
       "line": 6,
       "file": "api/40-api-contracts.md"
     },
@@ -749,6 +750,7 @@
       "component": [
         "CMP-007"
       ],
+      "caller": "",
       "line": 7,
       "file": "api/40-api-contracts.md"
     },
@@ -763,6 +765,7 @@
       "component": [
         "CMP-007"
       ],
+      "caller": "",
       "line": 8,
       "file": "api/40-api-contracts.md"
     }
@@ -1286,7 +1289,30 @@
       {
         "path": "specs/in-progress/room-booking/mock/booking.html",
         "exists": true,
-        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>Booking <span data-state=\"Booked\">Booked</span></h2><!-- states: Booked/CheckedIn/Released --><button data-action=\"BookRoom\">book</button><button data-action=\"CheckInBooking\">check in</button><button data-action=\"ListDailyBookings\">view</button><table><tr><th>Room</th><th>status</th></tr></table></body></html>\n"
+        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>Booking <span data-state=\"Booked\">Booked</span></h2><!-- states: Booked/CheckedIn/Released --><button data-action=\"BookRoom\">book</button><button data-action=\"CheckInBooking\">check in</button><button data-action=\"ListDailyBookings\">view</button><table><tr><th>Room</th><th>status</th></tr></table></body></html>\n",
+        "elements": [
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "book",
+            "line": 1
+          },
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "check in",
+            "line": 1
+          },
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "view",
+            "line": 1
+          }
+        ]
       }
     ],
     "refs": [
@@ -1357,6 +1383,7 @@
       "file": "ui/41-ui-spec.md"
     }
   ],
+  "ui_elements": [],
   "ui_validation": [
     {
       "screen": "RoomBookingPage",
@@ -1969,7 +1996,7 @@
         "類型": "Page",
         "狀態": "modify",
         "對應 codebase": "RoomBookingPage",
-        "證據": "src/web/src/pages/RoomBookingPage.tsx:3",
+        "證據": "src/web/src/pages/RoomBookingPage.tsx:3; src/web/src/pages/RoomBookingPage.tsx:4 \"listRooms(id)\"",
         "說明": "",
         "_line": 17,
         "_file": "survey-mapping.md"
@@ -2171,7 +2198,7 @@
       "kind": "Page",
       "status": "modify",
       "target": "RoomBookingPage",
-      "evidence": "src/web/src/pages/RoomBookingPage.tsx:3",
+      "evidence": "src/web/src/pages/RoomBookingPage.tsx:3; src/web/src/pages/RoomBookingPage.tsx:4 \"listRooms(id)\"",
       "note": "",
       "line": 17,
       "file": "survey-mapping.md"
@@ -3330,8 +3357,8 @@
       "ids": [
         "會議室 (Room)"
       ],
-      "msg": "會議室 (Room) → src/api/Rooms.Domain/Room.cs:5 已驗證(符號 Room)",
-      "action": ""
+      "msg": "會議室 (Room) → src/api/Rooms.Domain/Room.cs:5 已放行·弱證據(符號 Room;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3339,7 +3366,7 @@
       "ids": [
         "Capacity rule"
       ],
-      "msg": "Capacity rule → src/api/Rooms.Domain/Room.cs:8 \"Capacity\" 已驗證(字面 \"Capacity\")",
+      "msg": "Capacity rule → src/api/Rooms.Domain/Room.cs:8 \"Capacity\" 已放行·強證據(字面 \"Capacity\")",
       "action": ""
     },
     {
@@ -3348,8 +3375,8 @@
       "ids": [
         "ListRooms"
       ],
-      "msg": "ListRooms → src/api/Rooms.Application/ListRoomsQueryHandler.cs:8 已驗證(對照表 Application 層 ListRoomsQueryHandler)",
-      "action": ""
+      "msg": "ListRooms → src/api/Rooms.Application/ListRoomsQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 ListRoomsQueryHandler;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3357,8 +3384,8 @@
       "ids": [
         "SqlRoomRepository"
       ],
-      "msg": "SqlRoomRepository → src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 已驗證(符號 SqlRoomRepository)",
-      "action": ""
+      "msg": "SqlRoomRepository → src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 已放行·弱證據(符號 SqlRoomRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3366,8 +3393,8 @@
       "ids": [
         "CalendarServiceClient"
       ],
-      "msg": "CalendarServiceClient → src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 已驗證(符號 CalendarServiceClient)",
-      "action": ""
+      "msg": "CalendarServiceClient → src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 已放行·弱證據(符號 CalendarServiceClient;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3375,8 +3402,8 @@
       "ids": [
         "RoomsController"
       ],
-      "msg": "RoomsController → src/api/Rooms.Api/Controllers/RoomsController.cs:8 已驗證(符號 RoomsController)",
-      "action": ""
+      "msg": "RoomsController → src/api/Rooms.Api/Controllers/RoomsController.cs:8 已放行·弱證據(符號 RoomsController;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3384,7 +3411,7 @@
       "ids": [
         "RoomBookingPage"
       ],
-      "msg": "RoomBookingPage → src/web/src/pages/RoomBookingPage.tsx:3 已驗證(符號 RoomBookingPage)",
+      "msg": "RoomBookingPage → src/web/src/pages/RoomBookingPage.tsx:4 \"listRooms(id)\" 已放行·強證據(字面 \"listRooms(id)\")",
       "action": ""
     },
     {
@@ -3393,8 +3420,8 @@
       "ids": [
         "Room type"
       ],
-      "msg": "Room type → src/web/src/types/Room.ts:4 已驗證(符號 Room)",
-      "action": ""
+      "msg": "Room type → src/web/src/types/Room.ts:4 已放行·弱證據(符號 Room;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3923,20 +3950,24 @@
   },
   "versions": {
     "current": 1,
-    "at": "2026-10-09T15:30:03",
+    "at": "2026-10-09T16:44:35",
     "git": {
-      "commit": "3d33904",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
-      "dirty": []
+      "dirty": [
+        "kills/spec-dev-process/examples/matrix/fs-balance-mixed-s2/specs/rd/room-booking/spec-review/survey-mapping.md"
+      ]
     },
     "timeline": [
       {
         "v": 1,
-        "at": "2026-10-09T15:30:03",
+        "at": "2026-10-09T16:44:35",
         "git": {
-          "commit": "3d33904",
+          "commit": "552a863",
           "branch": "feat/pm-to-rd-spec-workflow",
-          "dirty": []
+          "dirty": [
+            "kills/spec-dev-process/examples/matrix/fs-balance-mixed-s2/specs/rd/room-booking/spec-review/survey-mapping.md"
+          ]
         },
         "changed": [
           {
@@ -4436,7 +4467,7 @@
       {
         "path": "specs/rd/room-booking/spec-review/survey-mapping.md",
         "kind": "SA",
-        "hash": "23c399f7a609",
+        "hash": "2910e420165a",
         "lines": 19,
         "changed_in": 1,
         "git": {
@@ -4743,7 +4774,6 @@
   ],
   "audit": {
     "version": 1,
-    "threads": [],
     "summary": {
       "diagrams": 30,
       "table_rows": 18,
@@ -4788,7 +4818,6 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
       "version": 1
     },
     "items": [
@@ -6623,7 +6652,7 @@
       "reason": "",
       "modal": "ok",
       "cards": 4,
-      "tabs": 9,
+      "tabs": 10,
       "visible_dg": 0,
       "visible_svgs": 0,
       "overflow": false,
@@ -6670,7 +6699,7 @@
     },
     "modal": "ok",
     "cards": 4,
-    "tabs": 9,
+    "tabs": 10,
     "visible_dg": 0,
     "visible_svgs": 0,
     "overflow": false,

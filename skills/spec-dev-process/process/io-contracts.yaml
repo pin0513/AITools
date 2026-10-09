@@ -42,7 +42,7 @@ files:
     required: false
     when_missing: ignore          # 純後端沒有 UI
     sections: [畫面清單, 介面狀態]
-    tables: [screens, ui_validation]
+    tables: [screens, ui_elements, ui_validation]      # ui_elements = UI 的顆粒度(按鈕、欄位、連結),對到 API 的顆粒度(endpoint)
   60-test-design.md:
     stage: S4
     required: true
@@ -125,6 +125,7 @@ tables:
   fitness:       {signature: [NFR, 量測方式],             columns: [NFR, 量測方式, 門檻, 執行點]}
   screens:       {signature: [畫面, 路由],                columns: [畫面, 路由, 元件, Mock, 對應 REQ]}
   ui_validation: {signature: [畫面, 欄位],                columns: [畫面, 欄位, 規則, 錯誤訊息, 對應 AC]}
+  ui_elements:   {signature: [畫面, 元素],                columns: [畫面, 元素, 類型, 動作, 呼叫 API, 啟用條件, 對應 AC]}
   naming_map:    {signature: [名詞, 符號, UI],            columns: [名詞, 符號, UI, API, Application, Domain, Infrastructure, DB]}
   words:         {signature: [詞, 詞性],                  columns: [詞, 詞性, 來源, 歸類]}
   lexicon:       {signature: [詞, 詞頻],                  columns: [詞, 詞頻, 權重]}
@@ -177,6 +178,7 @@ aliases:
     Mapping: 對應表
     Screens: 畫面清單
     Field Validation: 欄位驗證
+    Screen Elements: 畫面元素
     Naming Map: 分層命名對照
   columns:
     Requirement: 需求
@@ -195,6 +197,11 @@ aliases:
     PM Source: PM 來源
     RD Artifact: RD 產物
     Term: 名詞
+    Element: 元素
+    Action: 動作
+    Calls API: 呼叫 API
+    Enabled When: 啟用條件
+    Caller: 呼叫者
     Definition: 定義
     Name: 名稱
     Tech: 技術

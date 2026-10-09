@@ -578,6 +578,7 @@
       "component": [
         "CMP-006"
       ],
+      "caller": "",
       "line": 6,
       "file": "api/40-api-contracts.md"
     },
@@ -592,6 +593,7 @@
       "component": [
         "CMP-006"
       ],
+      "caller": "",
       "line": 7,
       "file": "api/40-api-contracts.md"
     }
@@ -1075,7 +1077,23 @@
       {
         "path": "specs/in-progress/points-redemption/mock/rewards.html",
         "exists": true,
-        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>redemption <span data-state=\"Pending\">Pending</span></h2><!-- states: Pending/Fulfilled/Failed --><button data-action=\"RedeemReward\">redeem</button><button data-action=\"ListTransactions\">view</button><table><tr><th>points account</th><th>status</th></tr></table></body></html>\n"
+        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>redemption <span data-state=\"Pending\">Pending</span></h2><!-- states: Pending/Fulfilled/Failed --><button data-action=\"RedeemReward\">redeem</button><button data-action=\"ListTransactions\">view</button><table><tr><th>points account</th><th>status</th></tr></table></body></html>\n",
+        "elements": [
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "redeem",
+            "line": 1
+          },
+          {
+            "tag": "button",
+            "id": "",
+            "name": "",
+            "text": "view",
+            "line": 1
+          }
+        ]
       }
     ],
     "refs": [
@@ -1140,6 +1158,7 @@
       "file": "ui/41-ui-spec.md"
     }
   ],
+  "ui_elements": [],
   "ui_validation": [
     {
       "screen": "RewardsPage",
@@ -1815,7 +1834,7 @@
         "類型": "Page",
         "狀態": "modify",
         "對應 codebase": "RewardsPage",
-        "證據": "src/web/src/pages/RewardsPage.tsx:3",
+        "證據": "src/web/src/pages/RewardsPage.tsx:3; src/web/src/pages/RewardsPage.tsx:4 \"getBalance(id)\"",
         "說明": "",
         "_line": 16,
         "_file": "survey-mapping.md"
@@ -2005,7 +2024,7 @@
       "kind": "Page",
       "status": "modify",
       "target": "RewardsPage",
-      "evidence": "src/web/src/pages/RewardsPage.tsx:3",
+      "evidence": "src/web/src/pages/RewardsPage.tsx:3; src/web/src/pages/RewardsPage.tsx:4 \"getBalance(id)\"",
       "note": "",
       "line": 16,
       "file": "survey-mapping.md"
@@ -3185,8 +3204,8 @@
       "ids": [
         "PointsAccount"
       ],
-      "msg": "PointsAccount → src/api/Loyalty.Domain/PointsAccount.cs:5 已驗證(符號 PointsAccount)",
-      "action": ""
+      "msg": "PointsAccount → src/api/Loyalty.Domain/PointsAccount.cs:5 已放行·弱證據(符號 PointsAccount;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3194,7 +3213,7 @@
       "ids": [
         "Balance rule"
       ],
-      "msg": "Balance rule → src/api/Loyalty.Domain/PointsAccount.cs:8 \"Balance\" 已驗證(字面 \"Balance\")",
+      "msg": "Balance rule → src/api/Loyalty.Domain/PointsAccount.cs:8 \"Balance\" 已放行·強證據(字面 \"Balance\")",
       "action": ""
     },
     {
@@ -3203,8 +3222,8 @@
       "ids": [
         "GetBalance"
       ],
-      "msg": "GetBalance → src/api/Loyalty.Application/GetBalanceQueryHandler.cs:8 已驗證(對照表 Application 層 GetBalanceQueryHandler)",
-      "action": ""
+      "msg": "GetBalance → src/api/Loyalty.Application/GetBalanceQueryHandler.cs:8 已放行·弱證據(對照表 Application 層 GetBalanceQueryHandler;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3212,8 +3231,8 @@
       "ids": [
         "SqlPointsAccountRepository"
       ],
-      "msg": "SqlPointsAccountRepository → src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:5 已驗證(符號 SqlPointsAccountRepository)",
-      "action": ""
+      "msg": "SqlPointsAccountRepository → src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:5 已放行·弱證據(符號 SqlPointsAccountRepository;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3221,8 +3240,8 @@
       "ids": [
         "RewardVendorClient"
       ],
-      "msg": "RewardVendorClient → src/api/Loyalty.Infrastructure/RewardVendorClient.cs:5 已驗證(符號 RewardVendorClient)",
-      "action": ""
+      "msg": "RewardVendorClient → src/api/Loyalty.Infrastructure/RewardVendorClient.cs:5 已放行·弱證據(符號 RewardVendorClient;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3230,8 +3249,8 @@
       "ids": [
         "PointsController"
       ],
-      "msg": "PointsController → src/api/Loyalty.Api/Controllers/PointsController.cs:8 已驗證(符號 PointsController)",
-      "action": ""
+      "msg": "PointsController → src/api/Loyalty.Api/Controllers/PointsController.cs:8 已放行·弱證據(符號 PointsController;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "INFO",
@@ -3239,7 +3258,7 @@
       "ids": [
         "RewardsPage"
       ],
-      "msg": "RewardsPage → src/web/src/pages/RewardsPage.tsx:3 已驗證(符號 RewardsPage)",
+      "msg": "RewardsPage → src/web/src/pages/RewardsPage.tsx:4 \"getBalance(id)\" 已放行·強證據(字面 \"getBalance(id)\")",
       "action": ""
     },
     {
@@ -3248,8 +3267,8 @@
       "ids": [
         "PointsAccount type"
       ],
-      "msg": "PointsAccount type → src/web/src/types/PointsAccount.ts:4 已驗證(符號 PointsAccount)",
-      "action": ""
+      "msg": "PointsAccount type → src/web/src/types/PointsAccount.ts:4 已放行·弱證據(符號 PointsAccount;只比對到名字)",
+      "action": "要變強:證據指到能證明行為的那一行並加 \"字面文字\""
     },
     {
       "level": "WARN",
@@ -3814,20 +3833,24 @@
   },
   "versions": {
     "current": 1,
-    "at": "2026-10-09T15:29:55",
+    "at": "2026-10-09T16:44:26",
     "git": {
-      "commit": "3d33904",
+      "commit": "552a863",
       "branch": "feat/pm-to-rd-spec-workflow",
-      "dirty": []
+      "dirty": [
+        "kills/spec-dev-process/examples/matrix/fs-balance-en-s3/specs/rd/points-redemption/spec-review/survey-mapping.md"
+      ]
     },
     "timeline": [
       {
         "v": 1,
-        "at": "2026-10-09T15:29:55",
+        "at": "2026-10-09T16:44:26",
         "git": {
-          "commit": "3d33904",
+          "commit": "552a863",
           "branch": "feat/pm-to-rd-spec-workflow",
-          "dirty": []
+          "dirty": [
+            "kills/spec-dev-process/examples/matrix/fs-balance-en-s3/specs/rd/points-redemption/spec-review/survey-mapping.md"
+          ]
         },
         "changed": [
           {
@@ -4326,7 +4349,7 @@
       {
         "path": "specs/rd/points-redemption/spec-review/survey-mapping.md",
         "kind": "SA",
-        "hash": "b3068d87b077",
+        "hash": "dc6bdc4bc718",
         "lines": 18,
         "changed_in": 1,
         "git": {
@@ -4602,7 +4625,6 @@
   ],
   "audit": {
     "version": 1,
-    "threads": [],
     "summary": {
       "diagrams": 30,
       "table_rows": 17,
@@ -4647,7 +4669,6 @@
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0,
       "version": 1
     },
     "items": [
@@ -6471,7 +6492,7 @@
       "reason": "",
       "modal": "ok",
       "cards": 4,
-      "tabs": 9,
+      "tabs": 10,
       "visible_dg": 0,
       "visible_svgs": 0,
       "overflow": false,
@@ -6518,7 +6539,7 @@
     },
     "modal": "ok",
     "cards": 4,
-    "tabs": 9,
+    "tabs": 10,
     "visible_dg": 0,
     "visible_svgs": 0,
     "overflow": false,

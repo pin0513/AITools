@@ -230,11 +230,34 @@ def _resolve_base(element: str, data: dict, ctx: dict, min_len=3) -> tuple:
     if toks: return toks, "ascii"
     zh = re.sub(r"\s*\([^)]*\)", "", element).strip()
     terms = ((ctx.get("glossary") or {}).get("terms") or {})
+    sym = lambda s: [t for t in re.split(r"[^A-Za-z0-9_]+", s) if len(t) >= min_len]
     g = terms.get(zh) or terms.get(element)
-    if g and g.get("symbol"): return [t for t in re.split(r"[^A-Za-z0-9_]+", g["symbol"]) if len(t) >= min_len], "glossary"
+    if g and g.get("symbol"): return sym(g["symbol"]), "glossary"
+    # 中英對照:分層命名對照表 → SA2 實體 → SA0 lexicon(glossary-mapping 的符號),作者不必手寫英文名
+    for n in ((data.get("glossary") or {}).get("naming") or []):
+        if n.get("term") in (zh, element) and n.get("symbol"): return sym(n["symbol"]), "命名對照"
     for e in data.get("sa_entities") or []:
-        if e["name"] in (zh, element) and e.get("en"): return [t for t in re.split(r"[^A-Za-z0-9_]+", e["en"]) if len(t) >= min_len], "sa2"
+        if e["name"] in (zh, element) and e.get("en"): return sym(e["en"]), "sa2"
+    for n in ((data.get("lexicon") or {}).get("nouns") or []):
+        if n.get("term") in (zh, element) and n.get("symbol"): return sym(n["symbol"]), "lexicon"
     return [], "none"
+
+# 函式 / 方法宣告行:只證明函式存在,不證明行為(對照組 B)。類別、介面、資料表宣告不算 —— 「實體存在」本來就是它證明的事
+_DECL_FN = __import__("re").compile(r"""^\s*(?:
+    (?:export\s+)?(?:default\s+)?(?:async\s+)?function\b
+  | (?:export\s+)?(?:const|let|var)\s+\w+\s*(?::[^=]+)?=\s*(?:async\s*)?(?:function\b|\([^)]*\)\s*(?::[^=]+)?=>|\w+\s*=>)
+  | (?:async\s+)?def\s+\w+\s*\(
+  | (?:func|fn)\s+\w+\s*[(<]
+  | func\s*\([^)]*\)\s*\w+\s*\(
+  | (?:(?:public|private|protected|internal|static|virtual|override|async|abstract|sealed|final|synchronized|extern|unsafe|partial)\s+)+[\w<>\[\],.?\s]*?\b\w+\s*\([^;]*\)\s*(?:\{|=>|where\b|throws\b|$)
+  | (?:async\s+)?(?!(?:if|for|while|switch|catch|return|else|do|try|new|await)\b)\w+\s*\([^)]*\)\s*(?::\s*[^{=]+)?\{\s*$
+)""", __import__("re").X)
+
+_TYPE_DECL = __import__("re").compile(r"\b(?:class|interface|record|struct|enum|trait|type|table|TABLE|view|VIEW)\b")
+
+def is_function_decl(line: str) -> bool:
+    line = line or ""
+    return bool(_DECL_FN.match(line)) and not _TYPE_DECL.search(line.split("(")[0])   # 只看括號前:參數裡的 type / table 不算
 
 def glossary_consistency(data, params, ctx):
     """本 spec 的 SA2 實體 vs 專案詞彙表(其他 spec 的條目)。"""
@@ -258,7 +281,8 @@ def glossary_consistency(data, params, ctx):
 
 def survey_evidence(data, params, ctx):
     """證據格式:path:line  或  path:line "字面文字"(多筆以 ; 分隔)。
-    有字面文字 → 驗該行含該文字(區分大小寫);否則驗該行含元素符號(ASCII → 詞彙表 → SA2,不分大小寫)。
+    有字面文字 → 驗該行含該文字(區分大小寫),通過 = 強證據;否則驗該行含元素符號(ASCII → 詞彙表 → 命名對照 → SA2 → lexicon,不分大小寫),通過 = 弱證據。
+    該行是函式 / 方法宣告 → decl_only(WARN):只證明函式存在,不證明行為。
     解析不到符號且無字面文字 → no_symbol(WARN,請人確認)。"""
     import pathlib, re
     root = ctx.get("project_root"); statuses = set((ctx.get("contracts") or {}).get("survey_status") or ["existing", "modify", "new"])
@@ -275,6 +299,7 @@ def survey_evidence(data, params, ctx):
             if strong: out.append(_f("new_but_found", el, element=el, evidence=f"{strong[0][0]}:{strong[0][1]}"))
             continue
         if not ev or ":" not in ev: out.append(_f("no_evidence", el, element=el, status=st)); continue
+        row_start = len(out)
         for one in [e.strip() for e in ev.split(";") if e.strip()]:
             m = EV.match(one)
             if not m: out.append(_f("path_missing", el, element=el, evidence=one)); continue
@@ -283,19 +308,75 @@ def survey_evidence(data, params, ctx):
             if not fp or not fp.exists(): out.append(_f("path_missing", el, element=el, evidence=one)); continue
             try: text = fp.read_text(encoding="utf-8", errors="ignore").splitlines()[line - 1]
             except IndexError: out.append(_f("path_missing", el, element=el, evidence=one)); continue
+            decl = is_function_decl(text)
             if literal is not None:
-                if literal in text: out.append(_f("verified", el, element=el, evidence=one, how=f'字面 "{literal}"'))
-                else: out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=[literal]))
+                if literal not in text: out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=[literal]))
+                elif decl: out.append(_f("decl_only", el, element=el, evidence=one, line=text.strip()[:80]))
+                else: out.append(_f("verified", el, element=el, evidence=one, how=f'字面 "{literal}"'))
             elif not base:
                 out.append(_f("no_symbol", el, element=el, evidence=one))
             else:
                 layer = layer_of(path); names = _layer_names(base, ctx, layer)
                 hit = next((t for t in names if re.search(r"\b" + re.escape(t) + r"\b", text, re.I)), None)
-                if hit:
+                if hit and decl:
+                    out.append(_f("decl_only", el, element=el, evidence=one, line=text.strip()[:80]))
+                elif hit:
                     src = "符號" if hit in base and how_sym == "ascii" else (f"{how_sym} 解析" if hit in base else f"對照表 {layer} 層")
-                    out.append(_f("verified", el, element=el, evidence=one, how=f"{src} {hit}"))
+                    out.append(_f("verified_weak", el, element=el, evidence=one, how=f"{src} {hit}"))
                 else:
                     out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=names))
+        # 同一列另有證據指在行為行且通過 → 宣告行只是輔助定位,不再 WARN
+        row = out[row_start:]
+        if any(f["outcome"] in ("verified", "verified_weak") for f in row):
+            out[row_start:] = [f for f in row if f["outcome"] != "decl_only"]
+    return out
+
+
+# ---------- UI × API 顆粒度 ----------
+def ui_api(data, params, ctx):
+    """UI 元素(按鈕 / 欄位 / 連結)↔ endpoint ↔ AC;mock 可互動元素 ↔ 畫面元素表。沒有畫面元素表就不核對。"""
+    els = data.get("ui_elements") or []
+    if not els: return []
+    apis = {a["id"]: a for a in data.get("apis") or []}
+    acs = set((data.get("ac_text") or {}).keys()) | {a for r in data.get("requirements") or [] for a in r.get("acs") or []}
+    non_ui = [str(x).lower() for x in params.get("non_ui_callers") or []]
+    ref = lambda e: e.lstrip("#").split("=")[-1].strip()
+    out = []
+    for e in els:
+        tgt = f"{e['screen']} {e['element']}"; bad = False
+        for a in e["apis"]:
+            if a not in apis: out.append(_f("api_missing", tgt, [tgt, a], screen=e["screen"], element=e["element"], api=a)); bad = True
+        for ac in e["acs"]:
+            if acs and ac not in acs: out.append(_f("ac_missing", tgt, [tgt, ac], screen=e["screen"], element=e["element"], ac=ac)); bad = True
+        has_action = e["action"] and e["action"] not in ("無", "—", "-", "none", "None")
+        if has_action and not e["acs"]: out.append(_f("no_ac", tgt, [tgt], screen=e["screen"], element=e["element"], action=e["action"])); bad = True
+        if not bad and (e["apis"] or e["acs"]):
+            cmps = sorted({c for a in e["apis"] for c in apis[a]["component"]})
+            out.append(_f("linked", tgt, [tgt, *e["apis"], *e["acs"]], screen=e["screen"], element=e["element"], apis=", ".join(e["apis"]) or "(無 API)",
+                          cmps=", ".join(cmps) or "—", acs=", ".join(e["acs"]) or "—"))
+    # mock ↔ 畫面元素表
+    mocks = ((data.get("sources") or {}).get("mocks") or [])
+    for s in data.get("screens") or []:
+        mk = (s.get("mock") or "").strip()
+        if not mk: continue
+        m = next((x for x in mocks if x["path"] == mk or x["path"].endswith("/" + mk.split("/")[-1])), None)
+        if not m or "elements" not in m: continue
+        listed = [e for e in els if e["screen"] == s["screen"]]
+        names = {ref(e["element"]) for e in listed}
+        for me in m["elements"]:
+            key = me["id"] or me["name"]
+            if key and key not in names:
+                out.append(_f("mock_uncovered", f"{s['screen']} #{key}", [s["screen"]], mock=m["path"].split("/")[-1], tag=me["tag"], ref="#" + key, text=me["text"]))
+        have = {x for me in m["elements"] for x in (me["id"], me["name"]) if x}
+        for e in listed:
+            if ref(e["element"]) not in have:
+                out.append(_f("not_in_mock", f"{e['screen']} {e['element']}", [e["screen"]], screen=e["screen"], element=e["element"], mock=m["path"].split("/")[-1]))
+    # endpoint 的呼叫者
+    called = {a for e in els for a in e["apis"]}
+    for a in apis.values():
+        if a["id"] in called: continue
+        if any(w in (a.get("caller") or "").lower() for w in non_ui): continue
+        out.append(_f("api_no_caller", a["id"], [a["id"]], api=a["id"], method=a["method"], path=a["path"]))
     return out
 
 
@@ -326,13 +407,6 @@ def signoff_findings(data, params, ctx):
                 up = d.get("upstream") or []
                 out.append(_f("upstream", tgt, ids, keys=", ".join(f"{u['key']}(v{u['v']})" for u in up), signed_v=d.get("version", ""), **v))
             elif st == "pending": out.append(_f("pending_required" if req else "pending", tgt, ids, **v))
-    return out
-
-def thread_findings(data, params, ctx):
-    out = []
-    for th in (data.get("audit") or {}).get("threads") or []:
-        if th.get("status") != "open": continue
-        out.append(_f("open", f"Q{th['n']}", [th["item"]], n=th["n"], item=th["item"], to=th["to"], frm=th["from"], text=th["text"][:80]))
     return out
 
 def render_findings(data, params, ctx):

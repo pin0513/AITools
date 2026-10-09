@@ -200,10 +200,10 @@ def write_codebase(proj, sc, shape):
                    {"fe_entity": f"export type {ent} =", "fe_behavior": f"export type {ent}Status"})
         code.write(f"src/web/src/api/{sc['client']}.ts", [f"import type {{ {ent} }} from '../types/{ent}';", "",
                    f"export async function {camel(q)}(id: string): Promise<{ent}> {{", f"  return fetch(`{sc['existing_query']['path'].replace('{id}', '${id}')}`).then(r => r.json());", "}"],
-                   {"fe_client": f"export async function {camel(q)}"})
+                   {"fe_client": f"export async function {camel(q)}", "fe_client_fetch": "  return fetch("})
         code.write(f"src/web/src/pages/{sc['page']}.tsx", [f"import {{ {camel(q)} }} from '../api/{sc['client']}';", "",
                    f"export function {sc['page']}({{ id }}: {{ id: string }}) {{", f"  void {camel(q)}(id);", "  return <main />;", "}"],
-                   {"page": f"export function {sc['page']}"})
+                   {"page": f"export function {sc['page']}", "page_call": f"  void {camel(q)}(id);"})
     return code.loc
 
 # ------------------------------------------------------------------ 產生一份
@@ -337,7 +337,8 @@ def gen_one(out_root, shape, lang, sid):
     sv.append(f"| {elem(sc, sc['new_entity'], lang)} | Entity | new | {sc['terms'][sc['new_entity']]['sym']} | | |")
     qsym = sc["existing_query"]["sym"]
     qtarget = f"{qsym}QueryHandler" if B else camel(qsym)
-    sv.append(f"| {qsym} | Query | existing | {qtarget} | {ev('query') if B else ev('fe_client')} | |"); evidences += 1
+    q_path = sc["existing_query"]["path"].split("{")[0].rstrip("/")   # 行為行:實際打的路徑(字面鎖定)
+    sv.append(f"| {qsym} | Query | existing | {qtarget} | {ev('query') if B else ev('fe_client') + '; ' + ev('fe_client_fetch') + ' \"' + q_path + '\"'} | |"); evidences += 1
     for a in sc["actions"]:
         sv.append(f"| {sc['terms'][a['key']]['sym']} | {a['kind'].title()} | new | {sc['terms'][a['key']]['sym']} | | |")
     if B:
@@ -345,7 +346,8 @@ def gen_one(out_root, shape, lang, sid):
         sv.append(f"| {sc['external']['client']} | Adapter | existing | {sc['external']['client']} | {ev('external')} | |"); evidences += 1
         sv.append(f"| {sc['controller']} | Api | modify | {sc['controller']} | {ev('controller')} | |"); evidences += 1
     if F:
-        sv.append(f"| {sc['page']} | Page | modify | {sc['page']} | {ev('page')} | |"); evidences += 1
+        # 頁面元件:宣告行只證明元件存在 → 再加一行行為行(它實際呼叫的查詢)並字面鎖定
+        sv.append(f'| {sc["page"]} | Page | modify | {sc["page"]} | {ev("page")}; {ev("page_call")} "{camel(qsym)}(id)" | |'); evidences += 1
         if B: sv.append(f"| {ent_sym} type | Type | existing | {ent_sym} | {ev('fe_entity')} | |"); evidences += 1
     (review / "survey-mapping.md").write_text("\n".join(sv) + "\n", encoding="utf-8")
 
@@ -512,12 +514,12 @@ def gen_one(out_root, shape, lang, sid):
 
     # ---------- spec-reviewer ----------
     tools = proj / "specs" / "tools" / "spec-reviewer"; tools.mkdir(parents=True, exist_ok=True)
-    (tools / "review.sh").write_text('#!/usr/bin/env bash\n# 用法:review.sh [--strict | --serve [--port 8110]] [--offline];SPEC_DEV 指向 spec-dev.py\nset -euo pipefail\n'
+    (tools / "review.sh").write_text('#!/usr/bin/env bash\n# 用法:review.sh [--strict | --watch] [--offline];SPEC_DEV 指向 spec-dev.py\nset -euo pipefail\n'
         'HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; PROJ="$(cd "$HERE/../../.." && pwd)"\n'
         'SPEC_DEV="${SPEC_DEV:-$(cd "$PROJ/../../.." && pwd)/spec-dev.py}"\n'
         f'SPEC="$PROJ/specs/rd/{issue}/spec"\n'
         'if [[ "${1:-}" == "--strict" ]]; then shift; python3 "$SPEC_DEV" run "$SPEC" --to S6 "$@"\n'
-        'elif [[ "${1:-}" == "--serve" ]]; then shift; python3 "$SPEC_DEV" serve "$SPEC" "$@"\n'
+        'elif [[ "${1:-}" == "--watch" ]]; then shift; python3 "$SPEC_DEV" review "$SPEC" --watch "$@"\n'
         'else python3 "$SPEC_DEV" review "$SPEC" "$@"; fi\n', encoding="utf-8")
     (tools / "review.sh").chmod(0o755)
 
