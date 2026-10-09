@@ -1,14 +1,13 @@
 rule: G-DG-signoff
 cases:
-  - name: rejected_stale_pending
-    patch: {replace: {audit: {items: [
-      {type: diagram, id: SEQ-001, hash: aaa, targets: [REQ-001], signoff: rejected, signoff_detail: {by: Paul, note: 少 Repository}, findings: []},
-      {type: diagram, id: SEQ-002, hash: bbb, targets: [REQ-001], signoff: stale, signoff_detail: {signed_hash: old}, findings: []},
-      {type: diagram, id: SEQ-003, hash: ccc, targets: [REQ-001], signoff: pending, findings: []},
-      {type: diagram, id: SEQ-004, hash: ddd, targets: [REQ-001], signoff: approved, findings: []},
+  - name: rejected_stale_pending_per_duty
+    patch: {replace: {audit: {duties: {intent: {label: 是不是要的}, testable: {label: 測得出來}, buildable: {label: 做得出來}}, items: [
+      {type: diagram, id: SEQ-001, hash: aaa, targets: [REQ-001], signoffs: {buildable: {status: rejected, by: Paul, note: 少 Repository}, testable: {status: approved}}, findings: []},
+      {type: diagram, id: SEQ-002, hash: bbb, targets: [REQ-001], signoffs: {buildable: {status: stale, signed_hash: old}, testable: {status: n/a, note: 唯讀}}, findings: []},
+      {type: diagram, id: SEQ-003, hash: ccc, targets: [REQ-001], signoffs: {buildable: {status: pending}}, findings: []},
       {type: table-row, id: "SA1:x:1", targets: [], findings: []}]}}}
-    expect: [{outcome: rejected, target: SEQ-001, status: FAIL}, {outcome: stale, target: SEQ-002, status: WARN}, {outcome: pending, target: SEQ-003, status: INFO}]
+    expect: [{outcome: rejected, target: SEQ-001@buildable, status: FAIL}, {outcome: stale, target: SEQ-002@buildable, status: WARN}, {outcome: pending, target: SEQ-003@buildable, status: INFO}]
   - name: pending_required_when_project_requires
     config: {reviewer: {require_signoff: true}}
-    patch: {replace: {audit: {items: [{type: diagram, id: SEQ-003, hash: ccc, targets: [], signoff: pending, findings: []}]}}}
-    expect: [{outcome: pending_required, target: SEQ-003, status: WARN}]
+    patch: {replace: {audit: {items: [{type: diagram, id: SEQ-003, hash: ccc, targets: [], signoffs: {intent: {status: pending}}, findings: []}]}}}
+    expect: [{outcome: pending_required, target: SEQ-003@intent, status: WARN}]

@@ -94,9 +94,14 @@ class AuditAndSignoffTest(unittest.TestCase):
 
     def test_signoff_hash_guard_reject_note_and_stale(self):
         c = self.ctx(); cur = self.item(c, "SEQ-001")["hash"]
-        with self.assertRaises(SystemExit): SO.apply(self.tmp, "SEQ-001", "Paul", "approved", "deadbeef0000")
-        with self.assertRaises(SystemExit): SO.apply(self.tmp, "SEQ-001", "Paul", "rejected")
-        SO.apply(self.tmp, "SEQ-001", "Paul", "approved", cur)
+        self.assertEqual(self.item(c, "SEQ-001")["duties"], ["buildable", "testable"])
+        with self.assertRaises(SO.Refused): SO.apply(self.tmp, "SEQ-001", "Paul", "approved", "deadbeef0000", duty="buildable")
+        with self.assertRaises(SO.Refused): SO.apply(self.tmp, "SEQ-001", "Paul", "rejected", duty="buildable")
+        with self.assertRaises(SO.Refused): SO.apply(self.tmp, "SEQ-001", "Paul", "n/a", cur, duty="testable")
+        with self.assertRaises(SO.Refused): SO.apply(self.tmp, "SEQ-001", "Paul", "approved", cur, duty="intent")   # 這張圖沒有這個確認事項
+        SO.apply(self.tmp, "SEQ-001", "Paul", "approved", cur, duty="buildable")
+        self.assertEqual(self.item(self.ctx(), "SEQ-001")["signoff"], "pending", "還有一項沒做")
+        SO.apply(self.tmp, "SEQ-001", "Paul", "n/a", cur, "只有讀取,無新路徑", duty="testable")   # 同一個人做完另一項;不需要也算做完
         self.assertEqual(self.item(self.ctx(), "SEQ-001")["signoff"], "approved")
         self.d["artifacts"][0]["mermaid"] = SEQ_OK + "\n  Ctl-->>U: done"     # 圖改了 → 過期
         self.assertEqual(self.item(self.ctx(), "SEQ-001")["signoff"], "stale")

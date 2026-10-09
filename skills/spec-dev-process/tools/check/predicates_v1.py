@@ -310,15 +310,26 @@ def audit_findings(data, params, ctx):
     return out
 
 def signoff_findings(data, params, ctx):
+    """每張圖 × 每個應做的確認事項(rules/review/duties.yaml)各算一筆;target = 圖@事項。n/a(不需要)算做完。"""
     req = bool(((ctx.get("config") or {}).get("reviewer") or {}).get("require_signoff"))
     out = []
     for it in (data.get("audit") or {}).get("items") or []:
         if it["type"] != "diagram": continue
-        d = it.get("signoff_detail") or {}; st = it.get("signoff")
-        v = dict(diagram=it["id"], by=d.get("by", ""), note=d.get("note", ""), signed=d.get("signed_hash", ""), current=it["hash"])
-        if st == "rejected": out.append(_f("rejected", it["id"], [it["id"]] + it["targets"], **v))
-        elif st == "stale": out.append(_f("stale", it["id"], [it["id"]] + it["targets"], **v))
-        elif st == "pending": out.append(_f("pending_required" if req else "pending", it["id"], [it["id"]] + it["targets"], **v))
+        labels = {k: (v or {}).get("label", k) for k, v in (((data.get("audit") or {}).get("duties")) or {}).items()}
+        for duty, d in (it.get("signoffs") or {}).items():
+            st = d.get("status"); tgt = f"{it['id']}@{duty}"
+            v = dict(diagram=it["id"], duty=labels.get(duty, duty), by=d.get("by", ""), note=d.get("note", ""), signed=d.get("signed_hash", ""), current=it["hash"])
+            ids = [it["id"]] + list(it.get("targets") or [])
+            if st == "rejected": out.append(_f("rejected", tgt, ids, **v))
+            elif st == "stale": out.append(_f("stale", tgt, ids, **v))
+            elif st == "pending": out.append(_f("pending_required" if req else "pending", tgt, ids, **v))
+    return out
+
+def thread_findings(data, params, ctx):
+    out = []
+    for th in (data.get("audit") or {}).get("threads") or []:
+        if th.get("status") != "open": continue
+        out.append(_f("open", f"Q{th['n']}", [th["item"]], n=th["n"], item=th["item"], to=th["to"], frm=th["from"], text=th["text"][:80]))
     return out
 
 def render_findings(data, params, ctx):

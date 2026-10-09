@@ -1,0 +1,10 @@
+id: G-RV-threads
+version: 1
+category: gate
+stage: S6
+name: 共同核對的未結問題
+description: PM / QA / RD 在看板上對某張圖或某條需求提出的問題(spec-review/audit/threads.md)。未結 → WARN,提醒該視角的人回答(同一人可兼多個視角);回答並結案後消失
+predicate: thread_findings
+params: {}
+outcomes:
+  open: {status: WARN, message: "Q{n} {frm} 問 {to}({item}):{text}", action: "在看板回答並結案"}

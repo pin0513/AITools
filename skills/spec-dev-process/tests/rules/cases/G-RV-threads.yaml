@@ -1,0 +1,7 @@
+rule: G-RV-threads
+cases:
+  - name: only_open_threads
+    patch: {replace: {audit: {items: [], threads: [
+      {n: 1, item: SEQ-001, from: Amy, to: PM, text: "誰指派審核者?", status: open},
+      {n: 2, item: SEQ-002, from: Paul, to: 任何人, text: 已確認, status: closed}]}}}
+    expect: [{outcome: open, target: Q1, status: WARN}]

@@ -1,0 +1,23 @@
+# 每類圖「要做哪些確認」。以事情要不要做來區分,不以人區分:同一個人可以一次做完多項(跨職能很常見)。
+# hint 只是提示「通常由哪個視角回答」,不是權限。每一項都可以標「不需要」(要寫理由),也算做完。
+# 圖 ID 取最長前綴;沒有命中用 default。
+duties:
+  intent:    {label: 是不是要的, hint: PM, ask: "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"}
+  testable:  {label: 測得出來,   hint: QA, ask: "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"}
+  buildable: {label: 做得出來,   hint: RD, ask: "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"}
+by_prefix:
+  UCD-: [intent]
+  ACT-: [intent, testable]
+  SEQ-SA-: [intent, buildable]
+  STM-SA-: [intent, testable]
+  CLS-SA-: [intent, buildable]
+  UC-: [intent, testable]
+  AUTO-TRACE-: [intent, testable]
+  AUTO-SEQ-: [buildable]
+  SEQ-: [buildable, testable]
+  STM-DOM-: [buildable, testable]
+  STM-UI-: [intent, testable]
+  CLS-: [buildable]
+  C4-: [buildable]
+  ERD-: [buildable]
+default: [buildable]

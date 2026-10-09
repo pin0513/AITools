@@ -1,4 +1,5 @@
 {
+ "threads": [],
  "summary": {
   "diagrams": 29,
   "table_rows": 30,
@@ -14,8 +15,32 @@
    "rejected": 0
   },
   "with_findings": 0,
+  "by_duty": {
+   "intent": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 14,
+    "rejected": 0
+   },
+   "testable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 14,
+    "rejected": 0
+   },
+   "buildable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 17,
+    "rejected": 0
+   }
+  },
   "changed_since_last": [],
-  "removed_since_last": []
+  "removed_since_last": [],
+  "threads_open": 0
  },
  "items": [
   {
@@ -43,14 +68,27 @@
    "checks": [
     "class_in_sa_entities"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -78,14 +116,19 @@
    "checks": [
     "ucd_covers_roles"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -111,14 +154,27 @@
    "findings": [],
    "mermaid": "flowchart TD\n  A[填寫者送出] --> B[狀態 = Pending]\n  B --> C{3 工作天內處理?}\n  C -->|否| D[系統每日提醒審核者] --> C\n  C -->|是| E{審核者決定}\n  E -->|核准| F[狀態 = Approved] --> G[寫 ReviewRecord] --> H([結束])\n  E -->|退回| I{理由 ≥ 10 字?}\n  I -->|否| J[拒絕操作] --> E\n  I -->|是| K[狀態 = Rejected] --> L[寫 ReviewRecord] --> M[填寫者修改答案]\n  M --> N[重新送出] --> B",
    "checks": [],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -153,14 +209,27 @@
    "checks": [
     "seq_actor_is_role"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -194,14 +263,27 @@
    "checks": [
     "state_events_are_actions"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -245,14 +327,27 @@
    "findings": [],
    "mermaid": "flowchart TD\n  A[載入紀錄] --> B{Status = Pending?}\n  B -->|否| E1[409 INVALID_STATE]\n  B -->|是| C{操作者是審核者?}\n  C -->|否| E2[403]\n  C -->|核准| D[Status=Approved + ReviewRecord]\n  C -->|退回| F{理由 ≥ 10 字?}\n  F -->|否| E3[400 REASON_TOO_SHORT]\n  F -->|是| G[Status=Rejected + ReviewRecord] --> H[通知填寫者]",
    "checks": [],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -281,14 +376,27 @@
     "state_events_are_actions",
     "state_handoff_subset"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -314,14 +422,27 @@
    "findings": [],
    "mermaid": "stateDiagram-v2\n  [*] --> Pending\n  Pending --> Approved: 200 approve\n  Pending --> Rejected: 200 reject\n  Rejected --> Pending: 200 resubmit\n  note right of Pending: 修改=disabled;審核者看到核准/退回\n  note right of Rejected: 修改=enabled;重新送出=visible\n  note right of Approved: 全部 disabled",
    "checks": [],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -349,14 +470,19 @@
    "checks": [
     "class_names_known"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -380,14 +506,19 @@
    "findings": [],
    "mermaid": "C4Context\n  Person(sub, \"填寫者\")\n  Person(rev, \"審核者\")\n  System(sys, \"表單系統\")\n  System_Ext(smtp, \"SMTP\")\n  Rel(sub, sys, \"送審、重送\")\n  Rel(rev, sys, \"核准、退回\")\n  Rel(sys, smtp, \"退回通知、逾時提醒\", \"INotifier\")",
    "checks": [],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -411,14 +542,19 @@
    "findings": [],
    "mermaid": "C4Container\n  Container(web, \"Forms Web\", \"React\", \"FormFill(modify)、ReviewPanel(new)\")\n  Container(api, \"Forms API\", \".NET 8\", \"Api/Application/Domain/Infrastructure\")\n  Container(job, \"ReviewReminderJob\", \".NET Hosted Service\", \"每日 09:00\")\n  ContainerDb(db, \"SQL Server\", \"\", \"Form, FormSubmission, ReviewRecord, ReviewReminder\")\n  System_Ext(smtp, \"SMTP\", \"\")\n  Rel(web, api, \"HTTPS\")\n  Rel(api, db, \"EF Core\")\n  Rel(job, db, \"EF Core\")\n  Rel(api, smtp, \"INotifier\")\n  Rel(job, smtp, \"INotifier\")",
    "checks": [],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -444,14 +580,19 @@
    "checks": [
     "c4_relations_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -479,14 +620,27 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -514,14 +668,27 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -547,14 +714,19 @@
    "checks": [
     "er_entities_owned"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -591,14 +763,27 @@
    "checks": [
     "trace_has_edges"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -626,14 +811,19 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -685,14 +875,27 @@
    "checks": [
     "trace_has_edges"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -724,14 +927,19 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -768,14 +976,27 @@
    "checks": [
     "trace_has_edges"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -803,14 +1024,19 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -856,14 +1082,27 @@
    "checks": [
     "trace_has_edges"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -894,14 +1133,19 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -933,14 +1177,27 @@
    "checks": [
     "trace_has_edges"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -967,14 +1224,19 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -1006,14 +1268,27 @@
    "checks": [
     "trace_has_edges"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -1041,14 +1316,19 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -1082,14 +1362,27 @@
    "checks": [
     "trace_has_edges"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -1117,14 +1410,19 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
-   "signoff": "pending",
-   "signoff_detail": {
-    "signed_hash": "",
-    "decision": "pending",
-    "by": "",
-    "date": "",
-    "note": ""
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
    },
+   "signoff": "pending",
    "render": "ok"
   },
   {
@@ -1540,6 +1838,23 @@
   }
  ],
  "methodology": "uml-wordbreak",
+ "duties": {
+  "intent": {
+   "label": "是不是要的",
+   "hint": "PM",
+   "ask": "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"
+  },
+  "testable": {
+   "label": "測得出來",
+   "hint": "QA",
+   "ask": "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"
+  },
+  "buildable": {
+   "label": "做得出來",
+   "hint": "RD",
+   "ask": "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"
+  }
+ },
  "signoff_path": "audit/signoff.md",
  "render_check": {
   "mode": "auto",
