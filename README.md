@@ -11,7 +11,7 @@
 - `dev-team-qa` - QA Lead 角色
 - `dev-team-tech-lead` - Tech Lead 角色
 - `dev-team-scrum-master` - Scrum Master 角色
-- `pm-to-rd-spec` - PM spec → RD spec 轉換工作流程(方法論路由、C4/UML、技術邊界核對、一頁核對面板)
+- `spec-dev-process` - PM spec → RD spec 轉換工作流程(可攜套件:方法論路由、C4/UML、B1–B8 技術邊界機械核對、一頁核對面板;零相依 CLI)
 
 ### 🤝 團隊協作工具 (7 個)
 - `team-maker` - 團隊製作器

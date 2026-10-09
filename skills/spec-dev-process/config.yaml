@@ -1,0 +1,74 @@
+# spec-dev-process 流程能力設定 (Process Capability Settings)
+# 專案可在 rd-spec 目錄或其任一上層放 .spec-dev.yaml 覆寫任一頂層鍵(淺合併);未覆寫者採此預設。
+# 解析器只支援 YAML 子集:巢狀 map、純量、[a, b] 行內 list、- 區塊 list、# 註解。
+version: 1
+
+input:
+  pm_spec:
+    formats: [md]                 # 僅接受 Markdown;其他格式先轉 md 再進流程
+    required_sections:            # 缺任一節 → S0 Gate 以 WARN 回報並要求 PM 補齊
+      - 背景與目標
+      - 使用者與情境
+      - 功能需求
+      - 非功能需求
+      - 驗收條件
+  mock:
+    enabled: true
+    types: [html, figma-link, screenshot]   # mock 只用來抽 UI 狀態與欄位,不當需求來源
+    extract: [screens, fields, states, transitions]
+
+output:
+  root: docs/rd-spec/{feature-slug}/        # 產出根目錄;結構見 references/rd-spec-structure.md
+  stage_format: [md+mermaid, html]          # md 是唯一事實來源;html 由 spec-dev.py render 產生
+  generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/]   # 產生物,不手改
+  method_log: method-log.jsonl              # 方法論 log,面板預設隱藏
+
+methodology:                                 # 需求型態 → 方法論,細節見 references/methodology-map.md
+  functional:      [use-case, gherkin, uml-sequence]
+  state_heavy:     [uml-state]
+  domain_rich:     [ddd-tactical, uml-class]
+  data:            [erd, data-ownership]
+  integration:     [c4-context, contract-first, failure-modes]
+  non_functional:  [quality-scenario, fitness-function]
+  architecture:    [c4-container, c4-component, clean-architecture-layers]
+  test:            [test-pyramid, ac-to-test-mapping]
+  mandatory_rule: "每條需求在 S1/S2 至少一筆 method-log;0 筆 → Gate FAIL"
+  evidence: [explicit, inferred, assumed]   # 取代 confidence 數字:explicit=PM 明寫;inferred=由既有規範/平台推得;assumed=自行假設,必須同時列入缺口表
+
+tech_boundary:                               # 技術邊界;核對規則見 references/tech-boundary-check.md
+  layers: [Api, Application, Domain, Infrastructure]
+  dependency_direction: "Api -> Application -> Domain <- Infrastructure"
+  bounded_contexts: []                       # 專案填入,例 [Member, Order, Payment]
+  external_systems: []                       # 專案填入,例 [AzureBlob, PaymentGateway]
+  tech_allowlist:                            # B8 白名單(stack 值之外);比對不分大小寫,允許前綴(Azure 涵蓋 Azure.Storage.Blobs)
+    - ASP.NET Core
+    - EF Core
+    - StackExchange.Redis
+    - xUnit
+    - NSubstitute
+    - FluentAssertions
+    - NetArchTest
+    - k6
+  stack:
+    language: C#
+    runtime: .NET
+    db: SQL Server
+    cache: Redis
+    messaging: MediatR
+    cloud: Azure
+
+check_panel:
+  matrix: [requirement, tech_component, test_component]
+  link_granularity: ac                       # AC → CMP(職責)為最小追溯單位;REQ → CMP 由 AC 彙總
+  detail_default: collapsed                  # 明細預設收合,點列才展開
+  method_log_default: hidden                 # 方法論 log 預設隱藏
+  mermaid: cdn                               # cdn | offline(--offline 內嵌 vendor/mermaid.min.js,+2.5MB)
+
+gates:                                       # 每個 stage 的放行條件;FAIL 則停在該 stage
+  S0: "需求清單每條有唯一 ID 與來源段落;required_sections 齊全"
+  S1: "每條需求有需求型態與至少一個分析產物 (UC/State/Domain/NFR scenario)"
+  S2: "C4 L1-L3 齊全;每個 Component 有 layer 與 context;每個 UC 主流程有 sequence"
+  S3: "B1–B8 由 spec-dev.py check 計算,0 FAIL;WARN 需在 boundary-report 處置欄有對策"
+  S4: "每條 AC 至少一個測試元件;每個 Component 至少一個測試元件"
+  S5: "md 表格可被 extract 解析;無孤兒節點;assumed 證據都對應缺口表一列"
+  S6: "spec-dev.py all 退出碼 0;check-panel.html 可開啟(--offline 時完全離線)"

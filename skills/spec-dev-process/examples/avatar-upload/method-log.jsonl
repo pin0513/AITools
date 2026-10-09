@@ -1,0 +1,21 @@
+{"seq":1,"req":"*","stage":"S0","method":"Intake.Sectioning","rule":"S0","in":"docs/pm/avatar-upload.md","out":"PM§1..§5","evidence":"explicit","gaps":[],"note":"5 節齊全"}
+{"seq":2,"req":"*","stage":"S0","method":"Intake.MockExtract","rule":"S0","in":"mock/avatar/upload.html","out":"4 UI states, 2 fields","evidence":"explicit","gaps":[],"note":"mock 只抽狀態與欄位,歸 STM-UI"}
+{"seq":3,"req":"REQ-001","stage":"S1","method":"UseCase","rule":"M1","in":"PM§3.1","out":"UC-001","evidence":"explicit","gaps":[],"note":""}
+{"seq":4,"req":"REQ-001","stage":"S1","method":"Gherkin","rule":"M2","in":"UC-001","out":"AC-001-1..3","evidence":"explicit","gaps":[],"note":""}
+{"seq":5,"req":"REQ-001","stage":"S2","method":"UML.Sequence","rule":"M4","in":"UC-001","out":"SEQ-001","evidence":"assumed","gaps":["上傳失敗後舊圖是否保留未定義"],"note":"暫假設保留舊圖"}
+{"seq":6,"req":"REQ-001","stage":"S2","method":"C4.Context","rule":"M8","in":"PM§3.1","out":"AzureBlob 為外部系統","evidence":"inferred","gaps":[],"note":"PM 未指定儲存,依既有平台推"}
+{"seq":7,"req":"REQ-001","stage":"S2","method":"Contract.FailureModes","rule":"M10","in":"CMP-004","out":"逾時10s/重試3/降級503","evidence":"inferred","gaps":[],"note":"依團隊外部呼叫慣例"}
+{"seq":8,"req":"REQ-002","stage":"S1","method":"UseCase","rule":"M1","in":"PM§3.2","out":"UC-002","evidence":"explicit","gaps":[],"note":""}
+{"seq":9,"req":"REQ-002","stage":"S1","method":"UML.State.UI","rule":"M3","in":"mock/avatar/upload.html","out":"STM-UI-001","evidence":"explicit","gaps":[],"note":"UI 狀態,不是領域狀態;領域狀態機不適用"}
+{"seq":10,"req":"REQ-002","stage":"S2","method":"DDD.ValueObject","rule":"M5","in":"UC-002 後置條件","out":"Avatar VO 不變量: 正方形且邊長≥200px","evidence":"assumed","gaps":["最小邊長 PM 未定義"],"note":"假設 200px;Avatar 不建 Aggregate(無生命週期)"}
+{"seq":11,"req":"REQ-003","stage":"S1","method":"UseCase","rule":"M1","in":"PM§3.3","out":"UC-003","evidence":"explicit","gaps":[],"note":""}
+{"seq":12,"req":"REQ-003","stage":"S2","method":"CleanArch.Layers","rule":"M15","in":"UC-003","out":"CMP-006 (Application)","evidence":"explicit","gaps":[],"note":""}
+{"seq":13,"req":"NFR-001","stage":"S1","method":"QualityScenario","rule":"M11","in":"PM§4 '要快'","out":"NFR-001: P95<2s @5MB","evidence":"assumed","gaps":["PM 原文只寫『要快』,2s 為假設"],"note":""}
+{"seq":14,"req":"NFR-001","stage":"S2","method":"FitnessFunction","rule":"M12","in":"NFR-001","out":"TST-005 k6","evidence":"explicit","gaps":[],"note":""}
+{"seq":15,"req":"NFR-002","stage":"S1","method":"QualityScenario","rule":"M11","in":"PM§4","out":"NFR-002: SAS 15min","evidence":"explicit","gaps":[],"note":""}
+{"seq":16,"req":"NFR-002","stage":"S2","method":"Contract","rule":"M9","in":"NFR-002","out":"API-002 GET avatar-url","evidence":"explicit","gaps":[],"note":""}
+{"seq":17,"req":"*","stage":"S2","method":"C4.Component","rule":"M14","in":"UC-001..003","out":"CMP-001..006","evidence":"explicit","gaps":[],"note":""}
+{"seq":18,"req":"REQ-001","stage":"S2","method":"UML.Sequence","rule":"M4","in":"UC-001","out":"SEQ-001","evidence":"explicit","gaps":[],"note":"PM 確認:失敗保留舊圖","supersedes":5}
+{"seq":19,"req":"REQ-001","stage":"S4","method":"AC.TestMapping","rule":"M17","in":"AC-001-1..3","out":"TST-001, TST-003, TST-004","evidence":"explicit","gaps":[],"note":""}
+{"seq":20,"req":"REQ-002","stage":"S4","method":"AC.TestMapping","rule":"M17","in":"AC-002-1","out":"TST-002","evidence":"explicit","gaps":[],"note":""}
+{"seq":21,"req":"*","stage":"S3","method":"Spike.ImageSharp","rule":"B8","in":"CMP-005","out":"OPEN","evidence":"explicit","gaps":["ImageSharp 授權(Six Labors Split License)是否符合商用"],"note":"Spike time-box 1 天"}
