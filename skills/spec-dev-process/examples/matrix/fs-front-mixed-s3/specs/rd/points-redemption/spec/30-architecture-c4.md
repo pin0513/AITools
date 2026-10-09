@@ -83,17 +83,17 @@ flowchart LR
 | AC-001-2 | CMP-007 | SEQ-001 | 編排redeem |
 | AC-001-2 | CMP-010 | SEQ-001 | 持久化redeem結果 |
 | AC-001-2 | CMP-011 | SEQ-001 | 為redeem呼叫外部系統 |
-| AC-002-1 | CMP-004 | SEQ-001 | expire的前端狀態轉移 |
-| AC-002-1 | CMP-005 | SEQ-001 | 呼叫expire API |
-| AC-002-1 | CMP-008 | SEQ-001 | 編排expire |
-| AC-002-1 | CMP-010 | SEQ-001 | 持久化expire結果 |
-| AC-003-1 | CMP-001 | SEQ-001 | 顯示並觸發view |
-| AC-003-1 | CMP-003 | SEQ-001 | view的 UI 守衛 |
-| AC-003-1 | CMP-004 | SEQ-001 | view的前端狀態轉移 |
-| AC-003-1 | CMP-005 | SEQ-001 | 呼叫view API |
-| AC-003-1 | CMP-006 | SEQ-001 | 接收view請求 |
-| AC-003-1 | CMP-009 | SEQ-001 | 編排view |
-| AC-003-1 | CMP-010 | SEQ-001 | 持久化view結果 |
+| AC-002-1 | CMP-004 | SEQ-002 | expire的前端狀態轉移 |
+| AC-002-1 | CMP-005 | SEQ-002 | 呼叫expire API |
+| AC-002-1 | CMP-008 | SEQ-002 | 編排expire |
+| AC-002-1 | CMP-010 | SEQ-002 | 持久化expire結果 |
+| AC-003-1 | CMP-001 | SEQ-003 | 顯示並觸發view |
+| AC-003-1 | CMP-003 | SEQ-003 | view的 UI 守衛 |
+| AC-003-1 | CMP-004 | SEQ-003 | view的前端狀態轉移 |
+| AC-003-1 | CMP-005 | SEQ-003 | 呼叫view API |
+| AC-003-1 | CMP-006 | SEQ-003 | 接收view請求 |
+| AC-003-1 | CMP-009 | SEQ-003 | 編排view |
+| AC-003-1 | CMP-010 | SEQ-003 | 持久化view結果 |
 | AC-N01-1 | CMP-006 | API-001 | NFR balance never negative |
 
 ## Sequence
@@ -119,3 +119,40 @@ sequenceDiagram
   CMP010->>CMP011: RedeemReward
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as System
+  participant CMP004 as rewardsStore
+  participant CMP005 as pointsApi
+  participant CMP008 as ExpirePointsJob
+  participant CMP010 as SqlPointsAccountRepository
+  U->>CMP004: ExpirePoints
+  CMP004->>CMP005: ExpirePoints
+  CMP005->>CMP008: ExpirePoints
+  CMP008->>CMP010: ExpirePoints
+  CMP004-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Member
+  participant CMP001 as RewardsPage
+  participant CMP003 as TransactionList
+  participant CMP004 as rewardsStore
+  participant CMP005 as pointsApi
+  participant CMP006 as PointsController
+  participant CMP009 as ListTransactionsQueryHandler
+  participant CMP010 as SqlPointsAccountRepository
+  U->>CMP001: ListTransactions
+  CMP001->>CMP003: ListTransactions
+  CMP003->>CMP004: ListTransactions
+  CMP004->>CMP005: ListTransactions
+  CMP005->>CMP006: ListTransactions
+  CMP006->>CMP009: ListTransactions
+  CMP009->>CMP010: ListTransactions
+  CMP001-->>U: ok
+```
+

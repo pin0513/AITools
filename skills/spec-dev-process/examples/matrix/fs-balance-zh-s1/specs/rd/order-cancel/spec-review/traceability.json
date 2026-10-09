@@ -439,7 +439,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "顯示並觸發退款",
       "line": 92,
       "file": "30-architecture-c4.md"
@@ -447,7 +447,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "退款的前端狀態轉移",
       "line": 93,
       "file": "30-architecture-c4.md"
@@ -455,7 +455,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "呼叫退款 API",
       "line": 94,
       "file": "30-architecture-c4.md"
@@ -463,7 +463,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "接收退款請求",
       "line": 95,
       "file": "30-architecture-c4.md"
@@ -471,7 +471,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-008",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "編排退款",
       "line": 96,
       "file": "30-architecture-c4.md"
@@ -479,7 +479,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-010",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "退款的業務規則與不變量",
       "line": 97,
       "file": "30-architecture-c4.md"
@@ -487,7 +487,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-011",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "持久化退款結果",
       "line": 98,
       "file": "30-architecture-c4.md"
@@ -495,7 +495,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-012",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "為退款呼叫外部系統",
       "line": 99,
       "file": "30-architecture-c4.md"
@@ -503,7 +503,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "顯示並觸發退款",
       "line": 100,
       "file": "30-architecture-c4.md"
@@ -511,7 +511,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "退款的前端狀態轉移",
       "line": 101,
       "file": "30-architecture-c4.md"
@@ -519,7 +519,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "呼叫退款 API",
       "line": 102,
       "file": "30-architecture-c4.md"
@@ -527,7 +527,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "接收退款請求",
       "line": 103,
       "file": "30-architecture-c4.md"
@@ -535,7 +535,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-008",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "編排退款",
       "line": 104,
       "file": "30-architecture-c4.md"
@@ -543,7 +543,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-010",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "退款的業務規則與不變量",
       "line": 105,
       "file": "30-architecture-c4.md"
@@ -551,7 +551,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-011",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "持久化退款結果",
       "line": 106,
       "file": "30-architecture-c4.md"
@@ -559,7 +559,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-012",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "為退款呼叫外部系統",
       "line": 107,
       "file": "30-architecture-c4.md"
@@ -567,7 +567,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "顯示並觸發查看",
       "line": 108,
       "file": "30-architecture-c4.md"
@@ -575,7 +575,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "查看的 UI 守衛",
       "line": 109,
       "file": "30-architecture-c4.md"
@@ -583,7 +583,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "查看的前端狀態轉移",
       "line": 110,
       "file": "30-architecture-c4.md"
@@ -591,7 +591,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "呼叫查看 API",
       "line": 111,
       "file": "30-architecture-c4.md"
@@ -599,7 +599,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "接收查看請求",
       "line": 112,
       "file": "30-architecture-c4.md"
@@ -607,7 +607,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-009",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "編排查看",
       "line": 113,
       "file": "30-architecture-c4.md"
@@ -615,7 +615,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-010",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "查看的業務規則與不變量",
       "line": 114,
       "file": "30-architecture-c4.md"
@@ -623,7 +623,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-011",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "持久化查看結果",
       "line": 115,
       "file": "30-architecture-c4.md"
@@ -947,21 +947,64 @@
   ],
   "artifacts": [
     {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 顧客可在出貨前取消訂單 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"顧客\"]) --> P[\"顧客取消訂單\"] --> Q[\"訂單狀態為已取消\"]\n  P -.-> X[\"回應 409 ORDER_SHIPPED,狀態不變\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 取消後系統經付款閘道退款 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"系統\"]) --> P[\"系統退款\"] --> Q[\"呼叫付款閘道,訂單狀態為已退款\"]\n  P -.-> X[\"重試 3 次,訂單維持已取消\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 49,
+      "heading": "UC-003 客服人員可查看取消紀錄 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"客服人員\"]) --> P[\"客服人員開啟紀錄\"] --> Q[\"每列顯示訂單、時間與原因\"]"
+    },
+    {
       "id": "STM-DOM-001",
       "kind": "state",
       "file": "20-domain-model.md",
-      "line": 39,
-      "heading": "STM-DOM-001 Order.Status (REQ-001)",
+      "line": 56,
+      "heading": "STM-DOM-001 Order.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund"
     },
     {
       "id": "CLS-001",
       "kind": "class",
       "file": "20-domain-model.md",
-      "line": 54,
+      "line": 71,
       "heading": "CLS-001 Order (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Order { +Id +Status }\n  Order --> Refund : has"
     },
     {
@@ -971,6 +1014,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(u, \"顧客\")\n  System(sys, \"訂單取消與退款\")\n  System_Ext(ext, \"PaymentGateway\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
     },
     {
@@ -980,6 +1024,7 @@
       "line": 16,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")"
     },
     {
@@ -989,6 +1034,7 @@
       "line": 40,
       "heading": "C4-L3",
       "req": "*",
+      "reqs": [],
       "mermaid": "flowchart LR\n  CMP001[\"OrderDetailPage<br/>Page\"]\n  CMP002[\"CancelOrderDialog<br/>Component\"]\n  CMP003[\"CancellationHistoryTable<br/>Component\"]\n  CMP004[\"orderStore<br/>Store\"]\n  CMP005[\"ordersApi<br/>ApiClient\"]\n  CMP006[\"OrdersController<br/>Api\"]\n  CMP007[\"CancelOrderCommandHandler<br/>Application\"]\n  CMP008[\"IssueRefundCommandHandler<br/>Application\"]\n  CMP009[\"ListCancellationsQueryHandler<br/>Application\"]\n  CMP010[\"Order (Aggregate)<br/>Domain\"]\n  CMP011[\"SqlOrderRepository<br/>Infrastructure\"]\n  CMP012[\"PaymentGatewayClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP002 --> CMP004\n  CMP003 --> CMP004\n  CMP004 --> CMP005\n  CMP005 --> CMP006\n  CMP006 --> CMP007\n  CMP006 --> CMP008\n  CMP006 --> CMP009\n  CMP007 --> CMP010\n  CMP007 --> CMP011\n  CMP008 --> CMP010\n  CMP008 --> CMP011\n  CMP008 --> CMP012\n  CMP009 --> CMP010\n  CMP009 --> CMP011"
     },
     {
@@ -998,7 +1044,34 @@
       "line": 120,
       "heading": "SEQ-001 (UC-001 / REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant CMP001 as OrderDetailPage\n  participant CMP002 as CancelOrderDialog\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP007 as CancelOrderCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: CancelOrder\n  CMP001->>CMP002: CancelOrder\n  CMP002->>CMP004: CancelOrder\n  CMP004->>CMP005: CancelOrder\n  CMP005->>CMP006: CancelOrder\n  CMP006->>CMP007: CancelOrder\n  CMP007->>CMP010: CancelOrder\n  CMP010->>CMP011: CancelOrder\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 143,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant CMP001 as OrderDetailPage\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP008 as IssueRefundCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  participant CMP012 as PaymentGatewayClient\n  U->>CMP001: IssueRefund\n  CMP001->>CMP004: IssueRefund\n  CMP004->>CMP005: IssueRefund\n  CMP005->>CMP006: IssueRefund\n  CMP006->>CMP008: IssueRefund\n  CMP008->>CMP010: IssueRefund\n  CMP010->>CMP011: IssueRefund\n  CMP011->>CMP012: IssueRefund\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 166,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant CMP001 as OrderDetailPage\n  participant CMP003 as CancellationHistoryTable\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP009 as ListCancellationsQueryHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: ListCancellations\n  CMP001->>CMP003: ListCancellations\n  CMP003->>CMP004: ListCancellations\n  CMP004->>CMP005: ListCancellations\n  CMP005->>CMP006: ListCancellations\n  CMP006->>CMP009: ListCancellations\n  CMP009->>CMP010: ListCancellations\n  CMP010->>CMP011: ListCancellations\n  CMP001-->>U: ok"
     },
     {
       "id": "STM-UI-001",
@@ -1007,6 +1080,9 @@
       "line": 10,
       "heading": "STM-UI-001 OrderDetailPage (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error"
     },
     {
@@ -1016,6 +1092,7 @@
       "line": 5,
       "heading": "ERD-001",
       "req": "*",
+      "reqs": [],
       "mermaid": "erDiagram\n  Orders ||--o{ Refund : has\n  Orders {\n    uniqueidentifier Id PK\n  }\n  Refund {\n    uniqueidentifier Id PK\n  }"
     }
   ],
@@ -1130,17 +1207,17 @@
     "UC-001": {
       "heading": "UC-001 顧客可在出貨前取消訂單 (REQ-001)",
       "line": 4,
-      "text": "- 主要參與者: 顧客\n- 觸發: 顧客取消訂單\n- 前置條件: 訂單狀態為已下單\n- 後置條件(成功保證): 訂單狀態為已取消\n- 主流程:\n  1. 顧客取消訂單\n  2. 訂單狀態為已取消\n- 替代流程: 無\n- 例外流程: 回應 409 ORDER_SHIPPED,狀態不變"
+      "text": "- 主要參與者: 顧客\n- 觸發: 顧客取消訂單\n- 前置條件: 訂單狀態為已下單\n- 後置條件(成功保證): 訂單狀態為已取消\n- 主流程:\n  1. 顧客取消訂單\n  2. 訂單狀態為已取消\n- 替代流程: 無\n- 例外流程: 回應 409 ORDER_SHIPPED,狀態不變\n\n```mermaid\nflowchart LR\n  S([\"顧客\"]) --> P[\"顧客取消訂單\"] --> Q[\"訂單狀態為已取消\"]\n  P -.-> X[\"回應 409 ORDER_SHIPPED,狀態不變\"]\n```"
     },
     "UC-002": {
       "heading": "UC-002 取消後系統經付款閘道退款 (REQ-002)",
-      "line": 15,
-      "text": "- 主要參與者: 系統\n- 觸發: 系統退款\n- 前置條件: 訂單已取消且已付款\n- 後置條件(成功保證): 呼叫付款閘道,訂單狀態為已退款\n- 主流程:\n  1. 系統退款\n  2. 呼叫付款閘道,訂單狀態為已退款\n- 替代流程: 無\n- 例外流程: 重試 3 次,訂單維持已取消"
+      "line": 21,
+      "text": "- 主要參與者: 系統\n- 觸發: 系統退款\n- 前置條件: 訂單已取消且已付款\n- 後置條件(成功保證): 呼叫付款閘道,訂單狀態為已退款\n- 主流程:\n  1. 系統退款\n  2. 呼叫付款閘道,訂單狀態為已退款\n- 替代流程: 無\n- 例外流程: 重試 3 次,訂單維持已取消\n\n```mermaid\nflowchart LR\n  S([\"系統\"]) --> P[\"系統退款\"] --> Q[\"呼叫付款閘道,訂單狀態為已退款\"]\n  P -.-> X[\"重試 3 次,訂單維持已取消\"]\n```"
     },
     "UC-003": {
       "heading": "UC-003 客服人員可查看取消紀錄 (REQ-003)",
-      "line": 26,
-      "text": "- 主要參與者: 客服人員\n- 觸發: 客服人員開啟紀錄\n- 前置條件: 有訂單已取消\n- 後置條件(成功保證): 每列顯示訂單、時間與原因\n- 主流程:\n  1. 客服人員開啟紀錄\n  2. 每列顯示訂單、時間與原因\n- 替代流程: 無\n- 例外流程: 無"
+      "line": 38,
+      "text": "- 主要參與者: 客服人員\n- 觸發: 客服人員開啟紀錄\n- 前置條件: 有訂單已取消\n- 後置條件(成功保證): 每列顯示訂單、時間與原因\n- 主流程:\n  1. 客服人員開啟紀錄\n  2. 每列顯示訂單、時間與原因\n- 替代流程: 無\n- 例外流程: 無\n\n```mermaid\nflowchart LR\n  S([\"客服人員\"]) --> P[\"客服人員開啟紀錄\"] --> Q[\"每列顯示訂單、時間與原因\"]\n```"
     }
   },
   "screens": [
@@ -1205,6 +1282,9 @@
       "line": 15,
       "heading": "CLS-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Order\n  class Refund\n  Order --> Refund : has"
     },
     {
@@ -1212,8 +1292,13 @@
       "kind": "flowchart",
       "file": "sa/04-usecase.md",
       "line": 5,
-      "heading": "UCD-001 (REQ-001)",
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
       "mermaid": "flowchart LR\n  customer([\"顧客\"]) --> cancel((\"取消\"))\n  system([\"系統\"]) --> issue_refund((\"退款\"))\n  support_agent([\"客服人員\"]) --> view_history((\"查看\"))"
     },
     {
@@ -1223,7 +1308,34 @@
       "line": 5,
       "heading": "ACT-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart TD\n  A[\"顧客取消訂單\"] --> B{\"訂單狀態為已下單?\"}\n  B -->|yes| C[\"訂單狀態為已取消\"]\n  B -->|no| D[\"回應 409 ORDER_SHIPPED,狀態不變\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"系統退款\"] --> B{\"訂單已取消且已付款?\"}\n  B -->|yes| C[\"呼叫付款閘道,訂單狀態為已退款\"]\n  B -->|no| D[\"重試 3 次,訂單維持已取消\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"客服人員開啟紀錄\"] --> B{\"有訂單已取消?\"}\n  B -->|yes| C[\"每列顯示訂單、時間與原因\"]\n  B -->|no| E[\"—\"]"
     },
     {
       "id": "SEQ-SA-001",
@@ -1232,15 +1344,46 @@
       "line": 5,
       "heading": "SEQ-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant Web\n  participant API\n  participant DB\n  U->>Web: CancelOrder\n  Web->>API: CancelOrder\n  API->>DB: CancelOrder\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 18,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant Web\n  participant API\n  participant DB\n  participant PaymentGateway\n  U->>Web: IssueRefund\n  Web->>API: IssueRefund\n  API->>DB: IssueRefund\n  DB->>PaymentGateway: IssueRefund\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 33,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListCancellations\n  Web->>API: ListCancellations\n  API->>DB: ListCancellations\n  Web-->>U: ok"
     },
     {
       "id": "STM-SA-001",
       "kind": "state",
       "file": "sa/07-state.md",
       "line": 5,
-      "heading": "STM-SA-001 Order.Status (REQ-001)",
+      "heading": "STM-SA-001 Order.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund"
     }
   ],
@@ -1634,6 +1777,15 @@
     ],
     "naming_path": "examples/matrix/fs-balance-zh-s1/specs/naming-map.md"
   },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "架構概觀",
+      "text": "形狀:全端(均衡)。前端分層 Page、Component、Store、ApiClient;後端分層 Api、Application、Domain、Infrastructure。",
+      "root": "docs"
+    }
+  ],
   "lexicon": {
     "nouns": [
       {
@@ -2647,7 +2799,7 @@
         "SA5",
         "sa/05-activity.md"
       ],
-      "msg": "SA5 sa/05-activity.md 齊全(1 張圖)",
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
       "action": ""
     },
     {
@@ -2657,7 +2809,7 @@
         "SA6",
         "sa/06-sequence.md"
       ],
-      "msg": "SA6 sa/06-sequence.md 齊全(1 張圖)",
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
       "action": ""
     },
     {

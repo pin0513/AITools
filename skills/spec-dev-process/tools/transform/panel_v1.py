@@ -3,7 +3,7 @@ import json, pathlib
 from core import config as C
 
 TEMPLATE = C.PATHS["templates"] / "check-panel.html"
-CDN_TAG = '<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.1/mermaid.min.js"></script>'
+CDN_TAG = '<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>'
 
 def build(d: pathlib.Path, tr: dict, log: list, boundary: list, g: list, k: dict, offline_js=None, template=TEMPLATE) -> pathlib.Path:
     payload = {"trace": tr, "log": log, "boundary": boundary, "gate": g, "kpis": k}

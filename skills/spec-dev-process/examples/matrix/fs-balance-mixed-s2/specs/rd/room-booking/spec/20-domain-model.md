@@ -12,6 +12,12 @@
 - 替代流程: 無
 - 例外流程: 回應 409 SLOT_TAKEN
 
+```mermaid
+flowchart LR
+  S(["employee"]) --> P["employee book Room"] --> Q["Booking 狀態為 Booked"]
+  P -.-> X["回應 409 SLOT_TAKEN"]
+```
+
 ### UC-002 15 分鐘內 check in,否則 system release Room (REQ-002)
 - 主要參與者: employee
 - 觸發: employee 在 15 分鐘內 check in
@@ -22,6 +28,12 @@
   2. Booking 狀態為 CheckedIn
 - 替代流程: 無
 - 例外流程: Booking 狀態為 Released, CalendarService 已更新
+
+```mermaid
+flowchart LR
+  S(["employee"]) --> P["employee 在 15 分鐘內 check in"] --> Q["Booking 狀態為 CheckedIn"]
+  P -.-> X["Booking 狀態為 Released, CalendarService 已更新"]
+```
 
 ### UC-003 admin 可 view 每日 Booking (REQ-003)
 - 主要參與者: admin
@@ -34,8 +46,13 @@
 - 替代流程: 無
 - 例外流程: 無
 
+```mermaid
+flowchart LR
+  S(["admin"]) --> P["admin 開啟每日檢視"] --> Q["依 Room 分組顯示"]
+```
+
 ## 狀態機
-### STM-DOM-001 Booking.Status (REQ-001)
+### STM-DOM-001 Booking.Status (REQ-001, REQ-002)
 ```mermaid
 stateDiagram-v2
   [*] --> Booked: BookRoom

@@ -100,34 +100,34 @@ flowchart LR
 | AC-001-2 | CMP-012 | SEQ-001 | book的業務規則與不變量 |
 | AC-001-2 | CMP-013 | SEQ-001 | 持久化book結果 |
 | AC-001-2 | CMP-014 | SEQ-001 | 為book呼叫外部系統 |
-| AC-002-1 | CMP-001 | SEQ-001 | 顯示並觸發check in |
-| AC-002-1 | CMP-003 | SEQ-001 | check in的 UI 守衛 |
-| AC-002-1 | CMP-005 | SEQ-001 | check in的前端狀態轉移 |
-| AC-002-1 | CMP-006 | SEQ-001 | 呼叫check in API |
-| AC-002-1 | CMP-007 | SEQ-001 | 接收check in請求 |
-| AC-002-1 | CMP-009 | SEQ-001 | 編排check in |
-| AC-002-1 | CMP-012 | SEQ-001 | check in的業務規則與不變量 |
-| AC-002-1 | CMP-013 | SEQ-001 | 持久化check in結果 |
-| AC-002-1 | CMP-010 | SEQ-001 | 編排release |
-| AC-002-1 | CMP-014 | SEQ-001 | 為release呼叫外部系統 |
-| AC-002-2 | CMP-001 | SEQ-001 | 顯示並觸發check in |
-| AC-002-2 | CMP-003 | SEQ-001 | check in的 UI 守衛 |
-| AC-002-2 | CMP-005 | SEQ-001 | check in的前端狀態轉移 |
-| AC-002-2 | CMP-006 | SEQ-001 | 呼叫check in API |
-| AC-002-2 | CMP-007 | SEQ-001 | 接收check in請求 |
-| AC-002-2 | CMP-009 | SEQ-001 | 編排check in |
-| AC-002-2 | CMP-012 | SEQ-001 | check in的業務規則與不變量 |
-| AC-002-2 | CMP-013 | SEQ-001 | 持久化check in結果 |
-| AC-002-2 | CMP-010 | SEQ-001 | 編排release |
-| AC-002-2 | CMP-014 | SEQ-001 | 為release呼叫外部系統 |
-| AC-003-1 | CMP-001 | SEQ-001 | 顯示並觸發view |
-| AC-003-1 | CMP-004 | SEQ-001 | view的 UI 守衛 |
-| AC-003-1 | CMP-005 | SEQ-001 | view的前端狀態轉移 |
-| AC-003-1 | CMP-006 | SEQ-001 | 呼叫view API |
-| AC-003-1 | CMP-007 | SEQ-001 | 接收view請求 |
-| AC-003-1 | CMP-011 | SEQ-001 | 編排view |
-| AC-003-1 | CMP-012 | SEQ-001 | view的業務規則與不變量 |
-| AC-003-1 | CMP-013 | SEQ-001 | 持久化view結果 |
+| AC-002-1 | CMP-001 | SEQ-002 | 顯示並觸發check in |
+| AC-002-1 | CMP-003 | SEQ-002 | check in的 UI 守衛 |
+| AC-002-1 | CMP-005 | SEQ-002 | check in的前端狀態轉移 |
+| AC-002-1 | CMP-006 | SEQ-002 | 呼叫check in API |
+| AC-002-1 | CMP-007 | SEQ-002 | 接收check in請求 |
+| AC-002-1 | CMP-009 | SEQ-002 | 編排check in |
+| AC-002-1 | CMP-012 | SEQ-002 | check in的業務規則與不變量 |
+| AC-002-1 | CMP-013 | SEQ-002 | 持久化check in結果 |
+| AC-002-1 | CMP-010 | SEQ-002 | 編排release |
+| AC-002-1 | CMP-014 | SEQ-002 | 為release呼叫外部系統 |
+| AC-002-2 | CMP-001 | SEQ-002 | 顯示並觸發check in |
+| AC-002-2 | CMP-003 | SEQ-002 | check in的 UI 守衛 |
+| AC-002-2 | CMP-005 | SEQ-002 | check in的前端狀態轉移 |
+| AC-002-2 | CMP-006 | SEQ-002 | 呼叫check in API |
+| AC-002-2 | CMP-007 | SEQ-002 | 接收check in請求 |
+| AC-002-2 | CMP-009 | SEQ-002 | 編排check in |
+| AC-002-2 | CMP-012 | SEQ-002 | check in的業務規則與不變量 |
+| AC-002-2 | CMP-013 | SEQ-002 | 持久化check in結果 |
+| AC-002-2 | CMP-010 | SEQ-002 | 編排release |
+| AC-002-2 | CMP-014 | SEQ-002 | 為release呼叫外部系統 |
+| AC-003-1 | CMP-001 | SEQ-003 | 顯示並觸發view |
+| AC-003-1 | CMP-004 | SEQ-003 | view的 UI 守衛 |
+| AC-003-1 | CMP-005 | SEQ-003 | view的前端狀態轉移 |
+| AC-003-1 | CMP-006 | SEQ-003 | 呼叫view API |
+| AC-003-1 | CMP-007 | SEQ-003 | 接收view請求 |
+| AC-003-1 | CMP-011 | SEQ-003 | 編排view |
+| AC-003-1 | CMP-012 | SEQ-003 | view的業務規則與不變量 |
+| AC-003-1 | CMP-013 | SEQ-003 | 持久化view結果 |
 | AC-N01-1 | CMP-007 | API-001 | NFR 100 concurrent → 1 success |
 
 ## Sequence
@@ -155,3 +155,50 @@ sequenceDiagram
   CMP013->>CMP014: BookRoom
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as Employee
+  participant CMP001 as RoomBookingPage
+  participant CMP003 as CheckInButton
+  participant CMP005 as bookingStore
+  participant CMP006 as roomsApi
+  participant CMP007 as RoomsController
+  participant CMP009 as CheckInBookingCommandHandler
+  participant CMP012 as Booking
+  participant CMP013 as SqlRoomRepository
+  U->>CMP001: CheckInBooking
+  CMP001->>CMP003: CheckInBooking
+  CMP003->>CMP005: CheckInBooking
+  CMP005->>CMP006: CheckInBooking
+  CMP006->>CMP007: CheckInBooking
+  CMP007->>CMP009: CheckInBooking
+  CMP009->>CMP012: CheckInBooking
+  CMP012->>CMP013: CheckInBooking
+  CMP001-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Admin
+  participant CMP001 as RoomBookingPage
+  participant CMP004 as DailyBookingTable
+  participant CMP005 as bookingStore
+  participant CMP006 as roomsApi
+  participant CMP007 as RoomsController
+  participant CMP011 as ListDailyBookingsQueryHandler
+  participant CMP012 as Booking
+  participant CMP013 as SqlRoomRepository
+  U->>CMP001: ListDailyBookings
+  CMP001->>CMP004: ListDailyBookings
+  CMP004->>CMP005: ListDailyBookings
+  CMP005->>CMP006: ListDailyBookings
+  CMP006->>CMP007: ListDailyBookings
+  CMP007->>CMP011: ListDailyBookings
+  CMP011->>CMP012: ListDailyBookings
+  CMP012->>CMP013: ListDailyBookings
+  CMP001-->>U: ok
+```
+

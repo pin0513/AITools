@@ -64,13 +64,13 @@ flowchart LR
 | AC-001-2 | CMP-005 | SEQ-001 | 兌換的業務規則與不變量 |
 | AC-001-2 | CMP-006 | SEQ-001 | 持久化兌換結果 |
 | AC-001-2 | CMP-007 | SEQ-001 | 為兌換呼叫外部系統 |
-| AC-002-1 | CMP-003 | SEQ-001 | 編排到期 |
-| AC-002-1 | CMP-005 | SEQ-001 | 到期的業務規則與不變量 |
-| AC-002-1 | CMP-006 | SEQ-001 | 持久化到期結果 |
-| AC-003-1 | CMP-001 | SEQ-001 | 接收查看請求 |
-| AC-003-1 | CMP-004 | SEQ-001 | 編排查看 |
-| AC-003-1 | CMP-005 | SEQ-001 | 查看的業務規則與不變量 |
-| AC-003-1 | CMP-006 | SEQ-001 | 持久化查看結果 |
+| AC-002-1 | CMP-003 | SEQ-002 | 編排到期 |
+| AC-002-1 | CMP-005 | SEQ-002 | 到期的業務規則與不變量 |
+| AC-002-1 | CMP-006 | SEQ-002 | 持久化到期結果 |
+| AC-003-1 | CMP-001 | SEQ-003 | 接收查看請求 |
+| AC-003-1 | CMP-004 | SEQ-003 | 編排查看 |
+| AC-003-1 | CMP-005 | SEQ-003 | 查看的業務規則與不變量 |
+| AC-003-1 | CMP-006 | SEQ-003 | 持久化查看結果 |
 | AC-N01-1 | CMP-001 | API-001 | NFR balance never negative |
 
 ## Sequence
@@ -90,3 +90,32 @@ sequenceDiagram
   CMP006->>CMP007: RedeemReward
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as System
+  participant CMP003 as ExpirePointsJob
+  participant CMP005 as Redemption
+  participant CMP006 as SqlPointsAccountRepository
+  U->>CMP003: ExpirePoints
+  CMP003->>CMP005: ExpirePoints
+  CMP005->>CMP006: ExpirePoints
+  CMP003-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Member
+  participant CMP001 as PointsController
+  participant CMP004 as ListTransactionsQueryHandler
+  participant CMP005 as Redemption
+  participant CMP006 as SqlPointsAccountRepository
+  U->>CMP001: ListTransactions
+  CMP001->>CMP004: ListTransactions
+  CMP004->>CMP005: ListTransactions
+  CMP005->>CMP006: ListTransactions
+  CMP001-->>U: ok
+```
+

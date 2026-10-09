@@ -323,7 +323,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "receive the check in request",
       "line": 73,
       "file": "30-architecture-c4.md"
@@ -331,7 +331,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "orchestrate check in",
       "line": 74,
       "file": "30-architecture-c4.md"
@@ -339,7 +339,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "enforce the check in invariant",
       "line": 75,
       "file": "30-architecture-c4.md"
@@ -347,7 +347,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "persist the check in result",
       "line": 76,
       "file": "30-architecture-c4.md"
@@ -355,7 +355,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "orchestrate release",
       "line": 77,
       "file": "30-architecture-c4.md"
@@ -363,7 +363,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-008",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "call the external system for release",
       "line": 78,
       "file": "30-architecture-c4.md"
@@ -371,7 +371,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "receive the check in request",
       "line": 79,
       "file": "30-architecture-c4.md"
@@ -379,7 +379,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "orchestrate check in",
       "line": 80,
       "file": "30-architecture-c4.md"
@@ -387,7 +387,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "enforce the check in invariant",
       "line": 81,
       "file": "30-architecture-c4.md"
@@ -395,7 +395,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "persist the check in result",
       "line": 82,
       "file": "30-architecture-c4.md"
@@ -403,7 +403,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "orchestrate release",
       "line": 83,
       "file": "30-architecture-c4.md"
@@ -411,7 +411,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-008",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "call the external system for release",
       "line": 84,
       "file": "30-architecture-c4.md"
@@ -419,7 +419,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "receive the view request",
       "line": 85,
       "file": "30-architecture-c4.md"
@@ -427,7 +427,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "orchestrate view",
       "line": 86,
       "file": "30-architecture-c4.md"
@@ -435,7 +435,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "enforce the view invariant",
       "line": 87,
       "file": "30-architecture-c4.md"
@@ -443,7 +443,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "persist the view result",
       "line": 88,
       "file": "30-architecture-c4.md"
@@ -705,21 +705,64 @@
   ],
   "artifacts": [
     {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 An employee can book a meeting room without overlapping time slot (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"the employee books the meeting room\"] --> Q[\"a booking is booked\"]\n  P -.-> X[\"the response is 409 SLOT_TAKEN\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 check in within 15 minutes or the system will release the meeting room (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"the employee checks in within 15 minutes\"] --> Q[\"the booking is checked-in\"]\n  P -.-> X[\"the booking is released and the calendar service is updated\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 49,
+      "heading": "UC-003 An admin can view daily booking records (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"admin\"]) --> P[\"the admin opens the daily view\"] --> Q[\"rows are grouped by meeting room\"]"
+    },
+    {
       "id": "STM-DOM-001",
       "kind": "state",
       "file": "20-domain-model.md",
-      "line": 39,
-      "heading": "STM-DOM-001 Booking.Status (REQ-001)",
+      "line": 56,
+      "heading": "STM-DOM-001 Booking.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow"
     },
     {
       "id": "CLS-001",
       "kind": "class",
       "file": "20-domain-model.md",
-      "line": 54,
+      "line": 71,
       "heading": "CLS-001 Booking (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Booking { +Id +Status }\n  Room --> Booking : has\n  Room --> TimeSlot : has"
     },
     {
@@ -729,6 +772,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(u, \"employee\")\n  System(sys, \"Meeting room booking\")\n  System_Ext(ext, \"CalendarService\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
     },
     {
@@ -738,6 +782,7 @@
       "line": 16,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")"
     },
     {
@@ -747,6 +792,7 @@
       "line": 35,
       "heading": "C4-L3",
       "req": "*",
+      "reqs": [],
       "mermaid": "flowchart LR\n  CMP001[\"RoomsController<br/>Api\"]\n  CMP002[\"BookRoomCommandHandler<br/>Application\"]\n  CMP003[\"CheckInBookingCommandHandler<br/>Application\"]\n  CMP004[\"ReleaseNoShowJob<br/>Application\"]\n  CMP005[\"ListDailyBookingsQueryHandler<br/>Application\"]\n  CMP006[\"Booking (Aggregate)<br/>Domain\"]\n  CMP007[\"SqlRoomRepository<br/>Infrastructure\"]\n  CMP008[\"CalendarServiceClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP005\n  CMP002 --> CMP006\n  CMP002 --> CMP007\n  CMP002 --> CMP008\n  CMP003 --> CMP006\n  CMP003 --> CMP007\n  CMP004 --> CMP006\n  CMP004 --> CMP007\n  CMP004 --> CMP008\n  CMP005 --> CMP006\n  CMP005 --> CMP007"
     },
     {
@@ -756,7 +802,34 @@
       "line": 93,
       "heading": "SEQ-001 (UC-001 / REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomsController\n  participant CMP002 as BookRoomCommandHandler\n  participant CMP006 as Booking\n  participant CMP007 as SqlRoomRepository\n  participant CMP008 as CalendarServiceClient\n  U->>CMP001: BookRoom\n  CMP001->>CMP002: BookRoom\n  CMP002->>CMP006: BookRoom\n  CMP006->>CMP007: BookRoom\n  CMP007->>CMP008: BookRoom\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 110,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomsController\n  participant CMP003 as CheckInBookingCommandHandler\n  participant CMP006 as Booking\n  participant CMP007 as SqlRoomRepository\n  U->>CMP001: CheckInBooking\n  CMP001->>CMP003: CheckInBooking\n  CMP003->>CMP006: CheckInBooking\n  CMP006->>CMP007: CheckInBooking\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 125,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant CMP001 as RoomsController\n  participant CMP005 as ListDailyBookingsQueryHandler\n  participant CMP006 as Booking\n  participant CMP007 as SqlRoomRepository\n  U->>CMP001: ListDailyBookings\n  CMP001->>CMP005: ListDailyBookings\n  CMP005->>CMP006: ListDailyBookings\n  CMP006->>CMP007: ListDailyBookings\n  CMP001-->>U: ok"
     },
     {
       "id": "ERD-001",
@@ -765,6 +838,7 @@
       "line": 5,
       "heading": "ERD-001",
       "req": "*",
+      "reqs": [],
       "mermaid": "erDiagram\n  Rooms ||--o{ Booking : has\n  Rooms {\n    uniqueidentifier Id PK\n  }\n  Booking {\n    uniqueidentifier Id PK\n  }"
     }
   ],
@@ -873,17 +947,17 @@
     "UC-001": {
       "heading": "UC-001 An employee can book a meeting room without overlapping time slot (REQ-001)",
       "line": 4,
-      "text": "- Primary actor: employee\n- Trigger: the employee books the meeting room\n- Precondition: the time slot is free\n- Postcondition (success guarantee): a booking is booked\n- Main flow:\n  1. the employee books the meeting room\n  2. a booking is booked\n- Alternative flow: none\n- Exception flow: the response is 409 SLOT_TAKEN"
+      "text": "- Primary actor: employee\n- Trigger: the employee books the meeting room\n- Precondition: the time slot is free\n- Postcondition (success guarantee): a booking is booked\n- Main flow:\n  1. the employee books the meeting room\n  2. a booking is booked\n- Alternative flow: none\n- Exception flow: the response is 409 SLOT_TAKEN\n\n```mermaid\nflowchart LR\n  S([\"employee\"]) --> P[\"the employee books the meeting room\"] --> Q[\"a booking is booked\"]\n  P -.-> X[\"the response is 409 SLOT_TAKEN\"]\n```"
     },
     "UC-002": {
       "heading": "UC-002 check in within 15 minutes or the system will release the meeting room (REQ-002)",
-      "line": 15,
-      "text": "- Primary actor: employee\n- Trigger: the employee checks in within 15 minutes\n- Precondition: a booking is booked\n- Postcondition (success guarantee): the booking is checked-in\n- Main flow:\n  1. the employee checks in within 15 minutes\n  2. the booking is checked-in\n- Alternative flow: none\n- Exception flow: the booking is released and the calendar service is updated"
+      "line": 21,
+      "text": "- Primary actor: employee\n- Trigger: the employee checks in within 15 minutes\n- Precondition: a booking is booked\n- Postcondition (success guarantee): the booking is checked-in\n- Main flow:\n  1. the employee checks in within 15 minutes\n  2. the booking is checked-in\n- Alternative flow: none\n- Exception flow: the booking is released and the calendar service is updated\n\n```mermaid\nflowchart LR\n  S([\"employee\"]) --> P[\"the employee checks in within 15 minutes\"] --> Q[\"the booking is checked-in\"]\n  P -.-> X[\"the booking is released and the calendar service is updated\"]\n```"
     },
     "UC-003": {
       "heading": "UC-003 An admin can view daily booking records (REQ-003)",
-      "line": 26,
-      "text": "- Primary actor: admin\n- Trigger: the admin opens the daily view\n- Precondition: booking records exist today\n- Postcondition (success guarantee): rows are grouped by meeting room\n- Main flow:\n  1. the admin opens the daily view\n  2. rows are grouped by meeting room\n- Alternative flow: none\n- Exception flow: none"
+      "line": 38,
+      "text": "- Primary actor: admin\n- Trigger: the admin opens the daily view\n- Precondition: booking records exist today\n- Postcondition (success guarantee): rows are grouped by meeting room\n- Main flow:\n  1. the admin opens the daily view\n  2. rows are grouped by meeting room\n- Alternative flow: none\n- Exception flow: none\n\n```mermaid\nflowchart LR\n  S([\"admin\"]) --> P[\"the admin opens the daily view\"] --> Q[\"rows are grouped by meeting room\"]\n```"
     }
   },
   "screens": [],
@@ -916,6 +990,9 @@
       "line": 17,
       "heading": "CLS-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Room\n  class Booking\n  class TimeSlot\n  Room --> Booking : has\n  Room --> TimeSlot : has"
     },
     {
@@ -923,8 +1000,13 @@
       "kind": "flowchart",
       "file": "sa/04-usecase.md",
       "line": 5,
-      "heading": "UCD-001 (REQ-001)",
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
       "mermaid": "flowchart LR\n  employee([\"employee\"]) --> book((\"book\"))\n  employee([\"employee\"]) --> check_in((\"check in\"))\n  system([\"system\"]) --> release((\"release\"))\n  admin([\"admin\"]) --> view_daily((\"view\"))"
     },
     {
@@ -934,7 +1016,34 @@
       "line": 5,
       "heading": "ACT-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart TD\n  A[\"the employee books the meeting room\"] --> B{\"the time slot is free?\"}\n  B -->|yes| C[\"a booking is booked\"]\n  B -->|no| D[\"the response is 409 SLOT_TAKEN\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"the employee checks in within 15 minutes\"] --> B{\"a booking is booked?\"}\n  B -->|yes| C[\"the booking is checked-in\"]\n  B -->|no| D[\"the booking is released and the calendar service is updated\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"the admin opens the daily view\"] --> B{\"booking records exist today?\"}\n  B -->|yes| C[\"rows are grouped by meeting room\"]\n  B -->|no| E[\"—\"]"
     },
     {
       "id": "SEQ-SA-001",
@@ -943,15 +1052,46 @@
       "line": 5,
       "heading": "SEQ-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Client\n  participant API\n  participant DB\n  participant CalendarService\n  U->>Client: BookRoom\n  Client->>API: BookRoom\n  API->>DB: BookRoom\n  DB->>CalendarService: BookRoom\n  Client-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 20,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Client\n  participant API\n  participant DB\n  U->>Client: CheckInBooking\n  Client->>API: CheckInBooking\n  API->>DB: CheckInBooking\n  Client-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 33,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant Client\n  participant API\n  participant DB\n  U->>Client: ListDailyBookings\n  Client->>API: ListDailyBookings\n  API->>DB: ListDailyBookings\n  Client-->>U: ok"
     },
     {
       "id": "STM-SA-001",
       "kind": "state",
       "file": "sa/07-state.md",
       "line": 5,
-      "heading": "STM-SA-001 Booking.Status (REQ-001)",
+      "heading": "STM-SA-001 Booking.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow"
     }
   ],
@@ -1366,6 +1506,15 @@
     ],
     "naming_path": "examples/matrix/be-only-en-s2/specs/naming-map.md"
   },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "Architecture",
+      "text": "Shape: backend only. Front layers: Page, Component, Store, ApiClient. Back layers: Api, Application, Domain, Infrastructure.",
+      "root": "docs"
+    }
+  ],
   "lexicon": {
     "nouns": [
       {
@@ -2103,7 +2252,7 @@
         "SA5",
         "sa/05-activity.md"
       ],
-      "msg": "SA5 sa/05-activity.md 齊全(1 張圖)",
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
       "action": ""
     },
     {
@@ -2113,7 +2262,7 @@
         "SA6",
         "sa/06-sequence.md"
       ],
-      "msg": "SA6 sa/06-sequence.md 齊全(1 張圖)",
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
       "action": ""
     },
     {

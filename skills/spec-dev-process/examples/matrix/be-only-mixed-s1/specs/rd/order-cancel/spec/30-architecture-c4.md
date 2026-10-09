@@ -63,20 +63,20 @@ flowchart LR
 | AC-001-2 | CMP-002 | SEQ-001 | 編排cancel |
 | AC-001-2 | CMP-005 | SEQ-001 | cancel的業務規則與不變量 |
 | AC-001-2 | CMP-006 | SEQ-001 | 持久化cancel結果 |
-| AC-002-1 | CMP-001 | SEQ-001 | 接收refund請求 |
-| AC-002-1 | CMP-003 | SEQ-001 | 編排refund |
-| AC-002-1 | CMP-005 | SEQ-001 | refund的業務規則與不變量 |
-| AC-002-1 | CMP-006 | SEQ-001 | 持久化refund結果 |
-| AC-002-1 | CMP-007 | SEQ-001 | 為refund呼叫外部系統 |
-| AC-002-2 | CMP-001 | SEQ-001 | 接收refund請求 |
-| AC-002-2 | CMP-003 | SEQ-001 | 編排refund |
-| AC-002-2 | CMP-005 | SEQ-001 | refund的業務規則與不變量 |
-| AC-002-2 | CMP-006 | SEQ-001 | 持久化refund結果 |
-| AC-002-2 | CMP-007 | SEQ-001 | 為refund呼叫外部系統 |
-| AC-003-1 | CMP-001 | SEQ-001 | 接收view請求 |
-| AC-003-1 | CMP-004 | SEQ-001 | 編排view |
-| AC-003-1 | CMP-005 | SEQ-001 | view的業務規則與不變量 |
-| AC-003-1 | CMP-006 | SEQ-001 | 持久化view結果 |
+| AC-002-1 | CMP-001 | SEQ-002 | 接收refund請求 |
+| AC-002-1 | CMP-003 | SEQ-002 | 編排refund |
+| AC-002-1 | CMP-005 | SEQ-002 | refund的業務規則與不變量 |
+| AC-002-1 | CMP-006 | SEQ-002 | 持久化refund結果 |
+| AC-002-1 | CMP-007 | SEQ-002 | 為refund呼叫外部系統 |
+| AC-002-2 | CMP-001 | SEQ-002 | 接收refund請求 |
+| AC-002-2 | CMP-003 | SEQ-002 | 編排refund |
+| AC-002-2 | CMP-005 | SEQ-002 | refund的業務規則與不變量 |
+| AC-002-2 | CMP-006 | SEQ-002 | 持久化refund結果 |
+| AC-002-2 | CMP-007 | SEQ-002 | 為refund呼叫外部系統 |
+| AC-003-1 | CMP-001 | SEQ-003 | 接收view請求 |
+| AC-003-1 | CMP-004 | SEQ-003 | 編排view |
+| AC-003-1 | CMP-005 | SEQ-003 | view的業務規則與不變量 |
+| AC-003-1 | CMP-006 | SEQ-003 | 持久化view結果 |
 | AC-N01-1 | CMP-001 | API-002 | NFR P95 < 5 min |
 
 ## Sequence
@@ -94,3 +94,36 @@ sequenceDiagram
   CMP005->>CMP006: CancelOrder
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as System
+  participant CMP001 as OrdersController
+  participant CMP003 as IssueRefundCommandHandler
+  participant CMP005 as Order
+  participant CMP006 as SqlOrderRepository
+  participant CMP007 as PaymentGatewayClient
+  U->>CMP001: IssueRefund
+  CMP001->>CMP003: IssueRefund
+  CMP003->>CMP005: IssueRefund
+  CMP005->>CMP006: IssueRefund
+  CMP006->>CMP007: IssueRefund
+  CMP001-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as SupportAgent
+  participant CMP001 as OrdersController
+  participant CMP004 as ListCancellationsQueryHandler
+  participant CMP005 as Order
+  participant CMP006 as SqlOrderRepository
+  U->>CMP001: ListCancellations
+  CMP001->>CMP004: ListCancellations
+  CMP004->>CMP005: ListCancellations
+  CMP005->>CMP006: ListCancellations
+  CMP001-->>U: ok
+```
+

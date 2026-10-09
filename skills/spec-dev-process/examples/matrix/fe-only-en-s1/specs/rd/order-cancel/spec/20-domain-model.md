@@ -12,6 +12,12 @@
 - Alternative flow: none
 - Exception flow: the response is 409 ORDER_SHIPPED and the status is unchanged
 
+```mermaid
+flowchart LR
+  S(["customer"]) --> P["the customer cancels it"] --> Q["the order status is cancelled"]
+  P -.-> X["the response is 409 ORDER_SHIPPED and the status is unchanged"]
+```
+
 ### UC-002 The system issues a refund through the payment gateway after cancellation (REQ-002)
 - Primary actor: system
 - Trigger: the system issues the refund
@@ -22,6 +28,12 @@
   2. the payment gateway is called and the order is refunded
 - Alternative flow: none
 - Exception flow: it retries 3 times and the order stays cancelled
+
+```mermaid
+flowchart LR
+  S(["system"]) --> P["the system issues the refund"] --> Q["the payment gateway is called and the order is refunded"]
+  P -.-> X["it retries 3 times and the order stays cancelled"]
+```
 
 ### UC-003 A support agent can view the cancellation history (REQ-003)
 - Primary actor: support agent
@@ -34,8 +46,13 @@
 - Alternative flow: none
 - Exception flow: none
 
+```mermaid
+flowchart LR
+  S(["support agent"]) --> P["the support agent opens the history"] --> Q["each row shows the order, time and reason"]
+```
+
 ## State Machines
-### STM-DOM-001 Order.Status (REQ-001)
+### STM-DOM-001 Order.Status (REQ-001, REQ-002)
 ```mermaid
 stateDiagram-v2
   [*] --> Placed: PlaceOrder

@@ -368,7 +368,7 @@
       "component": "CMP-005",
       "via": "STM-DOM-001",
       "role": "Submit 設 Status=Pending(既有 Create 改)",
-      "line": 71,
+      "line": 81,
       "file": "30-architecture-c4.md"
     },
     {
@@ -376,7 +376,7 @@
       "component": "CMP-004",
       "via": "UC-003",
       "role": "Pending 時拒絕修改 → 409",
-      "line": 72,
+      "line": 82,
       "file": "30-architecture-c4.md"
     },
     {
@@ -384,7 +384,7 @@
       "component": "CMP-005",
       "via": "STM-DOM-001",
       "role": "守衛:只有 Rejected 可 Resubmit",
-      "line": 73,
+      "line": 83,
       "file": "30-architecture-c4.md"
     },
     {
@@ -392,7 +392,7 @@
       "component": "CMP-001",
       "via": "SEQ-001",
       "role": "POST approve,取 actor",
-      "line": 74,
+      "line": 84,
       "file": "30-architecture-c4.md"
     },
     {
@@ -400,7 +400,7 @@
       "component": "CMP-002",
       "via": "SEQ-001",
       "role": "編排:載入、審核者檢查、Approve、儲存",
-      "line": 75,
+      "line": 85,
       "file": "30-architecture-c4.md"
     },
     {
@@ -408,7 +408,7 @@
       "component": "CMP-005",
       "via": "SEQ-001",
       "role": "Approve:狀態轉移 + ReviewRecord",
-      "line": 76,
+      "line": 86,
       "file": "30-architecture-c4.md"
     },
     {
@@ -416,7 +416,7 @@
       "component": "CMP-006",
       "via": "SEQ-001",
       "role": "持久化 ReviewRecord",
-      "line": 77,
+      "line": 87,
       "file": "30-architecture-c4.md"
     },
     {
@@ -424,7 +424,7 @@
       "component": "CMP-005",
       "via": "SEQ-001",
       "role": "Reject 守衛 reason.Length ≥ 10",
-      "line": 78,
+      "line": 88,
       "file": "30-architecture-c4.md"
     },
     {
@@ -432,7 +432,7 @@
       "component": "CMP-001",
       "via": "SEQ-001",
       "role": "DomainException → 400 REASON_TOO_SHORT",
-      "line": 79,
+      "line": 89,
       "file": "30-architecture-c4.md"
     },
     {
@@ -440,7 +440,7 @@
       "component": "CMP-003",
       "via": "SEQ-001",
       "role": "編排:Reject、儲存、發 SubmissionRejected",
-      "line": 80,
+      "line": 90,
       "file": "30-architecture-c4.md"
     },
     {
@@ -448,7 +448,7 @@
       "component": "CMP-005",
       "via": "SEQ-001",
       "role": "Reject:Rejected + ReviewRecord + 事件",
-      "line": 81,
+      "line": 91,
       "file": "30-architecture-c4.md"
     },
     {
@@ -456,7 +456,7 @@
       "component": "CMP-007",
       "via": "SEQ-001",
       "role": "通知填寫者",
-      "line": 82,
+      "line": 92,
       "file": "30-architecture-c4.md"
     },
     {
@@ -464,7 +464,7 @@
       "component": "CMP-004",
       "via": "UC-003",
       "role": "編排:驗答案、Resubmit、儲存",
-      "line": 83,
+      "line": 93,
       "file": "30-architecture-c4.md"
     },
     {
@@ -472,7 +472,7 @@
       "component": "CMP-005",
       "via": "STM-DOM-001",
       "role": "Resubmit:Rejected → Pending,ResubmitCount++",
-      "line": 84,
+      "line": 94,
       "file": "30-architecture-c4.md"
     },
     {
@@ -480,7 +480,7 @@
       "component": "CMP-005",
       "via": "STM-DOM-001",
       "role": "Approved 不可 Resubmit → 409",
-      "line": 85,
+      "line": 95,
       "file": "30-architecture-c4.md"
     },
     {
@@ -488,7 +488,7 @@
       "component": "CMP-008",
       "via": "SEQ-002",
       "role": "每日:查逾時、排除已提醒、通知、寫 ReviewReminder",
-      "line": 86,
+      "line": 96,
       "file": "30-architecture-c4.md"
     },
     {
@@ -496,7 +496,7 @@
       "component": "CMP-010",
       "via": "SEQ-002",
       "role": "工作天計算(缺口 #3)",
-      "line": 87,
+      "line": 97,
       "file": "30-architecture-c4.md"
     },
     {
@@ -504,7 +504,7 @@
       "component": "CMP-006",
       "via": "SEQ-002",
       "role": "ListOverdueAsync",
-      "line": 88,
+      "line": 98,
       "file": "30-architecture-c4.md"
     },
     {
@@ -512,7 +512,7 @@
       "component": "CMP-007",
       "via": "SEQ-002",
       "role": "發提醒",
-      "line": 89,
+      "line": 99,
       "file": "30-architecture-c4.md"
     },
     {
@@ -520,7 +520,7 @@
       "component": "CMP-005",
       "via": "SEQ-002",
       "role": "ReviewReminder (ReviewerId, Date) 唯一",
-      "line": 90,
+      "line": 100,
       "file": "30-architecture-c4.md"
     },
     {
@@ -528,7 +528,7 @@
       "component": "CMP-008",
       "via": "SEQ-002",
       "role": "排除今日已提醒",
-      "line": 91,
+      "line": 101,
       "file": "30-architecture-c4.md"
     },
     {
@@ -536,7 +536,7 @@
       "component": "CMP-001",
       "via": "API-002",
       "role": "回應時間量測點",
-      "line": 92,
+      "line": 102,
       "file": "30-architecture-c4.md"
     },
     {
@@ -544,7 +544,7 @@
       "component": "CMP-006",
       "via": "ERD-001",
       "role": "無 Delete/Update 方法;DB 觸發器拒絕",
-      "line": 93,
+      "line": 103,
       "file": "30-architecture-c4.md"
     },
     {
@@ -552,7 +552,7 @@
       "component": "CMP-002",
       "via": "SEQ-001",
       "role": "非審核者 → 403",
-      "line": 94,
+      "line": 104,
       "file": "30-architecture-c4.md"
     },
     {
@@ -560,7 +560,7 @@
       "component": "CMP-003",
       "via": "SEQ-001",
       "role": "非審核者 → 403",
-      "line": 95,
+      "line": 105,
       "file": "30-architecture-c4.md"
     }
   ],
@@ -941,6 +941,9 @@
       "line": 28,
       "heading": "UC-002 審核(REQ-002)",
       "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
       "mermaid": "flowchart TD\n  A[載入紀錄] --> B{Status = Pending?}\n  B -->|否| E1[409 INVALID_STATE]\n  B -->|是| C{操作者是審核者?}\n  C -->|否| E2[403]\n  C -->|核准| D[Status=Approved + ReviewRecord]\n  C -->|退回| F{理由 ≥ 10 字?}\n  F -->|否| E3[400 REASON_TOO_SHORT]\n  F -->|是| G[Status=Rejected + ReviewRecord] --> H[通知填寫者]"
     },
     {
@@ -950,6 +953,9 @@
       "line": 67,
       "heading": "STM-DOM-001 FormSubmission.Status(REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Pending: Submit / SubmittedAt=now\n  Pending --> Approved: Approve [actor in ReviewerIds] / add ReviewRecord\n  Pending --> Rejected: Reject [actor in ReviewerIds, reason>=10] / add ReviewRecord, notify submitter\n  Rejected --> Pending: Resubmit [actor == SubmitterId] / ResubmitCount++\n  Approved --> [*]"
     },
     {
@@ -959,6 +965,9 @@
       "line": 78,
       "heading": "STM-UI-001 紀錄頁按鈕(REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Pending\n  Pending --> Approved: 200 approve\n  Pending --> Rejected: 200 reject\n  Rejected --> Pending: 200 resubmit\n  note right of Pending: 修改=disabled;審核者看到核准/退回\n  note right of Rejected: 修改=enabled;重新送出=visible\n  note right of Approved: 全部 disabled"
     },
     {
@@ -968,6 +977,9 @@
       "line": 101,
       "heading": "CLS-001 FormSubmission(REQ-002)",
       "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
       "mermaid": "classDiagram\n  class FormSubmission {\n    +Guid Id\n    +Guid FormId\n    +Guid SubmitterId\n    +SubmissionStatus Status\n    +int ResubmitCount\n    +Approve(reviewerId) ReviewRecord\n    +Reject(reviewerId, reason) SubmissionRejected\n    +Resubmit(answers)\n  }\n  class ReviewRecord { +Guid ReviewerId +Decision +string Reason +DateTime ReviewedAt }\n  class ReviewReminder { +Guid ReviewerId +DateOnly Date }\n  FormSubmission \"1\" *-- \"*\" ReviewRecord\n  FormSubmission \"1\" *-- \"*\" ReviewReminder"
     },
     {
@@ -977,6 +989,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(sub, \"填寫者\")\n  Person(rev, \"審核者\")\n  System(sys, \"表單系統\")\n  System_Ext(smtp, \"SMTP\")\n  Rel(sub, sys, \"送審、重送\")\n  Rel(rev, sys, \"核准、退回\")\n  Rel(sys, smtp, \"退回通知、逾時提醒\", \"INotifier\")"
     },
     {
@@ -986,6 +999,7 @@
       "line": 18,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(web, \"Forms Web\", \"React\", \"FormFill(modify)、ReviewPanel(new)\")\n  Container(api, \"Forms API\", \".NET 8\", \"Api/Application/Domain/Infrastructure\")\n  Container(job, \"ReviewReminderJob\", \".NET Hosted Service\", \"每日 09:00\")\n  ContainerDb(db, \"SQL Server\", \"\", \"Form, FormSubmission, ReviewRecord, ReviewReminder\")\n  System_Ext(smtp, \"SMTP\", \"\")\n  Rel(web, api, \"HTTPS\")\n  Rel(api, db, \"EF Core\")\n  Rel(job, db, \"EF Core\")\n  Rel(api, smtp, \"INotifier\")\n  Rel(job, smtp, \"INotifier\")"
     },
     {
@@ -995,24 +1009,31 @@
       "line": 49,
       "heading": "C4-L3",
       "req": "*",
-      "mermaid": "C4Component\n  Component(c1, \"SubmissionsController\", \"Api\")\n  Component(c2, \"ApproveSubmissionCommandHandler\", \"Application\")\n  Component(c3, \"RejectSubmissionCommandHandler\", \"Application\")\n  Component(c4, \"ResubmitSubmissionCommandHandler\", \"Application\")\n  Component(c9, \"PendingReviewsQueryHandler\", \"Application\")\n  Component(c8, \"ReviewReminderJob\", \"Application\")\n  Component(c5, \"FormSubmission\", \"Domain\")\n  Component(c6, \"SqlFormSubmissionRepository\", \"Infrastructure\", \"IFormSubmissionRepository\")\n  Component(c7, \"EmailNotifier\", \"Infrastructure\", \"INotifier\")\n  Component(c10, \"WorkdayCalendar\", \"Infrastructure\", \"IWorkdayCalendar\")\n  Rel(c1, c2, \"Send\") Rel(c1, c3, \"Send\") Rel(c1, c4, \"Send\") Rel(c1, c9, \"Send\")\n  Rel(c2, c5, \"Approve\") Rel(c3, c5, \"Reject\") Rel(c4, c5, \"Resubmit\")\n  Rel(c2, c6, \"\") Rel(c3, c6, \"\") Rel(c4, c6, \"\") Rel(c9, c6, \"\")\n  Rel(c3, c7, \"notify submitter\")\n  Rel(c8, c6, \"ListOverdue\") Rel(c8, c7, \"remind\") Rel(c8, c10, \"workdays\")"
+      "reqs": [],
+      "mermaid": "C4Component\n  Component(c1, \"SubmissionsController\", \"Api\")\n  Component(c2, \"ApproveSubmissionCommandHandler\", \"Application\")\n  Component(c3, \"RejectSubmissionCommandHandler\", \"Application\")\n  Component(c4, \"ResubmitSubmissionCommandHandler\", \"Application\")\n  Component(c9, \"PendingReviewsQueryHandler\", \"Application\")\n  Component(c8, \"ReviewReminderJob\", \"Application\")\n  Component(c5, \"FormSubmission\", \"Domain\")\n  Component(c6, \"SqlFormSubmissionRepository\", \"Infrastructure\", \"IFormSubmissionRepository\")\n  Component(c7, \"EmailNotifier\", \"Infrastructure\", \"INotifier\")\n  Component(c10, \"WorkdayCalendar\", \"Infrastructure\", \"IWorkdayCalendar\")\n  Rel(c1, c2, \"Send\")\n  Rel(c1, c3, \"Send\")\n  Rel(c1, c4, \"Send\")\n  Rel(c1, c9, \"Send\")\n  Rel(c2, c5, \"Approve\")\n  Rel(c3, c5, \"Reject\")\n  Rel(c4, c5, \"Resubmit\")\n  Rel(c2, c6, \"\")\n  Rel(c3, c6, \"\")\n  Rel(c4, c6, \"\")\n  Rel(c9, c6, \"\")\n  Rel(c3, c7, \"notify submitter\")\n  Rel(c8, c6, \"ListOverdue\")\n  Rel(c8, c7, \"remind\")\n  Rel(c8, c10, \"workdays\")"
     },
     {
       "id": "SEQ-001",
       "kind": "sequence",
       "file": "30-architecture-c4.md",
-      "line": 99,
+      "line": 109,
       "heading": "SEQ-001 審核(UC-002 / REQ-002)",
       "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
       "mermaid": "sequenceDiagram\n  actor R as Reviewer\n  participant C as SubmissionsController\n  participant H as RejectSubmissionCommandHandler\n  participant Repo as IFormSubmissionRepository\n  participant S as FormSubmission\n  participant N as INotifier\n  R->>C: POST /submissions/{id}/reject {reason}\n  C->>H: Send(RejectSubmissionCommand)\n  H->>Repo: GetAsync(id)\n  alt Status != Pending\n    H-->>C: InvalidState\n    C-->>R: 409\n  else actor not in Form.ReviewerIds\n    H-->>C: Forbidden\n    C-->>R: 403\n  else\n    H->>S: Reject(actor, reason)\n    alt reason < 10\n      S-->>H: DomainException REASON_TOO_SHORT\n      C-->>R: 400\n    else\n      S-->>H: SubmissionRejected\n      H->>Repo: SaveAsync\n      H->>N: NotifyAsync(submitter, \"rejected\")\n      C-->>R: 200\n    end\n  end"
     },
     {
       "id": "SEQ-002",
       "kind": "sequence",
       "file": "30-architecture-c4.md",
-      "line": 131,
+      "line": 141,
       "heading": "SEQ-002 逾時提醒(UC-004 / REQ-004)",
       "req": "REQ-004",
+      "reqs": [
+        "REQ-004"
+      ],
       "mermaid": "sequenceDiagram\n  participant J as ReviewReminderJob\n  participant W as IWorkdayCalendar\n  participant Repo as IFormSubmissionRepository\n  participant S as FormSubmission\n  participant N as INotifier\n  J->>W: Subtract(today, 3)\n  J->>Repo: ListOverdueAsync(cutoff)\n  loop each submission\n    J->>S: RemindersDueToday(reviewerIds, today)\n    loop each reviewer not yet reminded\n      J->>N: NotifyAsync(reviewer, \"overdue\")\n      alt notify fails\n        J->>J: log, skip reminder record\n      else\n        J->>S: AddReminder(reviewer, today)\n      end\n    end\n    J->>Repo: SaveAsync\n  end"
     },
     {
@@ -1022,6 +1043,7 @@
       "line": 5,
       "heading": "ERD-001",
       "req": "*",
+      "reqs": [],
       "mermaid": "erDiagram\n  Form ||--o{ FormSubmission : has\n  FormSubmission ||--o{ ReviewRecord : reviewed\n  FormSubmission ||--o{ ReviewReminder : reminded\n  Form {\n    uniqueidentifier Id PK\n    nvarchar ReviewerIds\n  }\n  FormSubmission {\n    uniqueidentifier Id PK\n    int Status\n    int ResubmitCount\n  }\n  ReviewRecord {\n    uniqueidentifier Id PK\n    uniqueidentifier SubmissionId FK\n    uniqueidentifier ReviewerId\n    int Decision\n    nvarchar Reason\n    datetime2 ReviewedAt\n  }\n  ReviewReminder {\n    uniqueidentifier SubmissionId FK\n    uniqueidentifier ReviewerId\n    date Date\n  }"
     }
   ],
@@ -1215,6 +1237,9 @@
       "line": 23,
       "heading": "CLS-SA-001 實體關係(REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Form { +Id +Title +Status +OwnerId +ReviewerIds }\n  class FormSubmission { +Id +FormId +SubmitterId +Answers +Status +ResubmitCount +Submit() +Approve() +Reject() +Resubmit() }\n  class ReviewRecord { +Id +SubmissionId +ReviewerId +Decision +Reason +ReviewedAt }\n  class ReviewReminder { +SubmissionId +ReviewerId +SentAt }\n  Form \"1\" --> \"*\" FormSubmission : has\n  FormSubmission \"1\" --> \"*\" ReviewRecord : reviewed by\n  FormSubmission \"1\" --> \"*\" ReviewReminder : reminded by"
     },
     {
@@ -1224,6 +1249,9 @@
       "line": 7,
       "heading": "UCD-001 表單審核(REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart LR\n  S([Submitter]) --> UC1((送審))\n  S --> UC3((修改並重送))\n  R([Reviewer]) --> UC2a((核准))\n  R --> UC2b((退回))\n  R --> UC2c((看待審清單))\n  SYS([System 排程]) --> UC4((逾時提醒))\n  UC2b -. 觸發 .-> UC3\n  UC4 -. 針對 .-> UC2a\n  UC4 -. 針對 .-> UC2b"
     },
     {
@@ -1233,6 +1261,9 @@
       "line": 5,
       "heading": "ACT-001 審核主流程(REQ-002)",
       "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
       "mermaid": "flowchart TD\n  A[填寫者送出] --> B[狀態 = Pending]\n  B --> C{3 工作天內處理?}\n  C -->|否| D[系統每日提醒審核者] --> C\n  C -->|是| E{審核者決定}\n  E -->|核准| F[狀態 = Approved] --> G[寫 ReviewRecord] --> H([結束])\n  E -->|退回| I{理由 ≥ 10 字?}\n  I -->|否| J[拒絕操作] --> E\n  I -->|是| K[狀態 = Rejected] --> L[寫 ReviewRecord] --> M[填寫者修改答案]\n  M --> N[重新送出] --> B"
     },
     {
@@ -1242,6 +1273,10 @@
       "line": 7,
       "heading": "SEQ-SA-001 退回與重送(REQ-002 / REQ-003)",
       "req": "REQ-002",
+      "reqs": [
+        "REQ-002",
+        "REQ-003"
+      ],
       "mermaid": "sequenceDiagram\n  actor R as Reviewer\n  actor S as Submitter\n  participant W as Web\n  participant A as Forms API\n  participant D as DB\n  participant N as INotifier\n  R->>W: 退回 + 理由\n  W->>A: POST /submissions/{id}/reject\n  alt 理由 < 10 字\n    A-->>W: 400 REASON_TOO_SHORT\n  else\n    A->>D: Status=Rejected, insert ReviewRecord\n    A->>N: 通知 Submitter 被退回\n    A-->>W: 200\n  end\n  S->>W: 修改答案、重新送出\n  W->>A: POST /submissions/{id}/resubmit\n  A->>D: Status=Pending, ResubmitCount+1\n  A-->>W: 200"
     },
     {
@@ -1251,6 +1286,9 @@
       "line": 5,
       "heading": "STM-SA-001 FormSubmission.Status(REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Pending: Submit\n  Pending --> Approved: Approve [reviewer assigned]\n  Pending --> Rejected: Reject [reason >= 10]\n  Rejected --> Pending: Resubmit\n  Approved --> [*]\n  note right of Pending: 超過 3 工作天每日 Remind;Submitter 不可 Edit\n  note right of Rejected: Submitter 可 Edit\n  note right of Approved: 不可 Edit、不可 Resubmit"
     }
   ],
@@ -1904,6 +1942,36 @@
     ],
     "naming_path": "specs/naming-map.md"
   },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "架構概觀",
+      "text": "Clean Architecture 四層:Forms.Api(Controller)→ Forms.Application(MediatR Handler)→ Forms.Domain(Aggregate)← Forms.Infrastructure(EF Core Repository、Notifier)。\n單一 Bounded Context:Forms。資料庫 SQL Server;前端 React。外部系統只有 SMTP(經 `INotifier`)。",
+      "root": "docs"
+    },
+    {
+      "path": "docs/guidelines/coding.md",
+      "line": 1,
+      "heading": "開發規範",
+      "text": "- 狀態機放 Domain,用 enum + 方法轉移;Handler 不得直接改狀態欄位。\n- 新 API 走 MediatR Command/Query;Controller 不含業務邏輯。\n- 每個 Aggregate 一個 Repository 介面(定義在 Domain),Infrastructure 實作。\n- 通知一律經 `INotifier`,不直接呼叫 SMTP。",
+      "root": "docs"
+    },
+    {
+      "path": "specs/done/issue-a.md",
+      "line": 1,
+      "heading": "issue-a 表單建立(已完成)",
+      "text": "擁有者建立表單、新增欄位、發布。產物:`Form`、`FormField`、`POST /forms`、`FormEditor.tsx`、`001_forms.sql`。",
+      "root": "specs/done"
+    },
+    {
+      "path": "specs/done/issue-b.md",
+      "line": 1,
+      "heading": "issue-b 表單填寫(已完成)",
+      "text": "填寫者對已發布表單送出答案;必填檢查。產物:`FormSubmission`、`POST /forms/{id}/submissions`、`FormFill.tsx`、`002_submissions.sql`、`INotifier`(送出成功通知)。",
+      "root": "specs/done"
+    }
+  ],
   "lexicon": {
     "nouns": [
       {

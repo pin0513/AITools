@@ -1,7 +1,7 @@
 # SA4 Use Case Diagram
 
 ## Use Case Diagram
-### UCD-001 (REQ-001)
+### UCD-001 (REQ-001, REQ-002, REQ-003)
 ```mermaid
 flowchart LR
   customer(["customer"]) --> cancel(("cancel"))

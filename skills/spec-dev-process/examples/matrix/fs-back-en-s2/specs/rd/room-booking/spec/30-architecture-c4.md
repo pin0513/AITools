@@ -81,28 +81,28 @@ flowchart LR
 | AC-001-2 | CMP-008 | SEQ-001 | enforce the book invariant |
 | AC-001-2 | CMP-009 | SEQ-001 | persist the book result |
 | AC-001-2 | CMP-010 | SEQ-001 | call the external system for book |
-| AC-002-1 | CMP-001 | SEQ-001 | render and trigger check in |
-| AC-002-1 | CMP-002 | SEQ-001 | call the API for check in |
-| AC-002-1 | CMP-003 | SEQ-001 | receive the check in request |
-| AC-002-1 | CMP-005 | SEQ-001 | orchestrate check in |
-| AC-002-1 | CMP-008 | SEQ-001 | enforce the check in invariant |
-| AC-002-1 | CMP-009 | SEQ-001 | persist the check in result |
-| AC-002-1 | CMP-006 | SEQ-001 | orchestrate release |
-| AC-002-1 | CMP-010 | SEQ-001 | call the external system for release |
-| AC-002-2 | CMP-001 | SEQ-001 | render and trigger check in |
-| AC-002-2 | CMP-002 | SEQ-001 | call the API for check in |
-| AC-002-2 | CMP-003 | SEQ-001 | receive the check in request |
-| AC-002-2 | CMP-005 | SEQ-001 | orchestrate check in |
-| AC-002-2 | CMP-008 | SEQ-001 | enforce the check in invariant |
-| AC-002-2 | CMP-009 | SEQ-001 | persist the check in result |
-| AC-002-2 | CMP-006 | SEQ-001 | orchestrate release |
-| AC-002-2 | CMP-010 | SEQ-001 | call the external system for release |
-| AC-003-1 | CMP-001 | SEQ-001 | render and trigger view |
-| AC-003-1 | CMP-002 | SEQ-001 | call the API for view |
-| AC-003-1 | CMP-003 | SEQ-001 | receive the view request |
-| AC-003-1 | CMP-007 | SEQ-001 | orchestrate view |
-| AC-003-1 | CMP-008 | SEQ-001 | enforce the view invariant |
-| AC-003-1 | CMP-009 | SEQ-001 | persist the view result |
+| AC-002-1 | CMP-001 | SEQ-002 | render and trigger check in |
+| AC-002-1 | CMP-002 | SEQ-002 | call the API for check in |
+| AC-002-1 | CMP-003 | SEQ-002 | receive the check in request |
+| AC-002-1 | CMP-005 | SEQ-002 | orchestrate check in |
+| AC-002-1 | CMP-008 | SEQ-002 | enforce the check in invariant |
+| AC-002-1 | CMP-009 | SEQ-002 | persist the check in result |
+| AC-002-1 | CMP-006 | SEQ-002 | orchestrate release |
+| AC-002-1 | CMP-010 | SEQ-002 | call the external system for release |
+| AC-002-2 | CMP-001 | SEQ-002 | render and trigger check in |
+| AC-002-2 | CMP-002 | SEQ-002 | call the API for check in |
+| AC-002-2 | CMP-003 | SEQ-002 | receive the check in request |
+| AC-002-2 | CMP-005 | SEQ-002 | orchestrate check in |
+| AC-002-2 | CMP-008 | SEQ-002 | enforce the check in invariant |
+| AC-002-2 | CMP-009 | SEQ-002 | persist the check in result |
+| AC-002-2 | CMP-006 | SEQ-002 | orchestrate release |
+| AC-002-2 | CMP-010 | SEQ-002 | call the external system for release |
+| AC-003-1 | CMP-001 | SEQ-003 | render and trigger view |
+| AC-003-1 | CMP-002 | SEQ-003 | call the API for view |
+| AC-003-1 | CMP-003 | SEQ-003 | receive the view request |
+| AC-003-1 | CMP-007 | SEQ-003 | orchestrate view |
+| AC-003-1 | CMP-008 | SEQ-003 | enforce the view invariant |
+| AC-003-1 | CMP-009 | SEQ-003 | persist the view result |
 | AC-N01-1 | CMP-003 | API-001 | NFR 100 concurrent → 1 success |
 
 ## Sequence
@@ -126,3 +126,42 @@ sequenceDiagram
   CMP009->>CMP010: BookRoom
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as Employee
+  participant CMP001 as RoomBookingPage
+  participant CMP002 as roomsApi
+  participant CMP003 as RoomsController
+  participant CMP005 as CheckInBookingCommandHandler
+  participant CMP008 as Booking
+  participant CMP009 as SqlRoomRepository
+  U->>CMP001: CheckInBooking
+  CMP001->>CMP002: CheckInBooking
+  CMP002->>CMP003: CheckInBooking
+  CMP003->>CMP005: CheckInBooking
+  CMP005->>CMP008: CheckInBooking
+  CMP008->>CMP009: CheckInBooking
+  CMP001-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Admin
+  participant CMP001 as RoomBookingPage
+  participant CMP002 as roomsApi
+  participant CMP003 as RoomsController
+  participant CMP007 as ListDailyBookingsQueryHandler
+  participant CMP008 as Booking
+  participant CMP009 as SqlRoomRepository
+  U->>CMP001: ListDailyBookings
+  CMP001->>CMP002: ListDailyBookings
+  CMP002->>CMP003: ListDailyBookings
+  CMP003->>CMP007: ListDailyBookings
+  CMP007->>CMP008: ListDailyBookings
+  CMP008->>CMP009: ListDailyBookings
+  CMP001-->>U: ok
+```
+

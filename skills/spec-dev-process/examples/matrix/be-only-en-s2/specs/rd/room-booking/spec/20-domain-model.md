@@ -12,6 +12,12 @@
 - Alternative flow: none
 - Exception flow: the response is 409 SLOT_TAKEN
 
+```mermaid
+flowchart LR
+  S(["employee"]) --> P["the employee books the meeting room"] --> Q["a booking is booked"]
+  P -.-> X["the response is 409 SLOT_TAKEN"]
+```
+
 ### UC-002 check in within 15 minutes or the system will release the meeting room (REQ-002)
 - Primary actor: employee
 - Trigger: the employee checks in within 15 minutes
@@ -22,6 +28,12 @@
   2. the booking is checked-in
 - Alternative flow: none
 - Exception flow: the booking is released and the calendar service is updated
+
+```mermaid
+flowchart LR
+  S(["employee"]) --> P["the employee checks in within 15 minutes"] --> Q["the booking is checked-in"]
+  P -.-> X["the booking is released and the calendar service is updated"]
+```
 
 ### UC-003 An admin can view daily booking records (REQ-003)
 - Primary actor: admin
@@ -34,8 +46,13 @@
 - Alternative flow: none
 - Exception flow: none
 
+```mermaid
+flowchart LR
+  S(["admin"]) --> P["the admin opens the daily view"] --> Q["rows are grouped by meeting room"]
+```
+
 ## State Machines
-### STM-DOM-001 Booking.Status (REQ-001)
+### STM-DOM-001 Booking.Status (REQ-001, REQ-002)
 ```mermaid
 stateDiagram-v2
   [*] --> Booked: BookRoom

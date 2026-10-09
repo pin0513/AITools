@@ -459,7 +459,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "顯示並觸發報到",
       "line": 95,
       "file": "30-architecture-c4.md"
@@ -467,7 +467,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "報到的 UI 守衛",
       "line": 96,
       "file": "30-architecture-c4.md"
@@ -475,7 +475,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "報到的前端狀態轉移",
       "line": 97,
       "file": "30-architecture-c4.md"
@@ -483,7 +483,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "呼叫報到 API",
       "line": 98,
       "file": "30-architecture-c4.md"
@@ -491,7 +491,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "接收報到請求",
       "line": 99,
       "file": "30-architecture-c4.md"
@@ -499,7 +499,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-009",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "編排報到",
       "line": 100,
       "file": "30-architecture-c4.md"
@@ -507,7 +507,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-012",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "持久化報到結果",
       "line": 101,
       "file": "30-architecture-c4.md"
@@ -515,7 +515,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-010",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "編排釋放",
       "line": 102,
       "file": "30-architecture-c4.md"
@@ -523,7 +523,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-013",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "為釋放呼叫外部系統",
       "line": 103,
       "file": "30-architecture-c4.md"
@@ -531,7 +531,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "顯示並觸發報到",
       "line": 104,
       "file": "30-architecture-c4.md"
@@ -539,7 +539,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "報到的 UI 守衛",
       "line": 105,
       "file": "30-architecture-c4.md"
@@ -547,7 +547,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "報到的前端狀態轉移",
       "line": 106,
       "file": "30-architecture-c4.md"
@@ -555,7 +555,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "呼叫報到 API",
       "line": 107,
       "file": "30-architecture-c4.md"
@@ -563,7 +563,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "接收報到請求",
       "line": 108,
       "file": "30-architecture-c4.md"
@@ -571,7 +571,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-009",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "編排報到",
       "line": 109,
       "file": "30-architecture-c4.md"
@@ -579,7 +579,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-012",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "持久化報到結果",
       "line": 110,
       "file": "30-architecture-c4.md"
@@ -587,7 +587,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-010",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "編排釋放",
       "line": 111,
       "file": "30-architecture-c4.md"
@@ -595,7 +595,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-013",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "為釋放呼叫外部系統",
       "line": 112,
       "file": "30-architecture-c4.md"
@@ -603,7 +603,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "顯示並觸發查看",
       "line": 113,
       "file": "30-architecture-c4.md"
@@ -611,7 +611,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "查看的 UI 守衛",
       "line": 114,
       "file": "30-architecture-c4.md"
@@ -619,7 +619,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "查看的前端狀態轉移",
       "line": 115,
       "file": "30-architecture-c4.md"
@@ -627,7 +627,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "呼叫查看 API",
       "line": 116,
       "file": "30-architecture-c4.md"
@@ -635,7 +635,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "接收查看請求",
       "line": 117,
       "file": "30-architecture-c4.md"
@@ -643,7 +643,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-011",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "編排查看",
       "line": 118,
       "file": "30-architecture-c4.md"
@@ -651,7 +651,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-012",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "持久化查看結果",
       "line": 119,
       "file": "30-architecture-c4.md"
@@ -988,21 +988,64 @@
   ],
   "artifacts": [
     {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 員工可預約會議室,時段不得重疊 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"員工\"]) --> P[\"員工預約會議室\"] --> Q[\"預約單狀態為已預約\"]\n  P -.-> X[\"回應 409 SLOT_TAKEN\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 15 分鐘內報到,否則系統釋放會議室 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"員工\"]) --> P[\"員工在 15 分鐘內報到\"] --> Q[\"預約單狀態為已報到\"]\n  P -.-> X[\"預約單狀態為已釋放,行事曆服務已更新\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 49,
+      "heading": "UC-003 管理員可查看每日預約單 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"管理員\"]) --> P[\"管理員開啟每日檢視\"] --> Q[\"依會議室分組顯示\"]"
+    },
+    {
       "id": "STM-DOM-001",
       "kind": "state",
       "file": "20-domain-model.md",
-      "line": 39,
-      "heading": "STM-DOM-001 Booking.Status (REQ-001)",
+      "line": 56,
+      "heading": "STM-DOM-001 Booking.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow"
     },
     {
       "id": "CLS-001",
       "kind": "class",
       "file": "20-domain-model.md",
-      "line": 54,
+      "line": 71,
       "heading": "CLS-001 Booking (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Booking { +Id +Status }\n  Room --> Booking : has\n  Room --> TimeSlot : has"
     },
     {
@@ -1012,6 +1055,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(u, \"員工\")\n  System(sys, \"會議室預約\")\n  System_Ext(ext, \"CalendarService\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
     },
     {
@@ -1021,6 +1065,7 @@
       "line": 16,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")"
     },
     {
@@ -1030,6 +1075,7 @@
       "line": 41,
       "heading": "C4-L3",
       "req": "*",
+      "reqs": [],
       "mermaid": "flowchart LR\n  CMP001[\"RoomBookingPage<br/>Page\"]\n  CMP002[\"BookingForm<br/>Component\"]\n  CMP003[\"CheckInButton<br/>Component\"]\n  CMP004[\"DailyBookingTable<br/>Component\"]\n  CMP005[\"bookingStore<br/>Store\"]\n  CMP006[\"roomsApi<br/>ApiClient\"]\n  CMP007[\"RoomsController<br/>Api\"]\n  CMP008[\"BookRoomCommandHandler<br/>Application\"]\n  CMP009[\"CheckInBookingCommandHandler<br/>Application\"]\n  CMP010[\"ReleaseNoShowJob<br/>Application\"]\n  CMP011[\"ListDailyBookingsQueryHandler<br/>Application\"]\n  CMP012[\"SqlRoomRepository<br/>Infrastructure\"]\n  CMP013[\"CalendarServiceClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP001 --> CMP005\n  CMP002 --> CMP005\n  CMP003 --> CMP005\n  CMP004 --> CMP005\n  CMP005 --> CMP006\n  CMP006 --> CMP007\n  CMP007 --> CMP008\n  CMP007 --> CMP009\n  CMP007 --> CMP011\n  CMP008 --> CMP012\n  CMP008 --> CMP013\n  CMP009 --> CMP012\n  CMP010 --> CMP012\n  CMP010 --> CMP013\n  CMP011 --> CMP012"
     },
     {
@@ -1039,7 +1085,34 @@
       "line": 124,
       "heading": "SEQ-001 (UC-001 / REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as BookingForm\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP008 as BookRoomCommandHandler\n  participant CMP012 as SqlRoomRepository\n  participant CMP013 as CalendarServiceClient\n  U->>CMP001: BookRoom\n  CMP001->>CMP002: BookRoom\n  CMP002->>CMP005: BookRoom\n  CMP005->>CMP006: BookRoom\n  CMP006->>CMP007: BookRoom\n  CMP007->>CMP008: BookRoom\n  CMP008->>CMP012: BookRoom\n  CMP012->>CMP013: BookRoom\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 147,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP003 as CheckInButton\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP009 as CheckInBookingCommandHandler\n  participant CMP012 as SqlRoomRepository\n  U->>CMP001: CheckInBooking\n  CMP001->>CMP003: CheckInBooking\n  CMP003->>CMP005: CheckInBooking\n  CMP005->>CMP006: CheckInBooking\n  CMP006->>CMP007: CheckInBooking\n  CMP007->>CMP009: CheckInBooking\n  CMP009->>CMP012: CheckInBooking\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 168,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant CMP001 as RoomBookingPage\n  participant CMP004 as DailyBookingTable\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP011 as ListDailyBookingsQueryHandler\n  participant CMP012 as SqlRoomRepository\n  U->>CMP001: ListDailyBookings\n  CMP001->>CMP004: ListDailyBookings\n  CMP004->>CMP005: ListDailyBookings\n  CMP005->>CMP006: ListDailyBookings\n  CMP006->>CMP007: ListDailyBookings\n  CMP007->>CMP011: ListDailyBookings\n  CMP011->>CMP012: ListDailyBookings\n  CMP001-->>U: ok"
     },
     {
       "id": "STM-UI-001",
@@ -1048,6 +1121,9 @@
       "line": 10,
       "heading": "STM-UI-001 RoomBookingPage (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error"
     },
     {
@@ -1057,6 +1133,7 @@
       "line": 5,
       "heading": "ERD-001",
       "req": "*",
+      "reqs": [],
       "mermaid": "erDiagram\n  Rooms ||--o{ Booking : has\n  Rooms {\n    uniqueidentifier Id PK\n  }\n  Booking {\n    uniqueidentifier Id PK\n  }"
     }
   ],
@@ -1171,17 +1248,17 @@
     "UC-001": {
       "heading": "UC-001 員工可預約會議室,時段不得重疊 (REQ-001)",
       "line": 4,
-      "text": "- 主要參與者: 員工\n- 觸發: 員工預約會議室\n- 前置條件: 時段空閒\n- 後置條件(成功保證): 預約單狀態為已預約\n- 主流程:\n  1. 員工預約會議室\n  2. 預約單狀態為已預約\n- 替代流程: 無\n- 例外流程: 回應 409 SLOT_TAKEN"
+      "text": "- 主要參與者: 員工\n- 觸發: 員工預約會議室\n- 前置條件: 時段空閒\n- 後置條件(成功保證): 預約單狀態為已預約\n- 主流程:\n  1. 員工預約會議室\n  2. 預約單狀態為已預約\n- 替代流程: 無\n- 例外流程: 回應 409 SLOT_TAKEN\n\n```mermaid\nflowchart LR\n  S([\"員工\"]) --> P[\"員工預約會議室\"] --> Q[\"預約單狀態為已預約\"]\n  P -.-> X[\"回應 409 SLOT_TAKEN\"]\n```"
     },
     "UC-002": {
       "heading": "UC-002 15 分鐘內報到,否則系統釋放會議室 (REQ-002)",
-      "line": 15,
-      "text": "- 主要參與者: 員工\n- 觸發: 員工在 15 分鐘內報到\n- 前置條件: 預約單狀態為已預約\n- 後置條件(成功保證): 預約單狀態為已報到\n- 主流程:\n  1. 員工在 15 分鐘內報到\n  2. 預約單狀態為已報到\n- 替代流程: 無\n- 例外流程: 預約單狀態為已釋放,行事曆服務已更新"
+      "line": 21,
+      "text": "- 主要參與者: 員工\n- 觸發: 員工在 15 分鐘內報到\n- 前置條件: 預約單狀態為已預約\n- 後置條件(成功保證): 預約單狀態為已報到\n- 主流程:\n  1. 員工在 15 分鐘內報到\n  2. 預約單狀態為已報到\n- 替代流程: 無\n- 例外流程: 預約單狀態為已釋放,行事曆服務已更新\n\n```mermaid\nflowchart LR\n  S([\"員工\"]) --> P[\"員工在 15 分鐘內報到\"] --> Q[\"預約單狀態為已報到\"]\n  P -.-> X[\"預約單狀態為已釋放,行事曆服務已更新\"]\n```"
     },
     "UC-003": {
       "heading": "UC-003 管理員可查看每日預約單 (REQ-003)",
-      "line": 26,
-      "text": "- 主要參與者: 管理員\n- 觸發: 管理員開啟每日檢視\n- 前置條件: 今天有預約單\n- 後置條件(成功保證): 依會議室分組顯示\n- 主流程:\n  1. 管理員開啟每日檢視\n  2. 依會議室分組顯示\n- 替代流程: 無\n- 例外流程: 無"
+      "line": 38,
+      "text": "- 主要參與者: 管理員\n- 觸發: 管理員開啟每日檢視\n- 前置條件: 今天有預約單\n- 後置條件(成功保證): 依會議室分組顯示\n- 主流程:\n  1. 管理員開啟每日檢視\n  2. 依會議室分組顯示\n- 替代流程: 無\n- 例外流程: 無\n\n```mermaid\nflowchart LR\n  S([\"管理員\"]) --> P[\"管理員開啟每日檢視\"] --> Q[\"依會議室分組顯示\"]\n```"
     }
   },
   "screens": [
@@ -1247,6 +1324,9 @@
       "line": 17,
       "heading": "CLS-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Room\n  class Booking\n  class TimeSlot\n  Room --> Booking : has\n  Room --> TimeSlot : has"
     },
     {
@@ -1254,8 +1334,13 @@
       "kind": "flowchart",
       "file": "sa/04-usecase.md",
       "line": 5,
-      "heading": "UCD-001 (REQ-001)",
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
       "mermaid": "flowchart LR\n  employee([\"員工\"]) --> book((\"預約\"))\n  employee([\"員工\"]) --> check_in((\"報到\"))\n  system([\"系統\"]) --> release((\"釋放\"))\n  admin([\"管理員\"]) --> view_daily((\"查看\"))"
     },
     {
@@ -1265,7 +1350,34 @@
       "line": 5,
       "heading": "ACT-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart TD\n  A[\"員工預約會議室\"] --> B{\"時段空閒?\"}\n  B -->|yes| C[\"預約單狀態為已預約\"]\n  B -->|no| D[\"回應 409 SLOT_TAKEN\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"員工在 15 分鐘內報到\"] --> B{\"預約單狀態為已預約?\"}\n  B -->|yes| C[\"預約單狀態為已報到\"]\n  B -->|no| D[\"預約單狀態為已釋放,行事曆服務已更新\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"管理員開啟每日檢視\"] --> B{\"今天有預約單?\"}\n  B -->|yes| C[\"依會議室分組顯示\"]\n  B -->|no| E[\"—\"]"
     },
     {
       "id": "SEQ-SA-001",
@@ -1274,15 +1386,46 @@
       "line": 5,
       "heading": "SEQ-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  participant CalendarService\n  U->>Web: BookRoom\n  Web->>API: BookRoom\n  API->>DB: BookRoom\n  DB->>CalendarService: BookRoom\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 20,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  U->>Web: CheckInBooking\n  Web->>API: CheckInBooking\n  API->>DB: CheckInBooking\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 33,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListDailyBookings\n  Web->>API: ListDailyBookings\n  API->>DB: ListDailyBookings\n  Web-->>U: ok"
     },
     {
       "id": "STM-SA-001",
       "kind": "state",
       "file": "sa/07-state.md",
       "line": 5,
-      "heading": "STM-SA-001 Booking.Status (REQ-001)",
+      "heading": "STM-SA-001 Booking.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow"
     }
   ],
@@ -1739,6 +1882,15 @@
     ],
     "naming_path": "examples/matrix/fs-front-zh-s2/specs/naming-map.md"
   },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "架構概觀",
+      "text": "形狀:全端(重前、輕後)。前端分層 Page、Component、Store、ApiClient;後端分層 Api、Application、Domain、Infrastructure。",
+      "root": "docs"
+    }
+  ],
   "lexicon": {
     "nouns": [
       {
@@ -2651,7 +2803,7 @@
         "SA5",
         "sa/05-activity.md"
       ],
-      "msg": "SA5 sa/05-activity.md 齊全(1 張圖)",
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
       "action": ""
     },
     {
@@ -2661,7 +2813,7 @@
         "SA6",
         "sa/06-sequence.md"
       ],
-      "msg": "SA6 sa/06-sequence.md 齊全(1 張圖)",
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
       "action": ""
     },
     {

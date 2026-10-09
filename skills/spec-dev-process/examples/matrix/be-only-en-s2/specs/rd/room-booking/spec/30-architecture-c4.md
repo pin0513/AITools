@@ -70,22 +70,22 @@ flowchart LR
 | AC-001-2 | CMP-006 | SEQ-001 | enforce the book invariant |
 | AC-001-2 | CMP-007 | SEQ-001 | persist the book result |
 | AC-001-2 | CMP-008 | SEQ-001 | call the external system for book |
-| AC-002-1 | CMP-001 | SEQ-001 | receive the check in request |
-| AC-002-1 | CMP-003 | SEQ-001 | orchestrate check in |
-| AC-002-1 | CMP-006 | SEQ-001 | enforce the check in invariant |
-| AC-002-1 | CMP-007 | SEQ-001 | persist the check in result |
-| AC-002-1 | CMP-004 | SEQ-001 | orchestrate release |
-| AC-002-1 | CMP-008 | SEQ-001 | call the external system for release |
-| AC-002-2 | CMP-001 | SEQ-001 | receive the check in request |
-| AC-002-2 | CMP-003 | SEQ-001 | orchestrate check in |
-| AC-002-2 | CMP-006 | SEQ-001 | enforce the check in invariant |
-| AC-002-2 | CMP-007 | SEQ-001 | persist the check in result |
-| AC-002-2 | CMP-004 | SEQ-001 | orchestrate release |
-| AC-002-2 | CMP-008 | SEQ-001 | call the external system for release |
-| AC-003-1 | CMP-001 | SEQ-001 | receive the view request |
-| AC-003-1 | CMP-005 | SEQ-001 | orchestrate view |
-| AC-003-1 | CMP-006 | SEQ-001 | enforce the view invariant |
-| AC-003-1 | CMP-007 | SEQ-001 | persist the view result |
+| AC-002-1 | CMP-001 | SEQ-002 | receive the check in request |
+| AC-002-1 | CMP-003 | SEQ-002 | orchestrate check in |
+| AC-002-1 | CMP-006 | SEQ-002 | enforce the check in invariant |
+| AC-002-1 | CMP-007 | SEQ-002 | persist the check in result |
+| AC-002-1 | CMP-004 | SEQ-002 | orchestrate release |
+| AC-002-1 | CMP-008 | SEQ-002 | call the external system for release |
+| AC-002-2 | CMP-001 | SEQ-002 | receive the check in request |
+| AC-002-2 | CMP-003 | SEQ-002 | orchestrate check in |
+| AC-002-2 | CMP-006 | SEQ-002 | enforce the check in invariant |
+| AC-002-2 | CMP-007 | SEQ-002 | persist the check in result |
+| AC-002-2 | CMP-004 | SEQ-002 | orchestrate release |
+| AC-002-2 | CMP-008 | SEQ-002 | call the external system for release |
+| AC-003-1 | CMP-001 | SEQ-003 | receive the view request |
+| AC-003-1 | CMP-005 | SEQ-003 | orchestrate view |
+| AC-003-1 | CMP-006 | SEQ-003 | enforce the view invariant |
+| AC-003-1 | CMP-007 | SEQ-003 | persist the view result |
 | AC-N01-1 | CMP-001 | API-001 | NFR 100 concurrent → 1 success |
 
 ## Sequence
@@ -105,3 +105,34 @@ sequenceDiagram
   CMP007->>CMP008: BookRoom
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as Employee
+  participant CMP001 as RoomsController
+  participant CMP003 as CheckInBookingCommandHandler
+  participant CMP006 as Booking
+  participant CMP007 as SqlRoomRepository
+  U->>CMP001: CheckInBooking
+  CMP001->>CMP003: CheckInBooking
+  CMP003->>CMP006: CheckInBooking
+  CMP006->>CMP007: CheckInBooking
+  CMP001-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Admin
+  participant CMP001 as RoomsController
+  participant CMP005 as ListDailyBookingsQueryHandler
+  participant CMP006 as Booking
+  participant CMP007 as SqlRoomRepository
+  U->>CMP001: ListDailyBookings
+  CMP001->>CMP005: ListDailyBookings
+  CMP005->>CMP006: ListDailyBookings
+  CMP006->>CMP007: ListDailyBookings
+  CMP001-->>U: ok
+```
+

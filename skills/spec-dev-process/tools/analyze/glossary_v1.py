@@ -168,6 +168,6 @@ def run(ctx: dict) -> dict:
     npath = root / ((cfg.get("glossary") or {}).get("naming_path") or "specs/naming-map.md")
     npath.write_text(naming_md(naming), encoding="utf-8")
     ctx["glossary"] = {"terms": merged, "conflicts": conflicts, "path": str(out), "naming": naming, "naming_path": str(npath)}
-    if ctx.get("data") is not None:
-        ctx["data"]["glossary"] = to_data(ctx["glossary"], root)
+    ctx.setdefault("carry", {})["glossary"] = to_data(ctx["glossary"], root)
+    if ctx.get("data") is not None: ctx["data"]["glossary"] = ctx["carry"]["glossary"]
     return ctx

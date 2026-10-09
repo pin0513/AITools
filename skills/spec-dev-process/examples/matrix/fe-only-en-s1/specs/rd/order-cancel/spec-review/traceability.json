@@ -264,7 +264,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "render and trigger refund",
       "line": 57,
       "file": "30-architecture-c4.md"
@@ -272,7 +272,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "client state transition for refund",
       "line": 58,
       "file": "30-architecture-c4.md"
@@ -280,7 +280,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "call the API for refund",
       "line": 59,
       "file": "30-architecture-c4.md"
@@ -288,7 +288,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "render and trigger refund",
       "line": 60,
       "file": "30-architecture-c4.md"
@@ -296,7 +296,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "client state transition for refund",
       "line": 61,
       "file": "30-architecture-c4.md"
@@ -304,7 +304,7 @@
     {
       "ac": "AC-002-2",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "call the API for refund",
       "line": 62,
       "file": "30-architecture-c4.md"
@@ -312,7 +312,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "render and trigger view",
       "line": 63,
       "file": "30-architecture-c4.md"
@@ -320,7 +320,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "UI guard for view",
       "line": 64,
       "file": "30-architecture-c4.md"
@@ -328,7 +328,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "client state transition for view",
       "line": 65,
       "file": "30-architecture-c4.md"
@@ -336,7 +336,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "call the API for view",
       "line": 66,
       "file": "30-architecture-c4.md"
@@ -540,21 +540,64 @@
   ],
   "artifacts": [
     {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 A customer can cancel an order before it is shipped (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"customer\"]) --> P[\"the customer cancels it\"] --> Q[\"the order status is cancelled\"]\n  P -.-> X[\"the response is 409 ORDER_SHIPPED and the status is unchanged\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 The system issues a refund through the payment gateway after cancellation (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"system\"]) --> P[\"the system issues the refund\"] --> Q[\"the payment gateway is called and the order is refunded\"]\n  P -.-> X[\"it retries 3 times and the order stays cancelled\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 49,
+      "heading": "UC-003 A support agent can view the cancellation history (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"support agent\"]) --> P[\"the support agent opens the history\"] --> Q[\"each row shows the order, time and reason\"]"
+    },
+    {
       "id": "STM-DOM-001",
       "kind": "state",
       "file": "20-domain-model.md",
-      "line": 39,
-      "heading": "STM-DOM-001 Order.Status (REQ-001)",
+      "line": 56,
+      "heading": "STM-DOM-001 Order.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund"
     },
     {
       "id": "CLS-001",
       "kind": "class",
       "file": "20-domain-model.md",
-      "line": 54,
+      "line": 71,
       "heading": "CLS-001 Order (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Order { +Id +Status }\n  Order --> Refund : has"
     },
     {
@@ -564,6 +607,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(u, \"customer\")\n  System(sys, \"Order cancellation and refund\")\n  System_Ext(ext, \"BackendAPI\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
     },
     {
@@ -573,6 +617,7 @@
       "line": 16,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")"
     },
     {
@@ -582,6 +627,7 @@
       "line": 31,
       "heading": "C4-L3",
       "req": "*",
+      "reqs": [],
       "mermaid": "flowchart LR\n  CMP001[\"OrderDetailPage<br/>Page\"]\n  CMP002[\"CancelOrderDialog<br/>Component\"]\n  CMP003[\"CancellationHistoryTable<br/>Component\"]\n  CMP004[\"orderStore<br/>Store\"]\n  CMP005[\"ordersApi<br/>ApiClient\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP002 --> CMP004\n  CMP003 --> CMP004\n  CMP004 --> CMP005"
     },
     {
@@ -591,7 +637,34 @@
       "line": 71,
       "heading": "SEQ-001 (UC-001 / REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant CMP001 as OrderDetailPage\n  participant CMP002 as CancelOrderDialog\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  U->>CMP001: CancelOrder\n  CMP001->>CMP002: CancelOrder\n  CMP002->>CMP004: CancelOrder\n  CMP004->>CMP005: CancelOrder\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 86,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant CMP001 as OrderDetailPage\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  U->>CMP001: IssueRefund\n  CMP001->>CMP004: IssueRefund\n  CMP004->>CMP005: IssueRefund\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 99,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant CMP001 as OrderDetailPage\n  participant CMP003 as CancellationHistoryTable\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  U->>CMP001: ListCancellations\n  CMP001->>CMP003: ListCancellations\n  CMP003->>CMP004: ListCancellations\n  CMP004->>CMP005: ListCancellations\n  CMP001-->>U: ok"
     },
     {
       "id": "STM-UI-001",
@@ -600,6 +673,9 @@
       "line": 10,
       "heading": "STM-UI-001 OrderDetailPage (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error"
     }
   ],
@@ -714,17 +790,17 @@
     "UC-001": {
       "heading": "UC-001 A customer can cancel an order before it is shipped (REQ-001)",
       "line": 4,
-      "text": "- Primary actor: customer\n- Trigger: the customer cancels it\n- Precondition: an order is placed\n- Postcondition (success guarantee): the order status is cancelled\n- Main flow:\n  1. the customer cancels it\n  2. the order status is cancelled\n- Alternative flow: none\n- Exception flow: the response is 409 ORDER_SHIPPED and the status is unchanged"
+      "text": "- Primary actor: customer\n- Trigger: the customer cancels it\n- Precondition: an order is placed\n- Postcondition (success guarantee): the order status is cancelled\n- Main flow:\n  1. the customer cancels it\n  2. the order status is cancelled\n- Alternative flow: none\n- Exception flow: the response is 409 ORDER_SHIPPED and the status is unchanged\n\n```mermaid\nflowchart LR\n  S([\"customer\"]) --> P[\"the customer cancels it\"] --> Q[\"the order status is cancelled\"]\n  P -.-> X[\"the response is 409 ORDER_SHIPPED and the status is unchanged\"]\n```"
     },
     "UC-002": {
       "heading": "UC-002 The system issues a refund through the payment gateway after cancellation (REQ-002)",
-      "line": 15,
-      "text": "- Primary actor: system\n- Trigger: the system issues the refund\n- Precondition: an order is cancelled and paid\n- Postcondition (success guarantee): the payment gateway is called and the order is refunded\n- Main flow:\n  1. the system issues the refund\n  2. the payment gateway is called and the order is refunded\n- Alternative flow: none\n- Exception flow: it retries 3 times and the order stays cancelled"
+      "line": 21,
+      "text": "- Primary actor: system\n- Trigger: the system issues the refund\n- Precondition: an order is cancelled and paid\n- Postcondition (success guarantee): the payment gateway is called and the order is refunded\n- Main flow:\n  1. the system issues the refund\n  2. the payment gateway is called and the order is refunded\n- Alternative flow: none\n- Exception flow: it retries 3 times and the order stays cancelled\n\n```mermaid\nflowchart LR\n  S([\"system\"]) --> P[\"the system issues the refund\"] --> Q[\"the payment gateway is called and the order is refunded\"]\n  P -.-> X[\"it retries 3 times and the order stays cancelled\"]\n```"
     },
     "UC-003": {
       "heading": "UC-003 A support agent can view the cancellation history (REQ-003)",
-      "line": 26,
-      "text": "- Primary actor: support agent\n- Trigger: the support agent opens the history\n- Precondition: order records were cancelled\n- Postcondition (success guarantee): each row shows the order, time and reason\n- Main flow:\n  1. the support agent opens the history\n  2. each row shows the order, time and reason\n- Alternative flow: none\n- Exception flow: none"
+      "line": 38,
+      "text": "- Primary actor: support agent\n- Trigger: the support agent opens the history\n- Precondition: order records were cancelled\n- Postcondition (success guarantee): each row shows the order, time and reason\n- Main flow:\n  1. the support agent opens the history\n  2. each row shows the order, time and reason\n- Alternative flow: none\n- Exception flow: none\n\n```mermaid\nflowchart LR\n  S([\"support agent\"]) --> P[\"the support agent opens the history\"] --> Q[\"each row shows the order, time and reason\"]\n```"
     }
   },
   "screens": [
@@ -788,6 +864,9 @@
       "line": 15,
       "heading": "CLS-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Order\n  class Refund\n  Order --> Refund : has"
     },
     {
@@ -795,8 +874,13 @@
       "kind": "flowchart",
       "file": "sa/04-usecase.md",
       "line": 5,
-      "heading": "UCD-001 (REQ-001)",
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
       "mermaid": "flowchart LR\n  customer([\"customer\"]) --> cancel((\"cancel\"))\n  system([\"system\"]) --> issue_refund((\"refund\"))\n  support_agent([\"support agent\"]) --> view_history((\"view\"))"
     },
     {
@@ -806,7 +890,34 @@
       "line": 5,
       "heading": "ACT-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart TD\n  A[\"the customer cancels it\"] --> B{\"an order is placed?\"}\n  B -->|yes| C[\"the order status is cancelled\"]\n  B -->|no| D[\"the response is 409 ORDER_SHIPPED and the status is unchanged\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"the system issues the refund\"] --> B{\"an order is cancelled and paid?\"}\n  B -->|yes| C[\"the payment gateway is called and the order is refunded\"]\n  B -->|no| D[\"it retries 3 times and the order stays cancelled\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"the support agent opens the history\"] --> B{\"order records were cancelled?\"}\n  B -->|yes| C[\"each row shows the order, time and reason\"]\n  B -->|no| E[\"—\"]"
     },
     {
       "id": "SEQ-SA-001",
@@ -815,15 +926,46 @@
       "line": 5,
       "heading": "SEQ-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant Web\n  participant BackendAPI\n  U->>Web: CancelOrder\n  Web->>BackendAPI: CancelOrder\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 16,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant Web\n  participant BackendAPI\n  U->>Web: IssueRefund\n  Web->>BackendAPI: IssueRefund\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 27,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant Web\n  participant BackendAPI\n  U->>Web: ListCancellations\n  Web->>BackendAPI: ListCancellations\n  Web-->>U: ok"
     },
     {
       "id": "STM-SA-001",
       "kind": "state",
       "file": "sa/07-state.md",
       "line": 5,
-      "heading": "STM-SA-001 Order.Status (REQ-001)",
+      "heading": "STM-SA-001 Order.Status (REQ-001, REQ-002)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund"
     }
   ],
@@ -1112,6 +1254,15 @@
     ],
     "naming_path": "examples/matrix/fe-only-en-s1/specs/naming-map.md"
   },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "Architecture",
+      "text": "Shape: frontend only. Front layers: Page, Component, Store, ApiClient. Back layers: Api, Application, Domain, Infrastructure.",
+      "root": "docs"
+    }
+  ],
   "lexicon": {
     "nouns": [
       {
@@ -1824,7 +1975,7 @@
         "SA5",
         "sa/05-activity.md"
       ],
-      "msg": "SA5 sa/05-activity.md 齊全(1 張圖)",
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
       "action": ""
     },
     {
@@ -1834,7 +1985,7 @@
         "SA6",
         "sa/06-sequence.md"
       ],
-      "msg": "SA6 sa/06-sequence.md 齊全(1 張圖)",
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
       "action": ""
     },
     {

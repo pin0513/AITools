@@ -12,6 +12,12 @@
 - Alternative flow: none
 - Exception flow: the response is 422 INSUFFICIENT_POINTS and nothing is deducted
 
+```mermaid
+flowchart LR
+  S(["member"]) --> P["the member redeems it"] --> Q["a redemption is created and the reward vendor is called"]
+  P -.-> X["the response is 422 INSUFFICIENT_POINTS and nothing is deducted"]
+```
+
 ### UC-002 Points expire after 12 months (REQ-002)
 - Primary actor: system
 - Trigger: the monthly job runs
@@ -23,6 +29,11 @@
 - Alternative flow: none
 - Exception flow: none
 
+```mermaid
+flowchart LR
+  S(["system"]) --> P["the monthly job runs"] --> Q["an expiry points transaction is written and the balance drops"]
+```
+
 ### UC-003 A member can view each points transaction (REQ-003)
 - Primary actor: member
 - Trigger: the member opens the history
@@ -33,6 +44,11 @@
   2. each points transaction shows date, type and points
 - Alternative flow: none
 - Exception flow: none
+
+```mermaid
+flowchart LR
+  S(["member"]) --> P["the member opens the history"] --> Q["each points transaction shows date, type and points"]
+```
 
 ## State Machines
 ### STM-DOM-001 Redemption.Status (REQ-001)

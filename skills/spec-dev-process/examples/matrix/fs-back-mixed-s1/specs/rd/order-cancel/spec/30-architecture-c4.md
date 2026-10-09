@@ -74,26 +74,26 @@ flowchart LR
 | AC-001-2 | CMP-004 | SEQ-001 | 編排cancel |
 | AC-001-2 | CMP-007 | SEQ-001 | cancel的業務規則與不變量 |
 | AC-001-2 | CMP-008 | SEQ-001 | 持久化cancel結果 |
-| AC-002-1 | CMP-001 | SEQ-001 | 顯示並觸發refund |
-| AC-002-1 | CMP-002 | SEQ-001 | 呼叫refund API |
-| AC-002-1 | CMP-003 | SEQ-001 | 接收refund請求 |
-| AC-002-1 | CMP-005 | SEQ-001 | 編排refund |
-| AC-002-1 | CMP-007 | SEQ-001 | refund的業務規則與不變量 |
-| AC-002-1 | CMP-008 | SEQ-001 | 持久化refund結果 |
-| AC-002-1 | CMP-009 | SEQ-001 | 為refund呼叫外部系統 |
-| AC-002-2 | CMP-001 | SEQ-001 | 顯示並觸發refund |
-| AC-002-2 | CMP-002 | SEQ-001 | 呼叫refund API |
-| AC-002-2 | CMP-003 | SEQ-001 | 接收refund請求 |
-| AC-002-2 | CMP-005 | SEQ-001 | 編排refund |
-| AC-002-2 | CMP-007 | SEQ-001 | refund的業務規則與不變量 |
-| AC-002-2 | CMP-008 | SEQ-001 | 持久化refund結果 |
-| AC-002-2 | CMP-009 | SEQ-001 | 為refund呼叫外部系統 |
-| AC-003-1 | CMP-001 | SEQ-001 | 顯示並觸發view |
-| AC-003-1 | CMP-002 | SEQ-001 | 呼叫view API |
-| AC-003-1 | CMP-003 | SEQ-001 | 接收view請求 |
-| AC-003-1 | CMP-006 | SEQ-001 | 編排view |
-| AC-003-1 | CMP-007 | SEQ-001 | view的業務規則與不變量 |
-| AC-003-1 | CMP-008 | SEQ-001 | 持久化view結果 |
+| AC-002-1 | CMP-001 | SEQ-002 | 顯示並觸發refund |
+| AC-002-1 | CMP-002 | SEQ-002 | 呼叫refund API |
+| AC-002-1 | CMP-003 | SEQ-002 | 接收refund請求 |
+| AC-002-1 | CMP-005 | SEQ-002 | 編排refund |
+| AC-002-1 | CMP-007 | SEQ-002 | refund的業務規則與不變量 |
+| AC-002-1 | CMP-008 | SEQ-002 | 持久化refund結果 |
+| AC-002-1 | CMP-009 | SEQ-002 | 為refund呼叫外部系統 |
+| AC-002-2 | CMP-001 | SEQ-002 | 顯示並觸發refund |
+| AC-002-2 | CMP-002 | SEQ-002 | 呼叫refund API |
+| AC-002-2 | CMP-003 | SEQ-002 | 接收refund請求 |
+| AC-002-2 | CMP-005 | SEQ-002 | 編排refund |
+| AC-002-2 | CMP-007 | SEQ-002 | refund的業務規則與不變量 |
+| AC-002-2 | CMP-008 | SEQ-002 | 持久化refund結果 |
+| AC-002-2 | CMP-009 | SEQ-002 | 為refund呼叫外部系統 |
+| AC-003-1 | CMP-001 | SEQ-003 | 顯示並觸發view |
+| AC-003-1 | CMP-002 | SEQ-003 | 呼叫view API |
+| AC-003-1 | CMP-003 | SEQ-003 | 接收view請求 |
+| AC-003-1 | CMP-006 | SEQ-003 | 編排view |
+| AC-003-1 | CMP-007 | SEQ-003 | view的業務規則與不變量 |
+| AC-003-1 | CMP-008 | SEQ-003 | 持久化view結果 |
 | AC-N01-1 | CMP-003 | API-002 | NFR P95 < 5 min |
 
 ## Sequence
@@ -115,3 +115,44 @@ sequenceDiagram
   CMP007->>CMP008: CancelOrder
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as System
+  participant CMP001 as OrderDetailPage
+  participant CMP002 as ordersApi
+  participant CMP003 as OrdersController
+  participant CMP005 as IssueRefundCommandHandler
+  participant CMP007 as Order
+  participant CMP008 as SqlOrderRepository
+  participant CMP009 as PaymentGatewayClient
+  U->>CMP001: IssueRefund
+  CMP001->>CMP002: IssueRefund
+  CMP002->>CMP003: IssueRefund
+  CMP003->>CMP005: IssueRefund
+  CMP005->>CMP007: IssueRefund
+  CMP007->>CMP008: IssueRefund
+  CMP008->>CMP009: IssueRefund
+  CMP001-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as SupportAgent
+  participant CMP001 as OrderDetailPage
+  participant CMP002 as ordersApi
+  participant CMP003 as OrdersController
+  participant CMP006 as ListCancellationsQueryHandler
+  participant CMP007 as Order
+  participant CMP008 as SqlOrderRepository
+  U->>CMP001: ListCancellations
+  CMP001->>CMP002: ListCancellations
+  CMP002->>CMP003: ListCancellations
+  CMP003->>CMP006: ListCancellations
+  CMP006->>CMP007: ListCancellations
+  CMP007->>CMP008: ListCancellations
+  CMP001-->>U: ok
+```
+

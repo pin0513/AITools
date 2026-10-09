@@ -14,7 +14,8 @@ spec-dev-process/
 │   ├── registry.yaml           name → {latest, versions{n: module[:fn]}};pipeline 以 name@n 引用
 │   ├── analyze/extract_v1.py   md → traceability dict(含 spec-review 的 SA 素材與 survey)
 │   ├── analyze/survey_v1.py    掃 codebase 產 survey 候選
-│   ├── analyze/glossary_v1.py  跨 spec 詞彙表(名詞 ↔ 符號 ↔ 定義 ↔ 來源),衝突偵測
+│   ├── analyze/glossary_v1.py  跨 spec 詞彙表 + 分層命名對照表,衝突偵測
+│   ├── analyze/assets_v1.py    已知資產索引(docs/、specs/done/ 依標題切段,記檔案:行)
 │   ├── check/engine_v1.py      規則引擎(載 YAML、呼叫 predicate、outcome → 狀態/訊息)
 │   ├── check/predicates_v1.py  predicate 函式庫(只回報情況,不決定嚴重度)
 │   ├── check/contract_v1.py    llm stage 產物契約檢查
@@ -118,4 +119,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.4.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.5.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。

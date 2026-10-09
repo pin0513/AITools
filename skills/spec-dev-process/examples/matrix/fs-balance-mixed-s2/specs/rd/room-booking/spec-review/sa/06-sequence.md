@@ -15,3 +15,30 @@ sequenceDiagram
   DB->>CalendarService: BookRoom
   Web-->>U: ok
 ```
+
+### SEQ-SA-002 (REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as Employee
+  participant Web
+  participant API
+  participant DB
+  U->>Web: CheckInBooking
+  Web->>API: CheckInBooking
+  API->>DB: CheckInBooking
+  Web-->>U: ok
+```
+
+### SEQ-SA-003 (REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Admin
+  participant Web
+  participant API
+  participant DB
+  U->>Web: ListDailyBookings
+  Web->>API: ListDailyBookings
+  API->>DB: ListDailyBookings
+  Web-->>U: ok
+```
+

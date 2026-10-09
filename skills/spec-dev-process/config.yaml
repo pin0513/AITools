@@ -32,6 +32,11 @@ glossary:                                    # 跨 spec 詞彙表:名詞 ↔ 程
   naming_overrides: specs/naming-overrides.md   # 手寫覆寫(同欄位;有值的格子覆蓋自動推導)
   spec_roots: [specs/rd]                     # 底下每個 <issue>/spec 都算一份 spec
   sources: [sa_entities, glossary_table, survey]   # 抽哪些表:SA2 實體(實體/英文)、00 名詞表(名詞/定義)、survey(元素/對應)
+assets:                                      # 已知資產索引(面板查找與相關段落);依標題切段,記檔案:行
+  roots: [docs, specs/done]
+  extensions: [.md]
+  max_sections: 400
+  excerpt: 400
 lexicon:                                     # SA0 前置解析;詞典在 rules/methodology/sa/lexicon-zh.yaml,這裡只放專案擴充
   extra_verbs: []
   extra_role_suffixes: []

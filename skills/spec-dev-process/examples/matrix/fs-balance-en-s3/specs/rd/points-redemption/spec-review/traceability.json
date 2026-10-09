@@ -454,7 +454,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "client state transition for expire",
       "line": 93,
       "file": "30-architecture-c4.md"
@@ -462,7 +462,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "call the API for expire",
       "line": 94,
       "file": "30-architecture-c4.md"
@@ -470,7 +470,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-008",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "orchestrate expire",
       "line": 95,
       "file": "30-architecture-c4.md"
@@ -478,7 +478,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-010",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "enforce the expire invariant",
       "line": 96,
       "file": "30-architecture-c4.md"
@@ -486,7 +486,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-011",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "persist the expire result",
       "line": 97,
       "file": "30-architecture-c4.md"
@@ -494,7 +494,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "render and trigger view",
       "line": 98,
       "file": "30-architecture-c4.md"
@@ -502,7 +502,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "UI guard for view",
       "line": 99,
       "file": "30-architecture-c4.md"
@@ -510,7 +510,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-004",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "client state transition for view",
       "line": 100,
       "file": "30-architecture-c4.md"
@@ -518,7 +518,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "call the API for view",
       "line": 101,
       "file": "30-architecture-c4.md"
@@ -526,7 +526,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "receive the view request",
       "line": 102,
       "file": "30-architecture-c4.md"
@@ -534,7 +534,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-009",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "orchestrate view",
       "line": 103,
       "file": "30-architecture-c4.md"
@@ -542,7 +542,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-010",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "enforce the view invariant",
       "line": 104,
       "file": "30-architecture-c4.md"
@@ -550,7 +550,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-011",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "persist the view result",
       "line": 105,
       "file": "30-architecture-c4.md"
@@ -851,21 +851,63 @@
   ],
   "artifacts": [
     {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 A member can redeem a reward when the points account has enough points (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"member\"]) --> P[\"the member redeems it\"] --> Q[\"a redemption is created and the reward vendor is called\"]\n  P -.-> X[\"the response is 422 INSUFFICIENT_POINTS and nothing is deducted\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 Points expire after 12 months (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"system\"]) --> P[\"the monthly job runs\"] --> Q[\"an expiry points transaction is written and the balance drops\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 48,
+      "heading": "UC-003 A member can view each points transaction (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"member\"]) --> P[\"the member opens the history\"] --> Q[\"each points transaction shows date, type and points\"]"
+    },
+    {
       "id": "STM-DOM-001",
       "kind": "state",
       "file": "20-domain-model.md",
-      "line": 39,
+      "line": 55,
       "heading": "STM-DOM-001 Redemption.Status (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Pending: RedeemReward\n  Pending --> Fulfilled: VendorConfirmed\n  Pending --> Failed: VendorRejected"
     },
     {
       "id": "CLS-001",
       "kind": "class",
       "file": "20-domain-model.md",
-      "line": 55,
+      "line": 71,
       "heading": "CLS-001 Redemption (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Redemption { +Id +Status }\n  PointsAccount --> Redemption : has\n  PointsAccount --> Reward : has\n  PointsAccount --> PointTransaction : has"
     },
     {
@@ -875,6 +917,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(u, \"member\")\n  System(sys, \"Loyalty points redemption\")\n  System_Ext(ext, \"RewardVendor\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
     },
     {
@@ -884,6 +927,7 @@
       "line": 16,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")"
     },
     {
@@ -893,6 +937,7 @@
       "line": 40,
       "heading": "C4-L3",
       "req": "*",
+      "reqs": [],
       "mermaid": "flowchart LR\n  CMP001[\"RewardsPage<br/>Page\"]\n  CMP002[\"RedeemDialog<br/>Component\"]\n  CMP003[\"TransactionList<br/>Component\"]\n  CMP004[\"rewardsStore<br/>Store\"]\n  CMP005[\"pointsApi<br/>ApiClient\"]\n  CMP006[\"PointsController<br/>Api\"]\n  CMP007[\"RedeemRewardCommandHandler<br/>Application\"]\n  CMP008[\"ExpirePointsJob<br/>Application\"]\n  CMP009[\"ListTransactionsQueryHandler<br/>Application\"]\n  CMP010[\"Redemption (Aggregate)<br/>Domain\"]\n  CMP011[\"SqlPointsAccountRepository<br/>Infrastructure\"]\n  CMP012[\"RewardVendorClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP002 --> CMP004\n  CMP003 --> CMP004\n  CMP004 --> CMP005\n  CMP005 --> CMP006\n  CMP006 --> CMP007\n  CMP006 --> CMP009\n  CMP007 --> CMP010\n  CMP007 --> CMP011\n  CMP007 --> CMP012\n  CMP008 --> CMP010\n  CMP008 --> CMP011\n  CMP009 --> CMP010\n  CMP009 --> CMP011"
     },
     {
@@ -902,7 +947,34 @@
       "line": 110,
       "heading": "SEQ-001 (UC-001 / REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Member\n  participant CMP001 as RewardsPage\n  participant CMP002 as RedeemDialog\n  participant CMP004 as rewardsStore\n  participant CMP005 as pointsApi\n  participant CMP006 as PointsController\n  participant CMP007 as RedeemRewardCommandHandler\n  participant CMP010 as Redemption\n  participant CMP011 as SqlPointsAccountRepository\n  participant CMP012 as RewardVendorClient\n  U->>CMP001: RedeemReward\n  CMP001->>CMP002: RedeemReward\n  CMP002->>CMP004: RedeemReward\n  CMP004->>CMP005: RedeemReward\n  CMP005->>CMP006: RedeemReward\n  CMP006->>CMP007: RedeemReward\n  CMP007->>CMP010: RedeemReward\n  CMP010->>CMP011: RedeemReward\n  CMP011->>CMP012: RedeemReward\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 135,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant CMP004 as rewardsStore\n  participant CMP005 as pointsApi\n  participant CMP008 as ExpirePointsJob\n  participant CMP010 as Redemption\n  participant CMP011 as SqlPointsAccountRepository\n  U->>CMP004: ExpirePoints\n  CMP004->>CMP005: ExpirePoints\n  CMP005->>CMP008: ExpirePoints\n  CMP008->>CMP010: ExpirePoints\n  CMP010->>CMP011: ExpirePoints\n  CMP004-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 152,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Member\n  participant CMP001 as RewardsPage\n  participant CMP003 as TransactionList\n  participant CMP004 as rewardsStore\n  participant CMP005 as pointsApi\n  participant CMP006 as PointsController\n  participant CMP009 as ListTransactionsQueryHandler\n  participant CMP010 as Redemption\n  participant CMP011 as SqlPointsAccountRepository\n  U->>CMP001: ListTransactions\n  CMP001->>CMP003: ListTransactions\n  CMP003->>CMP004: ListTransactions\n  CMP004->>CMP005: ListTransactions\n  CMP005->>CMP006: ListTransactions\n  CMP006->>CMP009: ListTransactions\n  CMP009->>CMP010: ListTransactions\n  CMP010->>CMP011: ListTransactions\n  CMP001-->>U: ok"
     },
     {
       "id": "STM-UI-001",
@@ -911,6 +983,9 @@
       "line": 10,
       "heading": "STM-UI-001 RewardsPage (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error"
     },
     {
@@ -920,6 +995,7 @@
       "line": 5,
       "heading": "ERD-001",
       "req": "*",
+      "reqs": [],
       "mermaid": "erDiagram\n  PointsAccounts ||--o{ Redemption : has\n  PointsAccounts {\n    uniqueidentifier Id PK\n  }\n  Redemption {\n    uniqueidentifier Id PK\n  }"
     }
   ],
@@ -1030,17 +1106,17 @@
     "UC-001": {
       "heading": "UC-001 A member can redeem a reward when the points account has enough points (REQ-001)",
       "line": 4,
-      "text": "- Primary actor: member\n- Trigger: the member redeems it\n- Precondition: the balance covers the reward\n- Postcondition (success guarantee): a redemption is created and the reward vendor is called\n- Main flow:\n  1. the member redeems it\n  2. a redemption is created and the reward vendor is called\n- Alternative flow: none\n- Exception flow: the response is 422 INSUFFICIENT_POINTS and nothing is deducted"
+      "text": "- Primary actor: member\n- Trigger: the member redeems it\n- Precondition: the balance covers the reward\n- Postcondition (success guarantee): a redemption is created and the reward vendor is called\n- Main flow:\n  1. the member redeems it\n  2. a redemption is created and the reward vendor is called\n- Alternative flow: none\n- Exception flow: the response is 422 INSUFFICIENT_POINTS and nothing is deducted\n\n```mermaid\nflowchart LR\n  S([\"member\"]) --> P[\"the member redeems it\"] --> Q[\"a redemption is created and the reward vendor is called\"]\n  P -.-> X[\"the response is 422 INSUFFICIENT_POINTS and nothing is deducted\"]\n```"
     },
     "UC-002": {
       "heading": "UC-002 Points expire after 12 months (REQ-002)",
-      "line": 15,
-      "text": "- Primary actor: system\n- Trigger: the monthly job runs\n- Precondition: points were earned 13 months ago\n- Postcondition (success guarantee): an expiry points transaction is written and the balance drops\n- Main flow:\n  1. the monthly job runs\n  2. an expiry points transaction is written and the balance drops\n- Alternative flow: none\n- Exception flow: none"
+      "line": 21,
+      "text": "- Primary actor: system\n- Trigger: the monthly job runs\n- Precondition: points were earned 13 months ago\n- Postcondition (success guarantee): an expiry points transaction is written and the balance drops\n- Main flow:\n  1. the monthly job runs\n  2. an expiry points transaction is written and the balance drops\n- Alternative flow: none\n- Exception flow: none\n\n```mermaid\nflowchart LR\n  S([\"system\"]) --> P[\"the monthly job runs\"] --> Q[\"an expiry points transaction is written and the balance drops\"]\n```"
     },
     "UC-003": {
       "heading": "UC-003 A member can view each points transaction (REQ-003)",
-      "line": 26,
-      "text": "- Primary actor: member\n- Trigger: the member opens the history\n- Precondition: the member has a points transaction\n- Postcondition (success guarantee): each points transaction shows date, type and points\n- Main flow:\n  1. the member opens the history\n  2. each points transaction shows date, type and points\n- Alternative flow: none\n- Exception flow: none"
+      "line": 37,
+      "text": "- Primary actor: member\n- Trigger: the member opens the history\n- Precondition: the member has a points transaction\n- Postcondition (success guarantee): each points transaction shows date, type and points\n- Main flow:\n  1. the member opens the history\n  2. each points transaction shows date, type and points\n- Alternative flow: none\n- Exception flow: none\n\n```mermaid\nflowchart LR\n  S([\"member\"]) --> P[\"the member opens the history\"] --> Q[\"each points transaction shows date, type and points\"]\n```"
     }
   },
   "screens": [
@@ -1104,6 +1180,9 @@
       "line": 19,
       "heading": "CLS-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class PointsAccount\n  class Redemption\n  class Reward\n  class PointTransaction\n  PointsAccount --> Redemption : has\n  PointsAccount --> Reward : has\n  PointsAccount --> PointTransaction : has"
     },
     {
@@ -1111,8 +1190,13 @@
       "kind": "flowchart",
       "file": "sa/04-usecase.md",
       "line": 5,
-      "heading": "UCD-001 (REQ-001)",
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
       "mermaid": "flowchart LR\n  member([\"member\"]) --> redeem((\"redeem\"))\n  system([\"system\"]) --> expire((\"expire\"))\n  member([\"member\"]) --> view_tx((\"view\"))"
     },
     {
@@ -1122,7 +1206,34 @@
       "line": 5,
       "heading": "ACT-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart TD\n  A[\"the member redeems it\"] --> B{\"the balance covers the reward?\"}\n  B -->|yes| C[\"a redemption is created and the reward vendor is called\"]\n  B -->|no| D[\"the response is 422 INSUFFICIENT_POINTS and nothing is deducted\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"the monthly job runs\"] --> B{\"points were earned 13 months ago?\"}\n  B -->|yes| C[\"an expiry points transaction is written and the balance drops\"]\n  B -->|no| E[\"—\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"the member opens the history\"] --> B{\"the member has a points transaction?\"}\n  B -->|yes| C[\"each points transaction shows date, type and points\"]\n  B -->|no| E[\"—\"]"
     },
     {
       "id": "SEQ-SA-001",
@@ -1131,7 +1242,34 @@
       "line": 5,
       "heading": "SEQ-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Member\n  participant Web\n  participant API\n  participant DB\n  participant RewardVendor\n  U->>Web: RedeemReward\n  Web->>API: RedeemReward\n  API->>DB: RedeemReward\n  DB->>RewardVendor: RedeemReward\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 20,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant API\n  participant DB\n  U->>API: ExpirePoints\n  API->>DB: ExpirePoints\n  API-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 31,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Member\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListTransactions\n  Web->>API: ListTransactions\n  API->>DB: ListTransactions\n  Web-->>U: ok"
     },
     {
       "id": "STM-SA-001",
@@ -1140,6 +1278,9 @@
       "line": 5,
       "heading": "STM-SA-001 Redemption.Status (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Pending: RedeemReward\n  Pending --> Fulfilled: VendorConfirmed\n  Pending --> Failed: VendorRejected"
     }
   ],
@@ -1584,6 +1725,15 @@
     ],
     "naming_path": "examples/matrix/fs-balance-en-s3/specs/naming-map.md"
   },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "Architecture",
+      "text": "Shape: full-stack, balanced. Front layers: Page, Component, Store, ApiClient. Back layers: Api, Application, Domain, Infrastructure.",
+      "root": "docs"
+    }
+  ],
   "lexicon": {
     "nouns": [
       {
@@ -2435,7 +2585,7 @@
         "SA5",
         "sa/05-activity.md"
       ],
-      "msg": "SA5 sa/05-activity.md 齊全(1 張圖)",
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
       "action": ""
     },
     {
@@ -2445,7 +2595,7 @@
         "SA6",
         "sa/06-sequence.md"
       ],
-      "msg": "SA6 sa/06-sequence.md 齊全(1 張圖)",
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
       "action": ""
     },
     {

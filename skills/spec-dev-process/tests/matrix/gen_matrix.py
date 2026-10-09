@@ -295,26 +295,34 @@ def gen_one(out_root, shape, lang, sid):
         req = next(r["id"] for r in sc["reqs"] if a["key"] in r["actions"])
         ro.append(f"| {T(a['actor'])} | {sym}({how}) | {T(a['key'])} | {req} |")
     (sa / "03-roles.md").write_text("\n".join(ro) + "\n", encoding="utf-8")
-    ucd = ["# SA4 Use Case Diagram", "", "## Use Case Diagram", "### UCD-001 (REQ-001)", "```mermaid", "flowchart LR"]
+    ucd = ["# SA4 Use Case Diagram", "", "## Use Case Diagram", f"### UCD-001 ({', '.join(r['id'] for r in sc['reqs'])})", "```mermaid", "flowchart LR"]
     for a in sc["actions"]:
         ucd.append(f'  {a["actor"]}(["{esc_m(T(a["actor"]))}"]) --> {a["key"]}(("{esc_m(T(a["key"]))}"))')
     ucd.append("```")
     (sa / "04-usecase.md").write_text("\n".join(ucd) + "\n", encoding="utf-8")
     main = sc["reqs"][0]; ok_ac, err_ac = main["acs"][0], main["acs"][1]
-    act = ["# SA5 Activity Diagram", "", "## Activity Diagram", "### ACT-001 (REQ-001)", "```mermaid", "flowchart TD",
-           f'  A["{esc_m(R(pick(ok_ac[1])[1]))}"] --> B{{"{esc_m(R(pick(ok_ac[1])[0]))}?"}}',
-           f'  B -->|yes| C["{esc_m(R(pick(ok_ac[1])[2]))}"]', f'  B -->|no| D["{esc_m(R(pick(err_ac[1])[2]))}"]', "```"]
+    act = ["# SA5 Activity Diagram", "", "## Activity Diagram"]
+    for i, rq_ in enumerate(sc["reqs"], 1):
+        ok_ = pick(rq_["acs"][0][1]); er_ = pick(rq_["acs"][-1][1]) if len(rq_["acs"]) > 1 else None
+        act += [f"### ACT-{i:03d} ({rq_['id']})", "```mermaid", "flowchart TD",
+                f'  A["{esc_m(R(ok_[1]))}"] --> B{{"{esc_m(R(ok_[0]))}?"}}', f'  B -->|yes| C["{esc_m(R(ok_[2]))}"]']
+        act += [f'  B -->|no| D["{esc_m(R(er_[2]))}"]'] if er_ else ['  B -->|no| E["—"]']
+        act += ["```", ""]
     (sa / "05-activity.md").write_text("\n".join(act) + "\n", encoding="utf-8")
     a0 = next(a for a in sc["actions"] if a["key"] == main["actions"][0])
-    parts = (["Web"] if F else ["Client"]) + (["API", "DB"] if B else ["BackendAPI"]) + ([sc["terms"][sc["external"]["key"]]["sym"]] if (B and a0["external"]) else [])
-    seq = ["# SA6 Sequence Diagram", "", "## Sequence Diagram", "### SEQ-SA-001 (REQ-001)", "```mermaid", "sequenceDiagram", f"  actor U as {sc['terms'][a0['actor']]['sym']}"]
-    seq += [f"  participant {p}" for p in parts]
-    prev_p = "U"
-    for p in parts:
-        seq.append(f"  {prev_p}->>{p}: {sc['terms'][a0['key']]['sym']}"); prev_p = p
-    seq.append(f"  {parts[0]}-->>U: ok"); seq.append("```")
+    seq = ["# SA6 Sequence Diagram", "", "## Sequence Diagram"]
+    for i, rq_ in enumerate(sc["reqs"], 1):
+        ax = next(a for a in sc["actions"] if a["key"] == rq_["actions"][0])
+        parts = ([] if ax["kind"] == "job" else (["Web"] if F else ["Client"])) + (["API", "DB"] if B else ["BackendAPI"]) + ([sc["terms"][sc["external"]["key"]]["sym"]] if (B and ax["external"]) else [])
+        seq += [f"### SEQ-SA-{i:03d} ({rq_['id']})", "```mermaid", "sequenceDiagram", f"  actor U as {sc['terms'][ax['actor']]['sym']}"]
+        seq += [f"  participant {p_}" for p_ in parts]
+        prev_p = "U"
+        for p_ in parts:
+            seq.append(f"  {prev_p}->>{p_}: {sc['terms'][ax['key']]['sym']}"); prev_p = p_
+        seq += [f"  {parts[0]}-->>U: ok", "```", ""]
     (sa / "06-sequence.md").write_text("\n".join(seq) + "\n", encoding="utf-8")
-    stm = ["# SA7 State Diagram", "", "## State Diagram", f"### STM-SA-001 {sc['terms'][sc['state_entity']]['sym']}.Status (REQ-001)", "```mermaid", "stateDiagram-v2"]
+    stm_reqs = ", ".join(r["id"] for r in sc["reqs"] if any(sc["terms"][k]["sym"] in [ev for _, _, ev in sc["transitions"]] for k in r["actions"])) or "REQ-001"
+    stm = ["# SA7 State Diagram", "", "## State Diagram", f"### STM-SA-001 {sc['terms'][sc['state_entity']]['sym']}.Status ({stm_reqs})", "```mermaid", "stateDiagram-v2"]
     stm += [f"  {a} --> {b}: {ev}" for a, b, ev in sc["transitions"]] + ["```"]
     (sa / "07-state.md").write_text("\n".join(stm) + "\n", encoding="utf-8")
 
@@ -378,9 +386,11 @@ def gen_one(out_root, shape, lang, sid):
         ok_ = pick(r["acs"][0][1]); err = pick(r["acs"][-1][1])
         dm += [f"### UC-{r['id'][4:]} {R(pick(r['title']))} ({r['id']})", f"- {u[0]}: {T(a['actor'])}", f"- {u[1]}: {R(ok_[1])}",
                f"- {u[2]}: {R(ok_[0])}", f"- {u[3]}: {R(ok_[2])}", f"- {u[4]}:", f"  1. {R(ok_[1])}", f"  2. {R(ok_[2])}", f"- {u[5]}: {u[7]}",
-               f"- {u[6]}: {R(err[2]) if len(r['acs']) > 1 else u[7]}", ""]
+               f"- {u[6]}: {R(err[2]) if len(r['acs']) > 1 else u[7]}", "", "```mermaid", "flowchart LR",
+               f'  S(["{esc_m(T(a["actor"]))}"]) --> P["{esc_m(R(ok_[1]))}"] --> Q["{esc_m(R(ok_[2]))}"]'] + \
+              ([f'  P -.-> X["{esc_m(R(err[2]))}"]'] if len(r["acs"]) > 1 else []) + ["```", ""]
     st_sym = sc["terms"][sc["state_entity"]]["sym"]
-    dm += [f"## {h['stm']}", f"### STM-DOM-001 {st_sym}.Status (REQ-001)", "```mermaid", "stateDiagram-v2"] + [f"  {a} --> {b}: {ev_}" for a, b, ev_ in sc["transitions"]] + ["```", ""]
+    dm += [f"## {h['stm']}", f"### STM-DOM-001 {st_sym}.Status ({stm_reqs})", "```mermaid", "stateDiagram-v2"] + [f"  {a} --> {b}: {ev_}" for a, b, ev_ in sc["transitions"]] + ["```", ""]
     dm += [f"## {h['dm']}", "| Type | Name | Invariant |" if lang == "en" else "| 類型 | 名稱 | 不變量 |", "|---|---|---|",
            f"| Aggregate Root | {st_sym} | Status: {' → '.join(sc['states'])} |"]
     dm += [f"| Entity | {sc['terms'][k]['sym']} | — |" for k in ent_keys if sc["terms"][k]["sym"] != st_sym]
@@ -400,22 +410,25 @@ def gen_one(out_root, shape, lang, sid):
     ar += ["", "### C4-L3", "```mermaid", "flowchart LR"] + [f'  {c["id"].replace("-", "")}["{esc_m(c["name"].split(" :")[0])}<br/>{c["layer"]}"]' for c in C]
     ar += [f'  {c["id"].replace("-", "")} --> {d.replace("-", "")}' for c in C for d in c["dep_ids"]] + ["```", "", f"## {h['trace']}", col["trace"], "|---|---|---|---|"]
     links = {}
-    for r in sc["reqs"]:
+    for ri, r in enumerate(sc["reqs"], 1):
         for ac_id, _ in r["acs"]:
             for ak in r["actions"]:
                 for c in chain(sc, C, ak):
                     if (ac_id, c["id"]) in links: continue
                     rr = ROLE[c["role"]][0 if lang == "en" else 1].replace("{a}", T(ak))
-                    links[(ac_id, c["id"])] = rr; ar.append(f"| {ac_id} | {c['id']} | SEQ-001 | {rr} |")
+                    links[(ac_id, c["id"])] = rr; ar.append(f"| {ac_id} | {c['id']} | SEQ-{ri:03d} | {rr} |")
     bind_cmp = cid[sc["controller"]] if B else cid[sc["client"]]
     links[("AC-N01-1", bind_cmp)] = "NFR"; ar.append(f"| AC-N01-1 | {bind_cmp} | {nfr_bind} | NFR {nfr['measure']} |")
-    seq_ch = chain(sc, C, a0["key"])
-    ar += ["", "## Sequence", f"### SEQ-001 (UC-001 / REQ-001)", "```mermaid", "sequenceDiagram", f"  actor U as {sc['terms'][a0['actor']]['sym']}"]
-    ar += [f"  participant {c['id'].replace('-', '')} as {c['name'].split(' :')[0].split(' (')[0]}" for c in seq_ch]
-    p_ = "U"
-    for c in seq_ch:
-        ar.append(f"  {p_}->>{c['id'].replace('-', '')}: {sc['terms'][a0['key']]['sym']}"); p_ = c["id"].replace("-", "")
-    ar += [f"  {seq_ch[0]['id'].replace('-', '')}-->>U: ok", "```"]
+    ar += ["", "## Sequence"]
+    for i, rq_ in enumerate(sc["reqs"], 1):
+        ax = next(a for a in sc["actions"] if a["key"] == rq_["actions"][0])
+        seq_ch = chain(sc, C, ax["key"])
+        ar += [f"### SEQ-{i:03d} (UC-{rq_['id'][4:]} / {rq_['id']})", "```mermaid", "sequenceDiagram", f"  actor U as {sc['terms'][ax['actor']]['sym']}"]
+        ar += [f"  participant {c['id'].replace('-', '')} as {c['name'].split(' :')[0].split(' (')[0]}" for c in seq_ch]
+        p_ = "U"
+        for c in seq_ch:
+            ar.append(f"  {p_}->>{c['id'].replace('-', '')}: {sc['terms'][ax['key']]['sym']}"); p_ = c["id"].replace("-", "")
+        ar += [f"  {seq_ch[0]['id'].replace('-', '')}-->>U: ok", "```", ""]
     (spec / "30-architecture-c4.md").write_text("\n".join(ar) + "\n", encoding="utf-8")
 
     # ---------- 第二層:api/ ----------

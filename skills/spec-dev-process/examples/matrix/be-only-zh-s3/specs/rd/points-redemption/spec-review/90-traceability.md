@@ -32,8 +32,8 @@
 | INFO | G-SA-steps | SA2 sa/02-entities-relations.md 齊全(1 張圖) |
 | INFO | G-SA-steps | SA3 sa/03-roles.md 齊全(0 張圖) |
 | INFO | G-SA-steps | SA4 sa/04-usecase.md 齊全(1 張圖) |
-| INFO | G-SA-steps | SA5 sa/05-activity.md 齊全(1 張圖) |
-| INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(1 張圖) |
+| INFO | G-SA-steps | SA5 sa/05-activity.md 齊全(3 張圖) |
+| INFO | G-SA-steps | SA6 sa/06-sequence.md 齊全(3 張圖) |
 | INFO | G-SA-steps | SA7 sa/07-state.md 齊全(1 張圖) |
 | INFO | G-GL-consistency | 「點數帳戶」→ PointsAccount 與 prev 一致 |
 | INFO | G-SV-evidence | 點數帳戶 → src/api/Loyalty.Domain/PointsAccount.cs:5 已驗證(glossary 解析 PointsAccount) |

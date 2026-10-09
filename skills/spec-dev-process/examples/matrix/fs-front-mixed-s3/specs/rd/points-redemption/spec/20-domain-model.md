@@ -12,6 +12,12 @@
 - 替代流程: 無
 - 例外流程: 回應 422 INSUFFICIENT_POINTS,不扣點
 
+```mermaid
+flowchart LR
+  S(["member"]) --> P["member redeem Reward"] --> Q["建立 Redemption 並呼叫 RewardVendor"]
+  P -.-> X["回應 422 INSUFFICIENT_POINTS,不扣點"]
+```
+
 ### UC-002 點數 12 個月後 expire (REQ-002)
 - 主要參與者: system
 - 觸發: 每月排程執行
@@ -23,6 +29,11 @@
 - 替代流程: 無
 - 例外流程: 無
 
+```mermaid
+flowchart LR
+  S(["system"]) --> P["每月排程執行"] --> Q["寫入 expire PointTransaction,餘額減少"]
+```
+
 ### UC-003 member 可 view PointTransaction (REQ-003)
 - 主要參與者: member
 - 觸發: member 開啟紀錄
@@ -33,6 +44,11 @@
   2. 每筆 PointTransaction 顯示日期、類型、點數
 - 替代流程: 無
 - 例外流程: 無
+
+```mermaid
+flowchart LR
+  S(["member"]) --> P["member 開啟紀錄"] --> Q["每筆 PointTransaction 顯示日期、類型、點數"]
+```
 
 ## 狀態機
 ### STM-DOM-001 Redemption.Status (REQ-001)

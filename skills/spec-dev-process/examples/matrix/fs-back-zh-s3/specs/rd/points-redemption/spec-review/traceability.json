@@ -372,7 +372,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-002",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "呼叫到期 API",
       "line": 78,
       "file": "30-architecture-c4.md"
@@ -380,7 +380,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-005",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "編排到期",
       "line": 79,
       "file": "30-architecture-c4.md"
@@ -388,7 +388,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "到期的業務規則與不變量",
       "line": 80,
       "file": "30-architecture-c4.md"
@@ -396,7 +396,7 @@
     {
       "ac": "AC-002-1",
       "component": "CMP-008",
-      "via": "SEQ-001",
+      "via": "SEQ-002",
       "role": "持久化到期結果",
       "line": 81,
       "file": "30-architecture-c4.md"
@@ -404,7 +404,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-001",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "顯示並觸發查看",
       "line": 82,
       "file": "30-architecture-c4.md"
@@ -412,7 +412,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-002",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "呼叫查看 API",
       "line": 83,
       "file": "30-architecture-c4.md"
@@ -420,7 +420,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-003",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "接收查看請求",
       "line": 84,
       "file": "30-architecture-c4.md"
@@ -428,7 +428,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-006",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "編排查看",
       "line": 85,
       "file": "30-architecture-c4.md"
@@ -436,7 +436,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-007",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "查看的業務規則與不變量",
       "line": 86,
       "file": "30-architecture-c4.md"
@@ -444,7 +444,7 @@
     {
       "ac": "AC-003-1",
       "component": "CMP-008",
-      "via": "SEQ-001",
+      "via": "SEQ-003",
       "role": "持久化查看結果",
       "line": 87,
       "file": "30-architecture-c4.md"
@@ -702,21 +702,63 @@
   ],
   "artifacts": [
     {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 點數帳戶點數足夠時會員可兌換獎品 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"會員\"]) --> P[\"會員兌換獎品\"] --> Q[\"建立兌換單並呼叫獎品供應商\"]\n  P -.-> X[\"回應 422 INSUFFICIENT_POINTS,不扣點\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 點數 12 個月後到期 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"系統\"]) --> P[\"每月排程執行\"] --> Q[\"寫入到期點數交易,餘額減少\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 48,
+      "heading": "UC-003 會員可查看點數交易 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"會員\"]) --> P[\"會員開啟紀錄\"] --> Q[\"每筆點數交易顯示日期、類型、點數\"]"
+    },
+    {
       "id": "STM-DOM-001",
       "kind": "state",
       "file": "20-domain-model.md",
-      "line": 39,
+      "line": 55,
       "heading": "STM-DOM-001 Redemption.Status (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Pending: RedeemReward\n  Pending --> Fulfilled: VendorConfirmed\n  Pending --> Failed: VendorRejected"
     },
     {
       "id": "CLS-001",
       "kind": "class",
       "file": "20-domain-model.md",
-      "line": 55,
+      "line": 71,
       "heading": "CLS-001 Redemption (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Redemption { +Id +Status }\n  PointsAccount --> Redemption : has\n  PointsAccount --> Reward : has\n  PointsAccount --> PointTransaction : has"
     },
     {
@@ -726,6 +768,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(u, \"會員\")\n  System(sys, \"會員點數兌換\")\n  System_Ext(ext, \"RewardVendor\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
     },
     {
@@ -735,6 +778,7 @@
       "line": 16,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")"
     },
     {
@@ -744,6 +788,7 @@
       "line": 37,
       "heading": "C4-L3",
       "req": "*",
+      "reqs": [],
       "mermaid": "flowchart LR\n  CMP001[\"RewardsPage<br/>Page\"]\n  CMP002[\"pointsApi<br/>ApiClient\"]\n  CMP003[\"PointsController<br/>Api\"]\n  CMP004[\"RedeemRewardCommandHandler<br/>Application\"]\n  CMP005[\"ExpirePointsJob<br/>Application\"]\n  CMP006[\"ListTransactionsQueryHandler<br/>Application\"]\n  CMP007[\"Redemption (Aggregate)<br/>Domain\"]\n  CMP008[\"SqlPointsAccountRepository<br/>Infrastructure\"]\n  CMP009[\"RewardVendorClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP002 --> CMP003\n  CMP003 --> CMP004\n  CMP003 --> CMP006\n  CMP004 --> CMP007\n  CMP004 --> CMP008\n  CMP004 --> CMP009\n  CMP005 --> CMP007\n  CMP005 --> CMP008\n  CMP006 --> CMP007\n  CMP006 --> CMP008"
     },
     {
@@ -753,7 +798,34 @@
       "line": 92,
       "heading": "SEQ-001 (UC-001 / REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Member\n  participant CMP001 as RewardsPage\n  participant CMP002 as pointsApi\n  participant CMP003 as PointsController\n  participant CMP004 as RedeemRewardCommandHandler\n  participant CMP007 as Redemption\n  participant CMP008 as SqlPointsAccountRepository\n  participant CMP009 as RewardVendorClient\n  U->>CMP001: RedeemReward\n  CMP001->>CMP002: RedeemReward\n  CMP002->>CMP003: RedeemReward\n  CMP003->>CMP004: RedeemReward\n  CMP004->>CMP007: RedeemReward\n  CMP007->>CMP008: RedeemReward\n  CMP008->>CMP009: RedeemReward\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 113,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant CMP002 as pointsApi\n  participant CMP005 as ExpirePointsJob\n  participant CMP007 as Redemption\n  participant CMP008 as SqlPointsAccountRepository\n  U->>CMP002: ExpirePoints\n  CMP002->>CMP005: ExpirePoints\n  CMP005->>CMP007: ExpirePoints\n  CMP007->>CMP008: ExpirePoints\n  CMP002-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 128,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Member\n  participant CMP001 as RewardsPage\n  participant CMP002 as pointsApi\n  participant CMP003 as PointsController\n  participant CMP006 as ListTransactionsQueryHandler\n  participant CMP007 as Redemption\n  participant CMP008 as SqlPointsAccountRepository\n  U->>CMP001: ListTransactions\n  CMP001->>CMP002: ListTransactions\n  CMP002->>CMP003: ListTransactions\n  CMP003->>CMP006: ListTransactions\n  CMP006->>CMP007: ListTransactions\n  CMP007->>CMP008: ListTransactions\n  CMP001-->>U: ok"
     },
     {
       "id": "STM-UI-001",
@@ -762,6 +834,9 @@
       "line": 10,
       "heading": "STM-UI-001 RewardsPage (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error"
     },
     {
@@ -771,6 +846,7 @@
       "line": 5,
       "heading": "ERD-001",
       "req": "*",
+      "reqs": [],
       "mermaid": "erDiagram\n  PointsAccounts ||--o{ Redemption : has\n  PointsAccounts {\n    uniqueidentifier Id PK\n  }\n  Redemption {\n    uniqueidentifier Id PK\n  }"
     }
   ],
@@ -881,17 +957,17 @@
     "UC-001": {
       "heading": "UC-001 點數帳戶點數足夠時會員可兌換獎品 (REQ-001)",
       "line": 4,
-      "text": "- 主要參與者: 會員\n- 觸發: 會員兌換獎品\n- 前置條件: 餘額足夠\n- 後置條件(成功保證): 建立兌換單並呼叫獎品供應商\n- 主流程:\n  1. 會員兌換獎品\n  2. 建立兌換單並呼叫獎品供應商\n- 替代流程: 無\n- 例外流程: 回應 422 INSUFFICIENT_POINTS,不扣點"
+      "text": "- 主要參與者: 會員\n- 觸發: 會員兌換獎品\n- 前置條件: 餘額足夠\n- 後置條件(成功保證): 建立兌換單並呼叫獎品供應商\n- 主流程:\n  1. 會員兌換獎品\n  2. 建立兌換單並呼叫獎品供應商\n- 替代流程: 無\n- 例外流程: 回應 422 INSUFFICIENT_POINTS,不扣點\n\n```mermaid\nflowchart LR\n  S([\"會員\"]) --> P[\"會員兌換獎品\"] --> Q[\"建立兌換單並呼叫獎品供應商\"]\n  P -.-> X[\"回應 422 INSUFFICIENT_POINTS,不扣點\"]\n```"
     },
     "UC-002": {
       "heading": "UC-002 點數 12 個月後到期 (REQ-002)",
-      "line": 15,
-      "text": "- 主要參與者: 系統\n- 觸發: 每月排程執行\n- 前置條件: 點數於 13 個月前取得\n- 後置條件(成功保證): 寫入到期點數交易,餘額減少\n- 主流程:\n  1. 每月排程執行\n  2. 寫入到期點數交易,餘額減少\n- 替代流程: 無\n- 例外流程: 無"
+      "line": 21,
+      "text": "- 主要參與者: 系統\n- 觸發: 每月排程執行\n- 前置條件: 點數於 13 個月前取得\n- 後置條件(成功保證): 寫入到期點數交易,餘額減少\n- 主流程:\n  1. 每月排程執行\n  2. 寫入到期點數交易,餘額減少\n- 替代流程: 無\n- 例外流程: 無\n\n```mermaid\nflowchart LR\n  S([\"系統\"]) --> P[\"每月排程執行\"] --> Q[\"寫入到期點數交易,餘額減少\"]\n```"
     },
     "UC-003": {
       "heading": "UC-003 會員可查看點數交易 (REQ-003)",
-      "line": 26,
-      "text": "- 主要參與者: 會員\n- 觸發: 會員開啟紀錄\n- 前置條件: 會員有點數交易\n- 後置條件(成功保證): 每筆點數交易顯示日期、類型、點數\n- 主流程:\n  1. 會員開啟紀錄\n  2. 每筆點數交易顯示日期、類型、點數\n- 替代流程: 無\n- 例外流程: 無"
+      "line": 37,
+      "text": "- 主要參與者: 會員\n- 觸發: 會員開啟紀錄\n- 前置條件: 會員有點數交易\n- 後置條件(成功保證): 每筆點數交易顯示日期、類型、點數\n- 主流程:\n  1. 會員開啟紀錄\n  2. 每筆點數交易顯示日期、類型、點數\n- 替代流程: 無\n- 例外流程: 無\n\n```mermaid\nflowchart LR\n  S([\"會員\"]) --> P[\"會員開啟紀錄\"] --> Q[\"每筆點數交易顯示日期、類型、點數\"]\n```"
     }
   },
   "screens": [
@@ -952,6 +1028,9 @@
       "line": 19,
       "heading": "CLS-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class PointsAccount\n  class Redemption\n  class Reward\n  class PointTransaction\n  PointsAccount --> Redemption : has\n  PointsAccount --> Reward : has\n  PointsAccount --> PointTransaction : has"
     },
     {
@@ -959,8 +1038,13 @@
       "kind": "flowchart",
       "file": "sa/04-usecase.md",
       "line": 5,
-      "heading": "UCD-001 (REQ-001)",
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
       "mermaid": "flowchart LR\n  member([\"會員\"]) --> redeem((\"兌換\"))\n  system([\"系統\"]) --> expire((\"到期\"))\n  member([\"會員\"]) --> view_tx((\"查看\"))"
     },
     {
@@ -970,7 +1054,34 @@
       "line": 5,
       "heading": "ACT-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart TD\n  A[\"會員兌換獎品\"] --> B{\"餘額足夠?\"}\n  B -->|yes| C[\"建立兌換單並呼叫獎品供應商\"]\n  B -->|no| D[\"回應 422 INSUFFICIENT_POINTS,不扣點\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"每月排程執行\"] --> B{\"點數於 13 個月前取得?\"}\n  B -->|yes| C[\"寫入到期點數交易,餘額減少\"]\n  B -->|no| E[\"—\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"會員開啟紀錄\"] --> B{\"會員有點數交易?\"}\n  B -->|yes| C[\"每筆點數交易顯示日期、類型、點數\"]\n  B -->|no| E[\"—\"]"
     },
     {
       "id": "SEQ-SA-001",
@@ -979,7 +1090,34 @@
       "line": 5,
       "heading": "SEQ-SA-001 (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor U as Member\n  participant Web\n  participant API\n  participant DB\n  participant RewardVendor\n  U->>Web: RedeemReward\n  Web->>API: RedeemReward\n  API->>DB: RedeemReward\n  DB->>RewardVendor: RedeemReward\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 20,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant API\n  participant DB\n  U->>API: ExpirePoints\n  API->>DB: ExpirePoints\n  API-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 31,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Member\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListTransactions\n  Web->>API: ListTransactions\n  API->>DB: ListTransactions\n  Web-->>U: ok"
     },
     {
       "id": "STM-SA-001",
@@ -988,6 +1126,9 @@
       "line": 5,
       "heading": "STM-SA-001 Redemption.Status (REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Pending: RedeemReward\n  Pending --> Fulfilled: VendorConfirmed\n  Pending --> Failed: VendorRejected"
     }
   ],
@@ -1431,6 +1572,15 @@
     ],
     "naming_path": "examples/matrix/fs-back-zh-s3/specs/naming-map.md"
   },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "架構概觀",
+      "text": "形狀:全端(輕前、重後)。前端分層 Page、Component、Store、ApiClient;後端分層 Api、Application、Domain、Infrastructure。",
+      "root": "docs"
+    }
+  ],
   "lexicon": {
     "nouns": [
       {
@@ -2311,7 +2461,7 @@
         "SA5",
         "sa/05-activity.md"
       ],
-      "msg": "SA5 sa/05-activity.md 齊全(1 張圖)",
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
       "action": ""
     },
     {
@@ -2321,7 +2471,7 @@
         "SA6",
         "sa/06-sequence.md"
       ],
-      "msg": "SA6 sa/06-sequence.md 齊全(1 張圖)",
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
       "action": ""
     },
     {

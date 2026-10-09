@@ -120,13 +120,19 @@ REQ ─► 型態判定 ─┬─ functional     ─► Use Case + Gherkin ─�
 └───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+每張需求卡三欄:**PM 文字 ↔ 圖 ↔ RD 文字**。中間欄預設顯示兩張自動生成的圖(由資料生成,每條需求一定有圖):
+- **追溯圖**:PM 段落 → REQ → AC → 各層元件(依 Layer 分組)→ 測試。
+- **元件循序圖**:該需求涉及的元件依層序排列,訊息是各元件對這條 AC 的職責。
+
+手寫的 SA / RD 圖(標題含該 REQ 者)、方法論步驟、邏輯鏈、**詞彙與已知資產**(分層命名對照 + `docs/`、`specs/done/` 中提到相關名詞的段落)收在下方,點開才看。證據鏈頂端有**查找框**,即時搜尋詞彙表、分層命名、已知資產。任何一張圖語法錯誤,會在原位標出「圖語法錯誤」並顯示原始碼,不影響其他圖。
+
 | 鏈 | 回答的問題 | 資料來源 |
 |---|---|---|
 | 證據鏈 | 這條 RD 內容是從 PM 哪一段、哪張圖來的?落在 RD 哪個檔哪一行? | `00-overview.md`「## 來源」指的 PM spec / mock 路徑;各 md 表格列的行號;gherkin 區塊 |
 | 分析鏈 | 中間經過哪些方法論步驟、哪些 SA 產物? | `method-log.jsonl`(依 seq)、`sa/02` 實體、`sa/03` 角色動作、SA/RD 的 mermaid |
 | 邏輯鏈 | 為什麼這條需求是 PASS / WARN / FAIL? | 命中該需求(及其 AC、CMP)的 B1–B8 與 Gate 結果,含 evidence 與 action |
 
-要讓證據鏈有料,`00-overview.md` 的「## 來源」必須列 PM spec 與 mock 的路徑(相對專案根);mock 支援 html(iframe)、png/jpg(data URI)、文字。mermaid 預設走 cdnjs;封閉網路用 `--offline`(內嵌 `vendor/mermaid.min.js`,+2.5MB)。
+要讓證據鏈有料,`00-overview.md` 的「## 來源」必須列 PM spec 與 mock 的路徑(相對專案根);mock 支援 html(iframe)、png/jpg(data URI)、文字。mermaid 預設走 jsDelivr(失敗自動改 unpkg,兩者都失敗會在頁面上提示);封閉網路用 `--offline`(內嵌 `vendor/mermaid.min.js`,+2.5MB)。
 
 ## 技術邊界核對
 

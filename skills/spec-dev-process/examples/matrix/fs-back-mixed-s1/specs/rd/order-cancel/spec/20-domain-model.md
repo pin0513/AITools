@@ -12,6 +12,12 @@
 - 替代流程: 無
 - 例外流程: 回應 409 ORDER_SHIPPED,狀態不變
 
+```mermaid
+flowchart LR
+  S(["customer"]) --> P["customer cancel Order"] --> Q["Order 狀態為 Cancelled"]
+  P -.-> X["回應 409 ORDER_SHIPPED,狀態不變"]
+```
+
 ### UC-002 cancel 後 system 經 PaymentGateway refund (REQ-002)
 - 主要參與者: system
 - 觸發: system refund
@@ -22,6 +28,12 @@
   2. 呼叫 PaymentGateway, Order 狀態為 Refunded
 - 替代流程: 無
 - 例外流程: 重試 3 次, Order 維持 Cancelled
+
+```mermaid
+flowchart LR
+  S(["system"]) --> P["system refund"] --> Q["呼叫 PaymentGateway, Order 狀態為 Refunded"]
+  P -.-> X["重試 3 次, Order 維持 Cancelled"]
+```
 
 ### UC-003 support agent 可 view cancel 紀錄 (REQ-003)
 - 主要參與者: support agent
@@ -34,8 +46,13 @@
 - 替代流程: 無
 - 例外流程: 無
 
+```mermaid
+flowchart LR
+  S(["support agent"]) --> P["support agent 開啟紀錄"] --> Q["每列顯示 Order、時間與原因"]
+```
+
 ## 狀態機
-### STM-DOM-001 Order.Status (REQ-001)
+### STM-DOM-001 Order.Status (REQ-001, REQ-002)
 ```mermaid
 stateDiagram-v2
   [*] --> Placed: PlaceOrder

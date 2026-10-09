@@ -137,8 +137,9 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
         for mm in doc.mermaid:
             mid = re.match(r"^([A-Z0-9][\w-]*)", mm.heading) if mm.heading.startswith(prefixes) else None
             req = ID_RE.search(mm.heading)
+            reqs_in = re.findall(r"\b(?:REQ|NFR)-\d+\b", mm.heading)
             artifacts.append({"id": mid.group(1) if mid else f"{doc.file}:{mm.line}", "kind": _kind(mm.code, kinds),
-                              "file": doc.file, "line": mm.line, "heading": mm.heading, "req": req.group(0) if req else "*", "mermaid": mm.code})
+                              "file": doc.file, "line": mm.line, "heading": mm.heading, "req": req.group(0) if req else "*", "reqs": reqs_in or [], "mermaid": mm.code})
     # 20-domain-model 的 UC 章節:抓 pre/post 條件是否存在
     ucs = []
     dm = docs.get("20-domain-model.md")
@@ -179,7 +180,7 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
             mid = re.match(r"^([A-Z0-9][\w-]*)", mm.heading) if mm.heading.startswith(prefixes) else None
             req = ID_RE.search(mm.heading)
             sa_artifacts.append({"id": mid.group(1) if mid else f"{fname}:{mm.line}", "kind": _kind(mm.code, kinds), "file": fname, "line": mm.line,
-                                 "heading": mm.heading, "req": req.group(0) if req else "*", "mermaid": mm.code})
+                                 "heading": mm.heading, "req": req.group(0) if req else "*", "reqs": re.findall(r"\b(?:REQ|NFR)-\d+\b", mm.heading), "mermaid": mm.code})
 
     ov = docs.get("00-overview.md")
     title = ov.text.splitlines()[0].lstrip("# ").split(" — ")[0].strip() if ov else d.name
@@ -219,10 +220,7 @@ def load_log(d: pathlib.Path):
 def run(ctx: dict) -> dict:
     ctx["data"] = extract(ctx["dir"], ctx["contracts"], ctx.get("review_dir"), ctx.get("project_root"))
     ctx["log"] = load_log(ctx["dir"])
-    if ctx.get("glossary"):   # 重抽時保留前面 stage 工具算好的結果
-        from tools.analyze.glossary_v1 import to_data
-        ctx["data"]["glossary"] = to_data(ctx["glossary"], ctx.get("project_root") or ctx["dir"])
-    if ctx.get("lexicon"):
-        rows = ctx["lexicon"]
-        ctx["data"]["lexicon"] = {k: rows[k][:40] for k in ("nouns", "actions", "roles", "statuses")} | {"stats": rows["stats"]}
+    # 前面 stage 的工具結果(glossary、lexicon、assets…)統一放在 ctx["carry"],重抽時整包帶入 data,不再逐欄補
+    for k, v in (ctx.get("carry") or {}).items():
+        ctx["data"][k] = v
     return ctx

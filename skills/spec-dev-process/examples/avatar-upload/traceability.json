@@ -510,6 +510,9 @@
       "line": 18,
       "heading": "UC-001 上傳大頭貼(REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "flowchart TD\n  A[送出檔案] --> B{格式/大小 OK?}\n  B -->|否| E1[400 AVATAR_TOO_LARGE]\n  B -->|是| C[存 Blob]\n  C -->|逾時 x3| E2[503,Avatar 不變]\n  C -->|成功| D[更新 Member.Avatar] --> F[200 + URL]"
     },
     {
@@ -519,6 +522,9 @@
       "line": 53,
       "heading": "STM-UI-001 上傳畫面(REQ-002)",
       "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
       "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Cropping: selectFile\n  Cropping --> Uploading: confirmCrop [edge >= 200px]\n  Cropping --> Idle: cancel\n  Uploading --> Done: 200\n  Uploading --> Idle: 4xx/5xx"
     },
     {
@@ -528,6 +534,9 @@
       "line": 73,
       "heading": "CLS-001 Member(REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "classDiagram\n  class Member {\n    +MemberId id\n    +Avatar avatar\n    +ReplaceAvatar(Avatar) AvatarReplaced\n  }\n  class Avatar {\n    +BlobRef blob\n    +DateTime updatedAt\n  }\n  Member --> Avatar : 0..1"
     },
     {
@@ -537,6 +546,7 @@
       "line": 5,
       "heading": "C4-L1",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Context\n  Person(member, \"會員\")\n  System(sys, \"會員系統\")\n  System_Ext(blob, \"Azure Blob Storage\")\n  Rel(member, sys, \"上傳/瀏覽頭像\")\n  Rel(sys, blob, \"存取圖片\", \"HTTPS\")"
     },
     {
@@ -546,6 +556,7 @@
       "line": 16,
       "heading": "C4-L2",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Container\n  Container(web, \"會員 Web\", \"React\", \"裁切在前端\")\n  Container(api, \"Member API\", \".NET 8\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"Member\")\n  System_Ext(blob, \"Azure Blob\", \"\")\n  Rel(web, api, \"HTTPS\")\n  Rel(api, db, \"EF Core\")\n  Rel(api, blob, \"SDK\")"
     },
     {
@@ -555,6 +566,7 @@
       "line": 38,
       "heading": "C4-L3",
       "req": "*",
+      "reqs": [],
       "mermaid": "C4Component\n  Component(c1, \"AvatarController\", \"Api\")\n  Component(c2, \"UploadAvatarCommandHandler\", \"Application\")\n  Component(c6, \"GetAvatarUrlQueryHandler\", \"Application\")\n  Component(c3, \"Member\", \"Domain\")\n  Component(c4, \"BlobAvatarStorage\", \"Infrastructure\", \"IAvatarStorage\")\n  Component(c5, \"ImageSharpValidator\", \"Infrastructure\")\n  Rel(c1, c2, \"Send\")\n  Rel(c1, c6, \"Send\")\n  Rel(c2, c3, \"ReplaceAvatar\")\n  Rel(c2, c4, \"IAvatarStorage\")\n  Rel(c2, c5, \"\")\n  Rel(c3, c5, \"B2 FAIL\")\n  Rel(c6, c4, \"IAvatarStorage\")"
     },
     {
@@ -564,6 +576,9 @@
       "line": 71,
       "heading": "SEQ-001 上傳(UC-001 / REQ-001)",
       "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
       "mermaid": "sequenceDiagram\n  actor M as 會員\n  participant C as AvatarController\n  participant H as UploadAvatarCommandHandler\n  participant V as ImageSharpValidator\n  participant S as IAvatarStorage\n  participant A as Member\n  M->>C: POST /members/{id}/avatar\n  alt size > 5MB\n    C-->>M: 400 AVATAR_TOO_LARGE\n  else\n    C->>H: Send(UploadAvatarCommand)\n    H->>V: Validate(stream)\n    H->>S: SaveAsync(stream)\n    alt Blob 逾時 x3\n      S-->>H: StorageUnavailable\n      H-->>C: Failure\n      C-->>M: 503\n    else\n      S-->>H: BlobRef\n      H->>A: ReplaceAvatar(Avatar)\n      A-->>H: AvatarReplaced\n      H-->>C: Result(url)\n      C-->>M: 200 {url}\n    end\n  end"
     },
     {
@@ -573,6 +588,7 @@
       "line": 5,
       "heading": "ERD-001",
       "req": "*",
+      "reqs": [],
       "mermaid": "erDiagram\n  Member ||--o| MemberAvatar : has\n  MemberAvatar {\n    uniqueidentifier MemberId PK\n    nvarchar BlobPath\n    datetime2 UpdatedAt\n  }"
     }
   ],

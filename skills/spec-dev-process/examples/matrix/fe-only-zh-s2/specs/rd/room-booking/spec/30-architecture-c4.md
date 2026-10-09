@@ -58,18 +58,18 @@ flowchart LR
 | AC-001-2 | CMP-002 | SEQ-001 | 預約的 UI 守衛 |
 | AC-001-2 | CMP-005 | SEQ-001 | 預約的前端狀態轉移 |
 | AC-001-2 | CMP-006 | SEQ-001 | 呼叫預約 API |
-| AC-002-1 | CMP-001 | SEQ-001 | 顯示並觸發報到 |
-| AC-002-1 | CMP-003 | SEQ-001 | 報到的 UI 守衛 |
-| AC-002-1 | CMP-005 | SEQ-001 | 報到的前端狀態轉移 |
-| AC-002-1 | CMP-006 | SEQ-001 | 呼叫報到 API |
-| AC-002-2 | CMP-001 | SEQ-001 | 顯示並觸發報到 |
-| AC-002-2 | CMP-003 | SEQ-001 | 報到的 UI 守衛 |
-| AC-002-2 | CMP-005 | SEQ-001 | 報到的前端狀態轉移 |
-| AC-002-2 | CMP-006 | SEQ-001 | 呼叫報到 API |
-| AC-003-1 | CMP-001 | SEQ-001 | 顯示並觸發查看 |
-| AC-003-1 | CMP-004 | SEQ-001 | 查看的 UI 守衛 |
-| AC-003-1 | CMP-005 | SEQ-001 | 查看的前端狀態轉移 |
-| AC-003-1 | CMP-006 | SEQ-001 | 呼叫查看 API |
+| AC-002-1 | CMP-001 | SEQ-002 | 顯示並觸發報到 |
+| AC-002-1 | CMP-003 | SEQ-002 | 報到的 UI 守衛 |
+| AC-002-1 | CMP-005 | SEQ-002 | 報到的前端狀態轉移 |
+| AC-002-1 | CMP-006 | SEQ-002 | 呼叫報到 API |
+| AC-002-2 | CMP-001 | SEQ-002 | 顯示並觸發報到 |
+| AC-002-2 | CMP-003 | SEQ-002 | 報到的 UI 守衛 |
+| AC-002-2 | CMP-005 | SEQ-002 | 報到的前端狀態轉移 |
+| AC-002-2 | CMP-006 | SEQ-002 | 呼叫報到 API |
+| AC-003-1 | CMP-001 | SEQ-003 | 顯示並觸發查看 |
+| AC-003-1 | CMP-004 | SEQ-003 | 查看的 UI 守衛 |
+| AC-003-1 | CMP-005 | SEQ-003 | 查看的前端狀態轉移 |
+| AC-003-1 | CMP-006 | SEQ-003 | 呼叫查看 API |
 | AC-N01-1 | CMP-006 | API-001 | NFR 100 concurrent → 1 success |
 
 ## Sequence
@@ -87,3 +87,34 @@ sequenceDiagram
   CMP005->>CMP006: BookRoom
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as Employee
+  participant CMP001 as RoomBookingPage
+  participant CMP003 as CheckInButton
+  participant CMP005 as bookingStore
+  participant CMP006 as roomsApi
+  U->>CMP001: CheckInBooking
+  CMP001->>CMP003: CheckInBooking
+  CMP003->>CMP005: CheckInBooking
+  CMP005->>CMP006: CheckInBooking
+  CMP001-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Admin
+  participant CMP001 as RoomBookingPage
+  participant CMP004 as DailyBookingTable
+  participant CMP005 as bookingStore
+  participant CMP006 as roomsApi
+  U->>CMP001: ListDailyBookings
+  CMP001->>CMP004: ListDailyBookings
+  CMP004->>CMP005: ListDailyBookings
+  CMP005->>CMP006: ListDailyBookings
+  CMP001-->>U: ok
+```
+

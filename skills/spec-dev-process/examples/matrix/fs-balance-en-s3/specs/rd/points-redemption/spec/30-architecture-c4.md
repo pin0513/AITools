@@ -90,19 +90,19 @@ flowchart LR
 | AC-001-2 | CMP-010 | SEQ-001 | enforce the redeem invariant |
 | AC-001-2 | CMP-011 | SEQ-001 | persist the redeem result |
 | AC-001-2 | CMP-012 | SEQ-001 | call the external system for redeem |
-| AC-002-1 | CMP-004 | SEQ-001 | client state transition for expire |
-| AC-002-1 | CMP-005 | SEQ-001 | call the API for expire |
-| AC-002-1 | CMP-008 | SEQ-001 | orchestrate expire |
-| AC-002-1 | CMP-010 | SEQ-001 | enforce the expire invariant |
-| AC-002-1 | CMP-011 | SEQ-001 | persist the expire result |
-| AC-003-1 | CMP-001 | SEQ-001 | render and trigger view |
-| AC-003-1 | CMP-003 | SEQ-001 | UI guard for view |
-| AC-003-1 | CMP-004 | SEQ-001 | client state transition for view |
-| AC-003-1 | CMP-005 | SEQ-001 | call the API for view |
-| AC-003-1 | CMP-006 | SEQ-001 | receive the view request |
-| AC-003-1 | CMP-009 | SEQ-001 | orchestrate view |
-| AC-003-1 | CMP-010 | SEQ-001 | enforce the view invariant |
-| AC-003-1 | CMP-011 | SEQ-001 | persist the view result |
+| AC-002-1 | CMP-004 | SEQ-002 | client state transition for expire |
+| AC-002-1 | CMP-005 | SEQ-002 | call the API for expire |
+| AC-002-1 | CMP-008 | SEQ-002 | orchestrate expire |
+| AC-002-1 | CMP-010 | SEQ-002 | enforce the expire invariant |
+| AC-002-1 | CMP-011 | SEQ-002 | persist the expire result |
+| AC-003-1 | CMP-001 | SEQ-003 | render and trigger view |
+| AC-003-1 | CMP-003 | SEQ-003 | UI guard for view |
+| AC-003-1 | CMP-004 | SEQ-003 | client state transition for view |
+| AC-003-1 | CMP-005 | SEQ-003 | call the API for view |
+| AC-003-1 | CMP-006 | SEQ-003 | receive the view request |
+| AC-003-1 | CMP-009 | SEQ-003 | orchestrate view |
+| AC-003-1 | CMP-010 | SEQ-003 | enforce the view invariant |
+| AC-003-1 | CMP-011 | SEQ-003 | persist the view result |
 | AC-N01-1 | CMP-006 | API-001 | NFR balance never negative |
 
 ## Sequence
@@ -130,3 +130,44 @@ sequenceDiagram
   CMP011->>CMP012: RedeemReward
   CMP001-->>U: ok
 ```
+
+### SEQ-002 (UC-002 / REQ-002)
+```mermaid
+sequenceDiagram
+  actor U as System
+  participant CMP004 as rewardsStore
+  participant CMP005 as pointsApi
+  participant CMP008 as ExpirePointsJob
+  participant CMP010 as Redemption
+  participant CMP011 as SqlPointsAccountRepository
+  U->>CMP004: ExpirePoints
+  CMP004->>CMP005: ExpirePoints
+  CMP005->>CMP008: ExpirePoints
+  CMP008->>CMP010: ExpirePoints
+  CMP010->>CMP011: ExpirePoints
+  CMP004-->>U: ok
+```
+
+### SEQ-003 (UC-003 / REQ-003)
+```mermaid
+sequenceDiagram
+  actor U as Member
+  participant CMP001 as RewardsPage
+  participant CMP003 as TransactionList
+  participant CMP004 as rewardsStore
+  participant CMP005 as pointsApi
+  participant CMP006 as PointsController
+  participant CMP009 as ListTransactionsQueryHandler
+  participant CMP010 as Redemption
+  participant CMP011 as SqlPointsAccountRepository
+  U->>CMP001: ListTransactions
+  CMP001->>CMP003: ListTransactions
+  CMP003->>CMP004: ListTransactions
+  CMP004->>CMP005: ListTransactions
+  CMP005->>CMP006: ListTransactions
+  CMP006->>CMP009: ListTransactions
+  CMP009->>CMP010: ListTransactions
+  CMP010->>CMP011: ListTransactions
+  CMP001-->>U: ok
+```
+

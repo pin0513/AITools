@@ -280,5 +280,6 @@ def run(ctx: dict) -> dict:
     (review / "sa" / "00-lexicon.md").write_text(lexicon_md(ctx.get("spec_name", ""), rows), encoding="utf-8")
     (review / "lexicon.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
     ctx["lexicon"] = rows
-    if ctx.get("data") is not None: ctx["data"]["lexicon"] = {k: rows[k][:40] for k in ("nouns", "actions", "roles", "statuses")} | {"stats": rows["stats"]}
+    ctx.setdefault("carry", {})["lexicon"] = {k: rows[k][:40] for k in ("nouns", "actions", "roles", "statuses")} | {"stats": rows["stats"]}
+    if ctx.get("data") is not None: ctx["data"]["lexicon"] = ctx["carry"]["lexicon"]
     return ctx

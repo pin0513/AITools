@@ -3,7 +3,7 @@
 只做標題/表格/程式碼區塊/mermaid 的最小轉換,其餘段落原樣輸出。"""
 import html, pathlib, re, sys
 
-MERMAID_CDN = "https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.1/mermaid.min.js"
+MERMAID_CDN = "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"
 
 def md_to_html(text: str) -> str:
     out, i, lines = [], 0, text.splitlines()
