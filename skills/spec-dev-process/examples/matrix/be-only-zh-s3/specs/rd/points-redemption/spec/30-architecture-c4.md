@@ -86,8 +86,12 @@ sequenceDiagram
   U->>CMP001: RedeemReward
   CMP001->>CMP002: RedeemReward
   CMP002->>CMP005: RedeemReward
-  CMP005->>CMP006: RedeemReward
-  CMP006->>CMP007: RedeemReward
+  CMP005-->>CMP002: ok
+  CMP002->>CMP006: RedeemReward
+  CMP006-->>CMP002: ok
+  CMP002->>CMP007: RedeemReward
+  CMP007-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 
@@ -100,7 +104,9 @@ sequenceDiagram
   participant CMP006 as SqlPointsAccountRepository
   U->>CMP003: ExpirePoints
   CMP003->>CMP005: ExpirePoints
-  CMP005->>CMP006: ExpirePoints
+  CMP005-->>CMP003: ok
+  CMP003->>CMP006: ExpirePoints
+  CMP006-->>CMP003: ok
   CMP003-->>U: ok
 ```
 
@@ -115,7 +121,10 @@ sequenceDiagram
   U->>CMP001: ListTransactions
   CMP001->>CMP004: ListTransactions
   CMP004->>CMP005: ListTransactions
-  CMP005->>CMP006: ListTransactions
+  CMP005-->>CMP004: ok
+  CMP004->>CMP006: ListTransactions
+  CMP006-->>CMP004: ok
+  CMP004-->>CMP001: ok
   CMP001-->>U: ok
 ```
 

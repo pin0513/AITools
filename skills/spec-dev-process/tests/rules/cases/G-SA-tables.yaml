@@ -1,0 +1,8 @@
+rule: G-SA-tables
+cases:
+  - name: row_findings
+    patch: {replace: {audit: {items: [
+      {type: table-row, id: "SA3:sa/03.md:9", targets: [REQ-404], findings: [{gate: sa_table, outcome: req_missing, vars: {req: REQ-404}}, {gate: sa_table, outcome: action_symbol_missing, vars: {}}]},
+      {type: table-row, id: "SA2:sa/02.md:7", targets: [], findings: [{gate: sa_table, outcome: symbol_missing, vars: {term: 表單}}]}]}}}
+    expect: [{outcome: req_missing, target: "SA3:sa/03.md:9", status: FAIL}, {outcome: action_symbol_missing, target: "SA3:sa/03.md:9", status: WARN},
+             {outcome: symbol_missing, target: "SA2:sa/02.md:7", status: WARN}]

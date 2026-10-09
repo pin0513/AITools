@@ -1,0 +1,15 @@
+# RD 圖與自動圖的核對規格(資料層)。依圖 ID 前綴套用,最長前綴優先。SA 圖的核對寫在方法論檔 steps[*].audit。
+# 每個 check 是 tools/review/checks_v1.py 的函式名;嚴重度在 rules/gates/G-DG-consistency.yaml 的 outcomes。
+version: 1
+by_prefix:
+  SEQ-SA-: []                                   # SA 循序圖由方法論檔決定
+  SEQ-: [seq_calls_follow_dependencies]         # RD 循序圖:呼叫必須在元件依賴表裡
+  AUTO-SEQ-: [seq_calls_follow_dependencies]    # 自動圖也一樣受核對
+  AUTO-TRACE-: [trace_has_edges]                # 追溯圖至少要有一條 AC→元件或綁定
+  C4-L3: [c4_relations_follow_dependencies]
+  CLS-SA-: []
+  CLS-: [class_names_known]
+  STM-SA-: []
+  STM-DOM-: [state_events_are_actions, state_handoff_subset]
+  STM-UI-: []
+  ERD-: [er_entities_owned]

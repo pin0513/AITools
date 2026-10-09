@@ -11,3 +11,15 @@
 {"seq": 11, "req": "NFR-001", "stage": "S1", "method": "QualityScenario", "rule": "M11", "in": "PM§4", "out": "NFR-001", "evidence": "explicit", "gaps": [], "note": ""}
 {"seq": 12, "req": "NFR-001", "stage": "S2", "method": "FitnessFunction", "rule": "M12", "in": "NFR-001", "out": "TST-015", "evidence": "explicit", "gaps": [], "note": ""}
 {"seq": 13, "req": "*", "stage": "S4", "method": "AC.TestMapping", "rule": "M17", "in": "AC-*", "out": "TST-001..015", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 14, "req": "*", "stage": "SA", "method": "SA2.ClassDiagram", "rule": "SA2", "in": "sa/01-break-words.md", "out": "CLS-SA-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 15, "req": "*", "stage": "S2", "method": "UML.Class", "rule": "M13", "in": "CLS-SA-001", "out": "CLS-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 16, "req": "*", "stage": "SA", "method": "SA4.UseCaseDiagram", "rule": "SA4", "in": "sa/03-roles.md", "out": "UCD-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 17, "req": "*", "stage": "SA", "method": "SA5.Activity", "rule": "SA5", "in": "sa/04-usecase.md", "out": "ACT-001, ACT-002, ACT-003", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 18, "req": "*", "stage": "SA", "method": "SA6.Sequence", "rule": "SA6", "in": "sa/05-activity.md", "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 19, "req": "*", "stage": "SA", "method": "SA7.State", "rule": "SA7", "in": "sa/02-entities-relations.md", "out": "STM-SA-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 20, "req": "*", "stage": "S2", "method": "C4.Context/Container", "rule": "M14", "in": "sa/06-sequence.md", "out": "C4-L1, C4-L2", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 21, "req": "*", "stage": "S3", "method": "C4.Component", "rule": "M15", "in": "30 元件表", "out": "C4-L3", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 22, "req": "*", "stage": "S3", "method": "UML.Sequence", "rule": "M16", "in": "C4-L3, UC-*", "out": "SEQ-001, SEQ-002, SEQ-003", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 23, "req": "*", "stage": "S2", "method": "UML.State", "rule": "M13", "in": "STM-SA-001", "out": "STM-DOM-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 24, "req": "*", "stage": "S3", "method": "ERD", "rule": "M18", "in": "SA2 實體", "out": "ERD-001", "evidence": "explicit", "gaps": [], "note": ""}
+{"seq": 25, "req": "*", "stage": "S3", "method": "UI.StateMachine", "rule": "M19", "in": "STM-DOM-001", "out": "STM-UI-001", "evidence": "explicit", "gaps": [], "note": ""}

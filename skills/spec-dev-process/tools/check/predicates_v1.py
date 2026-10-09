@@ -297,3 +297,41 @@ def survey_evidence(data, params, ctx):
                 else:
                     out.append(_f("line_mismatch", el, element=el, evidence=one, tokens=names))
     return out
+
+
+# ---------- 審計(spec-reviewer 子系統)----------
+def audit_findings(data, params, ctx):
+    gate = params.get("gate"); out = []
+    for it in (data.get("audit") or {}).get("items") or []:
+        for f in it["findings"]:
+            if f["gate"] != gate: continue
+            v = dict(f.get("vars") or {}); v.setdefault("diagram", it["id"]); v.setdefault("row", it["id"])
+            out.append(_f(f["outcome"], it["id"], [it["id"]] + list(it.get("targets") or []), **v))
+    return out
+
+def signoff_findings(data, params, ctx):
+    req = bool(((ctx.get("config") or {}).get("reviewer") or {}).get("require_signoff"))
+    out = []
+    for it in (data.get("audit") or {}).get("items") or []:
+        if it["type"] != "diagram": continue
+        d = it.get("signoff_detail") or {}; st = it.get("signoff")
+        v = dict(diagram=it["id"], by=d.get("by", ""), note=d.get("note", ""), signed=d.get("signed_hash", ""), current=it["hash"])
+        if st == "rejected": out.append(_f("rejected", it["id"], [it["id"]] + it["targets"], **v))
+        elif st == "stale": out.append(_f("stale", it["id"], [it["id"]] + it["targets"], **v))
+        elif st == "pending": out.append(_f("pending_required" if req else "pending", it["id"], [it["id"]] + it["targets"], **v))
+    return out
+
+def render_findings(data, params, ctx):
+    r = data.get("render_check")
+    if not r or r.get("mode") == "off": return []
+    if not r.get("available"):
+        return [_f("required" if r.get("mode") == "on" else "unverified", "看板", ["看板"], reason=r.get("reason", ""))]
+    out = []
+    for e in r.get("errs") or []: out.append(_f("js_error", "看板", ["看板"], err=e))
+    for did, st in (r.get("parse") or {}).items():
+        if st != "ok": out.append(_f("parse_error", did, [did], diagram=did, err=st))
+    if r.get("cards") != r.get("reqs"): out.append(_f("cards", "看板", ["看板"], cards=r.get("cards"), reqs=r.get("reqs")))
+    if r.get("visible_svgs") != r.get("visible_dg"): out.append(_f("not_drawn", "看板", ["看板"], svgs=r.get("visible_svgs"), dg=r.get("visible_dg")))
+    if r.get("overflow"): out.append(_f("overflow", "看板", ["看板"]))
+    if not out: out.append(_f("ok", "看板", ["看板"], n=sum(1 for v in (r.get("parse") or {}).values() if v == "ok"), cards=r.get("cards")))
+    return out

@@ -649,6 +649,7 @@
   },
   "sa_files": [],
   "sa_artifacts": [],
+  "sa_tables": {},
   "sa_entities": [],
   "sa_roles": [],
   "sa_word_count": 0,
@@ -1027,6 +1028,247 @@
       ],
       "msg": "AC-003-1: AC-003-1(REQ-003)無測試元件",
       "action": ""
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-process",
+      "ids": [
+        "CLS-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-001 沒有過程紀錄",
+      "action": "method-log 補一筆,out 寫這張圖的 ID"
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-process",
+      "ids": [
+        "C4-L1"
+      ],
+      "msg": "C4-L1 沒有過程紀錄",
+      "action": "method-log 補一筆,out 寫這張圖的 ID"
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-process",
+      "ids": [
+        "C4-L2"
+      ],
+      "msg": "C4-L2 沒有過程紀錄",
+      "action": "method-log 補一筆,out 寫這張圖的 ID"
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-process",
+      "ids": [
+        "C4-L3"
+      ],
+      "msg": "C4-L3 沒有過程紀錄",
+      "action": "method-log 補一筆,out 寫這張圖的 ID"
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-process",
+      "ids": [
+        "ERD-001"
+      ],
+      "msg": "ERD-001 沒有過程紀錄",
+      "action": "method-log 補一筆,out 寫這張圖的 ID"
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-consistency",
+      "ids": [
+        "CLS-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-001:類別 Avatar 不在 SA2 實體、元件表或命名對照",
+      "action": "補 SA2 實體或改名"
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-consistency",
+      "ids": [
+        "ERD-001"
+      ],
+      "msg": "ERD-001:實體 Member 沒有 owner",
+      "action": "50 擁有權表補列"
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-001",
+        "REQ-001"
+      ],
+      "msg": "UC-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-UI-001",
+        "REQ-002"
+      ],
+      "msg": "STM-UI-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "CLS-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L1"
+      ],
+      "msg": "C4-L1 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L2"
+      ],
+      "msg": "C4-L2 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L3"
+      ],
+      "msg": "C4-L3 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ERD-001"
+      ],
+      "msg": "ERD-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-TRACE-REQ-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-SEQ-REQ-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-TRACE-REQ-002 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-SEQ-REQ-002 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-TRACE-REQ-003 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-SEQ-REQ-003 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-TRACE-NFR-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-SEQ-NFR-001 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-002",
+        "NFR-002"
+      ],
+      "msg": "AUTO-TRACE-NFR-002 尚未簽核",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-NFR-002",
+        "NFR-002"
+      ],
+      "msg": "AUTO-SEQ-NFR-002 尚未簽核",
+      "action": ""
     }
   ],
   "kpis": {
@@ -1043,5 +1285,783 @@
     ],
     "open_gaps": 2,
     "assumed": 2
+  },
+  "auto_diagrams": [
+    {
+      "id": "AUTO-TRACE-REQ-001",
+      "kind": "flowchart",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-001",
+      "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP003\n  AC0011 --> CMP004\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST003\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 -.-> TST003\n  REQ001 --> AC0013([\"AC-001-3\"]):::ac\n  AC0013 --> CMP004\n  AC0013 --> CMP002\n  AC0013 -.-> TST001\n  AC0013 -.-> TST004\n  subgraph LApi[\"Api\"]\n    CMP001[\"CMP-001<br/>AvatarController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP002[\"CMP-002<br/>UploadAvatarCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP003[\"CMP-003<br/>Member (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP004[\"CMP-004<br/>BlobAvatarStorage\"]:::cmp\n  end\n  TST001[/\"TST-001 unit\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST003[/\"TST-003 integration\"/]:::tst\n  TST004[/\"TST-004 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:12",
+        "10-requirements.md:17",
+        "10-requirements.md:22",
+        "10-requirements.md:6",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:33",
+        "30-architecture-c4.md:58",
+        "30-architecture-c4.md:59",
+        "30-architecture-c4.md:60",
+        "30-architecture-c4.md:61",
+        "30-architecture-c4.md:62",
+        "30-architecture-c4.md:63",
+        "30-architecture-c4.md:64",
+        "60-test-design.md:6",
+        "60-test-design.md:7",
+        "60-test-design.md:8",
+        "60-test-design.md:9"
+      ],
+      "edges": 8
+    },
+    {
+      "id": "AUTO-SEQ-REQ-001",
+      "kind": "sequence",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-001",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as AvatarController\n  participant CMP002 as UploadAvatarCommandHandler\n  participant CMP003 as Member\n  participant CMP004 as BlobAvatarStorage\n  U->>CMP001: 接收 multipart,回 200 + URL\n  CMP001->>CMP002: 編排:驗證 → 存 Blob → ReplaceAvatar\n  CMP002->>CMP003: ReplaceAvatar,發 AvatarReplaced\n  CMP002->>CMP004: 存 Blob,回 BlobRef\n  CMP001-->>U: AC-001-1, AC-001-2, AC-001-3",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:33"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-REQ-002",
+      "kind": "flowchart",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-002",
+      "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP005\n  AC0021 --> CMP003\n  AC0021 -.-> TST002\n  subgraph LDomain[\"Domain\"]\n    CMP003[\"CMP-003<br/>Member (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP005[\"CMP-005<br/>ImageSharpValidator\"]:::cmp\n  end\n  TST002[/\"TST-002 unit\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:27",
+        "10-requirements.md:7",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:34",
+        "30-architecture-c4.md:65",
+        "30-architecture-c4.md:66",
+        "60-test-design.md:7"
+      ],
+      "edges": 3
+    },
+    {
+      "id": "AUTO-SEQ-REQ-002",
+      "kind": "sequence",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-002",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP003 as Member\n  participant CMP005 as ImageSharpValidator\n  U->>CMP003: Avatar VO 不變量\n  CMP003->>CMP005: 後端再驗一次正方形與 ≥ 200px\n  CMP003-->>U: AC-002-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:34"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-REQ-003",
+      "kind": "flowchart",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-003",
+      "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP006\n  subgraph LApplication[\"Application\"]\n    CMP006[\"CMP-006<br/>GetAvatarUrlQueryHandler\"]:::cmp\n  end\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:32",
+        "10-requirements.md:8",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:67"
+      ],
+      "edges": 1
+    },
+    {
+      "id": "AUTO-SEQ-REQ-003",
+      "kind": "sequence",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-003",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP006 as GetAvatarUrlQueryHandler\n  U->>CMP006: 無 Avatar 回預設圖 URL\n  CMP006-->>U: AC-003-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:35"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-NFR-001",
+      "kind": "flowchart",
+      "req": "NFR-001",
+      "reqs": [
+        "NFR-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 NFR-001",
+      "mermaid": "flowchart LR\n  PNFR001[\"PM§4\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 -.-> TST005\n  TST005[/\"TST-005 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:41",
+        "60-test-design.md:10"
+      ],
+      "edges": 1
+    },
+    {
+      "id": "AUTO-SEQ-NFR-001",
+      "kind": "sequence",
+      "req": "NFR-001",
+      "reqs": [
+        "NFR-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 NFR-001",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as AvatarController\n  U->>CMP001: Api\n  CMP001-->>U: AC-N01-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:30"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-NFR-002",
+      "kind": "flowchart",
+      "req": "NFR-002",
+      "reqs": [
+        "NFR-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 NFR-002",
+      "mermaid": "flowchart LR\n  PNFR002[\"PM§4\"]:::pm --> NFR002[\"NFR-002\"]:::req\n  NFR002 --> ACN021([\"AC-N02-1\"]):::ac\n  ACN021 -.-> TST004\n  NFR002 --> CMP004\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP004[\"CMP-004<br/>BlobAvatarStorage\"]:::cmp\n  end\n  TST004[/\"TST-004 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:42",
+        "30-architecture-c4.md:33",
+        "60-test-design.md:9"
+      ],
+      "edges": 2
+    },
+    {
+      "id": "AUTO-SEQ-NFR-002",
+      "kind": "sequence",
+      "req": "NFR-002",
+      "reqs": [
+        "NFR-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 NFR-002",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as AvatarController\n  participant CMP004 as BlobAvatarStorage\n  U->>CMP001: Api\n  U->>CMP004: Infrastructure\n  CMP001-->>U: AC-N02-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:33"
+      ]
+    }
+  ],
+  "audit": {
+    "summary": {
+      "diagrams": 18,
+      "table_rows": 0,
+      "by_phase": {
+        "SA": 0,
+        "RD": 8,
+        "AUTO": 10
+      },
+      "signoff": {
+        "approved": 0,
+        "stale": 0,
+        "pending": 18,
+        "rejected": 0
+      },
+      "with_findings": 5,
+      "changed_since_last": [],
+      "removed_since_last": []
+    },
+    "items": [
+      {
+        "type": "diagram",
+        "id": "UC-001",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "UC-001 上傳大頭貼(REQ-001)",
+        "source": "20-domain-model.md:18",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 3,
+            "stage": "S1",
+            "method": "UseCase",
+            "out": "UC-001"
+          },
+          {
+            "seq": 4,
+            "stage": "S1",
+            "method": "Gherkin",
+            "out": "AC-001-1..3"
+          },
+          {
+            "seq": 17,
+            "stage": "S2",
+            "method": "C4.Component",
+            "out": "CMP-001..006"
+          },
+          {
+            "seq": 18,
+            "stage": "S2",
+            "method": "UML.Sequence",
+            "out": "SEQ-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "750a3edf9baa",
+        "findings": [],
+        "mermaid": "flowchart TD\n  A[送出檔案] --> B{格式/大小 OK?}\n  B -->|否| E1[400 AVATAR_TOO_LARGE]\n  B -->|是| C[存 Blob]\n  C -->|逾時 x3| E2[503,Avatar 不變]\n  C -->|成功| D[更新 Member.Avatar] --> F[200 + URL]",
+        "checks": [],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "STM-UI-001",
+        "phase": "RD",
+        "kind": "state",
+        "heading": "STM-UI-001 上傳畫面(REQ-002)",
+        "source": "20-domain-model.md:53",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 9,
+            "stage": "S1",
+            "method": "UML.State.UI",
+            "out": "STM-UI-001"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "00515f698421",
+        "findings": [],
+        "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Cropping: selectFile\n  Cropping --> Uploading: confirmCrop [edge >= 200px]\n  Cropping --> Idle: cancel\n  Uploading --> Done: 200\n  Uploading --> Idle: 4xx/5xx",
+        "checks": [],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "CLS-001",
+        "phase": "RD",
+        "kind": "class",
+        "heading": "CLS-001 Member(REQ-001)",
+        "source": "20-domain-model.md:73",
+        "inputs": [],
+        "process": [],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "3a4506cbc347",
+        "findings": [
+          {
+            "gate": "process",
+            "outcome": "process_none",
+            "vars": {}
+          },
+          {
+            "gate": "consistency",
+            "outcome": "class_unknown",
+            "vars": {
+              "cls": "Avatar"
+            },
+            "check": "class_names_known"
+          }
+        ],
+        "mermaid": "classDiagram\n  class Member {\n    +MemberId id\n    +Avatar avatar\n    +ReplaceAvatar(Avatar) AvatarReplaced\n  }\n  class Avatar {\n    +BlobRef blob\n    +DateTime updatedAt\n  }\n  Member --> Avatar : 0..1",
+        "checks": [
+          "class_names_known"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L1",
+        "phase": "RD",
+        "kind": "c4-context",
+        "heading": "C4-L1",
+        "source": "30-architecture-c4.md:5",
+        "inputs": [],
+        "process": [],
+        "targets": [],
+        "hash": "159e1d9f18b4",
+        "findings": [
+          {
+            "gate": "process",
+            "outcome": "process_none",
+            "vars": {}
+          }
+        ],
+        "mermaid": "C4Context\n  Person(member, \"會員\")\n  System(sys, \"會員系統\")\n  System_Ext(blob, \"Azure Blob Storage\")\n  Rel(member, sys, \"上傳/瀏覽頭像\")\n  Rel(sys, blob, \"存取圖片\", \"HTTPS\")",
+        "checks": [],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L2",
+        "phase": "RD",
+        "kind": "c4-container",
+        "heading": "C4-L2",
+        "source": "30-architecture-c4.md:16",
+        "inputs": [],
+        "process": [],
+        "targets": [],
+        "hash": "549122d75dd3",
+        "findings": [
+          {
+            "gate": "process",
+            "outcome": "process_none",
+            "vars": {}
+          }
+        ],
+        "mermaid": "C4Container\n  Container(web, \"會員 Web\", \"React\", \"裁切在前端\")\n  Container(api, \"Member API\", \".NET 8\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"Member\")\n  System_Ext(blob, \"Azure Blob\", \"\")\n  Rel(web, api, \"HTTPS\")\n  Rel(api, db, \"EF Core\")\n  Rel(api, blob, \"SDK\")",
+        "checks": [],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L3",
+        "phase": "RD",
+        "kind": "c4-component",
+        "heading": "C4-L3",
+        "source": "30-architecture-c4.md:38",
+        "inputs": [],
+        "process": [],
+        "targets": [],
+        "hash": "289da345d333",
+        "findings": [
+          {
+            "gate": "process",
+            "outcome": "process_none",
+            "vars": {}
+          }
+        ],
+        "mermaid": "C4Component\n  Component(c1, \"AvatarController\", \"Api\")\n  Component(c2, \"UploadAvatarCommandHandler\", \"Application\")\n  Component(c6, \"GetAvatarUrlQueryHandler\", \"Application\")\n  Component(c3, \"Member\", \"Domain\")\n  Component(c4, \"BlobAvatarStorage\", \"Infrastructure\", \"IAvatarStorage\")\n  Component(c5, \"ImageSharpValidator\", \"Infrastructure\")\n  Rel(c1, c2, \"Send\")\n  Rel(c1, c6, \"Send\")\n  Rel(c2, c3, \"ReplaceAvatar\")\n  Rel(c2, c4, \"IAvatarStorage\")\n  Rel(c2, c5, \"\")\n  Rel(c3, c5, \"B2 FAIL\")\n  Rel(c6, c4, \"IAvatarStorage\")",
+        "checks": [
+          "c4_relations_follow_dependencies"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-001",
+        "phase": "RD",
+        "kind": "sequence",
+        "heading": "SEQ-001 上傳(UC-001 / REQ-001)",
+        "source": "30-architecture-c4.md:71",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 18,
+            "stage": "S2",
+            "method": "UML.Sequence",
+            "out": "SEQ-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "296b87ac9b45",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor M as 會員\n  participant C as AvatarController\n  participant H as UploadAvatarCommandHandler\n  participant V as ImageSharpValidator\n  participant S as IAvatarStorage\n  participant A as Member\n  M->>C: POST /members/{id}/avatar\n  alt size > 5MB\n    C-->>M: 400 AVATAR_TOO_LARGE\n  else\n    C->>H: Send(UploadAvatarCommand)\n    H->>V: Validate(stream)\n    H->>S: SaveAsync(stream)\n    alt Blob 逾時 x3\n      S-->>H: StorageUnavailable\n      H-->>C: Failure\n      C-->>M: 503\n    else\n      S-->>H: BlobRef\n      H->>A: ReplaceAvatar(Avatar)\n      A-->>H: AvatarReplaced\n      H-->>C: Result(url)\n      C-->>M: 200 {url}\n    end\n  end",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "ERD-001",
+        "phase": "RD",
+        "kind": "erd",
+        "heading": "ERD-001",
+        "source": "50-data-model.md:5",
+        "inputs": [],
+        "process": [],
+        "targets": [],
+        "hash": "df1563ceff41",
+        "findings": [
+          {
+            "gate": "process",
+            "outcome": "process_none",
+            "vars": {}
+          },
+          {
+            "gate": "consistency",
+            "outcome": "er_unowned",
+            "vars": {
+              "entity": "Member"
+            },
+            "check": "er_entities_owned"
+          }
+        ],
+        "mermaid": "erDiagram\n  Member ||--o| MemberAvatar : has\n  MemberAvatar {\n    uniqueidentifier MemberId PK\n    nvarchar BlobPath\n    datetime2 UpdatedAt\n  }",
+        "checks": [
+          "er_entities_owned"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-001",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-001",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:12",
+          "10-requirements.md:17",
+          "10-requirements.md:22",
+          "10-requirements.md:6",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:33",
+          "30-architecture-c4.md:58",
+          "30-architecture-c4.md:59",
+          "30-architecture-c4.md:60",
+          "30-architecture-c4.md:61",
+          "30-architecture-c4.md:62",
+          "30-architecture-c4.md:63",
+          "30-architecture-c4.md:64",
+          "60-test-design.md:6",
+          "60-test-design.md:7",
+          "60-test-design.md:8",
+          "60-test-design.md:9"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "41814e38c1dc",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP003\n  AC0011 --> CMP004\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST003\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 -.-> TST003\n  REQ001 --> AC0013([\"AC-001-3\"]):::ac\n  AC0013 --> CMP004\n  AC0013 --> CMP002\n  AC0013 -.-> TST001\n  AC0013 -.-> TST004\n  subgraph LApi[\"Api\"]\n    CMP001[\"CMP-001<br/>AvatarController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP002[\"CMP-002<br/>UploadAvatarCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP003[\"CMP-003<br/>Member (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP004[\"CMP-004<br/>BlobAvatarStorage\"]:::cmp\n  end\n  TST001[/\"TST-001 unit\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST003[/\"TST-003 integration\"/]:::tst\n  TST004[/\"TST-004 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-001",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-001",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:33"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "8ce043f34cfe",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as AvatarController\n  participant CMP002 as UploadAvatarCommandHandler\n  participant CMP003 as Member\n  participant CMP004 as BlobAvatarStorage\n  U->>CMP001: 接收 multipart,回 200 + URL\n  CMP001->>CMP002: 編排:驗證 → 存 Blob → ReplaceAvatar\n  CMP002->>CMP003: ReplaceAvatar,發 AvatarReplaced\n  CMP002->>CMP004: 存 Blob,回 BlobRef\n  CMP001-->>U: AC-001-1, AC-001-2, AC-001-3",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-002",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-002",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:27",
+          "10-requirements.md:7",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:34",
+          "30-architecture-c4.md:65",
+          "30-architecture-c4.md:66",
+          "60-test-design.md:7"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "9febc508bf7f",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP005\n  AC0021 --> CMP003\n  AC0021 -.-> TST002\n  subgraph LDomain[\"Domain\"]\n    CMP003[\"CMP-003<br/>Member (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP005[\"CMP-005<br/>ImageSharpValidator\"]:::cmp\n  end\n  TST002[/\"TST-002 unit\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-002",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-002",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:34"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "4cd49a8bb1a2",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP003 as Member\n  participant CMP005 as ImageSharpValidator\n  U->>CMP003: Avatar VO 不變量\n  CMP003->>CMP005: 後端再驗一次正方形與 ≥ 200px\n  CMP003-->>U: AC-002-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-003",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-003",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:32",
+          "10-requirements.md:8",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:67"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "27d57b142050",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP006\n  subgraph LApplication[\"Application\"]\n    CMP006[\"CMP-006<br/>GetAvatarUrlQueryHandler\"]:::cmp\n  end\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-003",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-003",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:35"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "9673a14261b5",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP006 as GetAvatarUrlQueryHandler\n  U->>CMP006: 無 Avatar 回預設圖 URL\n  CMP006-->>U: AC-003-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-NFR-001",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 NFR-001",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:41",
+          "60-test-design.md:10"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-001"
+        ],
+        "hash": "ed7206aee43f",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PNFR001[\"PM§4\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 -.-> TST005\n  TST005[/\"TST-005 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-NFR-001",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 NFR-001",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:30"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-001"
+        ],
+        "hash": "f2dd3588d20f",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as AvatarController\n  U->>CMP001: Api\n  CMP001-->>U: AC-N01-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-NFR-002",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 NFR-002",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:42",
+          "30-architecture-c4.md:33",
+          "60-test-design.md:9"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-002"
+        ],
+        "hash": "6e4c1d61ece0",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PNFR002[\"PM§4\"]:::pm --> NFR002[\"NFR-002\"]:::req\n  NFR002 --> ACN021([\"AC-N02-1\"]):::ac\n  ACN021 -.-> TST004\n  NFR002 --> CMP004\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP004[\"CMP-004<br/>BlobAvatarStorage\"]:::cmp\n  end\n  TST004[/\"TST-004 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-NFR-002",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 NFR-002",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:33"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-002"
+        ],
+        "hash": "8e4e7094915c",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as AvatarController\n  participant CMP004 as BlobAvatarStorage\n  U->>CMP001: Api\n  U->>CMP004: Infrastructure\n  CMP001-->>U: AC-N02-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "signoff": "pending",
+        "signoff_detail": {}
+      }
+    ],
+    "methodology": "",
+    "signoff_path": "audit/signoff.md"
   }
 }

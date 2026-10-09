@@ -18,23 +18,32 @@ steps:
     method: 讀 sa/00-lexicon.md(不讀整份原文):升級的名詞→候選實體;動作→候選動作;角色→候選 Actor;降級的要寫理由才可撿回;每個詞記來源段落
     output: sa/01-break-words.md
     sections: [名詞, 動詞, 角色詞]
+    audit:
+      tables: [{table: words, checks: [anchors_exist]}]
   - id: SA2
     name: 實體與關係
     method: 名詞去重、合併同義、剔除屬性詞;關係寫成 來源-關係-目標-多重性;畫 classDiagram 或 erDiagram
     output: sa/02-entities-relations.md
     sections: [實體, 關係]
     diagrams: [CLS-SA-]
+    audit:
+      tables: [{table: sa_entities, checks: [symbols_present]}]
+      diagrams: [{prefix: CLS-SA-, checks: [class_in_sa_entities]}]
   - id: SA3
     name: 角色、動作、流程
     method: 每個 Actor 的動作清單;動作串成流程;對應 REQ
     output: sa/03-roles.md
     sections: [角色與動作]
+    audit:
+      tables: [{table: sa_roles, checks: [req_refs_exist, action_has_symbol]}]
   - id: SA4
     name: Use Case Diagram
     method: Actor–UseCase 關係(mermaid 無原生 usecase,用 flowchart LR 畫)
     output: sa/04-usecase.md
     sections: [Use Case Diagram]
     diagrams: [UCD-]
+    audit:
+      diagrams: [{prefix: UCD-, checks: [ucd_covers_roles]}]
   - id: SA5
     name: Activity Diagram
     method: 每條主要流程一張;分支與並行用 flowchart
@@ -47,12 +56,16 @@ steps:
     output: sa/06-sequence.md
     sections: [Sequence Diagram]
     diagrams: [SEQ-SA-]
+    audit:
+      diagrams: [{prefix: SEQ-SA-, checks: [seq_actor_is_role]}]
   - id: SA7
     name: State Diagram
     method: 有生命週期的實體各一張;狀態要能對回 02 的實體屬性
     output: sa/07-state.md
     sections: [State Diagram]
     diagrams: [STM-SA-]
+    audit:
+      diagrams: [{prefix: STM-SA-, checks: [state_events_are_actions]}]
 hand_off:
   to: S1
   rule: 02 的實體 → 20-domain-model 的 Entity/VO 候選;03 的角色動作 → UC;07 的狀態 → STM-DOM;survey 的 existing → 30 的 Component 沿用

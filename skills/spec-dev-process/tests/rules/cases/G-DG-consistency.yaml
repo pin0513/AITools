@@ -1,0 +1,10 @@
+rule: G-DG-consistency
+cases:
+  - name: seq_c4_trace_unknown_check
+    patch: {replace: {audit: {items: [
+      {type: diagram, id: SEQ-001, targets: [REQ-001], findings: [{gate: consistency, outcome: seq_no_dependency, vars: {from: Ctl, to: Repo}, check: seq_calls_follow_dependencies}]},
+      {type: diagram, id: C4-L3, targets: [], findings: [{gate: consistency, outcome: c4_no_dependency, vars: {from: CMP-003, to: CMP-001}, check: c4_relations_follow_dependencies}]},
+      {type: diagram, id: AUTO-TRACE-REQ-001, targets: [REQ-001], findings: [{gate: consistency, outcome: trace_empty, vars: {req: REQ-001}, check: trace_has_edges}]},
+      {type: diagram, id: ERD-001, targets: [], findings: [{gate: consistency, outcome: er_unowned, vars: {entity: Member}, check: er_entities_owned}, {gate: consistency, outcome: check_unknown, vars: {check: nope}}]}]}}}
+    expect: [{outcome: seq_no_dependency, target: SEQ-001, status: FAIL}, {outcome: c4_no_dependency, target: C4-L3, status: FAIL},
+             {outcome: trace_empty, target: AUTO-TRACE-REQ-001, status: FAIL}, {outcome: er_unowned, target: ERD-001, status: WARN}, {outcome: check_unknown, target: ERD-001, status: FAIL}]

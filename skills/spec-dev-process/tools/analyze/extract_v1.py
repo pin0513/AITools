@@ -164,6 +164,7 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
     # ---- SA 素材與 survey(review_dir)----
     review_dir = review_dir or d
     sa_files, sa_artifacts, sa_entities, sa_roles, sa_words, survey = [], [], [], [], 0, []
+    sa_tables = {}   # 表名 → 所有列(含 _line、_file),供 SA 審計逐列核對
     for fname, spec in contracts["files"].items():
         if spec.get("dir") != "review": continue
         p = review_dir / fname
@@ -172,8 +173,10 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
         doc = M.parse(fname, p.read_text(encoding="utf-8"))
         for t in doc.tables:
             name = M.classify(t, sig)
-            if name == "sa_entities": sa_entities += [{"name": r["實體"], "en": r.get("英文", ""), "attrs": r.get("屬性", ""), "source": r.get("來源詞", "")} for r in t.rows]
-            elif name == "sa_roles": sa_roles += [{"role": r["角色"], "action": r["動作"], "flow": r.get("流程", ""), "reqs": M.split_ids(r.get("對應 REQ", ""))} for r in t.rows]
+            if name:
+                sa_tables.setdefault(name, []).extend({**{k: v for k, v in r.items() if not k.startswith("_")}, "_line": r.get("_line"), "_file": fname} for r in t.rows)
+            if name == "sa_entities": sa_entities += [{"name": r["實體"], "en": r.get("英文", ""), "attrs": r.get("屬性", ""), "source": r.get("來源詞", ""), "line": r.get("_line"), "file": fname} for r in t.rows]
+            elif name == "sa_roles": sa_roles += [{"role": r["角色"], "action": r["動作"], "flow": r.get("流程", ""), "reqs": M.split_ids(r.get("對應 REQ", "")), "line": r.get("_line"), "file": fname} for r in t.rows]
             elif name == "words": sa_words += len(t.rows)
             elif name == "survey": survey += [{"element": r["模型元素"], "kind": r["類型"], "status": r.get("狀態", ""), "target": r.get("對應 codebase", ""), "evidence": r.get("證據", ""), "note": r.get("說明", ""), "line": r.get("_line"), "file": fname} for r in t.rows]
         for mm in doc.mermaid:
@@ -199,8 +202,9 @@ def extract(d: pathlib.Path, contracts: dict, review_dir: pathlib.Path = None, p
         "io_map": io_map, "requirements": reqs, "components": comps, "ac_links": ac_links, "apis": apis,
         "failure_modes": failure_modes, "ownership": ownership, "erd_entities": sorted(set(erd_entities)),
         "tests": tests, "fitness": fitness, "gaps": gaps, "use_cases": ucs, "artifacts": artifacts,
+        "spec_dir": (str(d.resolve().relative_to(pathlib.Path(project_root).resolve())) if project_root and d.resolve().is_relative_to(pathlib.Path(project_root).resolve()) else str(d)),
         "sources": sources, "ac_text": acs_text, "uc_text": uc_text, "screens": screens, "ui_validation": ui_validation, "doc_paths": doc_paths,
-        "sa_files": sa_files, "sa_artifacts": sa_artifacts, "sa_entities": sa_entities, "sa_roles": sa_roles, "sa_word_count": sa_words, "survey": survey,
+        "sa_files": sa_files, "sa_artifacts": sa_artifacts, "sa_tables": sa_tables, "sa_entities": sa_entities, "sa_roles": sa_roles, "sa_word_count": sa_words, "survey": survey,
         "extract_errors": errors,
     }
 

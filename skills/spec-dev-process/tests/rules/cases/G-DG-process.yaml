@@ -1,0 +1,7 @@
+rule: G-DG-process
+cases:
+  - name: only_process_gate_counted
+    patch: {replace: {audit: {items: [
+      {type: diagram, id: CLS-001, targets: [], findings: [{gate: process, outcome: process_none, vars: {}}, {gate: target, outcome: target_none, vars: {}}]},
+      {type: diagram, id: AUTO-SEQ-REQ-001, targets: [REQ-001], findings: []}]}}}
+    expect: [{outcome: process_none, target: CLS-001, status: WARN}]

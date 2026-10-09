@@ -1,0 +1,1556 @@
+{
+ "summary": {
+  "diagrams": 29,
+  "table_rows": 30,
+  "by_phase": {
+   "SA": 5,
+   "RD": 10,
+   "AUTO": 14
+  },
+  "signoff": {
+   "approved": 0,
+   "stale": 0,
+   "pending": 29,
+   "rejected": 0
+  },
+  "with_findings": 0,
+  "changed_since_last": [],
+  "removed_since_last": []
+ },
+ "items": [
+  {
+   "type": "diagram",
+   "id": "CLS-SA-001",
+   "phase": "SA",
+   "kind": "class",
+   "heading": "CLS-SA-001 實體關係(REQ-001)",
+   "source": "sa/02-entities-relations.md:23",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 30,
+     "stage": "SA",
+     "method": "SA2.ClassDiagram",
+     "out": "CLS-SA-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "b88bf3e6a275",
+   "findings": [],
+   "mermaid": "classDiagram\n  class Form { +Id +Title +Status +OwnerId +ReviewerIds }\n  class FormSubmission { +Id +FormId +SubmitterId +Answers +Status +ResubmitCount +Submit() +Approve() +Reject() +Resubmit() }\n  class ReviewRecord { +Id +SubmissionId +ReviewerId +Decision +Reason +ReviewedAt }\n  class ReviewReminder { +SubmissionId +ReviewerId +SentAt }\n  Form \"1\" --> \"*\" FormSubmission : has\n  FormSubmission \"1\" --> \"*\" ReviewRecord : reviewed by\n  FormSubmission \"1\" --> \"*\" ReviewReminder : reminded by",
+   "checks": [
+    "class_in_sa_entities"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UCD-001",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "UCD-001 表單審核(REQ-001)",
+   "source": "sa/04-usecase.md:7",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 6,
+     "stage": "SA",
+     "method": "SA4-7.Diagrams",
+     "out": "UCD-001, ACT-001, SEQ-SA-001, STM-SA-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "8a816cccfa0a",
+   "findings": [],
+   "mermaid": "flowchart LR\n  S([Submitter]) --> UC1((送審))\n  S --> UC3((修改並重送))\n  R([Reviewer]) --> UC2a((核准))\n  R --> UC2b((退回))\n  R --> UC2c((看待審清單))\n  SYS([System 排程]) --> UC4((逾時提醒))\n  UC2b -. 觸發 .-> UC3\n  UC4 -. 針對 .-> UC2a\n  UC4 -. 針對 .-> UC2b",
+   "checks": [
+    "ucd_covers_roles"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ACT-001",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "ACT-001 審核主流程(REQ-002)",
+   "source": "sa/05-activity.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 6,
+     "stage": "SA",
+     "method": "SA4-7.Diagrams",
+     "out": "UCD-001, ACT-001, SEQ-SA-001, STM-SA-001"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "123032485715",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[填寫者送出] --> B[狀態 = Pending]\n  B --> C{3 工作天內處理?}\n  C -->|否| D[系統每日提醒審核者] --> C\n  C -->|是| E{審核者決定}\n  E -->|核准| F[狀態 = Approved] --> G[寫 ReviewRecord] --> H([結束])\n  E -->|退回| I{理由 ≥ 10 字?}\n  I -->|否| J[拒絕操作] --> E\n  I -->|是| K[狀態 = Rejected] --> L[寫 ReviewRecord] --> M[填寫者修改答案]\n  M --> N[重新送出] --> B",
+   "checks": [],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-SA-001",
+   "phase": "SA",
+   "kind": "sequence",
+   "heading": "SEQ-SA-001 退回與重送(REQ-002 / REQ-003)",
+   "source": "sa/06-sequence.md:7",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 6,
+     "stage": "SA",
+     "method": "SA4-7.Diagrams",
+     "out": "UCD-001, ACT-001, SEQ-SA-001, STM-SA-001"
+    },
+    {
+     "seq": 21,
+     "stage": "S2",
+     "method": "UML.Sequence",
+     "out": "SEQ-001 (CMP-001..003, 005..007)"
+    }
+   ],
+   "targets": [
+    "REQ-002",
+    "REQ-003"
+   ],
+   "hash": "dfe6c54871d1",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor R as Reviewer\n  actor S as Submitter\n  participant W as Web\n  participant A as Forms API\n  participant D as DB\n  participant N as INotifier\n  R->>W: 退回 + 理由\n  W->>A: POST /submissions/{id}/reject\n  alt 理由 < 10 字\n    A-->>W: 400 REASON_TOO_SHORT\n  else\n    A->>D: Status=Rejected, insert ReviewRecord\n    A->>N: 通知 Submitter 被退回\n    A-->>W: 200\n  end\n  S->>W: 修改答案、重新送出\n  W->>A: POST /submissions/{id}/resubmit\n  A->>D: Status=Pending, ResubmitCount+1\n  A-->>W: 200",
+   "checks": [
+    "seq_actor_is_role"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-SA-001",
+   "phase": "SA",
+   "kind": "state",
+   "heading": "STM-SA-001 FormSubmission.Status(REQ-001)",
+   "source": "sa/07-state.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 6,
+     "stage": "SA",
+     "method": "SA4-7.Diagrams",
+     "out": "UCD-001, ACT-001, SEQ-SA-001, STM-SA-001"
+    },
+    {
+     "seq": 9,
+     "stage": "S1",
+     "method": "UML.State",
+     "out": "STM-DOM-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "43330ee1cdfe",
+   "findings": [],
+   "mermaid": "stateDiagram-v2\n  [*] --> Pending: Submit\n  Pending --> Approved: Approve [reviewer assigned]\n  Pending --> Rejected: Reject [reason >= 10]\n  Rejected --> Pending: Resubmit\n  Approved --> [*]\n  note right of Pending: 超過 3 工作天每日 Remind;Submitter 不可 Edit\n  note right of Rejected: Submitter 可 Edit\n  note right of Approved: 不可 Edit、不可 Resubmit",
+   "checks": [
+    "state_events_are_actions"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UC-002",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "UC-002 審核(REQ-002)",
+   "source": "20-domain-model.md:28",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 10,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-002"
+    },
+    {
+     "seq": 11,
+     "stage": "S1",
+     "method": "DDD.Aggregate",
+     "out": "FormSubmission AR + ReviewRecord Entity"
+    },
+    {
+     "seq": 12,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-002 前置條件 actor in ReviewerIds"
+    },
+    {
+     "seq": 13,
+     "stage": "S2",
+     "method": "Contract",
+     "out": "退回時 INotifier 通知填寫者"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "ad646d9b1873",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[載入紀錄] --> B{Status = Pending?}\n  B -->|否| E1[409 INVALID_STATE]\n  B -->|是| C{操作者是審核者?}\n  C -->|否| E2[403]\n  C -->|核准| D[Status=Approved + ReviewRecord]\n  C -->|退回| F{理由 ≥ 10 字?}\n  F -->|否| E3[400 REASON_TOO_SHORT]\n  F -->|是| G[Status=Rejected + ReviewRecord] --> H[通知填寫者]",
+   "checks": [],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-DOM-001",
+   "phase": "RD",
+   "kind": "state",
+   "heading": "STM-DOM-001 FormSubmission.Status(REQ-001)",
+   "source": "20-domain-model.md:67",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 9,
+     "stage": "S1",
+     "method": "UML.State",
+     "out": "STM-DOM-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "3bcdf090924f",
+   "findings": [],
+   "mermaid": "stateDiagram-v2\n  [*] --> Pending: Submit / SubmittedAt=now\n  Pending --> Approved: Approve [actor in ReviewerIds] / add ReviewRecord\n  Pending --> Rejected: Reject [actor in ReviewerIds, reason>=10] / add ReviewRecord, notify submitter\n  Rejected --> Pending: Resubmit [actor == SubmitterId] / ResubmitCount++\n  Approved --> [*]",
+   "checks": [
+    "state_events_are_actions",
+    "state_handoff_subset"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-UI-001",
+   "phase": "RD",
+   "kind": "state",
+   "heading": "STM-UI-001 紀錄頁按鈕(REQ-001)",
+   "source": "20-domain-model.md:78",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 31,
+     "stage": "S1",
+     "method": "UML.State.UI",
+     "out": "STM-UI-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "9c4202c11cf5",
+   "findings": [],
+   "mermaid": "stateDiagram-v2\n  [*] --> Pending\n  Pending --> Approved: 200 approve\n  Pending --> Rejected: 200 reject\n  Rejected --> Pending: 200 resubmit\n  note right of Pending: 修改=disabled;審核者看到核准/退回\n  note right of Rejected: 修改=enabled;重新送出=visible\n  note right of Approved: 全部 disabled",
+   "checks": [],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "CLS-001",
+   "phase": "RD",
+   "kind": "class",
+   "heading": "CLS-001 FormSubmission(REQ-002)",
+   "source": "20-domain-model.md:101",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 32,
+     "stage": "S2",
+     "method": "DDD.ClassDiagram",
+     "out": "CLS-001"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "7a059064d857",
+   "findings": [],
+   "mermaid": "classDiagram\n  class FormSubmission {\n    +Guid Id\n    +Guid FormId\n    +Guid SubmitterId\n    +SubmissionStatus Status\n    +int ResubmitCount\n    +Approve(reviewerId) ReviewRecord\n    +Reject(reviewerId, reason) SubmissionRejected\n    +Resubmit(answers)\n  }\n  class ReviewRecord { +Guid ReviewerId +Decision +string Reason +DateTime ReviewedAt }\n  class ReviewReminder { +Guid ReviewerId +DateOnly Date }\n  FormSubmission \"1\" *-- \"*\" ReviewRecord\n  FormSubmission \"1\" *-- \"*\" ReviewReminder",
+   "checks": [
+    "class_names_known"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L1",
+   "phase": "RD",
+   "kind": "c4-context",
+   "heading": "C4-L1",
+   "source": "30-architecture-c4.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 33,
+     "stage": "S2",
+     "method": "C4",
+     "out": "C4-L1, C4-L2, C4-L3"
+    }
+   ],
+   "targets": [],
+   "hash": "17374d96d526",
+   "findings": [],
+   "mermaid": "C4Context\n  Person(sub, \"填寫者\")\n  Person(rev, \"審核者\")\n  System(sys, \"表單系統\")\n  System_Ext(smtp, \"SMTP\")\n  Rel(sub, sys, \"送審、重送\")\n  Rel(rev, sys, \"核准、退回\")\n  Rel(sys, smtp, \"退回通知、逾時提醒\", \"INotifier\")",
+   "checks": [],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L2",
+   "phase": "RD",
+   "kind": "c4-container",
+   "heading": "C4-L2",
+   "source": "30-architecture-c4.md:18",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 33,
+     "stage": "S2",
+     "method": "C4",
+     "out": "C4-L1, C4-L2, C4-L3"
+    }
+   ],
+   "targets": [],
+   "hash": "71b0d7b1cd43",
+   "findings": [],
+   "mermaid": "C4Container\n  Container(web, \"Forms Web\", \"React\", \"FormFill(modify)、ReviewPanel(new)\")\n  Container(api, \"Forms API\", \".NET 8\", \"Api/Application/Domain/Infrastructure\")\n  Container(job, \"ReviewReminderJob\", \".NET Hosted Service\", \"每日 09:00\")\n  ContainerDb(db, \"SQL Server\", \"\", \"Form, FormSubmission, ReviewRecord, ReviewReminder\")\n  System_Ext(smtp, \"SMTP\", \"\")\n  Rel(web, api, \"HTTPS\")\n  Rel(api, db, \"EF Core\")\n  Rel(job, db, \"EF Core\")\n  Rel(api, smtp, \"INotifier\")\n  Rel(job, smtp, \"INotifier\")",
+   "checks": [],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L3",
+   "phase": "RD",
+   "kind": "c4-component",
+   "heading": "C4-L3",
+   "source": "30-architecture-c4.md:49",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 33,
+     "stage": "S2",
+     "method": "C4",
+     "out": "C4-L1, C4-L2, C4-L3"
+    }
+   ],
+   "targets": [],
+   "hash": "bc85db5de39e",
+   "findings": [],
+   "mermaid": "C4Component\n  Component(c1, \"SubmissionsController\", \"Api\")\n  Component(c2, \"ApproveSubmissionCommandHandler\", \"Application\")\n  Component(c3, \"RejectSubmissionCommandHandler\", \"Application\")\n  Component(c4, \"ResubmitSubmissionCommandHandler\", \"Application\")\n  Component(c9, \"PendingReviewsQueryHandler\", \"Application\")\n  Component(c8, \"ReviewReminderJob\", \"Application\")\n  Component(c5, \"FormSubmission\", \"Domain\")\n  Component(c6, \"SqlFormSubmissionRepository\", \"Infrastructure\", \"IFormSubmissionRepository\")\n  Component(c7, \"EmailNotifier\", \"Infrastructure\", \"INotifier\")\n  Component(c10, \"WorkdayCalendar\", \"Infrastructure\", \"IWorkdayCalendar\")\n  Rel(c1, c2, \"Send\")\n  Rel(c1, c3, \"Send\")\n  Rel(c1, c4, \"Send\")\n  Rel(c1, c9, \"Send\")\n  Rel(c2, c5, \"Approve\")\n  Rel(c3, c5, \"Reject\")\n  Rel(c4, c5, \"Resubmit\")\n  Rel(c2, c6, \"\")\n  Rel(c3, c6, \"\")\n  Rel(c4, c6, \"\")\n  Rel(c9, c6, \"\")\n  Rel(c3, c7, \"notify submitter\")\n  Rel(c8, c6, \"ListOverdue\")\n  Rel(c8, c7, \"remind\")\n  Rel(c8, c10, \"workdays\")",
+   "checks": [
+    "c4_relations_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-001",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-001 審核(UC-002 / REQ-002)",
+   "source": "30-architecture-c4.md:109",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 21,
+     "stage": "S2",
+     "method": "UML.Sequence",
+     "out": "SEQ-001 (CMP-001..003, 005..007)"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "5ac425162801",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor R as Reviewer\n  participant C as SubmissionsController\n  participant H as RejectSubmissionCommandHandler\n  participant Repo as IFormSubmissionRepository\n  participant S as FormSubmission\n  participant N as INotifier\n  R->>C: POST /submissions/{id}/reject {reason}\n  C->>H: Send(RejectSubmissionCommand)\n  H->>Repo: GetAsync(id)\n  alt Status != Pending\n    H-->>C: InvalidState\n    C-->>R: 409\n  else actor not in Form.ReviewerIds\n    H-->>C: Forbidden\n    C-->>R: 403\n  else\n    H->>S: Reject(actor, reason)\n    alt reason < 10\n      S-->>H: DomainException REASON_TOO_SHORT\n      C-->>R: 400\n    else\n      S-->>H: SubmissionRejected\n      H->>Repo: SaveAsync\n      H->>N: NotifyAsync(submitter, \"rejected\")\n      C-->>R: 200\n    end\n  end",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-002",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-002 逾時提醒(UC-004 / REQ-004)",
+   "source": "30-architecture-c4.md:141",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 23,
+     "stage": "S2",
+     "method": "UML.Sequence",
+     "out": "SEQ-002 (CMP-008, 006, 007, 010)"
+    }
+   ],
+   "targets": [
+    "REQ-004"
+   ],
+   "hash": "514f15191856",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  participant J as ReviewReminderJob\n  participant W as IWorkdayCalendar\n  participant Repo as IFormSubmissionRepository\n  participant S as FormSubmission\n  participant N as INotifier\n  J->>W: Subtract(today, 3)\n  J->>Repo: ListOverdueAsync(cutoff)\n  loop each submission\n    J->>S: RemindersDueToday(reviewerIds, today)\n    loop each reviewer not yet reminded\n      J->>N: NotifyAsync(reviewer, \"overdue\")\n      alt notify fails\n        J->>J: log, skip reminder record\n      else\n        J->>S: AddReminder(reviewer, today)\n      end\n    end\n    J->>Repo: SaveAsync\n  end",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ERD-001",
+   "phase": "RD",
+   "kind": "erd",
+   "heading": "ERD-001",
+   "source": "50-data-model.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 34,
+     "stage": "S2",
+     "method": "ERD",
+     "out": "ERD-001"
+    }
+   ],
+   "targets": [],
+   "hash": "7e99e251500e",
+   "findings": [],
+   "mermaid": "erDiagram\n  Form ||--o{ FormSubmission : has\n  FormSubmission ||--o{ ReviewRecord : reviewed\n  FormSubmission ||--o{ ReviewReminder : reminded\n  Form {\n    uniqueidentifier Id PK\n    nvarchar ReviewerIds\n  }\n  FormSubmission {\n    uniqueidentifier Id PK\n    int Status\n    int ResubmitCount\n  }\n  ReviewRecord {\n    uniqueidentifier Id PK\n    uniqueidentifier SubmissionId FK\n    uniqueidentifier ReviewerId\n    int Decision\n    nvarchar Reason\n    datetime2 ReviewedAt\n  }\n  ReviewReminder {\n    uniqueidentifier SubmissionId FK\n    uniqueidentifier ReviewerId\n    date Date\n  }",
+   "checks": [
+    "er_entities_owned"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-001",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-001",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:13",
+    "10-requirements.md:18",
+    "10-requirements.md:6",
+    "30-architecture-c4.md:40",
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:81",
+    "30-architecture-c4.md:82",
+    "30-architecture-c4.md:83",
+    "60-test-design.md:6",
+    "60-test-design.md:9",
+    "specs/in-progress/issue-c/pm-spec.md:12"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "44fb879c3698",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1 送審\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP005\n  AC0011 -.-> TST001\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP004\n  AC0012 --> CMP005\n  AC0012 -.-> TST001\n  AC0012 -.-> TST004\n  subgraph LApplication[\"Application\"]\n    CMP004[\"CMP-004<br/>ResubmitSubmissionCommandHandler(new)\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>FormSubmission (Aggregate, modify)\"]:::cmp\n  end\n  TST001[/\"TST-001 unit\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-001",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-001",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:40",
+    "30-architecture-c4.md:41"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "8f963037c01b",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP004 as ResubmitSubmissionCommandHandler(new)\n  participant CMP005 as FormSubmission\n  U->>CMP004: Pending 時拒絕修改 → 409\n  CMP004->>CMP005: Submit 設 Status=Pending(既有 Create 改)\n  CMP004-->>U: AC-001-1, AC-001-2",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-002",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-002",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:23",
+    "10-requirements.md:28",
+    "10-requirements.md:33",
+    "10-requirements.md:7",
+    "30-architecture-c4.md:37",
+    "30-architecture-c4.md:38",
+    "30-architecture-c4.md:39",
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:42",
+    "30-architecture-c4.md:43",
+    "30-architecture-c4.md:84",
+    "30-architecture-c4.md:85",
+    "30-architecture-c4.md:86",
+    "30-architecture-c4.md:87",
+    "30-architecture-c4.md:88",
+    "30-architecture-c4.md:89",
+    "30-architecture-c4.md:90",
+    "30-architecture-c4.md:91",
+    "30-architecture-c4.md:92",
+    "60-test-design.md:10",
+    "60-test-design.md:13",
+    "60-test-design.md:14",
+    "60-test-design.md:6",
+    "60-test-design.md:7",
+    "60-test-design.md:8",
+    "specs/in-progress/issue-c/pm-spec.md:15"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "251e5468132d",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2 審核\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP001\n  AC0021 --> CMP002\n  AC0021 --> CMP005\n  AC0021 --> CMP006\n  AC0021 -.-> TST001\n  AC0021 -.-> TST002\n  AC0021 -.-> TST005\n  AC0021 -.-> TST009\n  REQ002 --> AC0022([\"AC-002-2\"]):::ac\n  AC0022 --> CMP005\n  AC0022 --> CMP001\n  AC0022 -.-> TST001\n  AC0022 -.-> TST003\n  AC0022 -.-> TST005\n  REQ002 --> AC0023([\"AC-002-3\"]):::ac\n  AC0023 --> CMP003\n  AC0023 --> CMP005\n  AC0023 --> CMP007\n  AC0023 -.-> TST001\n  AC0023 -.-> TST003\n  AC0023 -.-> TST008\n  subgraph LApi[\"Api\"]\n    CMP001[\"CMP-001<br/>SubmissionsController(new)\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP002[\"CMP-002<br/>ApproveSubmissionCommandHandler(new)\"]:::cmp\n    CMP003[\"CMP-003<br/>RejectSubmissionCommandHandler(new)\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>FormSubmission (Aggregate, modify)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP006[\"CMP-006<br/>SqlFormSubmissionRepository\"]:::cmp\n    CMP007[\"CMP-007<br/>EmailNotifier\"]:::cmp\n  end\n  TST001[/\"TST-001 unit\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST003[/\"TST-003 unit\"/]:::tst\n  TST005[/\"TST-005 integration\"/]:::tst\n  TST008[/\"TST-008 contract\"/]:::tst\n  TST009[/\"TST-009 unit\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-002",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-002",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:37",
+    "30-architecture-c4.md:38",
+    "30-architecture-c4.md:39",
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:42",
+    "30-architecture-c4.md:43"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "a8ea032618fd",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as SubmissionsController(new)\n  participant CMP002 as ApproveSubmissionCommandHandler(new)\n  participant CMP003 as RejectSubmissionCommandHandler(new)\n  participant CMP005 as FormSubmission\n  participant CMP006 as SqlFormSubmissionRepository\n  participant CMP007 as EmailNotifier\n  U->>CMP001: POST approve,取 actor\n  CMP001->>CMP002: 編排:載入、審核者檢查、Approve、儲存\n  CMP002->>CMP005: Approve:狀態轉移 + ReviewRecord\n  CMP002->>CMP006: 持久化 ReviewRecord\n  CMP001->>CMP003: 編排:Reject、儲存、發 SubmissionRejected\n  CMP003->>CMP005: Approve:狀態轉移 + ReviewRecord\n  CMP003->>CMP006: 持久化 ReviewRecord\n  CMP003->>CMP007: 通知填寫者\n  CMP001-->>U: AC-002-1, AC-002-2, AC-002-3",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-003",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-003",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:38",
+    "10-requirements.md:43",
+    "10-requirements.md:8",
+    "30-architecture-c4.md:40",
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:93",
+    "30-architecture-c4.md:94",
+    "30-architecture-c4.md:95",
+    "60-test-design.md:6",
+    "60-test-design.md:9",
+    "specs/in-progress/issue-c/pm-spec.md:18"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "2b44673f3885",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3 退回後重送\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP004\n  AC0031 --> CMP005\n  AC0031 -.-> TST001\n  AC0031 -.-> TST004\n  REQ003 --> AC0032([\"AC-003-2\"]):::ac\n  AC0032 --> CMP005\n  AC0032 -.-> TST001\n  AC0032 -.-> TST004\n  subgraph LApplication[\"Application\"]\n    CMP004[\"CMP-004<br/>ResubmitSubmissionCommandHandler(new)\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>FormSubmission (Aggregate, modify)\"]:::cmp\n  end\n  TST001[/\"TST-001 unit\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-003",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-003",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:40",
+    "30-architecture-c4.md:41"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "5359a2c2033e",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP004 as ResubmitSubmissionCommandHandler(new)\n  participant CMP005 as FormSubmission\n  U->>CMP004: 編排:驗答案、Resubmit、儲存\n  CMP004->>CMP005: Resubmit:Rejected → Pending,ResubmitCoun\n  CMP004-->>U: AC-003-1, AC-003-2",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-004",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-004",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:48",
+    "10-requirements.md:53",
+    "10-requirements.md:9",
+    "30-architecture-c4.md:100",
+    "30-architecture-c4.md:101",
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:42",
+    "30-architecture-c4.md:43",
+    "30-architecture-c4.md:44",
+    "30-architecture-c4.md:46",
+    "30-architecture-c4.md:96",
+    "30-architecture-c4.md:97",
+    "30-architecture-c4.md:98",
+    "30-architecture-c4.md:99",
+    "60-test-design.md:11",
+    "60-test-design.md:12",
+    "60-test-design.md:13",
+    "60-test-design.md:15",
+    "60-test-design.md:6",
+    "specs/in-progress/issue-c/pm-spec.md:21"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-004"
+   ],
+   "hash": "70f91c5f61cb",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ004[\"PM§3.4 逾時提醒\"]:::pm --> REQ004[\"REQ-004\"]:::req\n  REQ004 --> AC0041([\"AC-004-1\"]):::ac\n  AC0041 --> CMP008\n  AC0041 --> CMP010\n  AC0041 --> CMP006\n  AC0041 --> CMP007\n  AC0041 -.-> TST006\n  AC0041 -.-> TST007\n  AC0041 -.-> TST008\n  AC0041 -.-> TST010\n  REQ004 --> AC0042([\"AC-004-2\"]):::ac\n  AC0042 --> CMP005\n  AC0042 --> CMP008\n  AC0042 -.-> TST001\n  AC0042 -.-> TST006\n  subgraph LApplication[\"Application\"]\n    CMP008[\"CMP-008<br/>ReviewReminderJob(new)\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>FormSubmission (Aggregate, modify)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP006[\"CMP-006<br/>SqlFormSubmissionRepository\"]:::cmp\n    CMP007[\"CMP-007<br/>EmailNotifier\"]:::cmp\n    CMP010[\"CMP-010<br/>WorkdayCalendar\"]:::cmp\n  end\n  TST001[/\"TST-001 unit\"/]:::tst\n  TST006[/\"TST-006 unit\"/]:::tst\n  TST007[/\"TST-007 integration\"/]:::tst\n  TST008[/\"TST-008 contract\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-004",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-004",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:42",
+    "30-architecture-c4.md:43",
+    "30-architecture-c4.md:44",
+    "30-architecture-c4.md:46"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-004"
+   ],
+   "hash": "435aa27bc28b",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP008 as ReviewReminderJob(new)\n  participant CMP005 as FormSubmission\n  participant CMP006 as SqlFormSubmissionRepository\n  participant CMP007 as EmailNotifier\n  participant CMP010 as WorkdayCalendar\n  U->>CMP008: 每日:查逾時、排除已提醒、通知、寫 ReviewReminder\n  CMP008->>CMP005: ReviewReminder (ReviewerId, Date) 唯一\n  CMP008->>CMP006: ListOverdueAsync\n  CMP008->>CMP007: 發提醒\n  CMP008->>CMP010: 工作天計算(缺口 ＃3)\n  CMP008-->>U: AC-004-1, AC-004-2",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-NFR-001",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 NFR-001",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:62",
+    "30-architecture-c4.md:102",
+    "30-architecture-c4.md:37",
+    "60-test-design.md:10",
+    "60-test-design.md:16",
+    "specs/in-progress/issue-c/pm-spec.md:24"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-001"
+   ],
+   "hash": "a3397a2cbad6",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PNFR001[\"PM§4 非功能需求\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 --> CMP001\n  ACN011 -.-> TST005\n  ACN011 -.-> TST011\n  subgraph LApi[\"Api\"]\n    CMP001[\"CMP-001<br/>SubmissionsController(new)\"]:::cmp\n  end\n  TST005[/\"TST-005 integration\"/]:::tst\n  TST011[/\"TST-011 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-NFR-001",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 NFR-001",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:37"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-001"
+   ],
+   "hash": "0f2f282d4ba8",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as SubmissionsController(new)\n  U->>CMP001: 回應時間量測點\n  CMP001-->>U: AC-N01-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-NFR-002",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 NFR-002",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:63",
+    "30-architecture-c4.md:103",
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:42",
+    "60-test-design.md:12",
+    "specs/in-progress/issue-c/pm-spec.md:24"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-002"
+   ],
+   "hash": "d1f29a931bb0",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PNFR002[\"PM§4 非功能需求\"]:::pm --> NFR002[\"NFR-002\"]:::req\n  NFR002 --> ACN021([\"AC-N02-1\"]):::ac\n  ACN021 --> CMP006\n  ACN021 -.-> TST007\n  NFR002 --> CMP005\n  NFR002 --> CMP006\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>FormSubmission (Aggregate, modify)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP006[\"CMP-006<br/>SqlFormSubmissionRepository\"]:::cmp\n  end\n  TST007[/\"TST-007 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-NFR-002",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 NFR-002",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:41",
+    "30-architecture-c4.md:42"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-002"
+   ],
+   "hash": "04ae73fe4a2e",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP005 as FormSubmission\n  participant CMP006 as SqlFormSubmissionRepository\n  U->>CMP005: Domain\n  U->>CMP006: 無 Delete/Update 方法；DB 觸發器拒絕\n  CMP005-->>U: AC-N02-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-NFR-003",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 NFR-003",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:64",
+    "30-architecture-c4.md:104",
+    "30-architecture-c4.md:105",
+    "30-architecture-c4.md:38",
+    "30-architecture-c4.md:39",
+    "60-test-design.md:7",
+    "60-test-design.md:8",
+    "specs/in-progress/issue-c/pm-spec.md:24"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-003"
+   ],
+   "hash": "0ec92cec3432",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PNFR003[\"PM§4 非功能需求\"]:::pm --> NFR003[\"NFR-003\"]:::req\n  NFR003 --> ACN031([\"AC-N03-1\"]):::ac\n  ACN031 --> CMP002\n  ACN031 --> CMP003\n  ACN031 -.-> TST002\n  ACN031 -.-> TST003\n  NFR003 --> CMP002\n  NFR003 --> CMP003\n  subgraph LApplication[\"Application\"]\n    CMP002[\"CMP-002<br/>ApproveSubmissionCommandHandler(new)\"]:::cmp\n    CMP003[\"CMP-003<br/>RejectSubmissionCommandHandler(new)\"]:::cmp\n  end\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST003[/\"TST-003 unit\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-NFR-003",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 NFR-003",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:38",
+    "30-architecture-c4.md:39"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-003"
+   ],
+   "hash": "9d21d387657b",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP002 as ApproveSubmissionCommandHandler(new)\n  participant CMP003 as RejectSubmissionCommandHandler(new)\n  U->>CMP002: 非審核者 → 403\n  U->>CMP003: 非審核者 → 403\n  CMP002-->>U: AC-N03-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "signoff": "pending",
+   "signoff_detail": {
+    "signed_hash": "",
+    "decision": "pending",
+    "by": "",
+    "date": "",
+    "note": ""
+   },
+   "render": "ok"
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:8",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "表單 | 名詞 | PM§1 | 實體候選(既有 Form)",
+   "source": "sa/01-break-words.md:8",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:9",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "填寫紀錄 | 名詞 | PM§3.1 | 實體候選(既有 FormSubmission)",
+   "source": "sa/01-break-words.md:9",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:10",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "待審核 / 已核准 / 已退回 | 名詞(狀態) | PM§3.1, §3.2, mock data-state | 屬性:FormSubmission.Status",
+   "source": "sa/01-break-words.md:10",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:11",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "審核紀錄 | 名詞 | PM§3.2, mock #history | 實體候選(新)",
+   "source": "sa/01-break-words.md:11",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:12",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "理由 | 名詞 | PM§3.2 | 屬性:ReviewRecord.Reason",
+   "source": "sa/01-break-words.md:12",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:13",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "提醒 | 名詞 | PM§3.4 | 動作候選(系統)",
+   "source": "sa/01-break-words.md:13",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:14",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "工作天 | 名詞 | PM§3.4 | 屬性:SLA 計算規則",
+   "source": "sa/01-break-words.md:14",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:15",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "待審清單 | 名詞 | PM§2 | 查詢候選",
+   "source": "sa/01-break-words.md:15",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:20",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "送出 / 送審 | 動詞 | PM§3.1 | 動作:Submit(既有,語意改變:進入待審核)",
+   "source": "sa/01-break-words.md:20",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:21",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "核准 | 動詞 | PM§3.2 | 動作:Approve(新)",
+   "source": "sa/01-break-words.md:21",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:22",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "退回 | 動詞 | PM§3.2 | 動作:Reject(新)",
+   "source": "sa/01-break-words.md:22",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:23",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "修改 | 動詞 | PM§3.1, §3.3 | 動作:Edit(受狀態限制)",
+   "source": "sa/01-break-words.md:23",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:24",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "重新送出 | 動詞 | PM§3.3 | 動作:Resubmit(新)",
+   "source": "sa/01-break-words.md:24",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:25",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "提醒 | 動詞 | PM§3.4 | 動作:Remind(系統,新)",
+   "source": "sa/01-break-words.md:25",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:26",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "指派 | 動詞 | PM§4 | 動作:Assign reviewer(PM 未展開,列缺口)",
+   "source": "sa/01-break-words.md:26",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:31",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "填寫者 | 角色 | PM§2 | Actor:Submitter(既有 SubmitterId)",
+   "source": "sa/01-break-words.md:31",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:32",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "審核者 | 角色 | PM§2, §4 | Actor:Reviewer(新)",
+   "source": "sa/01-break-words.md:32",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:33",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "部門主管 | 角色 | PM§1 | 丟棄:需求來源,非系統 Actor",
+   "source": "sa/01-break-words.md:33",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:34",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "系統 | 角色 | PM§2, §3.4 | Actor:System(排程)",
+   "source": "sa/01-break-words.md:34",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:6",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "表單 | Form | Id, Title, Status, OwnerId, Fields, ReviewerIds(新) | 表單、指派",
+   "source": "sa/02-entities-relations.md:6",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:7",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "填寫紀錄 | FormSubmission | Id, FormId, SubmitterId, Answers, SubmittedAt, Status(新:Pending/Approved/Rejected), ResubmitCoun",
+   "source": "sa/02-entities-relations.md:7",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:8",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "審核紀錄 | ReviewRecord | Id, SubmissionId, ReviewerId, Decision, Reason, ReviewedAt | 審核紀錄、理由",
+   "source": "sa/02-entities-relations.md:8",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:9",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "提醒 | ReviewReminder | SubmissionId, ReviewerId, SentAt | 提醒、工作天",
+   "source": "sa/02-entities-relations.md:9",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:6",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "Submitter | Submit(POST /forms/{id}/submissions) | 送審:填答 → 送出 → Pending | REQ-001",
+   "source": "sa/03-roles.md:6",
+   "targets": [
+    "REQ-001"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:7",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "Submitter | Edit(限 Rejected) | 退回修改:看理由 → 改答案 | REQ-003",
+   "source": "sa/03-roles.md:7",
+   "targets": [
+    "REQ-003"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:8",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "Submitter | Resubmit(POST /submissions/{id}/resubmit) | 重送:Rejected → Pending | REQ-003",
+   "source": "sa/03-roles.md:8",
+   "targets": [
+    "REQ-003"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:9",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "Reviewer | ListPending(GET /reviews/pending) | 看待審清單 | REQ-002",
+   "source": "sa/03-roles.md:9",
+   "targets": [
+    "REQ-002"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:10",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "Reviewer | Approve(POST /submissions/{id}/approve) | 審核:Pending → Approved,寫 ReviewRecord | REQ-002",
+   "source": "sa/03-roles.md:10",
+   "targets": [
+    "REQ-002"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:11",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "Reviewer | Reject(POST /submissions/{id}/reject, reason ≥ 10) | 審核:Pending → Rejected,寫 ReviewRecord | REQ-002",
+   "source": "sa/03-roles.md:11",
+   "targets": [
+    "REQ-002"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:12",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "System | Remind(排程,每日) | 逾時:Pending > 3 工作天 → INotifier → ReviewReminder | REQ-004",
+   "source": "sa/03-roles.md:12",
+   "targets": [
+    "REQ-004"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  }
+ ],
+ "methodology": "uml-wordbreak",
+ "signoff_path": "audit/signoff.md",
+ "render_check": {
+  "mode": "auto",
+  "available": true,
+  "reason": "",
+  "cards": 7,
+  "visible_svgs": 14,
+  "visible_dg": 14,
+  "overflow": false,
+  "notice": false,
+  "errs": [],
+  "reqs": 7
+ }
+}

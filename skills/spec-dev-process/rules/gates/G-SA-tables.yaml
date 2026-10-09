@@ -1,0 +1,14 @@
+id: G-SA-tables
+version: 1
+category: gate
+stage: S6
+name: SA 表格逐列核對
+description: SA 各步驟表格的逐列核對,規格由方法論檔 steps[*].audit.tables 決定
+predicate: audit_findings
+params: {gate: sa_table}
+outcomes:
+  anchor_missing:        {status: WARN, message: "{row}:來源錨點 {anchor} 在 PM spec 找不到", action: "修正錨點"}
+  symbol_missing:        {status: WARN, message: "{row}:實體「{term}」沒有程式符號", action: "SA2 英文欄填符號"}
+  req_missing:           {status: FAIL, message: "{row}:對應的 {req} 不存在", action: "修正 REQ ID"}
+  req_unassigned:        {status: WARN, message: "{row}:動作沒有對應需求", action: "填對應 REQ"}
+  action_symbol_missing: {status: WARN, message: "{row}:動作沒有以符號開頭", action: "動作欄以 PascalCase 符號開頭"}

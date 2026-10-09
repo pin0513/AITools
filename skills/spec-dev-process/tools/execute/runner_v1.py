@@ -37,15 +37,15 @@ def run_stage(ctx: dict, stage: dict) -> dict:
     if stage.get("pre_tools") and ctx.get("data") is not None:
         from tools.analyze import extract_v1 as X
         X.run(ctx)   # pre_tools 可能產生 review_dir 檔案,重抽讓 gate 看到
-    if stage["owner"] in ("llm", "tool+llm") and stage["owner"] != "tool":
+    if stage["owner"] in ("llm", "tool+llm"):
         CT.run(ctx, stage)
         if not ctx["contract_findings"]: ctx["trace"].append(f"  contract OK: {', '.join(stage['outputs'])}")
         elif not stage.get("gates"):
             ctx["trace"].append(_counts_line(ctx["contract_findings"]))
-    if stage["owner"] == "tool+llm" and ctx.get("data") is None:
+    if stage["owner"] in ("tool+llm", "tool+human") and ctx.get("data") is None:
         from tools.analyze import extract_v1 as X
         X.run(ctx)
-    if stage["owner"] in ("tool", "tool+llm"):
+    if stage["owner"] in ("tool", "tool+llm", "tool+human"):
         for ref in stage.get("tools") or []:
             fn, ver = C.resolve_tool(ref, ctx["registry"])
             ctx = fn(ctx)

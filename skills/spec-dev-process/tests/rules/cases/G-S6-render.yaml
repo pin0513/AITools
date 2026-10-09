@@ -1,0 +1,18 @@
+rule: G-S6-render
+cases:
+  - name: ok
+    patch: {replace: {render_check: {mode: auto, available: true, parse: {SEQ-001: ok}, cards: 1, reqs: 1, visible_svgs: 2, visible_dg: 2, overflow: false, errs: []}}}
+    expect: [{outcome: ok, target: 看板, status: INFO}]
+  - name: broken_panel
+    patch: {replace: {render_check: {mode: auto, available: true, parse: {SEQ-001: "Parse error on line 2"}, cards: 0, reqs: 1, visible_svgs: 0, visible_dg: 2, overflow: true, errs: ["SyntaxError: Unexpected token 'const'"]}}}
+    expect: [{outcome: js_error, target: 看板, status: FAIL}, {outcome: parse_error, target: SEQ-001, status: FAIL}, {outcome: cards, target: 看板, status: FAIL},
+             {outcome: not_drawn, target: 看板, status: FAIL}, {outcome: overflow, target: 看板, status: WARN}]
+  - name: no_browser_auto
+    patch: {replace: {render_check: {mode: auto, available: false, reason: 沒有 node}}}
+    expect: [{outcome: unverified, target: 看板, status: WARN}]
+  - name: no_browser_required
+    patch: {replace: {render_check: {mode: "on", available: false, reason: 沒有 node}}}
+    expect: [{outcome: required, target: 看板, status: FAIL}]
+  - name: render_off
+    patch: {replace: {render_check: {mode: "off"}}}
+    expect: []

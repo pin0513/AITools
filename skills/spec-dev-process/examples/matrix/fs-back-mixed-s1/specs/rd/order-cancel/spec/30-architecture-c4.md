@@ -112,7 +112,12 @@ sequenceDiagram
   CMP002->>CMP003: CancelOrder
   CMP003->>CMP004: CancelOrder
   CMP004->>CMP007: CancelOrder
-  CMP007->>CMP008: CancelOrder
+  CMP007-->>CMP004: ok
+  CMP004->>CMP008: CancelOrder
+  CMP008-->>CMP004: ok
+  CMP004-->>CMP003: ok
+  CMP003-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 
@@ -132,8 +137,14 @@ sequenceDiagram
   CMP002->>CMP003: IssueRefund
   CMP003->>CMP005: IssueRefund
   CMP005->>CMP007: IssueRefund
-  CMP007->>CMP008: IssueRefund
-  CMP008->>CMP009: IssueRefund
+  CMP007-->>CMP005: ok
+  CMP005->>CMP008: IssueRefund
+  CMP008-->>CMP005: ok
+  CMP005->>CMP009: IssueRefund
+  CMP009-->>CMP005: ok
+  CMP005-->>CMP003: ok
+  CMP003-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 
@@ -152,7 +163,12 @@ sequenceDiagram
   CMP002->>CMP003: ListCancellations
   CMP003->>CMP006: ListCancellations
   CMP006->>CMP007: ListCancellations
-  CMP007->>CMP008: ListCancellations
+  CMP007-->>CMP006: ok
+  CMP006->>CMP008: ListCancellations
+  CMP008-->>CMP006: ok
+  CMP006-->>CMP003: ok
+  CMP003-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 

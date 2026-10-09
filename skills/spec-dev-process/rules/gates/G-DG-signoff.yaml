@@ -1,0 +1,13 @@
+id: G-DG-signoff
+version: 1
+category: gate
+stage: S6
+name: 圖的人工簽核
+description: 人工簽核記在 spec-review/audit/signoff.md(SSOT)。退回 → FAIL;核准後內容又變(hash 不同)→ WARN;未簽核 → 依 config reviewer.require_signoff 決定 INFO 或 WARN
+predicate: signoff_findings
+params: {}
+outcomes:
+  rejected:      {status: FAIL, message: "{diagram} 被 {by} 退回:{note}", action: "依備註修正後重新簽核"}
+  stale:         {status: WARN, message: "{diagram} 核准後內容已變更(簽核 {signed} → 目前 {current})", action: "看板上重新確認並簽核"}
+  pending:       {status: INFO, message: "{diagram} 尚未簽核"}
+  pending_required: {status: WARN, message: "{diagram} 尚未簽核(專案要求簽核)", action: "看板上確認並簽核"}

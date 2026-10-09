@@ -27,3 +27,8 @@
 {"seq":27,"req":"NFR-003","stage":"S2","method":"CleanArch.Layers","rule":"M15","in":"NFR-003","out":"審核者檢查放 Application Handler(CMP-002/003)","evidence":"explicit","gaps":[],"note":"權限是應用層關注點"}
 {"seq":28,"req":"*","stage":"S2","method":"C4.Component","rule":"M14","in":"survey-mapping","out":"CMP-001..010","evidence":"explicit","gaps":[],"note":"existing 1 / modify 3 / new 6"}
 {"seq":29,"req":"*","stage":"S4","method":"AC.TestMapping","rule":"M17","in":"AC-*","out":"TST-001..011","evidence":"explicit","gaps":[],"note":""}
+{"seq":30,"req":"*","stage":"SA","method":"SA2.ClassDiagram","rule":"SA2","in":"sa/02 實體表","out":"CLS-SA-001","evidence":"explicit","gaps":[],"note":"實體與關係轉成 classDiagram"}
+{"seq":31,"req":"REQ-001","stage":"S1","method":"UML.State.UI","rule":"M3","in":"mock/approval.html","out":"STM-UI-001","evidence":"explicit","gaps":[],"note":"mock 的按鈕可用性"}
+{"seq":32,"req":"REQ-002","stage":"S2","method":"DDD.ClassDiagram","rule":"M5","in":"20 領域模型表","out":"CLS-001","evidence":"explicit","gaps":[],"note":""}
+{"seq":33,"req":"*","stage":"S2","method":"C4","rule":"M8","in":"docs/architectures/overview.md, survey-mapping","out":"C4-L1, C4-L2, C4-L3","evidence":"explicit","gaps":[],"note":""}
+{"seq":34,"req":"NFR-002","stage":"S2","method":"ERD","rule":"M6","in":"20 領域模型、survey 資料表列","out":"ERD-001","evidence":"explicit","gaps":[],"note":""}

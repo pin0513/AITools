@@ -41,6 +41,17 @@ small{color:var(--muted)}.mermaid{background:var(--bg);margin:6px 0;overflow-x:a
 @media(max-width:900px){.evg{grid-template-columns:minmax(0,1fr)}.evg>div{border-right:0;border-bottom:1px solid var(--line)}}
 .loc{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);word-break:break-all}
 .dg{overflow-x:auto;border:1px solid var(--line);border-radius:4px;padding:4px;margin:4px 0 8px;background:var(--bg)}
+.aud{border:1px solid var(--line);border-radius:6px;margin:6px 0}.aud>summary{padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.aud[open]>summary{border-bottom:1px solid var(--line);background:var(--head)}
+.audg{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px;padding:10px 12px}@media(max-width:900px){.audg{grid-template-columns:minmax(0,1fr)}}
+.prov{display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:6px 10px;margin:0}.prov dt{color:var(--muted);font-size:12px}.prov dd{margin:0;min-width:0}
+.dec{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-top:10px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}.dec.bad{border-color:var(--fail)}
+.dec .note{flex:1 1 220px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg)}
+.audbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}.audbar button{font:inherit;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--fg);cursor:pointer}
+.audbar button.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}.audbar button:focus-visible,.dec input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.audbar .who{margin-left:auto;font-size:12px}.audbar .who input{font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg);width:9em}
+.soout{display:grid;gap:6px;margin-top:12px;padding:10px;border:1px dashed var(--line);border-radius:6px}.soout textarea{font:12px ui-monospace,Menlo,monospace;width:100%;box-sizing:border-box;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:4px;padding:6px}
+.soout .row{display:flex;gap:8px;align-items:center}.soout button{font:inherit;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:4px;background:var(--head);color:var(--fg);cursor:pointer}
 .lookup{display:grid;gap:6px;margin:0 0 10px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--head)}
 .lookup input{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg);width:100%;box-sizing:border-box}
 .lkout{display:grid;gap:8px;max-height:60vh;overflow:auto}
@@ -77,7 +88,7 @@ const badge=s=>`<span class="st ${s}">${s}</span>`;
 const fmt=e=>{const gap=(e.gaps||[]).length?`  gap="${e.gaps.join('; ')}"`:'';const note=e.note?`  "${e.note}"`:'';
   return `[${e.req}] ${e.stage} ${String(e.method).padEnd(22)} ${String(e.in).padEnd(28)} → ${String(e.out).padEnd(22)} rule=${String(e.rule).padEnd(4)} ev=${e.evidence||'?'}${gap}${note}`};
 const logLine=e=>`<div class="${superseded.has(e.seq)?'dead':(String(e.out).toUpperCase()==='FAIL'?'fail':(e.evidence==='assumed'?'low':''))}" data-k="${esc(e.req+' '+e.stage+' '+e.rule+' '+e.method+' '+(e.evidence||''))}">${esc(fmt(e))}</div>`;
-const mer=a=>`<details><summary>${esc(a.id)} <small>${esc(a.kind)} · ${esc(a.file)}:${a.line}</small></summary><pre class="mermaid">${esc(a.mermaid)}</pre></details>`;
+const mer=a=>`<details><summary>${esc(a.id)} <small>${esc(a.kind)} · ${esc(a.file)}:${a.line}</small></summary><pre class="mermaid" data-did="${esc(a.id)}">${esc(a.mermaid)}</pre></details>`;
 
 let h='';
 h+=`<h1>${esc(T.title)} <small>(${esc(T.feature)})</small></h1>
@@ -110,24 +121,9 @@ const relatedNaming=r=>{const tx=reqText(r);return NMG.filter(n=>(n.symbol&&tx.i
 const relatedAssets=(r,keys)=>{const ks=keys.map(k=>String(k).toLowerCase()).filter(k=>k.length>=2);return AS.filter(a=>{const t=(a.heading+' '+a.text).toLowerCase();return ks.some(k=>t.includes(k))})};
 const namingTable=rows=>rows.length?`<div class="tw"><table><tr><th>名詞</th><th>符號</th>${NMCOL.map(c=>`<th>${c}</th>`).join('')}</tr>${rows.map(n=>`<tr><td>${esc(n.term)}</td><td class="loc">${esc(n.symbol)}</td>${NMCOL.map(c=>`<td><small>${(n[c]||[]).map(esc).join(', ')}</small></td>`).join('')}</tr>`).join('')}</table></div>`:'<small>(無)</small>';
 const assetList=rows=>rows.length?rows.map(a=>`<details><summary><small>${loc(a.path,a.line)} ${esc(a.heading)}</small></summary><pre class="pre" style="color:var(--fg)">${esc(a.text)}</pre></details>`).join(''):'<small>(無)</small>';
-const traceDiagram=(r,sec)=>{const L=[innerWidth<700?'flowchart TD':'flowchart LR']; /* 窄螢幕由上往下畫,圖維持原尺寸、框內捲動 */const rid=mid(r.id);
-  L.push(`  P${rid}["${mlab(sec?sec.anchor+' '+sec.title:r.source)}"]:::pm --> ${rid}["${mlab(r.id)}"]:::req`);
-  const cs=new Set(),ts=new Set();
-  for(const a of r.acs){const aid=mid(a);L.push(`  ${rid} --> ${aid}(["${mlab(a)}"]):::ac`);
-    for(const l of (T.ac_links||[]).filter(x=>x.ac===a)){cs.add(l.component);L.push(`  ${aid} --> ${mid(l.component)}`)}
-    for(const t of (T.tests||[]).filter(x=>x.acs.includes(a))){ts.add(t.id);L.push(`  ${aid} -.-> ${mid(t.id)}`)}}
-  for(const b of (r.binds||[])){if(cmp[b]){cs.add(b);L.push(`  ${rid} --> ${mid(b)}`)}}
-  const byL={};for(const c of cs){const k=cmp[c]?.layer||'?';(byL[k]=byL[k]||[]).push(c)}
-  for(const k of LORD.concat(Object.keys(byL).filter(x=>!LORD.includes(x)))){if(!byL[k])continue;L.push(`  subgraph L${mid(k)}["${mlab(k)}"]`);
-    for(const c of byL[k])L.push(`    ${mid(c)}["${mlab(c)}<br/>${mlab((cmp[c]?.name||'').split(' :')[0])}"]:::cmp`);L.push('  end')}
-  for(const t of ts){const tt=(T.tests||[]).find(x=>x.id===t);L.push(`  ${mid(t)}[/"${mlab(t)} ${mlab(tt?.kind||'')}"/]:::tst`)}
-  L.push('  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00','  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40','  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b','  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a','  classDef tst fill:#f6f6f6,stroke:#777,color:#222');
-  return L.join('\n')};
-const seqDiagram=r=>{const cs=cmpsOf(r).filter(c=>cmp[c]).sort((a,b)=>LORD.indexOf(cmp[a].layer)-LORD.indexOf(cmp[b].layer));if(!cs.length)return '';
-  const L=['sequenceDiagram','  autonumber','  actor U as 使用者/系統'];for(const c of cs)L.push(`  participant ${mid(c)} as ${mlab((cmp[c].name||c).split(' :')[0].split(' (')[0])}`);
-  let prev='U';for(const c of cs){const ls=(T.ac_links||[]).filter(l=>l.component===c&&r.acs.includes(l.ac));const lab=ls.length?ls[0].role||ls[0].ac:(cmp[c].layer);
-    L.push(`  ${prev}->>${mid(c)}: ${mlab(lab).slice(0,40)}`);prev=mid(c)}
-  L.push(`  ${mid(cs[0])}-->>U: ${mlab(r.acs.join(', ')||r.id)}`);return L.join('\n')};
+const AUTO=T.auto_diagrams||[];
+const autoOf=(r,k)=>AUTO.find(a=>a.req===r.id&&a.id.startsWith('AUTO-'+k+'-'));
+const narrow=code=>innerWidth<700?code.replace(/^flowchart LR/,'flowchart TD'):code;   /* 窄螢幕由上往下畫 */
 const mocksOf=r=>{const ids=new Set([r.id,...artsOf(r).sa.map(a=>a.id),...artsOf(r).rd.map(a=>a.id)]);return MOCKS.filter(m=>(T.io_map||[]).some(row=>row.in.includes(m.path.split('/').pop())&&row.out.some(o=>[...ids].some(i=>o.includes(i)))))};
 if(PMS.length||MOCKS.length){
 h+=`<section><h2>E. 證據鏈 <small>PM 文字 ↔ 圖(追溯圖、循序圖)↔ RD 文字 · 全部內嵌,不用切畫面</small></h2><div class="body">`;
@@ -151,10 +147,10 @@ for(const r of (T.requirements||[])){
   const roles=(T.sa_roles||[]).filter(x=>x.reqs.includes(r.id)),cs=cmpsOf(r);
   const ents=(T.sa_entities||[]).filter(e=>e.en&&cs.some(c=>(cmp[c]?.name||'').includes(e.en)));
   const logs=live.filter(e=>e.req===r.id);
-  const seq=seqDiagram(r);
+  const tr_=autoOf(r,'TRACE'),sq_=autoOf(r,'SEQ');
   const mid_=`<h4>轉換證據 · 圖</h4>
-    <div class="dg"><pre class="mermaid">${esc(traceDiagram(r,sec))}</pre></div>
-    ${seq?`<div class="dg"><pre class="mermaid">${esc(seq)}</pre></div>`:''}
+    ${tr_?`<div class="dg"><pre class="mermaid" data-did="${esc(tr_.id)}">${esc(narrow(tr_.mermaid))}</pre></div>`:'<small>(無自動追溯圖)</small>'}
+    ${sq_?`<div class="dg"><pre class="mermaid" data-did="${esc(sq_.id)}">${esc(sq_.mermaid)}</pre></div>`:''}
     <details><summary><b>分析鏈</b> <small>${logs.length} 步 · 角色動作 ${roles.length} · 實體 ${ents.length} · 手寫 SA 圖 ${A.sa.length} · RD 圖 ${A.rd.length}</small></summary>
     ${roles.length?`<small><b>SA3 角色→動作</b></small><ul>${roles.map(x=>`<li><small>${esc(x.role)} → ${esc(x.action)} <i>${esc(x.flow)}</i></small></li>`).join('')}</ul>`:''}
     ${ents.length?`<small><b>SA2 實體</b> ${ents.map(e=>esc(e.name)+'('+esc(e.en)+')').join('、')}</small><br>`:''}
@@ -175,6 +171,68 @@ for(const r of (T.requirements||[])){
     <div><h4>RD 證據 · 文字</h4>${loc(r.file||'10-requirements.md',r.line)}${acRows}${ucs}${apis}</div></div></article>`;
 }
 h+=`</div></section>`;
+}
+// ================= F. 圖與表審計:看板優先,與人一起確認 =================
+const AU=T.audit||null;
+if(AU){
+  const S=AU.summary, items=AU.items||[];
+  const SKEY='specdev-signoff:'+(T.feature||'')+':';
+  const lsGet=k=>{try{return JSON.parse(localStorage.getItem(SKEY+k)||'null')}catch(e){return null}};
+  const lsSet=(k,v)=>{try{localStorage.setItem(SKEY+k,JSON.stringify(v))}catch(e){}};
+  const gOf=it=>G.filter(g=>(g.ids||[])[0]===it.id&&/^G-(DG|SA-tables)/.test(g.rule));
+  const gOf2=it=>G.filter(g=>(g.ids||[])[0]===it.id&&g.rule==='G-S6-render');
+  const lvOf=it=>{const g=gOf(it).concat(gOf2(it));return g.some(x=>x.level==='FAIL')?'FAIL':(g.some(x=>x.level==='WARN')?'WARN':'OK')};
+  const changed=new Set(S.changed_since_last||[]);
+  const rank=it=>it.signoff==='rejected'?0:lvOf(it)==='FAIL'?1:it.signoff==='stale'?2:lvOf(it)==='WARN'?3:changed.has(it.id)?4:(it.type==='diagram'&&it.signoff==='pending')?5:6;
+  const order=[...items].sort((a,b)=>rank(a)-rank(b)||a.id.localeCompare(b.id));
+  const SO={approved:['PASS','已核准'],stale:['WARN','核准後已變更'],pending:['INFO','待簽核'],rejected:['FAIL','已退回']};
+  const pill=(cls,t)=>`<span class="st ${cls}">${esc(t)}</span>`;
+  const reqTitle=id=>{const r=(T.requirements||[]).find(x=>x.id===id);return r?`${esc(id)} <small>${esc(r.title)}</small>`:`${esc(id)} ${pill('FAIL','不存在')}`};
+  const logLines=it=>(it.process||[]).map(p=>p.tool?`<div class="loc">工具 ${esc(p.tool)}(自動生成)</div>`:`<div class="loc">#${p.seq} ${esc(p.stage)} ${esc(p.method)} → ${esc(p.out)}</div>`).join('')||`<div>${pill('WARN','無過程紀錄')}</div>`;
+  const checkRows=it=>{const g=gOf(it);const cs=it.checks||[];
+    const rows=cs.map(c=>{const n=(it.findings||[]).filter(x=>x.check===c).length;return `<tr><td class="loc">${esc(c)}</td><td>${n?pill('WARN','有發現 '+n):pill('PASS','通過')}</td></tr>`}).join('');
+    const det=g.map(x=>`<tr><td class="loc">${esc(x.rule)}</td><td>${pill(x.level,x.level)} <small>${esc(x.msg)}${x.action?'<br>處置:'+esc(x.action):''}</small></td></tr>`).join('');
+    return `<div class="tw"><table>${rows}${det}${(!rows&&!det)?'<tr><td><small>此類型沒有機器核對規格,由人確認</small></td></tr>':''}</table></div>`};
+  const decide=it=>{const d=lsGet(it.id+'@'+it.hash)||{};
+    return `<fieldset class="dec" data-id="${esc(it.id)}" data-hash="${esc(it.hash)}" data-kind="${esc(it.kind)}" data-tg="${esc((it.targets||[]).join(', ')||'*')}"><legend>你的判斷</legend>
+      <label><input type="radio" name="d-${esc(it.id)}" value="approved" ${d.v==='approved'?'checked':''}> 核准</label>
+      <label><input type="radio" name="d-${esc(it.id)}" value="rejected" ${d.v==='rejected'?'checked':''}> 退回</label>
+      <label><input type="radio" name="d-${esc(it.id)}" value="" ${!d.v?'checked':''}> 尚未決定</label>
+      <input type="text" class="note" placeholder="備註(退回必填,寫要怎麼改)" value="${esc(d.note||'')}"></fieldset>`};
+  const itemHtml=it=>{const lv=lvOf(it);const so=it.type==='diagram'?SO[it.signoff]:null;
+    const head=`${lv!=='OK'?pill(lv,lv==='FAIL'?'機器 FAIL':'機器 WARN'):pill('PASS','機器通過')} ${so?pill(so[0],so[1]):''} ${changed.has(it.id)?pill('WARN','自上次審計變動'):''}
+      <b>${esc(it.id)}</b> <small>${esc(it.phase)} · ${esc(it.kind)} · ${(it.targets||[]).map(esc).join(', ')||'—'}</small>`;
+    const left=it.type==='diagram'?`<div class="dg"><pre class="mermaid" data-did="${esc(it.id)}">${esc(narrow(it.mermaid))}</pre></div><details><summary><small>原始碼</small></summary><pre class="pre">${esc(it.mermaid)}</pre></details>`
+      :`<pre class="pre" style="color:var(--fg)">${esc(it.heading)}</pre>`;
+    const right=`<dl class="prov">
+      <dt>來源</dt><dd>${it.source&&it.source!=='(auto)'?loc(it.source,''):'自動生成'}${(it.inputs||[]).length?`<details><summary><small>用到的表格列 ${it.inputs.length}</small></summary>${it.inputs.map(x=>`<div class="loc">${esc(x)}</div>`).join('')}</details>`:''}</dd>
+      <dt>過程</dt><dd>${it.type==='diagram'?logLines(it):'<small>表格列,過程看該步驟的 log</small>'}</dd>
+      <dt>目標</dt><dd>${(it.targets||[]).map(reqTitle).join('<br>')||'<small>—</small>'}</dd>
+      <dt>機器核對</dt><dd>${checkRows(it)}</dd>
+      ${it.type==='diagram'?`<dt>渲染</dt><dd>${it.render==='ok'?pill('PASS','瀏覽器可渲染'):(it.render?pill(it.render==='未驗證'?'WARN':'FAIL',it.render):'<small>—</small>')}</dd>`:''}
+      ${it.type==='diagram'?`<dt>內容 hash</dt><dd class="loc">${esc(it.hash)}${it.signoff_detail&&it.signoff_detail.signed_hash?` · 簽核時 ${esc(it.signoff_detail.signed_hash)}${it.signoff_detail.by?' · '+esc(it.signoff_detail.by):''}`:''}</dd>`:''}
+    </dl>${it.type==='diagram'?decide(it):''}`;
+    return `<details class="aud" data-rank="${rank(it)}" data-phase="${esc(it.phase)}" data-type="${esc(it.type)}"><summary>${head}</summary><div class="audg"><div>${left}</div><div>${right}</div></div></details>`};
+  const todo=order.filter(it=>rank(it)<6).length;
+  h+=`<section id="audit"><h2>F. 圖與表審計 <small>與人一起確認 · 方法論 ${esc(AU.methodology||'—')}</small></h2><div class="body">
+  <div class="kpis">
+    <div class="kpi ${todo?'warn':'pass'}"><b>${todo}</b><span>待你確認</span></div>
+    <div class="kpi"><b>${S.diagrams}</b><span>圖 · SA ${S.by_phase.SA} · RD ${S.by_phase.RD} · 自動 ${S.by_phase.AUTO}</span></div>
+    <div class="kpi"><b>${S.table_rows}</b><span>SA 表格列</span></div>
+    <div class="kpi ${S.with_findings?'warn':'pass'}"><b>${S.with_findings}</b><span>有機器發現</span></div>
+    <div class="kpi ${S.signoff.rejected?'fail':(S.signoff.stale?'warn':'pass')}"><b>${S.signoff.approved}/${S.diagrams}</b><span>已簽核 · 過期 ${S.signoff.stale} · 退回 ${S.signoff.rejected}</span></div>
+    <div class="kpi ${changed.size?'warn':'pass'}"><b>${changed.size}</b><span>自上次審計變動</span></div>
+  </div>
+  <div class="audbar" role="toolbar" aria-label="篩選">
+    <button type="button" data-f="todo" class="on">待確認 ${todo}</button><button type="button" data-f="all">全部 ${items.length}</button>
+    <button type="button" data-f="SA">SA</button><button type="button" data-f="RD">RD</button><button type="button" data-f="AUTO">自動</button><button type="button" data-f="table-row">SA 表格列</button>
+    <label class="who">審核者 <input type="text" id="reviewer" placeholder="你的名字"></label>
+  </div>
+  <div id="audlist">${order.map(itemHtml).join('')}</div>
+  <div class="soout"><b>簽核輸出</b> <small>你的判斷先存在這個瀏覽器;要生效,執行下面的指令(或把 md 列貼進 ${esc(AU.signoff_path||'audit/signoff.md')}),再重跑 review。</small>
+    <textarea id="socmd" readonly rows="4" aria-label="簽核指令"></textarea>
+    <div class="row"><button type="button" id="socopy">複製指令</button><button type="button" id="somd">改顯示 md 列</button><span id="sostat" class="loc"></span></div></div>
+  </div></section>`;
 }
 h+=`<div class="two"><section><h2>A. 輸入 ↔ 輸出</h2><div class="body"><table><tr><th>PM spec / mock</th><th>RD spec 產物</th></tr>`;
 for(const m of (T.io_map||[]))h+=`<tr><td>${esc(m.in)}</td><td>${m.out.map(esc).join(', ')}</td></tr>`;
@@ -262,6 +320,33 @@ const runMermaid=root=>{if(!window.mermaid)return;
     mermaid.run({nodes:[n]}).catch(e=>{n.removeAttribute('data-processed');n.classList.remove('mermaid');n.classList.add('pre');n.textContent=n.dataset.src;
       n.insertAdjacentHTML('beforebegin',`<div class="loc" style="color:var(--fail)">圖語法錯誤:${esc(String((e&&(e.message||e.str))||e).split('\n')[0].slice(0,160))}</div>`)})}};
 window.__renderVisible=()=>runMermaid(document);
+(function(){const list=document.getElementById('audlist');if(!list)return;
+  const KEY='specdev-signoff:'+((DATA.trace||{}).feature||'')+':';
+  const set=(k,v)=>{try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch(e){}};
+  let who='';try{who=localStorage.getItem('specdev-reviewer')||''}catch(e){}
+  const W=document.getElementById('reviewer');W.value=who;W.addEventListener('input',()=>{who=W.value.trim();try{localStorage.setItem('specdev-reviewer',who)}catch(e){};render()});
+  let mode='cmd';
+  const filt=f=>{for(const d of list.children){const r=+d.dataset.rank;d.hidden=!(f==='all'||(f==='todo'&&r<6)||d.dataset.phase===f||d.dataset.type===f)}
+    for(const b of document.querySelectorAll('.audbar button'))b.classList.toggle('on',b.dataset.f===f)};
+  document.querySelectorAll('.audbar button').forEach(b=>b.addEventListener('click',()=>filt(b.dataset.f)));filt('todo');
+  list.addEventListener('toggle',e=>{if(e.target.open)runMermaid(e.target)},true);
+  const today=new Date().toISOString().slice(0,10);
+  const specDir=(DATA.trace||{}).spec_dir||'<spec 目錄>';
+  function render(){const rows=[];
+    for(const fs of list.querySelectorAll('fieldset.dec')){const v=(fs.querySelector('input[type=radio]:checked')||{}).value||'';const note=fs.querySelector('.note').value.trim();
+      set(fs.dataset.id+'@'+fs.dataset.hash,{v,note});
+      fs.classList.toggle('bad',v==='rejected'&&!note);
+      if(v)rows.push({id:fs.dataset.id,hash:fs.dataset.hash,kind:fs.dataset.kind,tg:fs.dataset.tg,v,note})}
+    const ta=document.getElementById('socmd');
+    ta.value=rows.length?(mode==='cmd'?rows.map(r=>`python3 spec-dev.py signoff ${specDir} ${r.id} --hash ${r.hash} --by "${who||'審核者'}"${r.v==='rejected'?' --reject':''}${r.note?` --note "${r.note.replace(/"/g,"'")}"`:''}`).join('\n')
+      :rows.map(r=>`| ${r.id} | ${r.kind} | ${r.tg} | ${r.v==='approved'?r.hash:''} | ${r.hash} | ${r.v} | ${who} | ${today} | ${r.note.replace(/\|/g,'/')} |`).join('\n')):'';
+    document.getElementById('sostat').textContent=rows.length?`${rows.length} 筆判斷${rows.some(r=>r.v==='rejected'&&!r.note)?' · 有退回沒寫備註':''}`:'尚未做任何判斷';}
+  list.addEventListener('change',render);list.addEventListener('input',e=>{if(e.target.classList.contains('note'))render()});
+  document.getElementById('somd').addEventListener('click',e=>{mode=mode==='cmd'?'md':'cmd';e.target.textContent=mode==='cmd'?'改顯示 md 列':'改顯示指令';render()});
+  document.getElementById('socopy').addEventListener('click',()=>{const ta=document.getElementById('socmd');
+    (navigator.clipboard?navigator.clipboard.writeText(ta.value):Promise.reject()).then(()=>{document.getElementById('sostat').textContent='已複製'}).catch(()=>{ta.select();document.getElementById('sostat').textContent='請按 Ctrl/⌘+C 複製'})});
+  render();
+})();
 const lk=document.getElementById('lk');
 if(lk)lk.addEventListener('input',()=>{const q=lk.value.trim().toLowerCase();const box=document.getElementById('lkout');
   if(q.length<1){box.hidden=true;box.innerHTML='';return}

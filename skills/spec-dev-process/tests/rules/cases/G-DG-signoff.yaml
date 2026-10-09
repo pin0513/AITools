@@ -1,0 +1,14 @@
+rule: G-DG-signoff
+cases:
+  - name: rejected_stale_pending
+    patch: {replace: {audit: {items: [
+      {type: diagram, id: SEQ-001, hash: aaa, targets: [REQ-001], signoff: rejected, signoff_detail: {by: Paul, note: 少 Repository}, findings: []},
+      {type: diagram, id: SEQ-002, hash: bbb, targets: [REQ-001], signoff: stale, signoff_detail: {signed_hash: old}, findings: []},
+      {type: diagram, id: SEQ-003, hash: ccc, targets: [REQ-001], signoff: pending, findings: []},
+      {type: diagram, id: SEQ-004, hash: ddd, targets: [REQ-001], signoff: approved, findings: []},
+      {type: table-row, id: "SA1:x:1", targets: [], findings: []}]}}}
+    expect: [{outcome: rejected, target: SEQ-001, status: FAIL}, {outcome: stale, target: SEQ-002, status: WARN}, {outcome: pending, target: SEQ-003, status: INFO}]
+  - name: pending_required_when_project_requires
+    config: {reviewer: {require_signoff: true}}
+    patch: {replace: {audit: {items: [{type: diagram, id: SEQ-003, hash: ccc, targets: [], signoff: pending, findings: []}]}}}
+    expect: [{outcome: pending_required, target: SEQ-003, status: WARN}]

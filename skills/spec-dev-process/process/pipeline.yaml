@@ -79,10 +79,11 @@ stages:
     stop_on: FAIL
 
   - id: S6
-    name: Panel
-    owner: tool
-    inputs:  [traceability.json, method-log.jsonl]
-    tools:   [transform.panel@1, transform.render@1]
-    outputs: [check-panel.html, html/]
-    gates:   []
-    stop_on: NONE
+    name: Review(spec-reviewer 子系統:看板 + 圖表審計)
+    owner: tool+human
+    inputs:  [traceability.json, method-log.jsonl, spec-review/sa/*.md, spec-review/audit/signoff.md]
+    # 看板先建一次 → 瀏覽器驗證 → 把渲染結果併進審計清單後再建一次(看板上每張圖都帶渲染狀態)
+    tools:   [review.diagrams@1, review.audit@1, transform.panel@1, review.render_check@1, transform.panel@1, transform.render@1]
+    outputs: [check-panel.html, audit/audit.json, audit/signoff.md, html/]
+    gates:   [G-DG-target, G-DG-process, G-DG-consistency, G-SA-tables, G-DG-signoff, G-S6-render]
+    stop_on: FAIL

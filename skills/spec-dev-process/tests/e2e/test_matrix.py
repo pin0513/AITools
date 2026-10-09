@@ -5,7 +5,7 @@ from tests.matrix import gen_matrix as G, scenarios as SC
 from tools.execute import matrix_v1 as MX
 
 ROOT = C.ROOT; MATRIX = ROOT / "examples" / "matrix"
-GENERATED_ONLY_BY_REVIEW = {"html", "check-panel.html", "traceability.json", "90-traceability.md", "boundary-report.md", "survey-candidates.md",
+GENERATED_ONLY_BY_REVIEW = {"audit", "html", "check-panel.html", "traceability.json", "90-traceability.md", "boundary-report.md", "survey-candidates.md",
                             "lexicon.json", "00-lexicon.md", "glossary.md", "naming-map.md"}
 
 class MatrixTest(unittest.TestCase):

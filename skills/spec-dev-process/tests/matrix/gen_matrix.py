@@ -425,10 +425,18 @@ def gen_one(out_root, shape, lang, sid):
         seq_ch = chain(sc, C, ax["key"])
         ar += [f"### SEQ-{i:03d} (UC-{rq_['id'][4:]} / {rq_['id']})", "```mermaid", "sequenceDiagram", f"  actor U as {sc['terms'][ax['actor']]['sym']}"]
         ar += [f"  participant {c['id'].replace('-', '')} as {c['name'].split(' :')[0].split(' (')[0]}" for c in seq_ch]
-        p_ = "U"
-        for c in seq_ch:
-            ar.append(f"  {p_}->>{c['id'].replace('-', '')}: {sc['terms'][ax['key']]['sym']}"); p_ = c["id"].replace("-", "")
-        ar += [f"  {seq_ch[0]['id'].replace('-', '')}-->>U: ok", "```", ""]
+        # 呼叫沿著元件依賴表走(深度優先),不畫成一條直線——否則圖與 30 的 depends 矛盾(G-DG-consistency 會抓)
+        ids_ = {c["id"] for c in seq_ch}; by_id = {c["id"]: c for c in seq_ch}; m_ = lambda x: x.replace("-", "")
+        pointed = {d for c in seq_ch for d in c["dep_ids"] if d in ids_}; seen = set(); act_ = sc["terms"][ax["key"]]["sym"]
+        def visit(c):
+            seen.add(c["id"])
+            for d in c["dep_ids"]:
+                if d in ids_ and d not in seen:
+                    ar.append(f"  {m_(c['id'])}->>{m_(d)}: {act_}"); visit(by_id[d]); ar.append(f"  {m_(d)}-->>{m_(c['id'])}: ok")
+        roots = [c for c in seq_ch if c["id"] not in pointed]
+        for c in roots:
+            ar.append(f"  U->>{m_(c['id'])}: {act_}"); visit(c); ar.append(f"  {m_(c['id'])}-->>U: ok")
+        ar += ["```", ""]
     (spec / "30-architecture-c4.md").write_text("\n".join(ar) + "\n", encoding="utf-8")
 
     # ---------- 第二層:api/ ----------
@@ -487,6 +495,19 @@ def gen_one(out_root, shape, lang, sid):
         add(r["id"], "S2", "CleanArch.Layers", "M15", f"UC-{r['id'][4:]}", ", ".join(sorted({c['id'] for k in r['actions'] for c in chain(sc, C, k)})), shape)
     add(nfr["id"], "S1", "QualityScenario", "M11", "PM§4", nfr["id"]); add(nfr["id"], "S2", "FitnessFunction", "M12", nfr["id"], f"TST-{n:03d}")
     add("*", "S4", "AC.TestMapping", "M17", "AC-*", f"TST-001..{n:03d}")
+    nreq = len(sc["reqs"])
+    add("*", "SA", "SA2.ClassDiagram", "SA2", "sa/01-break-words.md", "CLS-SA-001")
+    add("*", "S2", "UML.Class", "M13", "CLS-SA-001", "CLS-001")
+    add("*", "SA", "SA4.UseCaseDiagram", "SA4", "sa/03-roles.md", "UCD-001")
+    add("*", "SA", "SA5.Activity", "SA5", "sa/04-usecase.md", ", ".join(f"ACT-{i:03d}" for i in range(1, nreq + 1)))
+    add("*", "SA", "SA6.Sequence", "SA6", "sa/05-activity.md", ", ".join(f"SEQ-SA-{i:03d}" for i in range(1, nreq + 1)))
+    add("*", "SA", "SA7.State", "SA7", "sa/02-entities-relations.md", "STM-SA-001")
+    add("*", "S2", "C4.Context/Container", "M14", "sa/06-sequence.md", "C4-L1, C4-L2")
+    add("*", "S3", "C4.Component", "M15", "30 元件表", "C4-L3")
+    add("*", "S3", "UML.Sequence", "M16", "C4-L3, UC-*", ", ".join(f"SEQ-{i:03d}" for i in range(1, nreq + 1)))
+    add("*", "S2", "UML.State", "M13", "STM-SA-001", "STM-DOM-001")
+    if B: add("*", "S3", "ERD", "M18", "SA2 實體", "ERD-001")
+    if F: add("*", "S3", "UI.StateMachine", "M19", "STM-DOM-001", "STM-UI-001")
     (spec / "method-log.jsonl").write_text("\n".join(json.dumps(x, ensure_ascii=False) for x in log) + "\n", encoding="utf-8")
 
     # ---------- spec-reviewer ----------

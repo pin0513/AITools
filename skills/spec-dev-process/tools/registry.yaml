@@ -13,6 +13,9 @@ tools:
   transform.report:  {latest: 1, versions: {1: tools.transform.report_v1}}
   transform.panel:   {latest: 1, versions: {1: tools.transform.panel_v1}}
   transform.render:  {latest: 1, versions: {1: tools.transform.render_v1}}
+  review.diagrams:   {latest: 1, versions: {1: tools.review.diagrams_v1}}
+  review.audit:      {latest: 1, versions: {1: tools.review.audit_v1}}
+  review.render_check: {latest: 1, versions: {1: tools.review.render_check_v1}}
   execute.init:      {latest: 1, versions: {1: tools.execute.runner_v1:init}}
   execute.run:       {latest: 1, versions: {1: tools.execute.runner_v1:run_pipeline}}
   execute.matrix:    {latest: 1, versions: {1: tools.execute.matrix_v1:run_matrix}}

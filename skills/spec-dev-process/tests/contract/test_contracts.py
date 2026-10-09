@@ -20,8 +20,8 @@ class PipelineContractTest(unittest.TestCase):
             for ref in s.get("tools") or []:
                 with self.subTest(stage=s["id"], tool=ref):
                     fn, _ = C.resolve_tool(ref, self.reg); self.assertTrue(callable(fn))
-            self.assertIn(s["owner"], ("llm", "tool", "tool+llm"))
-            if s["owner"] in ("tool", "tool+llm"): self.assertTrue(s.get("tools"), f"{s['id']} 是 {s['owner']} stage 但沒有 tools")
+            self.assertIn(s["owner"], ("llm", "tool", "tool+llm", "tool+human"))
+            if s["owner"] in ("tool", "tool+llm", "tool+human"): self.assertTrue(s.get("tools"), f"{s['id']} 是 {s['owner']} stage 但沒有 tools")
             else: self.assertFalse(s.get("tools"), f"{s['id']} 是 llm stage 不該有 tools")
 
     def test_every_gate_ref_is_a_gate_rule(self):

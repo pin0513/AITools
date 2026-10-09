@@ -1,0 +1,11 @@
+id: G-DG-target
+version: 1
+category: gate
+stage: S6
+name: 圖的目標需求存在
+description: 每張圖標題裡的 REQ/NFR 必須存在;需求類的圖(UC、SEQ、STM、ACT、UCD、CLS、自動圖)必須至少指向一條需求
+predicate: audit_findings
+params: {gate: target}
+outcomes:
+  target_missing: {status: FAIL, message: "{diagram} 指向不存在的 {req}", action: "修正圖標題括號內的 REQ ID"}
+  target_none:    {status: WARN, message: "{diagram} 沒有目標需求", action: "在圖的 h3 標題括號內寫出對應 REQ"}

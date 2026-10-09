@@ -1,0 +1,10 @@
+rule: G-DG-target
+cases:
+  - name: missing_and_none
+    patch: {replace: {audit: {items: [
+      {type: diagram, id: SEQ-009, targets: [REQ-404], findings: [{gate: target, outcome: target_missing, vars: {req: REQ-404}}]},
+      {type: diagram, id: STM-DOM-001, targets: [], findings: [{gate: target, outcome: target_none, vars: {}}, {gate: process, outcome: process_none, vars: {}}]},
+      {type: diagram, id: SEQ-001, targets: [REQ-001], findings: []}]}}}
+    expect: [{outcome: target_missing, target: SEQ-009, status: FAIL}, {outcome: target_none, target: STM-DOM-001, status: WARN}]
+  - name: no_audit_no_findings
+    expect: []

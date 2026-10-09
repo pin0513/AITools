@@ -122,8 +122,14 @@ sequenceDiagram
   CMP002->>CMP003: BookRoom
   CMP003->>CMP004: BookRoom
   CMP004->>CMP008: BookRoom
-  CMP008->>CMP009: BookRoom
-  CMP009->>CMP010: BookRoom
+  CMP008-->>CMP004: ok
+  CMP004->>CMP009: BookRoom
+  CMP009-->>CMP004: ok
+  CMP004->>CMP010: BookRoom
+  CMP010-->>CMP004: ok
+  CMP004-->>CMP003: ok
+  CMP003-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 
@@ -142,7 +148,12 @@ sequenceDiagram
   CMP002->>CMP003: CheckInBooking
   CMP003->>CMP005: CheckInBooking
   CMP005->>CMP008: CheckInBooking
-  CMP008->>CMP009: CheckInBooking
+  CMP008-->>CMP005: ok
+  CMP005->>CMP009: CheckInBooking
+  CMP009-->>CMP005: ok
+  CMP005-->>CMP003: ok
+  CMP003-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 
@@ -161,7 +172,12 @@ sequenceDiagram
   CMP002->>CMP003: ListDailyBookings
   CMP003->>CMP007: ListDailyBookings
   CMP007->>CMP008: ListDailyBookings
-  CMP008->>CMP009: ListDailyBookings
+  CMP008-->>CMP007: ok
+  CMP007->>CMP009: ListDailyBookings
+  CMP009-->>CMP007: ok
+  CMP007-->>CMP003: ok
+  CMP003-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 

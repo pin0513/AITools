@@ -75,6 +75,9 @@ sequenceDiagram
   CMP001->>CMP002: RedeemReward
   CMP002->>CMP004: RedeemReward
   CMP004->>CMP005: RedeemReward
+  CMP005-->>CMP004: ok
+  CMP004-->>CMP002: ok
+  CMP002-->>CMP001: ok
   CMP001-->>U: ok
 ```
 
@@ -86,6 +89,7 @@ sequenceDiagram
   participant CMP005 as pointsApi
   U->>CMP004: ExpirePoints
   CMP004->>CMP005: ExpirePoints
+  CMP005-->>CMP004: ok
   CMP004-->>U: ok
 ```
 
@@ -101,6 +105,9 @@ sequenceDiagram
   CMP001->>CMP003: ListTransactions
   CMP003->>CMP004: ListTransactions
   CMP004->>CMP005: ListTransactions
+  CMP005-->>CMP004: ok
+  CMP004-->>CMP003: ok
+  CMP003-->>CMP001: ok
   CMP001-->>U: ok
 ```
 

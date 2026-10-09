@@ -11,6 +11,9 @@
   spec-dev.py render  <dir> [--offline]                只渲染 md → html/
   spec-dev.py glossary <dir>                           只抽跨 spec 詞彙表與分層命名對照表
   spec-dev.py matrix  <matrix-root> [--offline]        測試矩陣驗收:每份 baseline + 3 突變版 → acceptance.json、_board/
+  spec-dev.py review  <dir> [--offline]                = all:S0–S6 全流程 + spec-reviewer 審計(圖與表的來源/過程/目標/核對/簽核)
+  spec-dev.py signoff <dir> <圖ID> --by 名字 (--hash <看到的hash> | --reject --note "…") [--note "…"]
+                                                       把人的判斷寫進 spec-review/audit/signoff.md
   spec-dev.py rules                                    列出啟用規則與版本
   spec-dev.py tools                                    列出工具與版本
   選項:--config <path> 指定 .spec-dev.yaml;--offline 內嵌 vendor/mermaid.min.js;--verbose 總表列出每筆 INFO
@@ -35,7 +38,7 @@ def summary(ctx, verbose=False):
             info[g["rule"]] = info.get(g["rule"], 0) + 1; continue
         print(f"  [{g['level']}] {g['rule']:<14} {g['msg']}")
     for rule, n in info.items():
-        print(f"  [INFO] {rule:<14} {n} 筆通過(加 --verbose 看明細)")
+        print(f"  [INFO] {rule:<14} {n} 筆(加 --verbose 看明細)")
     for b in ctx.get("boundary") or []:
         if b["status"] == "WARN": print(f"  [WARN] {b['rule']:<14} {b['target']}: {b['evidence']}")
 
@@ -50,7 +53,7 @@ def main(argv):
         for name, e in C.load_registry()["tools"].items():
             print(f"  {name:<18} latest=v{e['latest']}  versions={sorted(e['versions'])}")
         return 0
-    if len(argv) < 3 or cmd not in ("init", "run", "check", "all", "extract", "panel", "render", "glossary", "matrix"): print(__doc__); return 2
+    if len(argv) < 3 or cmd not in ("init", "run", "check", "all", "extract", "panel", "render", "glossary", "matrix", "review", "signoff"): print(__doc__); return 2
     d = pathlib.Path(argv[2]); offline = "--offline" in argv
     from tools.execute import runner_v1 as R
     if cmd == "matrix":
@@ -69,6 +72,12 @@ def main(argv):
     cfg = C.load_config(d, _opt(argv, "--config"))
     if cfg.get("_config_override"): print("config override:", cfg["_config_override"])
     ctx = R.make_ctx(d, cfg, offline)
+    if cmd == "signoff":
+        from tools.review import signoff_v1 as SO
+        if len(argv) < 4: print(__doc__); return 2
+        decision = "rejected" if "--reject" in argv else "approved"
+        print(SO.apply(ctx["review_dir"], argv[3], _opt(argv, "--by", ""), decision, _opt(argv, "--hash", ""), _opt(argv, "--note", "")))
+        return 0
     if cmd == "render":
         fn, _ = C.resolve_tool("transform.render", ctx["registry"]); ctx = fn(ctx); print("rendered:", ", ".join(ctx.get("rendered", []))); return 0
     if cmd == "glossary":
@@ -83,11 +92,17 @@ def main(argv):
         t = ctx["data"]; print(f"wrote traceability.json: REQ {len(t['requirements'])}, CMP {len(t['components'])}, TST {len(t['tests'])}, artifacts {len(t['artifacts'])}")
         for e in t["extract_errors"]: print(f"  [{e['level']}] {e['msg']}")
         return 1 if any(e["level"] == "FAIL" for e in t["extract_errors"]) else 0
-    to = {"check": "S5", "all": "S6", "panel": "S6"}.get(cmd) or _opt(argv, "--to", "S6")
-    ctx = R.run_pipeline(ctx, to=to, only=_opt(argv, "--stage"), no_stop=("--no-stop" in argv) or cmd in ("check", "all", "panel"))
+    to = {"check": "S5", "all": "S6", "panel": "S6", "review": "S6"}.get(cmd) or _opt(argv, "--to", "S6")
+    ctx = R.run_pipeline(ctx, to=to, only=_opt(argv, "--stage"), no_stop=("--no-stop" in argv) or cmd in ("check", "all", "panel", "review"))
     for line in ctx["trace"]: print(line)
     rd = ctx["review_dir"]; print(f"wrote ({rd}):", ", ".join(sorted(p.name for p in rd.iterdir() if p.name in ("traceability.json", "90-traceability.md", "boundary-report.md", "check-panel.html", "html", "survey-candidates.md"))))
     summary(ctx, "--verbose" in argv)
+    au = (ctx.get("data") or {}).get("audit")
+    if au:
+        a = au["summary"]
+        print(f'審計:圖 {a["diagrams"]}(SA {a["by_phase"]["SA"]} · RD {a["by_phase"]["RD"]} · 自動 {a["by_phase"]["AUTO"]})· SA 表格列 {a["table_rows"]} · 有機器發現 {a["with_findings"]} · '
+              f'簽核 {a["signoff"]["approved"]}/{a["diagrams"]}(過期 {a["signoff"]["stale"]}、退回 {a["signoff"]["rejected"]})· 自上次變動 {len(a.get("changed_since_last") or [])}')
+        print(f'看板:{ctx["review_dir"] / "check-panel.html"}#audit')
     failed = ctx.get("stopped") or any(g["level"] == "FAIL" for g in (ctx.get("gate") or []) + (ctx.get("stage_findings") or []))
     return 1 if failed else 0
 

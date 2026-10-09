@@ -1,0 +1,22 @@
+id: G-DG-consistency
+version: 1
+category: gate
+stage: S6
+name: 圖與表一致
+description: 解析圖的內容,與元件表、依賴、SA 實體、SA 角色動作、擁有權表逐項核對。核對項目依圖 ID 前綴(rules/review/diagram-checks.yaml)與方法論檔 steps[*].audit 決定
+predicate: audit_findings
+params: {gate: consistency}
+outcomes:
+  seq_no_dependency:       {status: FAIL, message: "{diagram}:{from} 呼叫 {to},但元件表裡沒有這條依賴", action: "改圖,或在 30 的 depends 補上(若真的依賴)"}
+  seq_unknown_participant: {status: WARN, message: "{diagram}:參與者 {participant} 對不到任何元件", action: "用元件表的名稱或介面名"}
+  c4_no_dependency:        {status: FAIL, message: "{diagram}:{from} → {to} 不在元件依賴表", action: "改圖或補 depends"}
+  c4_unknown_component:    {status: WARN, message: "{diagram}:元件 {component} 不在元件表", action: "用元件表名稱"}
+  class_unknown:           {status: WARN, message: "{diagram}:類別 {cls} 不在 SA2 實體、元件表或命名對照", action: "補 SA2 實體或改名"}
+  class_not_in_sa2:        {status: WARN, message: "{diagram}:類別 {cls} 不在 SA2 實體表", action: "SA2 補實體或從圖移除"}
+  state_event_unmapped:    {status: WARN, message: "{diagram}:{edge} 的事件 {event} 對不到 SA3 動作或元件", action: "事件名用 SA3 動作的符號"}
+  state_handoff_missing:   {status: WARN, message: "{diagram}:SA 階段 {sa} 定義的狀態 {states} 在此狀態機不存在", action: "補狀態,或在 SA7 移除"}
+  er_unowned:              {status: WARN, message: "{diagram}:實體 {entity} 沒有 owner", action: "50 擁有權表補列"}
+  trace_empty:             {status: FAIL, message: "{req} 的追溯圖是空的(沒有 AC→元件或 NFR 綁定)", action: "30 追溯表補 AC→CMP"}
+  ucd_role_missing:        {status: WARN, message: "{diagram}:SA3 角色 {role} 沒出現在 Use Case 圖", action: "補 Actor 節點"}
+  seq_actor_unknown:       {status: WARN, message: "{diagram}:actor {actor} 不是 SA3 / SA1 定義的角色", action: "actor 用 SA3 角色名或 SA1 Actor 符號"}
+  check_unknown:           {status: FAIL, message: "{diagram}:核對規格引用不存在的 check {check}", action: "修正 diagram-checks.yaml 或方法論檔"}

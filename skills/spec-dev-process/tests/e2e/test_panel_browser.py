@@ -85,3 +85,62 @@ class PanelBrowserTest(unittest.TestCase):
             with self.subTest(panel=panel.parent.name):
                 r = self.run_panel(panel, "primary")
                 self.assertEqual(r["errs"], []); self.assertEqual(r["parseErrors"], [])
+
+AUDIT_SCRIPT = r"""
+const { chromium } = require('playwright'); const fs = require('fs');
+const [lib, panel] = process.argv.slice(2); const LIB = fs.readFileSync(lib, 'utf8');
+(async () => {
+  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' }).catch(() => chromium.launch());
+  const p = await b.newPage({ viewport: { width: 1200, height: 900 } }); const errs = [];
+  p.on('pageerror', e => errs.push(String(e)));
+  await p.route('**/*', r => { const u = r.request().url();
+    if (u.includes('mermaid')) return r.fulfill({ body: LIB, contentType: 'application/javascript' });
+    return u.startsWith('file:') ? r.continue() : r.abort(); });
+  await p.goto('file://' + panel, { waitUntil: 'load' }); await p.waitForTimeout(1500);
+  const vis = () => p.evaluate(() => [...document.querySelectorAll('#audlist > details.aud')].filter(d => !d.hidden).length);
+  const out = { todo: await vis() };
+  await p.click('.audbar button[data-f="all"]'); out.all = await vis();
+  await p.click('.audbar button[data-f="SA"]'); out.sa = await vis();
+  await p.click('.audbar button[data-f="table-row"]'); out.rows = await vis();
+  await p.click('.audbar button[data-f="all"]');
+  const first = p.locator('#audlist > details.aud').filter({ has: p.locator('fieldset.dec') }).first();
+  await first.locator(':scope > summary').click(); await p.waitForTimeout(800);
+  out.svg = await first.locator('.audg .dg svg').count();
+  out.prov = await first.locator('dl.prov dt').allTextContents();
+  await p.fill('#reviewer', 'Paul');
+  await first.locator('input[value="approved"]').check(); await p.waitForTimeout(100);
+  out.cmdApprove = await p.inputValue('#socmd');
+  await first.locator('input[value="rejected"]').check(); await p.waitForTimeout(100);
+  out.statRejectNoNote = await p.textContent('#sostat');
+  await first.locator('input.note').fill('補上 Repository'); await p.waitForTimeout(100);
+  out.cmdReject = await p.inputValue('#socmd');
+  await p.click('#somd'); await p.waitForTimeout(100); out.md = await p.inputValue('#socmd');
+  await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(800);
+  out.persisted = await p.evaluate(() => { const f = document.querySelector('#audlist fieldset.dec input[value="rejected"]:checked'); return !!f; });
+  out.errs = errs; console.log(JSON.stringify(out)); await b.close(); })();
+"""
+
+@unittest.skipUnless(_node_ok(), "需要 node + playwright + /opt/pw-browsers")
+class AuditBoardBrowserTest(unittest.TestCase):
+    """F. 圖與表審計:看板上和人一起確認——篩選、展開看圖與來源/過程/目標、做判斷 → 產生 signoff 指令 / md 列,判斷留在瀏覽器。"""
+    def test_audit_queue_and_human_decisions_produce_signoff_commands(self):
+        panel = ROOT / "examples" / "testcase1-form-system" / "specs" / "rd" / "issue-c" / "spec-review" / "check-panel.html"
+        audit = json.loads((panel.parent / "audit" / "audit.json").read_text(encoding="utf-8"))
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        try:
+            js = tmp / "audit.js"; js.write_text(AUDIT_SCRIPT, encoding="utf-8")
+            r = subprocess.run(["node", str(js), str(ROOT / "vendor" / "mermaid.min.js"), str(panel)], capture_output=True, text=True,
+                               env={**os.environ, "NODE_PATH": _npm_root()}, timeout=120)
+            o = json.loads(r.stdout.strip().splitlines()[-1])
+        finally: shutil.rmtree(tmp)
+        S = audit["summary"]
+        self.assertEqual(o["errs"], [])
+        self.assertEqual(o["all"], len(audit["items"])); self.assertEqual(o["sa"], S["by_phase"]["SA"] + S["table_rows"])
+        self.assertEqual(o["rows"], S["table_rows"]); self.assertGreater(o["todo"], 0)
+        self.assertEqual(o["svg"], 1, "展開後圖要畫出來")
+        for k in ("來源", "過程", "目標", "機器核對", "渲染", "內容 hash"): self.assertIn(k, o["prov"])
+        self.assertRegex(o["cmdApprove"], r'^python3 spec-dev\.py signoff \S+ \S+ --hash [0-9a-f]{12} --by "Paul"$')
+        self.assertIn("有退回沒寫備註", o["statRejectNoNote"])
+        self.assertIn("--reject", o["cmdReject"]); self.assertIn('--note "補上 Repository"', o["cmdReject"])
+        self.assertRegex(o["md"], r"^\| \S+ \| .* \| rejected \| Paul \| \d{4}-\d{2}-\d{2} \| 補上 Repository \|$")
+        self.assertTrue(o["persisted"], "判斷要留在瀏覽器,重新整理不丟")

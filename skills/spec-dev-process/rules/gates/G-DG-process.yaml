@@ -1,0 +1,10 @@
+id: G-DG-process
+version: 1
+category: gate
+stage: S6
+name: 圖有過程紀錄
+description: 每張手寫圖要有 method-log 紀錄(in 或 out 提到它的 ID);自動圖的過程是產生它的工具
+predicate: audit_findings
+params: {gate: process}
+outcomes:
+  process_none: {status: WARN, message: "{diagram} 沒有過程紀錄", action: "method-log 補一筆,out 寫這張圖的 ID"}
