@@ -1,0 +1,590 @@
+{
+ "nouns": [
+  {
+   "term": "訂單",
+   "freq": 23,
+   "weight": 36.0,
+   "pm_freq": 23,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取"
+   ],
+   "symbol": "Order",
+   "glossary_specs": [
+    "order-cancel",
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 5,
+   "code_first": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:7"
+  },
+  {
+   "term": "狀態",
+   "freq": 8,
+   "weight": 13.0,
+   "pm_freq": 8,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "訂單狀態",
+   "freq": 7,
+   "weight": 11.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "顧客",
+   "freq": 6,
+   "weight": 9.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "取消訂單",
+   "freq": 5,
+   "weight": 8.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "付款閘道",
+   "freq": 5,
+   "weight": 7.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "PaymentGateway",
+   "glossary_specs": [
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "客服",
+   "freq": 4,
+   "weight": 6.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "紀錄",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "客取消訂單",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "顧客取消訂",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "原因",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "取消紀錄",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 客服人員可查看取"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "訂單維持",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "重試",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "訂單狀態改",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "order",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en",
+   "symbol": "Order",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": 5,
+   "code_first": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:7"
+  }
+ ],
+ "actions": [
+  {
+   "term": "取消",
+   "freq": 19,
+   "weight": 29.0,
+   "pm_freq": 19,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "退款",
+   "freq": 9,
+   "weight": 15.0,
+   "pm_freq": 9,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "付款",
+   "freq": 6,
+   "weight": 9.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "查看",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:order.html",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 客服人員可查看取"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "系統退款",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "出貨",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "完成退款",
+   "freq": 1,
+   "weight": 3.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "想快速取消",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "負責退款",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "以查看",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 客服人員可查看取"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "客自助取消",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "款閘道退款",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "系統經付款",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "統透過付款",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "道自動退款",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "系統",
+   "freq": 6,
+   "weight": 9.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "客服人員",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "已下單",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "已取消",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "已退款",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "shipped",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "已付款",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "已出貨",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ]
+  },
+  {
+   "term": "placed",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "mock:order.html"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "可取消",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 顧客可在出貨前取"
+   ]
+  }
+ ],
+ "english": [
+  {
+   "term": "ORDER_SHIPPED",
+   "freq": 1,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Placed",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:order.html"
+   ],
+   "code_hits": 3,
+   "code_first": "src/api/Orders.Domain/Order.cs:3"
+  },
+  {
+   "term": "mock",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:order.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:order.html"
+   ],
+   "code_hits": 2,
+   "code_first": "src/api/Orders.Domain/Order.cs:8"
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "mock:order.html",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 246,
+  "after_boundary": 78,
+  "kept": 78
+ }
+}

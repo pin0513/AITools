@@ -344,5 +344,7 @@ def render_findings(data, params, ctx):
     if r.get("cards") != r.get("reqs"): out.append(_f("cards", "看板", ["看板"], cards=r.get("cards"), reqs=r.get("reqs")))
     if r.get("visible_svgs") != r.get("visible_dg"): out.append(_f("not_drawn", "看板", ["看板"], svgs=r.get("visible_svgs"), dg=r.get("visible_dg")))
     if r.get("overflow"): out.append(_f("overflow", "看板", ["看板"]))
+    if r.get("fatal"): out.append(_f("js_error", "看板", ["看板"], err=r["fatal"]))
+    if r.get("modal") not in (None, "ok", "no-diagram"): out.append(_f("modal", "看板", ["看板"], err=r["modal"]))
     if not out: out.append(_f("ok", "看板", ["看板"], n=sum(1 for v in (r.get("parse") or {}).values() if v == "ok"), cards=r.get("cards")))
     return out

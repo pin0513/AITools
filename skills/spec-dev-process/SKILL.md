@@ -27,6 +27,8 @@ python3 spec-dev.py init  docs/rd-spec/avatar-upload --title "會員上傳大頭
 python3 spec-dev.py all   docs/rd-spec/avatar-upload [--offline]               # extract → check → panel → render
 python3 spec-dev.py check docs/rd-spec/avatar-upload                           # 只核對;退出碼 1 = 有 FAIL
 python3 spec-dev.py run   docs/rd-spec/avatar-upload --to S6                   # 嚴格:依 pipeline stop_on 停
+python3 spec-dev.py review docs/rd-spec/avatar-upload                          # 全流程 + spec-reviewer 審計 + 瀏覽器渲染驗證
+python3 spec-dev.py serve  docs/rd-spec/avatar-upload --port 8110              # 一站式審查站台:PM / QA / RD(可同一人)在看板上確認、提問、看原文
 ```
 
 設定讀取順序:套件 `config.yaml` → rd-spec 目錄或任一上層的 `.spec-dev.yaml`(深合併覆寫,含 `rules.disable` / `rules.overrides`)。
@@ -72,7 +74,7 @@ RD spec 分層:首層共用核心(00、10、20、30、60),第二層 `ui/41-ui-sp
 | **S3 Boundary** | tool | md 表格 | B1–B8(`rules/boundary/`,說明見 `references/tech-boundary-check.md`) | `boundary-report.md` | 0 FAIL;WARN 有處置 |
 | **S4 Test** | LLM | AC + CMP | Test Pyramid、AC→Test、Fitness Function、架構測試 | `60-test-design.md` | 每條 AC、每個 CMP 至少一測試 |
 | **S5 Assemble** | tool | 7 個 md | 抽取 + Gate(`rules/gates/`) | `traceability.json`、`90-traceability.md` | 無孤兒;assumed 都在缺口表 |
-| **S6 Panel** | tool | json + log | — | `check-panel.html`、`html/` | `spec-dev.py all` 退出碼 0 |
+| **S6 Review** | tool + 人 | json + log + 全部圖 | spec-reviewer:自動圖、圖與表核對、審計(來源 / 過程 / 目標 / hash)、確認事項(以事情區分)、渲染驗證;見 `references/spec-reviewer.md` | `check-panel.html`(分頁 + modal)、`audit/`、`html/` | G-DG-* / G-SA-tables / G-S6-render 無 FAIL;確認事項無退回 |
 
 ## LLM 在每個 stage 的硬性規定
 

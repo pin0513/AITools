@@ -1,0 +1,1728 @@
+{
+ "threads": [],
+ "summary": {
+  "diagrams": 29,
+  "table_rows": 17,
+  "by_phase": {
+   "SA": 9,
+   "RD": 12,
+   "AUTO": 8
+  },
+  "signoff": {
+   "approved": 0,
+   "stale": 0,
+   "pending": 29,
+   "rejected": 0
+  },
+  "with_findings": 2,
+  "by_duty": {
+   "intent": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 16,
+    "rejected": 0
+   },
+   "testable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 15,
+    "rejected": 0
+   },
+   "buildable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 17,
+    "rejected": 0
+   }
+  },
+  "changed_since_last": [],
+  "removed_since_last": [],
+  "threads_open": 0
+ },
+ "items": [
+  {
+   "type": "diagram",
+   "id": "CLS-SA-001",
+   "phase": "SA",
+   "kind": "class",
+   "heading": "CLS-SA-001 (REQ-001)",
+   "source": "sa/02-entities-relations.md:19",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 14,
+     "stage": "SA",
+     "method": "SA2.ClassDiagram",
+     "out": "CLS-SA-001"
+    },
+    {
+     "seq": 15,
+     "stage": "S2",
+     "method": "UML.Class",
+     "out": "CLS-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "6a37522020bb",
+   "findings": [],
+   "mermaid": "classDiagram\n  class PointsAccount\n  class Redemption\n  class Reward\n  class PointTransaction\n  PointsAccount --> Redemption : has\n  PointsAccount --> Reward : has\n  PointsAccount --> PointTransaction : has",
+   "checks": [
+    "class_in_sa_entities"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UCD-001",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
+   "source": "sa/04-usecase.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 16,
+     "stage": "SA",
+     "method": "SA4.UseCaseDiagram",
+     "out": "UCD-001"
+    }
+   ],
+   "targets": [
+    "REQ-001",
+    "REQ-002",
+    "REQ-003"
+   ],
+   "hash": "74bae04a5683",
+   "findings": [],
+   "mermaid": "flowchart LR\n  member([\"會員\"]) --> redeem((\"兌換\"))\n  system([\"系統\"]) --> expire((\"到期\"))\n  member([\"會員\"]) --> view_tx((\"查看\"))",
+   "checks": [
+    "ucd_covers_roles"
+   ],
+   "duties": [
+    "intent"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ACT-001",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "ACT-001 (REQ-001)",
+   "source": "sa/05-activity.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 17,
+     "stage": "SA",
+     "method": "SA5.Activity",
+     "out": "ACT-001, ACT-002, ACT-003"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "b6d18f4958da",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[\"會員兌換獎品\"] --> B{\"餘額足夠?\"}\n  B -->|yes| C[\"建立兌換單並呼叫獎品供應商\"]\n  B -->|no| D[\"回應 422 INSUFFICIENT_POINTS,不扣點\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ACT-002",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "ACT-002 (REQ-002)",
+   "source": "sa/05-activity.md:13",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 17,
+     "stage": "SA",
+     "method": "SA5.Activity",
+     "out": "ACT-001, ACT-002, ACT-003"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "5f16c2ac602a",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[\"每月排程執行\"] --> B{\"點數於 13 個月前取得?\"}\n  B -->|yes| C[\"寫入到期點數交易,餘額減少\"]\n  B -->|no| E[\"—\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ACT-003",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "ACT-003 (REQ-003)",
+   "source": "sa/05-activity.md:21",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 17,
+     "stage": "SA",
+     "method": "SA5.Activity",
+     "out": "ACT-001, ACT-002, ACT-003"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "31a5dfc252ae",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[\"會員開啟紀錄\"] --> B{\"會員有點數交易?\"}\n  B -->|yes| C[\"每筆點數交易顯示日期、類型、點數\"]\n  B -->|no| E[\"—\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-SA-001",
+   "phase": "SA",
+   "kind": "sequence",
+   "heading": "SEQ-SA-001 (REQ-001)",
+   "source": "sa/06-sequence.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 18,
+     "stage": "SA",
+     "method": "SA6.Sequence",
+     "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "dd19c757a3a6",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Member\n  participant Client\n  participant API\n  participant DB\n  participant RewardVendor\n  U->>Client: RedeemReward\n  Client->>API: RedeemReward\n  API->>DB: RedeemReward\n  DB->>RewardVendor: RedeemReward\n  Client-->>U: ok",
+   "checks": [
+    "seq_actor_is_role"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-SA-002",
+   "phase": "SA",
+   "kind": "sequence",
+   "heading": "SEQ-SA-002 (REQ-002)",
+   "source": "sa/06-sequence.md:20",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 18,
+     "stage": "SA",
+     "method": "SA6.Sequence",
+     "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "1478bd3d6a95",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as System\n  participant API\n  participant DB\n  U->>API: ExpirePoints\n  API->>DB: ExpirePoints\n  API-->>U: ok",
+   "checks": [
+    "seq_actor_is_role"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-SA-003",
+   "phase": "SA",
+   "kind": "sequence",
+   "heading": "SEQ-SA-003 (REQ-003)",
+   "source": "sa/06-sequence.md:31",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 18,
+     "stage": "SA",
+     "method": "SA6.Sequence",
+     "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "0419c13602c6",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Member\n  participant Client\n  participant API\n  participant DB\n  U->>Client: ListTransactions\n  Client->>API: ListTransactions\n  API->>DB: ListTransactions\n  Client-->>U: ok",
+   "checks": [
+    "seq_actor_is_role"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-SA-001",
+   "phase": "SA",
+   "kind": "state",
+   "heading": "STM-SA-001 Redemption.Status (REQ-001)",
+   "source": "sa/07-state.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 19,
+     "stage": "SA",
+     "method": "SA7.State",
+     "out": "STM-SA-001"
+    },
+    {
+     "seq": 23,
+     "stage": "S2",
+     "method": "UML.State",
+     "out": "STM-DOM-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "409fa2e03d70",
+   "findings": [
+    {
+     "gate": "consistency",
+     "outcome": "state_event_unmapped",
+     "vars": {
+      "event": "VendorConfirmed",
+      "edge": "Pending→Fulfilled"
+     },
+     "check": "state_events_are_actions"
+    },
+    {
+     "gate": "consistency",
+     "outcome": "state_event_unmapped",
+     "vars": {
+      "event": "VendorRejected",
+      "edge": "Pending→Failed"
+     },
+     "check": "state_events_are_actions"
+    }
+   ],
+   "mermaid": "stateDiagram-v2\n  [*] --> Pending: RedeemReward\n  Pending --> Fulfilled: VendorConfirmed\n  Pending --> Failed: VendorRejected",
+   "checks": [
+    "state_events_are_actions"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UC-001",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "UC-001 點數帳戶點數足夠時會員可兌換獎品 (REQ-001)",
+   "source": "20-domain-model.md:15",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 5,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-001"
+    },
+    {
+     "seq": 6,
+     "stage": "S2",
+     "method": "CleanArch.Layers",
+     "out": "CMP-001, CMP-002, CMP-005, CMP-006, CMP-007"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "373cf25b4e91",
+   "findings": [],
+   "mermaid": "flowchart LR\n  S([\"會員\"]) --> P[\"會員兌換獎品\"] --> Q[\"建立兌換單並呼叫獎品供應商\"]\n  P -.-> X[\"回應 422 INSUFFICIENT_POINTS,不扣點\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UC-002",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "UC-002 點數 12 個月後到期 (REQ-002)",
+   "source": "20-domain-model.md:32",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 7,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-002"
+    },
+    {
+     "seq": 8,
+     "stage": "S2",
+     "method": "CleanArch.Layers",
+     "out": "CMP-003, CMP-005, CMP-006"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "96bd4c2be895",
+   "findings": [],
+   "mermaid": "flowchart LR\n  S([\"系統\"]) --> P[\"每月排程執行\"] --> Q[\"寫入到期點數交易,餘額減少\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UC-003",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "UC-003 會員可查看點數交易 (REQ-003)",
+   "source": "20-domain-model.md:48",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 9,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-003"
+    },
+    {
+     "seq": 10,
+     "stage": "S2",
+     "method": "CleanArch.Layers",
+     "out": "CMP-001, CMP-004, CMP-005, CMP-006"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "a2e6a2a04031",
+   "findings": [],
+   "mermaid": "flowchart LR\n  S([\"會員\"]) --> P[\"會員開啟紀錄\"] --> Q[\"每筆點數交易顯示日期、類型、點數\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-DOM-001",
+   "phase": "RD",
+   "kind": "state",
+   "heading": "STM-DOM-001 Redemption.Status (REQ-001)",
+   "source": "20-domain-model.md:55",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 23,
+     "stage": "S2",
+     "method": "UML.State",
+     "out": "STM-DOM-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "409fa2e03d70",
+   "findings": [
+    {
+     "gate": "consistency",
+     "outcome": "state_event_unmapped",
+     "vars": {
+      "event": "VendorConfirmed",
+      "edge": "Pending→Fulfilled"
+     },
+     "check": "state_events_are_actions"
+    },
+    {
+     "gate": "consistency",
+     "outcome": "state_event_unmapped",
+     "vars": {
+      "event": "VendorRejected",
+      "edge": "Pending→Failed"
+     },
+     "check": "state_events_are_actions"
+    }
+   ],
+   "mermaid": "stateDiagram-v2\n  [*] --> Pending: RedeemReward\n  Pending --> Fulfilled: VendorConfirmed\n  Pending --> Failed: VendorRejected",
+   "checks": [
+    "state_events_are_actions",
+    "state_handoff_subset"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "CLS-001",
+   "phase": "RD",
+   "kind": "class",
+   "heading": "CLS-001 Redemption (REQ-001)",
+   "source": "20-domain-model.md:71",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 15,
+     "stage": "S2",
+     "method": "UML.Class",
+     "out": "CLS-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "1abf07bf0ed1",
+   "findings": [],
+   "mermaid": "classDiagram\n  class Redemption { +Id +Status }\n  PointsAccount --> Redemption : has\n  PointsAccount --> Reward : has\n  PointsAccount --> PointTransaction : has",
+   "checks": [
+    "class_names_known"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L1",
+   "phase": "RD",
+   "kind": "c4-context",
+   "heading": "C4-L1",
+   "source": "30-architecture-c4.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 20,
+     "stage": "S2",
+     "method": "C4.Context/Container",
+     "out": "C4-L1, C4-L2"
+    }
+   ],
+   "targets": [],
+   "hash": "92eb9479e001",
+   "findings": [],
+   "mermaid": "C4Context\n  Person(u, \"會員\")\n  System(sys, \"會員點數兌換\")\n  System_Ext(ext, \"RewardVendor\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")",
+   "checks": [],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L2",
+   "phase": "RD",
+   "kind": "c4-container",
+   "heading": "C4-L2",
+   "source": "30-architecture-c4.md:16",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 20,
+     "stage": "S2",
+     "method": "C4.Context/Container",
+     "out": "C4-L1, C4-L2"
+    }
+   ],
+   "targets": [],
+   "hash": "9ccbaee83cc5",
+   "findings": [],
+   "mermaid": "C4Container\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")",
+   "checks": [],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L3",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "C4-L3",
+   "source": "30-architecture-c4.md:34",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 21,
+     "stage": "S3",
+     "method": "C4.Component",
+     "out": "C4-L3"
+    },
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [],
+   "hash": "266b82ca1d7d",
+   "findings": [],
+   "mermaid": "flowchart LR\n  CMP001[\"PointsController<br/>Api\"]\n  CMP002[\"RedeemRewardCommandHandler<br/>Application\"]\n  CMP003[\"ExpirePointsJob<br/>Application\"]\n  CMP004[\"ListTransactionsQueryHandler<br/>Application\"]\n  CMP005[\"Redemption (Aggregate)<br/>Domain\"]\n  CMP006[\"SqlPointsAccountRepository<br/>Infrastructure\"]\n  CMP007[\"RewardVendorClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP004\n  CMP002 --> CMP005\n  CMP002 --> CMP006\n  CMP002 --> CMP007\n  CMP003 --> CMP005\n  CMP003 --> CMP006\n  CMP004 --> CMP005\n  CMP004 --> CMP006",
+   "checks": [
+    "c4_relations_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-001",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-001 (UC-001 / REQ-001)",
+   "source": "30-architecture-c4.md:78",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "d3722604a8c2",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Member\n  participant CMP001 as PointsController\n  participant CMP002 as RedeemRewardCommandHandler\n  participant CMP005 as Redemption\n  participant CMP006 as SqlPointsAccountRepository\n  participant CMP007 as RewardVendorClient\n  U->>CMP001: RedeemReward\n  CMP001->>CMP002: RedeemReward\n  CMP002->>CMP005: RedeemReward\n  CMP005-->>CMP002: ok\n  CMP002->>CMP006: RedeemReward\n  CMP006-->>CMP002: ok\n  CMP002->>CMP007: RedeemReward\n  CMP007-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-002",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-002 (UC-002 / REQ-002)",
+   "source": "30-architecture-c4.md:99",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "596691978cc5",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as System\n  participant CMP003 as ExpirePointsJob\n  participant CMP005 as Redemption\n  participant CMP006 as SqlPointsAccountRepository\n  U->>CMP003: ExpirePoints\n  CMP003->>CMP005: ExpirePoints\n  CMP005-->>CMP003: ok\n  CMP003->>CMP006: ExpirePoints\n  CMP006-->>CMP003: ok\n  CMP003-->>U: ok",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-003",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-003 (UC-003 / REQ-003)",
+   "source": "30-architecture-c4.md:114",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "3b60527d4ae3",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Member\n  participant CMP001 as PointsController\n  participant CMP004 as ListTransactionsQueryHandler\n  participant CMP005 as Redemption\n  participant CMP006 as SqlPointsAccountRepository\n  U->>CMP001: ListTransactions\n  CMP001->>CMP004: ListTransactions\n  CMP004->>CMP005: ListTransactions\n  CMP005-->>CMP004: ok\n  CMP004->>CMP006: ListTransactions\n  CMP006-->>CMP004: ok\n  CMP004-->>CMP001: ok\n  CMP001-->>U: ok",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ERD-001",
+   "phase": "RD",
+   "kind": "erd",
+   "heading": "ERD-001",
+   "source": "api/50-data-model.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 24,
+     "stage": "S3",
+     "method": "ERD",
+     "out": "ERD-001"
+    }
+   ],
+   "targets": [],
+   "hash": "d8dd9e92b51d",
+   "findings": [],
+   "mermaid": "erDiagram\n  PointsAccounts ||--o{ Redemption : has\n  PointsAccounts {\n    uniqueidentifier Id PK\n  }\n  Redemption {\n    uniqueidentifier Id PK\n  }",
+   "checks": [
+    "er_entities_owned"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-001",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-001",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:12",
+    "10-requirements.md:17",
+    "10-requirements.md:6",
+    "30-architecture-c4.md:25",
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:30",
+    "30-architecture-c4.md:31",
+    "30-architecture-c4.md:57",
+    "30-architecture-c4.md:58",
+    "30-architecture-c4.md:59",
+    "30-architecture-c4.md:60",
+    "30-architecture-c4.md:61",
+    "30-architecture-c4.md:62",
+    "30-architecture-c4.md:63",
+    "30-architecture-c4.md:64",
+    "30-architecture-c4.md:65",
+    "30-architecture-c4.md:66",
+    "60-test-design.md:10",
+    "60-test-design.md:11",
+    "60-test-design.md:12",
+    "60-test-design.md:6",
+    "60-test-design.md:7",
+    "specs/in-progress/points-redemption/pm-spec.md:10"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "4a98084d0568",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1 點數帳戶點數足夠時會員可兌換獎品\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP005\n  AC0011 --> CMP006\n  AC0011 --> CMP007\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST005\n  AC0011 -.-> TST006\n  AC0011 -.-> TST007\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 --> CMP002\n  AC0012 --> CMP005\n  AC0012 --> CMP006\n  AC0012 --> CMP007\n  AC0012 -.-> TST001\n  AC0012 -.-> TST002\n  AC0012 -.-> TST005\n  AC0012 -.-> TST006\n  AC0012 -.-> TST007\n  subgraph LApi[\"Api\"]\n    CMP001[\"CMP-001<br/>PointsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP002[\"CMP-002<br/>RedeemRewardCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>Redemption (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP006[\"CMP-006<br/>SqlPointsAccountRepository\"]:::cmp\n    CMP007[\"CMP-007<br/>RewardVendorClient\"]:::cmp\n  end\n  TST001[/\"TST-001 integration\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  TST007[/\"TST-007 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-001",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-001",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:25",
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:30",
+    "30-architecture-c4.md:31"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "6457fd428276",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as PointsController\n  participant CMP002 as RedeemRewardCommandHandler\n  participant CMP005 as Redemption\n  participant CMP006 as SqlPointsAccountRepository\n  participant CMP007 as RewardVendorClient\n  U->>CMP001: 接收兌換請求\n  CMP001->>CMP002: 編排兌換\n  CMP002->>CMP005: 兌換的業務規則與不變量\n  CMP002->>CMP006: 持久化兌換結果\n  CMP002->>CMP007: 為兌換呼叫外部系統\n  CMP001-->>U: AC-001-1, AC-001-2",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-002",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-002",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:22",
+    "10-requirements.md:7",
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:30",
+    "30-architecture-c4.md:67",
+    "30-architecture-c4.md:68",
+    "30-architecture-c4.md:69",
+    "60-test-design.md:10",
+    "60-test-design.md:11",
+    "60-test-design.md:8",
+    "specs/in-progress/points-redemption/pm-spec.md:13"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "1e229dd1e10a",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2 點數 12 個月後到期\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP003\n  AC0021 --> CMP005\n  AC0021 --> CMP006\n  AC0021 -.-> TST003\n  AC0021 -.-> TST005\n  AC0021 -.-> TST006\n  subgraph LApplication[\"Application\"]\n    CMP003[\"CMP-003<br/>ExpirePointsJob\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>Redemption (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP006[\"CMP-006<br/>SqlPointsAccountRepository\"]:::cmp\n  end\n  TST003[/\"TST-003 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-002",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-002",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:30"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "a0f4e4223f08",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP003 as ExpirePointsJob\n  participant CMP005 as Redemption\n  participant CMP006 as SqlPointsAccountRepository\n  U->>CMP003: 編排到期\n  CMP003->>CMP005: 到期的業務規則與不變量\n  CMP003->>CMP006: 持久化到期結果\n  CMP003-->>U: AC-002-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-003",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-003",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:27",
+    "10-requirements.md:8",
+    "30-architecture-c4.md:25",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:30",
+    "30-architecture-c4.md:70",
+    "30-architecture-c4.md:71",
+    "30-architecture-c4.md:72",
+    "30-architecture-c4.md:73",
+    "60-test-design.md:10",
+    "60-test-design.md:11",
+    "60-test-design.md:6",
+    "60-test-design.md:9",
+    "specs/in-progress/points-redemption/pm-spec.md:16"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "0429bc4f9d55",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3 會員可查看點數交易\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP001\n  AC0031 --> CMP004\n  AC0031 --> CMP005\n  AC0031 --> CMP006\n  AC0031 -.-> TST001\n  AC0031 -.-> TST004\n  AC0031 -.-> TST005\n  AC0031 -.-> TST006\n  subgraph LApi[\"Api\"]\n    CMP001[\"CMP-001<br/>PointsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP004[\"CMP-004<br/>ListTransactionsQueryHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP005[\"CMP-005<br/>Redemption (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP006[\"CMP-006<br/>SqlPointsAccountRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 integration\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-003",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-003",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:25",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:30"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "99ddcf4c7d6f",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as PointsController\n  participant CMP004 as ListTransactionsQueryHandler\n  participant CMP005 as Redemption\n  participant CMP006 as SqlPointsAccountRepository\n  U->>CMP001: 接收查看請求\n  CMP001->>CMP004: 編排查看\n  CMP004->>CMP005: 查看的業務規則與不變量\n  CMP004->>CMP006: 持久化查看結果\n  CMP001-->>U: AC-003-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-NFR-001",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 NFR-001",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:37",
+    "30-architecture-c4.md:25",
+    "30-architecture-c4.md:74",
+    "60-test-design.md:13",
+    "specs/in-progress/points-redemption/pm-spec.md:19"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-001"
+   ],
+   "hash": "e7fdad8a69c9",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PNFR001[\"PM§4 非功能需求\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 --> CMP001\n  ACN011 -.-> TST008\n  subgraph LApi[\"Api\"]\n    CMP001[\"CMP-001<br/>PointsController\"]:::cmp\n  end\n  TST008[/\"TST-008 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-NFR-001",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 NFR-001",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:25"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-001"
+   ],
+   "hash": "134d93b2025f",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as PointsController\n  U->>CMP001: NFR balance never negative\n  CMP001-->>U: AC-N01-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:6",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "點數帳戶 | 名詞 | PM§3.1 | 實體候選",
+   "source": "sa/01-break-words.md:6",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:7",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "兌換單 | 名詞 | PM§3.1 | 實體候選",
+   "source": "sa/01-break-words.md:7",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:8",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "獎品 | 名詞 | PM§3.1 | 實體候選",
+   "source": "sa/01-break-words.md:8",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:9",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "點數交易 | 名詞 | PM§3.1 | 實體候選",
+   "source": "sa/01-break-words.md:9",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:10",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "獎品供應商 | 名詞 | PM§3.1 | 外部系統",
+   "source": "sa/01-break-words.md:10",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:15",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "兌換 | 動詞 | PM§3.1 | 動作: RedeemReward",
+   "source": "sa/01-break-words.md:15",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:16",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "到期 | 動詞 | PM§3.2 | 動作: ExpirePoints",
+   "source": "sa/01-break-words.md:16",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:17",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "查看 | 動詞 | PM§3.3 | 動作: ListTransactions",
+   "source": "sa/01-break-words.md:17",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:22",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "會員 | 角色 | PM§3.1 | Actor: Member",
+   "source": "sa/01-break-words.md:22",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:23",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "系統 | 角色 | PM§3.2 | Actor: System",
+   "source": "sa/01-break-words.md:23",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:6",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "點數帳戶 | PointsAccount | Id | 點數帳戶",
+   "source": "sa/02-entities-relations.md:6",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:7",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "兌換單 | Redemption | Id, Status | 兌換單",
+   "source": "sa/02-entities-relations.md:7",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:8",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "獎品 | Reward | Id | 獎品",
+   "source": "sa/02-entities-relations.md:8",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:9",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "點數交易 | PointTransaction | Id | 點數交易",
+   "source": "sa/02-entities-relations.md:9",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:6",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "會員 | RedeemReward(POST /members/{id}/redemptions) | 兌換 | REQ-001",
+   "source": "sa/03-roles.md:6",
+   "targets": [
+    "REQ-001"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:7",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "系統 | ExpirePoints(job) | 到期 | REQ-002",
+   "source": "sa/03-roles.md:7",
+   "targets": [
+    "REQ-002"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:8",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "會員 | ListTransactions(GET /members/{id}/transactions) | 查看 | REQ-003",
+   "source": "sa/03-roles.md:8",
+   "targets": [
+    "REQ-003"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  }
+ ],
+ "methodology": "uml-wordbreak",
+ "duties": {
+  "intent": {
+   "label": "是不是要的",
+   "hint": "PM",
+   "ask": "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"
+  },
+  "testable": {
+   "label": "測得出來",
+   "hint": "QA",
+   "ask": "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"
+  },
+  "buildable": {
+   "label": "做得出來",
+   "hint": "RD",
+   "ask": "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"
+  }
+ },
+ "signoff_path": "audit/signoff.md",
+ "render_check": {
+  "mode": "auto",
+  "available": true,
+  "reason": "",
+  "modal": "ok",
+  "cards": 4,
+  "tabs": 8,
+  "visible_dg": 0,
+  "visible_svgs": 0,
+  "overflow": false,
+  "notice": false,
+  "errs": [],
+  "reqs": 4
+ }
+}

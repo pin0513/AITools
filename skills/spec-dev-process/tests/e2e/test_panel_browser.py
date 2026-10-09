@@ -1,6 +1,6 @@
 """e2e:在真的瀏覽器裡執行核對面板的 JavaScript(Python 測試只驗注入的資料,驗不到頁面腳本)。
-需要 node + playwright + chromium;環境沒有就 skip。CDN 請求導向 vendor/mermaid.min.js,驗:無 JS 錯誤、每條需求一張卡、每張卡的圖都畫成 SVG、無語法錯誤圖、
-主 CDN 失敗會改用備援、兩者都失敗會顯示提示。"""
+需要 node + playwright + chromium;環境沒有就 skip。CDN 請求導向 vendor/mermaid.min.js,驗:無 JS 錯誤、分頁、每條需求一張卡、
+圖預設不展開(只放晶片)、點晶片開 modal 畫出 SVG、全部圖都畫得出來、主 CDN 失敗會改用備援、兩者都失敗會顯示提示。"""
 import json, os, pathlib, shutil, subprocess, tempfile, unittest
 from core import config as C
 
@@ -17,17 +17,21 @@ const [lib, panel, mode, query] = process.argv.slice(2); const LIB = fs.readFile
     if (u.includes('unpkg.com/mermaid')) return mode === 'fallback' ? r.fulfill({ body: LIB, contentType: 'application/javascript' }) : r.abort();
     return u.startsWith('file:') ? r.continue() : r.abort(); });
   await p.goto('file://' + panel, { waitUntil: 'load' }); await p.waitForTimeout(2500);
-  const r = await p.evaluate(() => { const ev = [...document.querySelectorAll('section')].find(s => s.querySelector('h2')?.textContent.includes('E. 證據鏈'));
-    return { cards: ev ? ev.querySelectorAll('article.evc').length : 0, dg: ev ? ev.querySelectorAll('.dg').length : 0, svgs: ev ? ev.querySelectorAll('.dg svg').length : 0,
-      errSvg: [...document.querySelectorAll('svg')].filter(s => /Syntax error|Parse error/i.test(s.textContent)).length,
+  await p.click('nav.tabs [data-tab=evidence]').catch(() => {}); await p.waitForTimeout(300);
+  const r = await p.evaluate(() => { const ev = document.getElementById('tab-evidence');
+    return { tabs: document.querySelectorAll('nav.tabs [role=tab]').length, cards: ev ? ev.querySelectorAll('article.evc').length : 0,
+      inline: [...document.querySelectorAll('#app .dg')].filter(n => n.offsetParent !== null).length, chips: ev ? ev.querySelectorAll('.chip[data-open^="dg:"]').length : 0,
       notice: !!document.querySelector('[role=status]'), overflow: document.documentElement.scrollWidth > innerWidth + 1 }; });
-  const parseErrors = await p.evaluate(async () => { const out = []; for (const n of document.querySelectorAll('pre.mermaid, pre.pre[data-src]')) {
-      const code = n.dataset.src || n.textContent; try { await mermaid.parse(code); } catch (e) { out.push(code.split('\n')[0] + ': ' + String(e.message || e).split('\n')[0]); } } return out; }).catch(() => ['mermaid 未載入']);
+  let modalSvg = 0;
+  if (r.chips) { await p.click('#tab-evidence .chip[data-open^="dg:"]'); await p.waitForTimeout(1200); modalSvg = await p.locator('#mdl .dg svg').count();
+    r.errSvg = await p.evaluate(() => [...document.querySelectorAll('#mdl svg')].filter(s => /Syntax error|Parse error/i.test(s.textContent)).length); await p.keyboard.press('Escape'); }
+  r.modalSvg = modalSvg;
+  const parseErrors = await p.evaluate(async () => { const out = []; let i = 0; for (const [id, code] of Object.entries(window.__DG || {})) {
+      try { await mermaid.render('tchk' + (i++), code); } catch (e) { out.push(id + ': ' + String(e.message || e).split('\n')[0]); } } return out; }).catch(() => ['mermaid 未載入']);
   let lookup = null;
-  if (query) { await p.fill('#lk', query); await p.waitForTimeout(300);
+  if (query) { await p.click('nav.tabs [data-tab=evidence]'); await p.fill('#lk', query); await p.waitForTimeout(300);
     lookup = await p.evaluate(() => { const box = document.getElementById('lkout'); return { shown: !box.hidden, rows: box.querySelectorAll('tr').length, assets: box.querySelectorAll('details').length }; }); }
-  const card = await p.evaluate(() => { const d = [...document.querySelectorAll('article.evc details')].find(x => x.querySelector('summary')?.textContent.includes('詞彙與已知資產'));
-    return d ? d.querySelector('summary').textContent : ''; });
+  const card = await p.evaluate(() => { const c = document.querySelector('article.evc .chip[data-open^="tb:nm:"]'); return c ? c.parentElement.textContent : ''; });
   console.log(JSON.stringify({ ...r, errs, lookup, card, parseErrors })); await b.close(); })();
 """
 
@@ -61,15 +65,16 @@ class PanelBrowserTest(unittest.TestCase):
             with self.subTest(panel=panel.name):
                 n_req = 4   # 3 REQ + 1 NFR
                 r = self.run_panel(panel, "primary")
-                self.assertEqual(r["errs"], []); self.assertEqual(r["cards"], n_req)
-                self.assertGreaterEqual(r["dg"], n_req); self.assertEqual(r["svgs"], r["dg"], "每張預設顯示的圖都要畫成 SVG")
-                self.assertEqual(r["errSvg"], 0); self.assertFalse(r["notice"]); self.assertFalse(r["overflow"], "400px 寬不得水平捲動")
-                self.assertEqual(r["parseErrors"], [], "所有圖(含收合的)都要能被 mermaid 解析")
+                self.assertEqual(r["errs"], []); self.assertEqual(r["cards"], n_req); self.assertGreaterEqual(r["tabs"], 6)
+                self.assertEqual(r["inline"], 0, "圖預設不展開"); self.assertGreaterEqual(r["chips"], n_req, "每條需求至少一張圖的晶片")
+                self.assertEqual(r["modalSvg"], 1, "點晶片 → modal 畫出那一張圖"); self.assertEqual(r["errSvg"], 0)
+                self.assertFalse(r["notice"]); self.assertFalse(r["overflow"], "400px 寬不得水平捲動")
+                self.assertEqual(r["parseErrors"], [], "所有圖都要畫得出來")
 
     def test_fallback_cdn_and_failure_notice(self):
         panel = sorted((BOARD / "tc").glob("*.html"))[0]
-        r = self.run_panel(panel, "fallback"); self.assertEqual(r["svgs"], r["dg"]); self.assertFalse(r["notice"])
-        r = self.run_panel(panel, "none"); self.assertEqual(r["svgs"], 0); self.assertTrue(r["notice"]); self.assertEqual(r["errs"], [])
+        r = self.run_panel(panel, "fallback"); self.assertEqual(r["modalSvg"], 1); self.assertFalse(r["notice"])
+        r = self.run_panel(panel, "none"); self.assertEqual(r["modalSvg"], 0); self.assertTrue(r["notice"]); self.assertEqual(r["errs"], [])
 
     def test_lookup_finds_glossary_naming_and_docs_on_testcase1(self):
         panel = ROOT / "examples" / "testcase1-form-system" / "specs" / "rd" / "issue-c" / "spec-review" / "check-panel.html"
@@ -96,27 +101,29 @@ const [lib, panel] = process.argv.slice(2); const LIB = fs.readFileSync(lib, 'ut
   await p.route('**/*', r => { const u = r.request().url();
     if (u.includes('mermaid')) return r.fulfill({ body: LIB, contentType: 'application/javascript' });
     return u.startsWith('file:') ? r.continue() : r.abort(); });
-  await p.goto('file://' + panel, { waitUntil: 'load' }); await p.waitForTimeout(1500);
-  const vis = () => p.evaluate(() => [...document.querySelectorAll('#audlist > details.aud')].filter(d => !d.hidden).length);
+  await p.goto('file://' + panel + '#audit', { waitUntil: 'load' }); await p.waitForTimeout(1500);
+  const vis = () => p.evaluate(() => [...document.querySelectorAll('#audlist > .aud')].filter(d => !d.hidden).length);
   const out = { todo: await vis() };
   await p.click('.audbar button[data-f="all"]'); out.all = await vis();
   await p.click('.audbar button[data-f="SA"]'); out.sa = await vis();
   await p.click('.audbar button[data-f="table-row"]'); out.rows = await vis();
   await p.click('.audbar button[data-f="all"]');
-  const first = p.locator('#audlist > details.aud').filter({ has: p.locator('fieldset.dec') }).first();
-  await first.locator(':scope > summary').click(); await p.waitForTimeout(800);
-  out.svg = await first.locator('.audg .dg svg').count();
-  out.prov = await first.locator('dl.prov dt').allTextContents();
   await p.fill('#reviewer', 'Paul');
-  await first.locator('input[value="approved"]').check(); await p.waitForTimeout(100);
+  await p.click('#audlist > .aud[data-id="AUTO-SEQ-REQ-001"]'); await p.waitForTimeout(1000);
+  const m = p.locator('#mdl'); out.modalOpen = await m.evaluate(d => d.open); out.hash = await p.evaluate(() => location.hash);
+  out.svg = await m.locator('.audg .dg svg').count();
+  out.prov = await m.locator('dl.prov dt').allTextContents();
+  const duty = m.locator('.duty').first();
+  await duty.locator('input[value="approved"]').check(); await p.waitForTimeout(100);
   out.cmdApprove = await p.inputValue('#socmd');
-  await first.locator('input[value="rejected"]').check(); await p.waitForTimeout(100);
+  await duty.locator('input[value="rejected"]').check(); await p.waitForTimeout(100);
   out.statRejectNoNote = await p.textContent('#sostat');
-  await first.locator('input.note').fill('補上 Repository'); await p.waitForTimeout(100);
+  await duty.locator('input.note').fill('補上 Repository'); await p.waitForTimeout(100);
   out.cmdReject = await p.inputValue('#socmd');
+  await p.keyboard.press('Escape');
   await p.click('#somd'); await p.waitForTimeout(100); out.md = await p.inputValue('#socmd');
-  await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(800);
-  out.persisted = await p.evaluate(() => { const f = document.querySelector('#audlist fieldset.dec input[value="rejected"]:checked'); return !!f; });
+  await p.goto('file://' + panel + '#tab=audit&open=aud:AUTO-SEQ-REQ-001', { waitUntil: 'load' }); await p.reload({ waitUntil: 'load' }); await p.waitForTimeout(1000);
+  out.persisted = await p.evaluate(() => !!document.querySelector('#mdl[open] fieldset.dec input[value="rejected"]:checked'));
   out.errs = errs; console.log(JSON.stringify(out)); await b.close(); })();
 """
 
@@ -137,10 +144,11 @@ class AuditBoardBrowserTest(unittest.TestCase):
         self.assertEqual(o["errs"], [])
         self.assertEqual(o["all"], len(audit["items"])); self.assertEqual(o["sa"], S["by_phase"]["SA"] + S["table_rows"])
         self.assertEqual(o["rows"], S["table_rows"]); self.assertGreater(o["todo"], 0)
-        self.assertEqual(o["svg"], 1, "展開後圖要畫出來")
+        self.assertTrue(o["modalOpen"]); self.assertIn("open=aud%3AAUTO-SEQ-REQ-001", o["hash"], "modal 有可分享的連結")
+        self.assertEqual(o["svg"], 1, "點開後圖要畫出來")
         for k in ("來源", "過程", "目標", "機器核對", "渲染", "內容 hash"): self.assertIn(k, o["prov"])
-        self.assertRegex(o["cmdApprove"], r'^python3 spec-dev\.py signoff \S+ \S+ --hash [0-9a-f]{12} --by "Paul"$')
-        self.assertIn("有退回沒寫備註", o["statRejectNoNote"])
+        self.assertRegex(o["cmdApprove"], r'^python3 spec-dev\.py signoff \S+ AUTO-SEQ-REQ-001 --duty buildable --hash [0-9a-f]{12} --by "Paul"$')
+        self.assertIn("有退回或不需要沒寫理由", o["statRejectNoNote"])
         self.assertIn("--reject", o["cmdReject"]); self.assertIn('--note "補上 Repository"', o["cmdReject"])
-        self.assertRegex(o["md"], r"^\| \S+ \| .* \| rejected \| Paul \| \d{4}-\d{2}-\d{2} \| 補上 Repository \|$")
-        self.assertTrue(o["persisted"], "判斷要留在瀏覽器,重新整理不丟")
+        self.assertRegex(o["md"], r"^\| AUTO-SEQ-REQ-001 \| buildable \| .* \| rejected \| Paul \| \d{4}-\d{2}-\d{2} \| 補上 Repository \|$")
+        self.assertTrue(o["persisted"], "判斷要留在瀏覽器,用連結重開不丟")

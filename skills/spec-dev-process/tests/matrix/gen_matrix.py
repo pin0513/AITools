@@ -512,11 +512,13 @@ def gen_one(out_root, shape, lang, sid):
 
     # ---------- spec-reviewer ----------
     tools = proj / "specs" / "tools" / "spec-reviewer"; tools.mkdir(parents=True, exist_ok=True)
-    (tools / "review.sh").write_text('#!/usr/bin/env bash\n# 用法:review.sh [--strict] [--offline];SPEC_DEV 指向 spec-dev.py\nset -euo pipefail\n'
+    (tools / "review.sh").write_text('#!/usr/bin/env bash\n# 用法:review.sh [--strict | --serve [--port 8110]] [--offline];SPEC_DEV 指向 spec-dev.py\nset -euo pipefail\n'
         'HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; PROJ="$(cd "$HERE/../../.." && pwd)"\n'
         'SPEC_DEV="${SPEC_DEV:-$(cd "$PROJ/../../.." && pwd)/spec-dev.py}"\n'
         f'SPEC="$PROJ/specs/rd/{issue}/spec"\n'
-        'if [[ "${1:-}" == "--strict" ]]; then shift; python3 "$SPEC_DEV" run "$SPEC" --to S6 "$@"; else python3 "$SPEC_DEV" all "$SPEC" "$@"; fi\n', encoding="utf-8")
+        'if [[ "${1:-}" == "--strict" ]]; then shift; python3 "$SPEC_DEV" run "$SPEC" --to S6 "$@"\n'
+        'elif [[ "${1:-}" == "--serve" ]]; then shift; python3 "$SPEC_DEV" serve "$SPEC" "$@"\n'
+        'else python3 "$SPEC_DEV" review "$SPEC" "$@"; fi\n', encoding="utf-8")
     (tools / "review.sh").chmod(0o755)
 
     # ---------- expected.yaml(驗收預期)----------

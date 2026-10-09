@@ -1,0 +1,1807 @@
+{
+ "threads": [],
+ "summary": {
+  "diagrams": 30,
+  "table_rows": 18,
+  "by_phase": {
+   "SA": 9,
+   "RD": 13,
+   "AUTO": 8
+  },
+  "signoff": {
+   "approved": 0,
+   "stale": 0,
+   "pending": 30,
+   "rejected": 0
+  },
+  "with_findings": 0,
+  "by_duty": {
+   "intent": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 17,
+    "rejected": 0
+   },
+   "testable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 16,
+    "rejected": 0
+   },
+   "buildable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 17,
+    "rejected": 0
+   }
+  },
+  "changed_since_last": [],
+  "removed_since_last": [],
+  "threads_open": 0
+ },
+ "items": [
+  {
+   "type": "diagram",
+   "id": "CLS-SA-001",
+   "phase": "SA",
+   "kind": "class",
+   "heading": "CLS-SA-001 (REQ-001)",
+   "source": "sa/02-entities-relations.md:17",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 14,
+     "stage": "SA",
+     "method": "SA2.ClassDiagram",
+     "out": "CLS-SA-001"
+    },
+    {
+     "seq": 15,
+     "stage": "S2",
+     "method": "UML.Class",
+     "out": "CLS-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "1495f21f8393",
+   "findings": [],
+   "mermaid": "classDiagram\n  class Room\n  class Booking\n  class TimeSlot\n  Room --> Booking : has\n  Room --> TimeSlot : has",
+   "checks": [
+    "class_in_sa_entities"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UCD-001",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
+   "source": "sa/04-usecase.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 16,
+     "stage": "SA",
+     "method": "SA4.UseCaseDiagram",
+     "out": "UCD-001"
+    }
+   ],
+   "targets": [
+    "REQ-001",
+    "REQ-002",
+    "REQ-003"
+   ],
+   "hash": "a1080cad4be9",
+   "findings": [],
+   "mermaid": "flowchart LR\n  employee([\"employee\"]) --> book((\"book\"))\n  employee([\"employee\"]) --> check_in((\"check in\"))\n  system([\"system\"]) --> release((\"release\"))\n  admin([\"admin\"]) --> view_daily((\"view\"))",
+   "checks": [
+    "ucd_covers_roles"
+   ],
+   "duties": [
+    "intent"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ACT-001",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "ACT-001 (REQ-001)",
+   "source": "sa/05-activity.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 17,
+     "stage": "SA",
+     "method": "SA5.Activity",
+     "out": "ACT-001, ACT-002, ACT-003"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "7813f8a7c922",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[\"the employee books the meeting room\"] --> B{\"the time slot is free?\"}\n  B -->|yes| C[\"a booking is booked\"]\n  B -->|no| D[\"the response is 409 SLOT_TAKEN\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ACT-002",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "ACT-002 (REQ-002)",
+   "source": "sa/05-activity.md:13",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 17,
+     "stage": "SA",
+     "method": "SA5.Activity",
+     "out": "ACT-001, ACT-002, ACT-003"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "e428660cb058",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[\"the employee checks in within 15 minutes\"] --> B{\"a booking is booked?\"}\n  B -->|yes| C[\"the booking is checked-in\"]\n  B -->|no| D[\"the booking is released and the calendar service is updated\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ACT-003",
+   "phase": "SA",
+   "kind": "flowchart",
+   "heading": "ACT-003 (REQ-003)",
+   "source": "sa/05-activity.md:21",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 17,
+     "stage": "SA",
+     "method": "SA5.Activity",
+     "out": "ACT-001, ACT-002, ACT-003"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "decb50720d5f",
+   "findings": [],
+   "mermaid": "flowchart TD\n  A[\"the admin opens the daily view\"] --> B{\"booking records exist today?\"}\n  B -->|yes| C[\"rows are grouped by meeting room\"]\n  B -->|no| E[\"—\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-SA-001",
+   "phase": "SA",
+   "kind": "sequence",
+   "heading": "SEQ-SA-001 (REQ-001)",
+   "source": "sa/06-sequence.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 18,
+     "stage": "SA",
+     "method": "SA6.Sequence",
+     "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "22e8b297a707",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  participant CalendarService\n  U->>Web: BookRoom\n  Web->>API: BookRoom\n  API->>DB: BookRoom\n  DB->>CalendarService: BookRoom\n  Web-->>U: ok",
+   "checks": [
+    "seq_actor_is_role"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-SA-002",
+   "phase": "SA",
+   "kind": "sequence",
+   "heading": "SEQ-SA-002 (REQ-002)",
+   "source": "sa/06-sequence.md:20",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 18,
+     "stage": "SA",
+     "method": "SA6.Sequence",
+     "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "2e64895b6cfa",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  U->>Web: CheckInBooking\n  Web->>API: CheckInBooking\n  API->>DB: CheckInBooking\n  Web-->>U: ok",
+   "checks": [
+    "seq_actor_is_role"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-SA-003",
+   "phase": "SA",
+   "kind": "sequence",
+   "heading": "SEQ-SA-003 (REQ-003)",
+   "source": "sa/06-sequence.md:33",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 18,
+     "stage": "SA",
+     "method": "SA6.Sequence",
+     "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "a2be7db6dcb6",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListDailyBookings\n  Web->>API: ListDailyBookings\n  API->>DB: ListDailyBookings\n  Web-->>U: ok",
+   "checks": [
+    "seq_actor_is_role"
+   ],
+   "duties": [
+    "intent",
+    "buildable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-SA-001",
+   "phase": "SA",
+   "kind": "state",
+   "heading": "STM-SA-001 Booking.Status (REQ-001, REQ-002)",
+   "source": "sa/07-state.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 19,
+     "stage": "SA",
+     "method": "SA7.State",
+     "out": "STM-SA-001"
+    },
+    {
+     "seq": 23,
+     "stage": "S2",
+     "method": "UML.State",
+     "out": "STM-DOM-001"
+    }
+   ],
+   "targets": [
+    "REQ-001",
+    "REQ-002"
+   ],
+   "hash": "75624ae41d98",
+   "findings": [],
+   "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow",
+   "checks": [
+    "state_events_are_actions"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UC-001",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "UC-001 An employee can book a meeting room without overlapping time slot (REQ-001)",
+   "source": "20-domain-model.md:15",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 5,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-001"
+    },
+    {
+     "seq": 6,
+     "stage": "S2",
+     "method": "CleanArch.Layers",
+     "out": "CMP-001, CMP-002, CMP-003, CMP-004, CMP-008, CMP-009, CMP-010"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "a7caf0eea95b",
+   "findings": [],
+   "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"the employee books the meeting room\"] --> Q[\"a booking is booked\"]\n  P -.-> X[\"the response is 409 SLOT_TAKEN\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UC-002",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "UC-002 check in within 15 minutes or the system will release the meeting room (REQ-002)",
+   "source": "20-domain-model.md:32",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 7,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-002"
+    },
+    {
+     "seq": 8,
+     "stage": "S2",
+     "method": "CleanArch.Layers",
+     "out": "CMP-001, CMP-002, CMP-003, CMP-005, CMP-006, CMP-008, CMP-009, CMP-010"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "7b3c60863f55",
+   "findings": [],
+   "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"the employee checks in within 15 minutes\"] --> Q[\"the booking is checked-in\"]\n  P -.-> X[\"the booking is released and the calendar service is updated\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "UC-003",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "UC-003 An admin can view daily booking records (REQ-003)",
+   "source": "20-domain-model.md:49",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 9,
+     "stage": "S1",
+     "method": "UseCase",
+     "out": "UC-003"
+    },
+    {
+     "seq": 10,
+     "stage": "S2",
+     "method": "CleanArch.Layers",
+     "out": "CMP-001, CMP-002, CMP-003, CMP-007, CMP-008, CMP-009"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "2ce5093b1e1b",
+   "findings": [],
+   "mermaid": "flowchart LR\n  S([\"admin\"]) --> P[\"the admin opens the daily view\"] --> Q[\"rows are grouped by meeting room\"]",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-DOM-001",
+   "phase": "RD",
+   "kind": "state",
+   "heading": "STM-DOM-001 Booking.Status (REQ-001, REQ-002)",
+   "source": "20-domain-model.md:56",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 23,
+     "stage": "S2",
+     "method": "UML.State",
+     "out": "STM-DOM-001"
+    },
+    {
+     "seq": 25,
+     "stage": "S3",
+     "method": "UI.StateMachine",
+     "out": "STM-UI-001"
+    }
+   ],
+   "targets": [
+    "REQ-001",
+    "REQ-002"
+   ],
+   "hash": "75624ae41d98",
+   "findings": [],
+   "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow",
+   "checks": [
+    "state_events_are_actions",
+    "state_handoff_subset"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "CLS-001",
+   "phase": "RD",
+   "kind": "class",
+   "heading": "CLS-001 Booking (REQ-001)",
+   "source": "20-domain-model.md:71",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 15,
+     "stage": "S2",
+     "method": "UML.Class",
+     "out": "CLS-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "aecc2d329bb7",
+   "findings": [],
+   "mermaid": "classDiagram\n  class Booking { +Id +Status }\n  Room --> Booking : has\n  Room --> TimeSlot : has",
+   "checks": [
+    "class_names_known"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L1",
+   "phase": "RD",
+   "kind": "c4-context",
+   "heading": "C4-L1",
+   "source": "30-architecture-c4.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 20,
+     "stage": "S2",
+     "method": "C4.Context/Container",
+     "out": "C4-L1, C4-L2"
+    }
+   ],
+   "targets": [],
+   "hash": "bf1f4f253c98",
+   "findings": [],
+   "mermaid": "C4Context\n  Person(u, \"employee\")\n  System(sys, \"Meeting room booking\")\n  System_Ext(ext, \"CalendarService\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")",
+   "checks": [],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L2",
+   "phase": "RD",
+   "kind": "c4-container",
+   "heading": "C4-L2",
+   "source": "30-architecture-c4.md:16",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 20,
+     "stage": "S2",
+     "method": "C4.Context/Container",
+     "out": "C4-L1, C4-L2"
+    }
+   ],
+   "targets": [],
+   "hash": "6a867ea39299",
+   "findings": [],
+   "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")",
+   "checks": [],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "C4-L3",
+   "phase": "RD",
+   "kind": "flowchart",
+   "heading": "C4-L3",
+   "source": "30-architecture-c4.md:38",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 21,
+     "stage": "S3",
+     "method": "C4.Component",
+     "out": "C4-L3"
+    },
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [],
+   "hash": "6a60d39bd50d",
+   "findings": [],
+   "mermaid": "flowchart LR\n  CMP001[\"RoomBookingPage<br/>Page\"]\n  CMP002[\"roomsApi<br/>ApiClient\"]\n  CMP003[\"RoomsController<br/>Api\"]\n  CMP004[\"BookRoomCommandHandler<br/>Application\"]\n  CMP005[\"CheckInBookingCommandHandler<br/>Application\"]\n  CMP006[\"ReleaseNoShowJob<br/>Application\"]\n  CMP007[\"ListDailyBookingsQueryHandler<br/>Application\"]\n  CMP008[\"Booking (Aggregate)<br/>Domain\"]\n  CMP009[\"SqlRoomRepository<br/>Infrastructure\"]\n  CMP010[\"CalendarServiceClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP002 --> CMP003\n  CMP003 --> CMP004\n  CMP003 --> CMP005\n  CMP003 --> CMP007\n  CMP004 --> CMP008\n  CMP004 --> CMP009\n  CMP004 --> CMP010\n  CMP005 --> CMP008\n  CMP005 --> CMP009\n  CMP006 --> CMP008\n  CMP006 --> CMP009\n  CMP006 --> CMP010\n  CMP007 --> CMP008\n  CMP007 --> CMP009",
+   "checks": [
+    "c4_relations_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-001",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-001 (UC-001 / REQ-001)",
+   "source": "30-architecture-c4.md:110",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "4a1f40b582af",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as roomsApi\n  participant CMP003 as RoomsController\n  participant CMP004 as BookRoomCommandHandler\n  participant CMP008 as Booking\n  participant CMP009 as SqlRoomRepository\n  participant CMP010 as CalendarServiceClient\n  U->>CMP001: BookRoom\n  CMP001->>CMP002: BookRoom\n  CMP002->>CMP003: BookRoom\n  CMP003->>CMP004: BookRoom\n  CMP004->>CMP008: BookRoom\n  CMP008-->>CMP004: ok\n  CMP004->>CMP009: BookRoom\n  CMP009-->>CMP004: ok\n  CMP004->>CMP010: BookRoom\n  CMP010-->>CMP004: ok\n  CMP004-->>CMP003: ok\n  CMP003-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-002",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-002 (UC-002 / REQ-002)",
+   "source": "30-architecture-c4.md:137",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "e82922918486",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as roomsApi\n  participant CMP003 as RoomsController\n  participant CMP005 as CheckInBookingCommandHandler\n  participant CMP008 as Booking\n  participant CMP009 as SqlRoomRepository\n  U->>CMP001: CheckInBooking\n  CMP001->>CMP002: CheckInBooking\n  CMP002->>CMP003: CheckInBooking\n  CMP003->>CMP005: CheckInBooking\n  CMP005->>CMP008: CheckInBooking\n  CMP008-->>CMP005: ok\n  CMP005->>CMP009: CheckInBooking\n  CMP009-->>CMP005: ok\n  CMP005-->>CMP003: ok\n  CMP003-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "SEQ-003",
+   "phase": "RD",
+   "kind": "sequence",
+   "heading": "SEQ-003 (UC-003 / REQ-003)",
+   "source": "30-architecture-c4.md:161",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 22,
+     "stage": "S3",
+     "method": "UML.Sequence",
+     "out": "SEQ-001, SEQ-002, SEQ-003"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "9aaa3d75731c",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as roomsApi\n  participant CMP003 as RoomsController\n  participant CMP007 as ListDailyBookingsQueryHandler\n  participant CMP008 as Booking\n  participant CMP009 as SqlRoomRepository\n  U->>CMP001: ListDailyBookings\n  CMP001->>CMP002: ListDailyBookings\n  CMP002->>CMP003: ListDailyBookings\n  CMP003->>CMP007: ListDailyBookings\n  CMP007->>CMP008: ListDailyBookings\n  CMP008-->>CMP007: ok\n  CMP007->>CMP009: ListDailyBookings\n  CMP009-->>CMP007: ok\n  CMP007-->>CMP003: ok\n  CMP003-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "STM-UI-001",
+   "phase": "RD",
+   "kind": "state",
+   "heading": "STM-UI-001 RoomBookingPage (REQ-001)",
+   "source": "ui/41-ui-spec.md:10",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 25,
+     "stage": "S3",
+     "method": "UI.StateMachine",
+     "out": "STM-UI-001"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "e9cfe5654741",
+   "findings": [],
+   "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error",
+   "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "ERD-001",
+   "phase": "RD",
+   "kind": "erd",
+   "heading": "ERD-001",
+   "source": "api/50-data-model.md:5",
+   "inputs": [],
+   "process": [
+    {
+     "seq": 24,
+     "stage": "S3",
+     "method": "ERD",
+     "out": "ERD-001"
+    }
+   ],
+   "targets": [],
+   "hash": "236356a94b6b",
+   "findings": [],
+   "mermaid": "erDiagram\n  Rooms ||--o{ Booking : has\n  Rooms {\n    uniqueidentifier Id PK\n  }\n  Booking {\n    uniqueidentifier Id PK\n  }",
+   "checks": [
+    "er_entities_owned"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-001",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-001",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:12",
+    "10-requirements.md:17",
+    "10-requirements.md:6",
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:33",
+    "30-architecture-c4.md:34",
+    "30-architecture-c4.md:35",
+    "30-architecture-c4.md:70",
+    "30-architecture-c4.md:71",
+    "30-architecture-c4.md:72",
+    "30-architecture-c4.md:73",
+    "30-architecture-c4.md:74",
+    "30-architecture-c4.md:75",
+    "30-architecture-c4.md:76",
+    "30-architecture-c4.md:77",
+    "30-architecture-c4.md:78",
+    "30-architecture-c4.md:79",
+    "30-architecture-c4.md:80",
+    "30-architecture-c4.md:81",
+    "30-architecture-c4.md:82",
+    "30-architecture-c4.md:83",
+    "60-test-design.md:13",
+    "60-test-design.md:14",
+    "60-test-design.md:15",
+    "60-test-design.md:6",
+    "60-test-design.md:7",
+    "60-test-design.md:8",
+    "60-test-design.md:9",
+    "specs/in-progress/room-booking/pm-spec.md:10"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "ffade339b47b",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1 An employee can book a meeting room without overlapping time slot\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP003\n  AC0011 --> CMP004\n  AC0011 --> CMP008\n  AC0011 --> CMP009\n  AC0011 --> CMP010\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST003\n  AC0011 -.-> TST004\n  AC0011 -.-> TST008\n  AC0011 -.-> TST009\n  AC0011 -.-> TST010\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 --> CMP002\n  AC0012 --> CMP003\n  AC0012 --> CMP004\n  AC0012 --> CMP008\n  AC0012 --> CMP009\n  AC0012 --> CMP010\n  AC0012 -.-> TST001\n  AC0012 -.-> TST002\n  AC0012 -.-> TST003\n  AC0012 -.-> TST004\n  AC0012 -.-> TST008\n  AC0012 -.-> TST009\n  AC0012 -.-> TST010\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP002[\"CMP-002<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP003[\"CMP-003<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP004[\"CMP-004<br/>BookRoomCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP008[\"CMP-008<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP009[\"CMP-009<br/>SqlRoomRepository\"]:::cmp\n    CMP010[\"CMP-010<br/>CalendarServiceClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST002[/\"TST-002 contract\"/]:::tst\n  TST003[/\"TST-003 integration\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST008[/\"TST-008 unit\"/]:::tst\n  TST009[/\"TST-009 integration\"/]:::tst\n  TST010[/\"TST-010 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-001",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-001",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:29",
+    "30-architecture-c4.md:33",
+    "30-architecture-c4.md:34",
+    "30-architecture-c4.md:35"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-001"
+   ],
+   "hash": "1a343657112b",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as roomsApi\n  participant CMP003 as RoomsController\n  participant CMP004 as BookRoomCommandHandler\n  participant CMP008 as Booking\n  participant CMP009 as SqlRoomRepository\n  participant CMP010 as CalendarServiceClient\n  U->>CMP001: render and trigger book\n  CMP001->>CMP002: call the API for book\n  CMP002->>CMP003: receive the book request\n  CMP003->>CMP004: orchestrate book\n  CMP004->>CMP008: enforce the book invariant\n  CMP004->>CMP009: persist the book result\n  CMP004->>CMP010: call the external system for book\n  CMP001-->>U: AC-001-1, AC-001-2",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-002",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-002",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:22",
+    "10-requirements.md:27",
+    "10-requirements.md:7",
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:30",
+    "30-architecture-c4.md:31",
+    "30-architecture-c4.md:33",
+    "30-architecture-c4.md:34",
+    "30-architecture-c4.md:35",
+    "30-architecture-c4.md:84",
+    "30-architecture-c4.md:85",
+    "30-architecture-c4.md:86",
+    "30-architecture-c4.md:87",
+    "30-architecture-c4.md:88",
+    "30-architecture-c4.md:89",
+    "30-architecture-c4.md:90",
+    "30-architecture-c4.md:91",
+    "30-architecture-c4.md:92",
+    "30-architecture-c4.md:93",
+    "30-architecture-c4.md:94",
+    "30-architecture-c4.md:95",
+    "30-architecture-c4.md:96",
+    "30-architecture-c4.md:97",
+    "30-architecture-c4.md:98",
+    "30-architecture-c4.md:99",
+    "60-test-design.md:10",
+    "60-test-design.md:11",
+    "60-test-design.md:13",
+    "60-test-design.md:14",
+    "60-test-design.md:15",
+    "60-test-design.md:6",
+    "60-test-design.md:7",
+    "60-test-design.md:8",
+    "specs/in-progress/room-booking/pm-spec.md:13"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "7fa7c3328c3a",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2 check in within 15 minutes or the system will release the meeting room\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP001\n  AC0021 --> CMP002\n  AC0021 --> CMP003\n  AC0021 --> CMP005\n  AC0021 --> CMP008\n  AC0021 --> CMP009\n  AC0021 --> CMP006\n  AC0021 --> CMP010\n  AC0021 -.-> TST001\n  AC0021 -.-> TST002\n  AC0021 -.-> TST003\n  AC0021 -.-> TST005\n  AC0021 -.-> TST006\n  AC0021 -.-> TST008\n  AC0021 -.-> TST009\n  AC0021 -.-> TST010\n  REQ002 --> AC0022([\"AC-002-2\"]):::ac\n  AC0022 --> CMP001\n  AC0022 --> CMP002\n  AC0022 --> CMP003\n  AC0022 --> CMP005\n  AC0022 --> CMP008\n  AC0022 --> CMP009\n  AC0022 --> CMP006\n  AC0022 --> CMP010\n  AC0022 -.-> TST001\n  AC0022 -.-> TST002\n  AC0022 -.-> TST003\n  AC0022 -.-> TST005\n  AC0022 -.-> TST006\n  AC0022 -.-> TST008\n  AC0022 -.-> TST009\n  AC0022 -.-> TST010\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP002[\"CMP-002<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP003[\"CMP-003<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP005[\"CMP-005<br/>CheckInBookingCommandHandler\"]:::cmp\n    CMP006[\"CMP-006<br/>ReleaseNoShowJob\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP008[\"CMP-008<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP009[\"CMP-009<br/>SqlRoomRepository\"]:::cmp\n    CMP010[\"CMP-010<br/>CalendarServiceClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST002[/\"TST-002 contract\"/]:::tst\n  TST003[/\"TST-003 integration\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 unit\"/]:::tst\n  TST008[/\"TST-008 unit\"/]:::tst\n  TST009[/\"TST-009 integration\"/]:::tst\n  TST010[/\"TST-010 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-002",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-002",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:30",
+    "30-architecture-c4.md:31",
+    "30-architecture-c4.md:33",
+    "30-architecture-c4.md:34",
+    "30-architecture-c4.md:35"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-002"
+   ],
+   "hash": "79c12db5f422",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as roomsApi\n  participant CMP003 as RoomsController\n  participant CMP005 as CheckInBookingCommandHandler\n  participant CMP006 as ReleaseNoShowJob\n  participant CMP008 as Booking\n  participant CMP009 as SqlRoomRepository\n  participant CMP010 as CalendarServiceClient\n  U->>CMP001: render and trigger check in\n  CMP001->>CMP002: call the API for check in\n  CMP002->>CMP003: receive the check in request\n  CMP003->>CMP005: orchestrate check in\n  CMP005->>CMP008: enforce the check in invariant\n  CMP005->>CMP009: persist the check in result\n  U->>CMP006: orchestrate release\n  CMP006->>CMP008: enforce the check in invariant\n  CMP006->>CMP009: persist the check in result\n  CMP006->>CMP010: call the external system for release\n  CMP001-->>U: AC-002-1, AC-002-2",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-REQ-003",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 REQ-003",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:32",
+    "10-requirements.md:8",
+    "30-architecture-c4.md:100",
+    "30-architecture-c4.md:101",
+    "30-architecture-c4.md:102",
+    "30-architecture-c4.md:103",
+    "30-architecture-c4.md:104",
+    "30-architecture-c4.md:105",
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:32",
+    "30-architecture-c4.md:33",
+    "30-architecture-c4.md:34",
+    "60-test-design.md:12",
+    "60-test-design.md:13",
+    "60-test-design.md:14",
+    "60-test-design.md:6",
+    "60-test-design.md:7",
+    "60-test-design.md:8",
+    "specs/in-progress/room-booking/pm-spec.md:16"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "a9ac5ed36204",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3 An admin can view daily booking records\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP001\n  AC0031 --> CMP002\n  AC0031 --> CMP003\n  AC0031 --> CMP007\n  AC0031 --> CMP008\n  AC0031 --> CMP009\n  AC0031 -.-> TST001\n  AC0031 -.-> TST002\n  AC0031 -.-> TST003\n  AC0031 -.-> TST007\n  AC0031 -.-> TST008\n  AC0031 -.-> TST009\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP002[\"CMP-002<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP003[\"CMP-003<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP007[\"CMP-007<br/>ListDailyBookingsQueryHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP008[\"CMP-008<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP009[\"CMP-009<br/>SqlRoomRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST002[/\"TST-002 contract\"/]:::tst\n  TST003[/\"TST-003 integration\"/]:::tst\n  TST007[/\"TST-007 unit\"/]:::tst\n  TST008[/\"TST-008 unit\"/]:::tst\n  TST009[/\"TST-009 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-REQ-003",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 REQ-003",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:26",
+    "30-architecture-c4.md:27",
+    "30-architecture-c4.md:28",
+    "30-architecture-c4.md:32",
+    "30-architecture-c4.md:33",
+    "30-architecture-c4.md:34"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "REQ-003"
+   ],
+   "hash": "4c4c53310dbe",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as roomsApi\n  participant CMP003 as RoomsController\n  participant CMP007 as ListDailyBookingsQueryHandler\n  participant CMP008 as Booking\n  participant CMP009 as SqlRoomRepository\n  U->>CMP001: render and trigger view\n  CMP001->>CMP002: call the API for view\n  CMP002->>CMP003: receive the view request\n  CMP003->>CMP007: orchestrate view\n  CMP007->>CMP008: enforce the view invariant\n  CMP007->>CMP009: persist the view result\n  CMP001-->>U: AC-003-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-TRACE-NFR-001",
+   "phase": "AUTO",
+   "kind": "flowchart",
+   "heading": "追溯圖 NFR-001",
+   "source": "(auto)",
+   "inputs": [
+    "10-requirements.md:42",
+    "30-architecture-c4.md:106",
+    "30-architecture-c4.md:28",
+    "60-test-design.md:16",
+    "specs/in-progress/room-booking/pm-spec.md:19"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-001"
+   ],
+   "hash": "3c87663b325d",
+   "findings": [],
+   "mermaid": "flowchart LR\n  PNFR001[\"PM§4 Non-functional Requirements\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 --> CMP003\n  ACN011 -.-> TST011\n  subgraph LApi[\"Api\"]\n    CMP003[\"CMP-003<br/>RoomsController\"]:::cmp\n  end\n  TST011[/\"TST-011 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+   "checks": [
+    "trace_has_edges"
+   ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "diagram",
+   "id": "AUTO-SEQ-NFR-001",
+   "phase": "AUTO",
+   "kind": "sequence",
+   "heading": "元件循序圖 NFR-001",
+   "source": "(auto)",
+   "inputs": [
+    "30-architecture-c4.md:28"
+   ],
+   "process": [
+    {
+     "tool": "review.diagrams@1"
+    }
+   ],
+   "targets": [
+    "NFR-001"
+   ],
+   "hash": "2de4e0325692",
+   "findings": [],
+   "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP003 as RoomsController\n  U->>CMP003: NFR 100 concurrent → 1 success\n  CMP003-->>U: AC-N01-1",
+   "checks": [
+    "seq_calls_follow_dependencies"
+   ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
+   "signoff": "pending",
+   "render": "ok"
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:6",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "meeting room | noun | PM§3.1 | entity candidate",
+   "source": "sa/01-break-words.md:6",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:7",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "booking | noun | PM§3.1 | entity candidate",
+   "source": "sa/01-break-words.md:7",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:8",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "time slot | noun | PM§3.1 | entity candidate",
+   "source": "sa/01-break-words.md:8",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:9",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "calendar service | noun | PM§3.1 | external system",
+   "source": "sa/01-break-words.md:9",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:14",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "book | verb | PM§3.1 | action: BookRoom",
+   "source": "sa/01-break-words.md:14",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:15",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "check in | verb | PM§3.2 | action: CheckInBooking",
+   "source": "sa/01-break-words.md:15",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:16",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "release | verb | PM§3.2 | action: ReleaseNoShow",
+   "source": "sa/01-break-words.md:16",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:17",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "view | verb | PM§3.3 | action: ListDailyBookings",
+   "source": "sa/01-break-words.md:17",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:22",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "employee | role | PM§3.1 | actor: Employee",
+   "source": "sa/01-break-words.md:22",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:23",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "admin | role | PM§3.3 | actor: Admin",
+   "source": "sa/01-break-words.md:23",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA1:sa/01-break-words.md:24",
+   "phase": "SA",
+   "kind": "words",
+   "heading": "system | role | PM§3.2 | actor: System",
+   "source": "sa/01-break-words.md:24",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "anchors_exist"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:6",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "meeting room | Room | Id | meeting room",
+   "source": "sa/02-entities-relations.md:6",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:7",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "booking | Booking | Id, Status | booking",
+   "source": "sa/02-entities-relations.md:7",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA2:sa/02-entities-relations.md:8",
+   "phase": "SA",
+   "kind": "sa_entities",
+   "heading": "time slot | TimeSlot | Id | time slot",
+   "source": "sa/02-entities-relations.md:8",
+   "targets": [],
+   "findings": [],
+   "checks": [
+    "symbols_present"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:6",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "employee | BookRoom(POST /rooms/{id}/bookings) | book | REQ-001",
+   "source": "sa/03-roles.md:6",
+   "targets": [
+    "REQ-001"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:7",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "employee | CheckInBooking(POST /bookings/{id}/check-in) | check in | REQ-002",
+   "source": "sa/03-roles.md:7",
+   "targets": [
+    "REQ-002"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:8",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "system | ReleaseNoShow(job) | release | REQ-002",
+   "source": "sa/03-roles.md:8",
+   "targets": [
+    "REQ-002"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  },
+  {
+   "type": "table-row",
+   "id": "SA3:sa/03-roles.md:9",
+   "phase": "SA",
+   "kind": "sa_roles",
+   "heading": "admin | ListDailyBookings(GET /bookings/daily) | view | REQ-003",
+   "source": "sa/03-roles.md:9",
+   "targets": [
+    "REQ-003"
+   ],
+   "findings": [],
+   "checks": [
+    "req_refs_exist",
+    "action_has_symbol"
+   ]
+  }
+ ],
+ "methodology": "uml-wordbreak",
+ "duties": {
+  "intent": {
+   "label": "是不是要的",
+   "hint": "PM",
+   "ask": "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"
+  },
+  "testable": {
+   "label": "測得出來",
+   "hint": "QA",
+   "ask": "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"
+  },
+  "buildable": {
+   "label": "做得出來",
+   "hint": "RD",
+   "ask": "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"
+  }
+ },
+ "signoff_path": "audit/signoff.md",
+ "render_check": {
+  "mode": "auto",
+  "available": true,
+  "reason": "",
+  "modal": "ok",
+  "cards": 4,
+  "tabs": 8,
+  "visible_dg": 0,
+  "visible_svgs": 0,
+  "overflow": false,
+  "notice": false,
+  "errs": [],
+  "reqs": 4
+ }
+}

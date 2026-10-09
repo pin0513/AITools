@@ -74,24 +74,25 @@ class ServeTest(unittest.TestCase):
 const { chromium } = require('playwright');
 (async () => { const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' }).catch(() => chromium.launch());
   const p = await b.newPage({ viewport: { width: 1200, height: 900 } }); const errs = []; p.on('pageerror', e => errs.push(String(e)));
-  await p.goto(process.argv[2]); await p.waitForTimeout(1500); const out = {};
+  await p.goto(process.argv[2] + '#tab=audit'); await p.waitForTimeout(1500); const out = {};
   out.serveTitle = await p.textContent('#audit h2');
   await p.fill('#reviewer', 'Paul');
-  const it = p.locator('#aud-STM-DOM-001'); await p.click('.audbar button[data-f="all"]'); await it.locator(':scope > summary').click(); await p.waitForTimeout(500);
-  out.duties = await it.locator('.duty').count();
-  await it.locator('button.allok').click(); await it.locator('button.send').click(); await p.waitForTimeout(2500);
-  const it2 = p.locator('#aud-STM-DOM-001'); out.reopened = await it2.evaluate(d => d.open);
-  out.chips = await it2.locator(':scope > summary').textContent();
-  await it2.locator('.qtext').fill('Rejected 之後能再送嗎?'); await it2.locator('.qto').selectOption('PM'); await it2.locator('button.qbtn').click(); await p.waitForTimeout(2500);
-  out.inbox = await p.locator('.qinbox').textContent().catch(() => '');
-  await p.locator('#aud-STM-DOM-001 dl.prov .loc.link').first().click(); await p.waitForTimeout(800);
-  out.viewer = { shown: await p.locator('#srcv').isVisible(), path: await p.textContent('#srcv .p'), hit: await p.locator('#srcv .ln.hit').count() };
+  await p.click('.audbar button[data-f="all"]'); await p.click('#audlist > .aud[data-id="STM-DOM-001"]'); await p.waitForTimeout(800);
+  const m = p.locator('#mdl'); out.duties = await m.locator('.duty').count();
+  await m.locator('button.allok').click(); await m.locator('button.send').click(); await p.waitForTimeout(3000);
+  out.reopened = await p.evaluate(() => { const d = document.getElementById('mdl'); return d.open && d.dataset.key; });
+  out.chips = await m.locator('.audhead').textContent();
+  await m.locator('.qtext').fill('Rejected 之後能再送嗎?'); await m.locator('.qto').selectOption('PM'); await m.locator('button.qbtn').click(); await p.waitForTimeout(3000);
+  await p.keyboard.press('Escape'); out.inbox = await p.locator('.qinbox').textContent().catch(() => '');
+  await p.click('#audlist > .aud[data-id="STM-DOM-001"]'); await p.waitForTimeout(600);
+  await m.locator('dl.prov .loc.link').first().click(); await p.waitForTimeout(800);
+  out.viewer = { shown: await p.locator('#srcv').evaluate(d => d.open), path: await p.textContent('#srcv .p'), hit: await p.locator('#srcv .ln.hit').count() };
   out.errs = errs; console.log(JSON.stringify(out)); await b.close(); })();
 """, encoding="utf-8")
         r = subprocess.run(["node", str(js), self.base + "/"], capture_output=True, text=True, env={**os.environ, "NODE_PATH": _npm_root()}, timeout=120)
         o = json.loads(r.stdout.strip().splitlines()[-1]) if r.stdout.strip() else self.fail(r.stderr[-800:])
         self.assertEqual(o["errs"], []); self.assertIn("站台模式", o["serveTitle"])
-        self.assertEqual(o["duties"], 2); self.assertTrue(o["reopened"], "送出後重新整理,仍開在那張圖")
+        self.assertEqual(o["duties"], 2); self.assertEqual(o["reopened"], "aud:STM-DOM-001", "送出後重新整理,仍開在那張圖")
         self.assertIn("全部做完", o["chips"])
         sm = (self.audit / "signoff.md").read_text(encoding="utf-8")
         self.assertRegex(sm, r"\| STM-DOM-001 \| buildable \| .* \| approved \| Paul \|"); self.assertRegex(sm, r"\| STM-DOM-001 \| testable \| .* \| approved \| Paul \|")

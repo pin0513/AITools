@@ -1,0 +1,6197 @@
+{
+  "feature": "spec",
+  "title": "訂單取消與退款",
+  "source_files": [
+    "00-overview.md",
+    "10-requirements.md",
+    "20-domain-model.md",
+    "30-architecture-c4.md",
+    "40-api-contracts.md",
+    "41-ui-spec.md",
+    "50-data-model.md",
+    "60-test-design.md"
+  ],
+  "io_map": [
+    {
+      "in": "PM§1",
+      "out": [
+        "00-overview.md"
+      ]
+    },
+    {
+      "in": "PM§3.1",
+      "out": [
+        "REQ-001",
+        "UC-001"
+      ]
+    },
+    {
+      "in": "PM§3.2",
+      "out": [
+        "REQ-002",
+        "UC-002"
+      ]
+    },
+    {
+      "in": "PM§3.3",
+      "out": [
+        "REQ-003",
+        "UC-003"
+      ]
+    },
+    {
+      "in": "PM§4",
+      "out": [
+        "NFR-001"
+      ]
+    },
+    {
+      "in": "specs/in-progress/order-cancel/mock/order.html",
+      "out": [
+        "STM-UI-001"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "顧客可在出貨前取消訂單",
+      "types": [
+        "functional",
+        "state_heavy"
+      ],
+      "source": "PM§3.1",
+      "acs": [
+        "AC-001-1",
+        "AC-001-2"
+      ],
+      "line": 6,
+      "file": "10-requirements.md"
+    },
+    {
+      "id": "REQ-002",
+      "title": "取消後系統經付款閘道退款",
+      "types": [
+        "functional",
+        "integration"
+      ],
+      "source": "PM§3.2",
+      "acs": [
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 7,
+      "file": "10-requirements.md"
+    },
+    {
+      "id": "REQ-003",
+      "title": "客服人員可查看取消紀錄",
+      "types": [
+        "functional"
+      ],
+      "source": "PM§3.3",
+      "acs": [
+        "AC-003-1"
+      ],
+      "line": 8,
+      "file": "10-requirements.md"
+    },
+    {
+      "id": "NFR-001",
+      "title": "95% 的訂單在取消後 5 分鐘內完成退款。 → ok (P95 < 5 min)",
+      "types": [
+        "non_functional"
+      ],
+      "source": "PM§4",
+      "acs": [
+        "AC-N01-1"
+      ],
+      "binds": [
+        "API-002"
+      ],
+      "measure": "P95 < 5 min",
+      "line": 42,
+      "file": "10-requirements.md",
+      "stimulus_source": "user"
+    }
+  ],
+  "components": [
+    {
+      "id": "CMP-001",
+      "name": "OrderDetailPage",
+      "layer": "Page",
+      "context": "Orders",
+      "depends": [
+        "CMP-002",
+        "CMP-003",
+        "CMP-004"
+      ],
+      "external": [],
+      "tech": [
+        "React"
+      ],
+      "interface": "",
+      "line": 26,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-002",
+      "name": "CancelOrderDialog",
+      "layer": "Component",
+      "context": "Orders",
+      "depends": [
+        "CMP-004"
+      ],
+      "external": [],
+      "tech": [
+        "React"
+      ],
+      "interface": "",
+      "line": 27,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-003",
+      "name": "CancellationHistoryTable",
+      "layer": "Component",
+      "context": "Orders",
+      "depends": [
+        "CMP-004"
+      ],
+      "external": [],
+      "tech": [
+        "React"
+      ],
+      "interface": "",
+      "line": 28,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-004",
+      "name": "orderStore",
+      "layer": "Store",
+      "context": "Orders",
+      "depends": [
+        "CMP-005"
+      ],
+      "external": [],
+      "tech": [
+        "Zustand"
+      ],
+      "interface": "",
+      "line": 29,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-005",
+      "name": "ordersApi",
+      "layer": "ApiClient",
+      "context": "Orders",
+      "depends": [
+        "CMP-006"
+      ],
+      "external": [],
+      "tech": [],
+      "interface": "",
+      "line": 30,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-006",
+      "name": "OrdersController",
+      "layer": "Api",
+      "context": "Orders",
+      "depends": [
+        "CMP-007",
+        "CMP-008",
+        "CMP-009"
+      ],
+      "external": [],
+      "tech": [
+        "ASP.NET Core"
+      ],
+      "interface": "",
+      "line": 31,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-007",
+      "name": "CancelOrderCommandHandler",
+      "layer": "Application",
+      "context": "Orders",
+      "depends": [
+        "CMP-010",
+        "CMP-011"
+      ],
+      "external": [],
+      "tech": [
+        "MediatR"
+      ],
+      "interface": "",
+      "line": 32,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-008",
+      "name": "IssueRefundCommandHandler",
+      "layer": "Application",
+      "context": "Orders",
+      "depends": [
+        "CMP-010",
+        "CMP-011",
+        "CMP-012"
+      ],
+      "external": [],
+      "tech": [
+        "MediatR"
+      ],
+      "interface": "",
+      "line": 33,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-009",
+      "name": "ListCancellationsQueryHandler",
+      "layer": "Application",
+      "context": "Orders",
+      "depends": [
+        "CMP-010",
+        "CMP-011"
+      ],
+      "external": [],
+      "tech": [
+        "MediatR"
+      ],
+      "interface": "",
+      "line": 34,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-010",
+      "name": "Order (Aggregate)",
+      "layer": "Domain",
+      "context": "Orders",
+      "depends": [],
+      "external": [],
+      "tech": [],
+      "interface": "",
+      "line": 35,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-011",
+      "name": "SqlOrderRepository : IOrderRepository",
+      "layer": "Infrastructure",
+      "context": "Orders",
+      "depends": [],
+      "external": [],
+      "tech": [
+        "EF Core"
+      ],
+      "interface": "IOrderRepository",
+      "line": 36,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-012",
+      "name": "PaymentGatewayClient : IPaymentGateway",
+      "layer": "Infrastructure",
+      "context": "Orders",
+      "depends": [],
+      "external": [
+        "PaymentGateway"
+      ],
+      "tech": [],
+      "interface": "IPaymentGateway",
+      "line": 37,
+      "file": "30-architecture-c4.md"
+    }
+  ],
+  "ac_links": [
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-001",
+      "via": "SEQ-001",
+      "role": "顯示並觸發取消",
+      "line": 76,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-002",
+      "via": "SEQ-001",
+      "role": "取消的 UI 守衛",
+      "line": 77,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-004",
+      "via": "SEQ-001",
+      "role": "取消的前端狀態轉移",
+      "line": 78,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-005",
+      "via": "SEQ-001",
+      "role": "呼叫取消 API",
+      "line": 79,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-006",
+      "via": "SEQ-001",
+      "role": "接收取消請求",
+      "line": 80,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-007",
+      "via": "SEQ-001",
+      "role": "編排取消",
+      "line": 81,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-010",
+      "via": "SEQ-001",
+      "role": "取消的業務規則與不變量",
+      "line": 82,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-011",
+      "via": "SEQ-001",
+      "role": "持久化取消結果",
+      "line": 83,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-001",
+      "via": "SEQ-001",
+      "role": "顯示並觸發取消",
+      "line": 84,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-002",
+      "via": "SEQ-001",
+      "role": "取消的 UI 守衛",
+      "line": 85,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-004",
+      "via": "SEQ-001",
+      "role": "取消的前端狀態轉移",
+      "line": 86,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-005",
+      "via": "SEQ-001",
+      "role": "呼叫取消 API",
+      "line": 87,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-006",
+      "via": "SEQ-001",
+      "role": "接收取消請求",
+      "line": 88,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-007",
+      "via": "SEQ-001",
+      "role": "編排取消",
+      "line": 89,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-010",
+      "via": "SEQ-001",
+      "role": "取消的業務規則與不變量",
+      "line": 90,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-011",
+      "via": "SEQ-001",
+      "role": "持久化取消結果",
+      "line": 91,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-001",
+      "via": "SEQ-002",
+      "role": "顯示並觸發退款",
+      "line": 92,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-004",
+      "via": "SEQ-002",
+      "role": "退款的前端狀態轉移",
+      "line": 93,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-005",
+      "via": "SEQ-002",
+      "role": "呼叫退款 API",
+      "line": 94,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-006",
+      "via": "SEQ-002",
+      "role": "接收退款請求",
+      "line": 95,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-008",
+      "via": "SEQ-002",
+      "role": "編排退款",
+      "line": 96,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-010",
+      "via": "SEQ-002",
+      "role": "退款的業務規則與不變量",
+      "line": 97,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-011",
+      "via": "SEQ-002",
+      "role": "持久化退款結果",
+      "line": 98,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-012",
+      "via": "SEQ-002",
+      "role": "為退款呼叫外部系統",
+      "line": 99,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-001",
+      "via": "SEQ-002",
+      "role": "顯示並觸發退款",
+      "line": 100,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-004",
+      "via": "SEQ-002",
+      "role": "退款的前端狀態轉移",
+      "line": 101,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-005",
+      "via": "SEQ-002",
+      "role": "呼叫退款 API",
+      "line": 102,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-006",
+      "via": "SEQ-002",
+      "role": "接收退款請求",
+      "line": 103,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-008",
+      "via": "SEQ-002",
+      "role": "編排退款",
+      "line": 104,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-010",
+      "via": "SEQ-002",
+      "role": "退款的業務規則與不變量",
+      "line": 105,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-011",
+      "via": "SEQ-002",
+      "role": "持久化退款結果",
+      "line": 106,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-012",
+      "via": "SEQ-002",
+      "role": "為退款呼叫外部系統",
+      "line": 107,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-001",
+      "via": "SEQ-003",
+      "role": "顯示並觸發查看",
+      "line": 108,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-003",
+      "via": "SEQ-003",
+      "role": "查看的 UI 守衛",
+      "line": 109,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-004",
+      "via": "SEQ-003",
+      "role": "查看的前端狀態轉移",
+      "line": 110,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-005",
+      "via": "SEQ-003",
+      "role": "呼叫查看 API",
+      "line": 111,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-006",
+      "via": "SEQ-003",
+      "role": "接收查看請求",
+      "line": 112,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-009",
+      "via": "SEQ-003",
+      "role": "編排查看",
+      "line": 113,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-010",
+      "via": "SEQ-003",
+      "role": "查看的業務規則與不變量",
+      "line": 114,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-011",
+      "via": "SEQ-003",
+      "role": "持久化查看結果",
+      "line": 115,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-N01-1",
+      "component": "CMP-006",
+      "via": "API-002",
+      "role": "NFR P95 < 5 min",
+      "line": 116,
+      "file": "30-architecture-c4.md"
+    }
+  ],
+  "apis": [
+    {
+      "id": "API-001",
+      "method": "POST",
+      "path": "/orders/{id}/cancel",
+      "reqs": [
+        "REQ-001"
+      ],
+      "nfrs": [],
+      "component": [
+        "CMP-006"
+      ],
+      "line": 6,
+      "file": "api/40-api-contracts.md"
+    },
+    {
+      "id": "API-002",
+      "method": "POST",
+      "path": "/orders/{id}/refund",
+      "reqs": [
+        "REQ-002"
+      ],
+      "nfrs": [
+        "NFR-001"
+      ],
+      "component": [
+        "CMP-006"
+      ],
+      "line": 7,
+      "file": "api/40-api-contracts.md"
+    },
+    {
+      "id": "API-003",
+      "method": "GET",
+      "path": "/orders/cancellations",
+      "reqs": [
+        "REQ-003"
+      ],
+      "nfrs": [],
+      "component": [
+        "CMP-006"
+      ],
+      "line": 8,
+      "file": "api/40-api-contracts.md"
+    }
+  ],
+  "failure_modes": [
+    {
+      "system": "PaymentGateway",
+      "component": [
+        "CMP-012"
+      ],
+      "timeout": "5s",
+      "retry": "3",
+      "degrade": "503",
+      "compensate": "retry next run"
+    }
+  ],
+  "ownership": [
+    {
+      "table": "Orders",
+      "owner": "Orders",
+      "access": "—"
+    },
+    {
+      "table": "Refund",
+      "owner": "Orders",
+      "access": "—"
+    }
+  ],
+  "erd_entities": [
+    "Orders",
+    "Refund"
+  ],
+  "tests": [
+    {
+      "id": "TST-001",
+      "name": "OrderDetailPageTests",
+      "kind": "e2e",
+      "components": [
+        "CMP-001"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 6,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-002",
+      "name": "CancelOrderDialogTests",
+      "kind": "unit",
+      "components": [
+        "CMP-002"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2"
+      ],
+      "line": 7,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-003",
+      "name": "CancellationHistoryTableTests",
+      "kind": "unit",
+      "components": [
+        "CMP-003"
+      ],
+      "acs": [
+        "AC-003-1"
+      ],
+      "line": 8,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-004",
+      "name": "orderStoreTests",
+      "kind": "unit",
+      "components": [
+        "CMP-004"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 9,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-005",
+      "name": "ordersApiTests",
+      "kind": "contract",
+      "components": [
+        "CMP-005"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 10,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-006",
+      "name": "OrdersControllerTests",
+      "kind": "integration",
+      "components": [
+        "CMP-006"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 11,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-007",
+      "name": "CancelOrderCommandHandlerTests",
+      "kind": "unit",
+      "components": [
+        "CMP-007"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2"
+      ],
+      "line": 12,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-008",
+      "name": "IssueRefundCommandHandlerTests",
+      "kind": "unit",
+      "components": [
+        "CMP-008"
+      ],
+      "acs": [
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 13,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-009",
+      "name": "ListCancellationsQueryHandlerTests",
+      "kind": "unit",
+      "components": [
+        "CMP-009"
+      ],
+      "acs": [
+        "AC-003-1"
+      ],
+      "line": 14,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-010",
+      "name": "OrderTests",
+      "kind": "unit",
+      "components": [
+        "CMP-010"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 15,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-011",
+      "name": "SqlOrderRepositoryTests",
+      "kind": "integration",
+      "components": [
+        "CMP-011"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 16,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-012",
+      "name": "PaymentGatewayClientTests",
+      "kind": "contract",
+      "components": [
+        "CMP-012"
+      ],
+      "acs": [
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 17,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-013",
+      "name": "NFR-001FitnessTest",
+      "kind": "e2e",
+      "components": [
+        "CMP-006"
+      ],
+      "acs": [
+        "AC-N01-1"
+      ],
+      "line": 18,
+      "file": "60-test-design.md"
+    }
+  ],
+  "fitness": [
+    {
+      "nfr": "NFR-001",
+      "how": "k6 / Playwright",
+      "threshold": "P95 < 5 min",
+      "where": "CI nightly"
+    }
+  ],
+  "gaps": [],
+  "use_cases": [
+    {
+      "id": "UC-001",
+      "heading": "UC-001 顧客可在出貨前取消訂單 (REQ-001)",
+      "has_pre": true,
+      "has_post": true,
+      "has_trigger": true,
+      "has_exception": true
+    },
+    {
+      "id": "UC-002",
+      "heading": "UC-002 取消後系統經付款閘道退款 (REQ-002)",
+      "has_pre": true,
+      "has_post": true,
+      "has_trigger": true,
+      "has_exception": true
+    },
+    {
+      "id": "UC-003",
+      "heading": "UC-003 客服人員可查看取消紀錄 (REQ-003)",
+      "has_pre": true,
+      "has_post": true,
+      "has_trigger": true,
+      "has_exception": true
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 顧客可在出貨前取消訂單 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"顧客\"]) --> P[\"顧客取消訂單\"] --> Q[\"訂單狀態為已取消\"]\n  P -.-> X[\"回應 409 ORDER_SHIPPED,狀態不變\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 取消後系統經付款閘道退款 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"系統\"]) --> P[\"系統退款\"] --> Q[\"呼叫付款閘道,訂單狀態為已退款\"]\n  P -.-> X[\"重試 3 次,訂單維持已取消\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 49,
+      "heading": "UC-003 客服人員可查看取消紀錄 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"客服人員\"]) --> P[\"客服人員開啟紀錄\"] --> Q[\"每列顯示訂單、時間與原因\"]"
+    },
+    {
+      "id": "STM-DOM-001",
+      "kind": "state",
+      "file": "20-domain-model.md",
+      "line": 56,
+      "heading": "STM-DOM-001 Order.Status (REQ-001, REQ-002)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund"
+    },
+    {
+      "id": "CLS-001",
+      "kind": "class",
+      "file": "20-domain-model.md",
+      "line": 71,
+      "heading": "CLS-001 Order (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "classDiagram\n  class Order { +Id +Status }\n  Order --> Refund : has"
+    },
+    {
+      "id": "C4-L1",
+      "kind": "c4-context",
+      "file": "30-architecture-c4.md",
+      "line": 5,
+      "heading": "C4-L1",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "C4Context\n  Person(u, \"顧客\")\n  System(sys, \"訂單取消與退款\")\n  System_Ext(ext, \"PaymentGateway\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
+    },
+    {
+      "id": "C4-L2",
+      "kind": "c4-container",
+      "file": "30-architecture-c4.md",
+      "line": 16,
+      "heading": "C4-L2",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")"
+    },
+    {
+      "id": "C4-L3",
+      "kind": "flowchart",
+      "file": "30-architecture-c4.md",
+      "line": 40,
+      "heading": "C4-L3",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "flowchart LR\n  CMP001[\"OrderDetailPage<br/>Page\"]\n  CMP002[\"CancelOrderDialog<br/>Component\"]\n  CMP003[\"CancellationHistoryTable<br/>Component\"]\n  CMP004[\"orderStore<br/>Store\"]\n  CMP005[\"ordersApi<br/>ApiClient\"]\n  CMP006[\"OrdersController<br/>Api\"]\n  CMP007[\"CancelOrderCommandHandler<br/>Application\"]\n  CMP008[\"IssueRefundCommandHandler<br/>Application\"]\n  CMP009[\"ListCancellationsQueryHandler<br/>Application\"]\n  CMP010[\"Order (Aggregate)<br/>Domain\"]\n  CMP011[\"SqlOrderRepository<br/>Infrastructure\"]\n  CMP012[\"PaymentGatewayClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP002 --> CMP004\n  CMP003 --> CMP004\n  CMP004 --> CMP005\n  CMP005 --> CMP006\n  CMP006 --> CMP007\n  CMP006 --> CMP008\n  CMP006 --> CMP009\n  CMP007 --> CMP010\n  CMP007 --> CMP011\n  CMP008 --> CMP010\n  CMP008 --> CMP011\n  CMP008 --> CMP012\n  CMP009 --> CMP010\n  CMP009 --> CMP011"
+    },
+    {
+      "id": "SEQ-001",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 120,
+      "heading": "SEQ-001 (UC-001 / REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant CMP001 as OrderDetailPage\n  participant CMP002 as CancelOrderDialog\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP007 as CancelOrderCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: CancelOrder\n  CMP001->>CMP002: CancelOrder\n  CMP002->>CMP004: CancelOrder\n  CMP004->>CMP005: CancelOrder\n  CMP005->>CMP006: CancelOrder\n  CMP006->>CMP007: CancelOrder\n  CMP007->>CMP010: CancelOrder\n  CMP010-->>CMP007: ok\n  CMP007->>CMP011: CancelOrder\n  CMP011-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 150,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant CMP001 as OrderDetailPage\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP008 as IssueRefundCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  participant CMP012 as PaymentGatewayClient\n  U->>CMP001: IssueRefund\n  CMP001->>CMP004: IssueRefund\n  CMP004->>CMP005: IssueRefund\n  CMP005->>CMP006: IssueRefund\n  CMP006->>CMP008: IssueRefund\n  CMP008->>CMP010: IssueRefund\n  CMP010-->>CMP008: ok\n  CMP008->>CMP011: IssueRefund\n  CMP011-->>CMP008: ok\n  CMP008->>CMP012: IssueRefund\n  CMP012-->>CMP008: ok\n  CMP008-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP001: ok\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 180,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant CMP001 as OrderDetailPage\n  participant CMP003 as CancellationHistoryTable\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP009 as ListCancellationsQueryHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: ListCancellations\n  CMP001->>CMP003: ListCancellations\n  CMP003->>CMP004: ListCancellations\n  CMP004->>CMP005: ListCancellations\n  CMP005->>CMP006: ListCancellations\n  CMP006->>CMP009: ListCancellations\n  CMP009->>CMP010: ListCancellations\n  CMP010-->>CMP009: ok\n  CMP009->>CMP011: ListCancellations\n  CMP011-->>CMP009: ok\n  CMP009-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP003: ok\n  CMP003-->>CMP001: ok\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "STM-UI-001",
+      "kind": "state",
+      "file": "ui/41-ui-spec.md",
+      "line": 10,
+      "heading": "STM-UI-001 OrderDetailPage (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error"
+    },
+    {
+      "id": "ERD-001",
+      "kind": "erd",
+      "file": "api/50-data-model.md",
+      "line": 5,
+      "heading": "ERD-001",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "erDiagram\n  Orders ||--o{ Refund : has\n  Orders {\n    uniqueidentifier Id PK\n  }\n  Refund {\n    uniqueidentifier Id PK\n  }"
+    }
+  ],
+  "spec_dir": "specs/rd/order-cancel/spec",
+  "sources": {
+    "pm_spec": {
+      "path": "specs/in-progress/order-cancel/pm-spec.md",
+      "exists": true,
+      "sections": [
+        {
+          "anchor": "PM§訂單取消與退款 (PM spec)",
+          "title": "訂單取消與退款 (PM spec)",
+          "level": 1,
+          "line": 1,
+          "text": ""
+        },
+        {
+          "anchor": "PM§1",
+          "title": "背景與目標",
+          "level": 2,
+          "line": 3,
+          "text": "目前顧客要取消訂單必須打電話給客服。目標:顧客自助取消,並由系統經付款閘道自動退款。"
+        },
+        {
+          "anchor": "PM§2",
+          "title": "使用者與情境",
+          "level": 2,
+          "line": 6,
+          "text": "顧客:想快速取消訂單。客服人員:需要查看取消紀錄。系統:負責退款。"
+        },
+        {
+          "anchor": "PM§3",
+          "title": "功能需求",
+          "level": 2,
+          "line": 9,
+          "text": ""
+        },
+        {
+          "anchor": "PM§3.1",
+          "title": "顧客可在出貨前取消訂單",
+          "level": 3,
+          "line": 10,
+          "text": "顧客可以在訂單狀態為已下單時取消訂單。訂單一旦已出貨就不可取消。取消後訂單狀態改為已取消。"
+        },
+        {
+          "anchor": "PM§3.2",
+          "title": "取消後系統經付款閘道退款",
+          "level": 3,
+          "line": 13,
+          "text": "訂單已取消後,系統透過付款閘道退款。付款閘道失敗時系統最多重試 3 次,訂單維持已取消。退款成功後訂單狀態改為已退款。"
+        },
+        {
+          "anchor": "PM§3.3",
+          "title": "客服人員可查看取消紀錄",
+          "level": 3,
+          "line": 16,
+          "text": "客服人員可以查看每筆訂單的取消紀錄,包含時間與原因。"
+        },
+        {
+          "anchor": "PM§4",
+          "title": "非功能需求",
+          "level": 2,
+          "line": 19,
+          "text": "95% 的訂單在取消後 5 分鐘內完成退款。"
+        },
+        {
+          "anchor": "PM§5",
+          "title": "驗收條件",
+          "level": 2,
+          "line": 22,
+          "text": "- 訂單狀態為已下單 → 顧客取消訂單 → 訂單狀態為已取消\n- 訂單狀態為已出貨 → 顧客取消訂單 → 回應 409 ORDER_SHIPPED,狀態不變\n- 訂單已取消且已付款 → 系統退款 → 呼叫付款閘道,訂單狀態為已退款\n- 付款閘道逾時 → 系統退款 → 重試 3 次,訂單維持已取消\n- 有訂單已取消 → 客服人員開啟紀錄 → 每列顯示訂單、時間與原因"
+        }
+      ],
+      "lines": 27
+    },
+    "mocks": [
+      {
+        "path": "specs/in-progress/order-cancel/mock/order.html",
+        "exists": true,
+        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>訂單 <span data-state=\"Placed\">Placed</span></h2><!-- states: Placed/Shipped/Cancelled/Refunded --><button data-action=\"CancelOrder\">取消</button><button data-action=\"ListCancellations\">查看</button><table><tr><th>訂單</th><th>status</th></tr></table></body></html>\n"
+      }
+    ],
+    "refs": [
+      {
+        "path": "specs/in-progress/order-cancel/refs.md",
+        "exists": true
+      }
+    ]
+  },
+  "ac_text": {
+    "AC-001-1": {
+      "text": "# AC-001-1\nGiven 訂單狀態為已下單\nWhen 顧客取消訂單\nThen 訂單狀態為已取消",
+      "line": 12
+    },
+    "AC-001-2": {
+      "text": "# AC-001-2\nGiven 訂單狀態為已出貨\nWhen 顧客取消訂單\nThen 回應 409 ORDER_SHIPPED,狀態不變",
+      "line": 17
+    },
+    "AC-002-1": {
+      "text": "# AC-002-1\nGiven 訂單已取消且已付款\nWhen 系統退款\nThen 呼叫付款閘道,訂單狀態為已退款",
+      "line": 22
+    },
+    "AC-002-2": {
+      "text": "# AC-002-2\nGiven 付款閘道逾時\nWhen 系統退款\nThen 重試 3 次,訂單維持已取消",
+      "line": 27
+    },
+    "AC-003-1": {
+      "text": "# AC-003-1\nGiven 有訂單已取消\nWhen 客服人員開啟紀錄\nThen 每列顯示訂單、時間與原因",
+      "line": 32
+    }
+  },
+  "uc_text": {
+    "UC-001": {
+      "heading": "UC-001 顧客可在出貨前取消訂單 (REQ-001)",
+      "line": 4,
+      "text": "- 主要參與者: 顧客\n- 觸發: 顧客取消訂單\n- 前置條件: 訂單狀態為已下單\n- 後置條件(成功保證): 訂單狀態為已取消\n- 主流程:\n  1. 顧客取消訂單\n  2. 訂單狀態為已取消\n- 替代流程: 無\n- 例外流程: 回應 409 ORDER_SHIPPED,狀態不變\n\n```mermaid\nflowchart LR\n  S([\"顧客\"]) --> P[\"顧客取消訂單\"] --> Q[\"訂單狀態為已取消\"]\n  P -.-> X[\"回應 409 ORDER_SHIPPED,狀態不變\"]\n```"
+    },
+    "UC-002": {
+      "heading": "UC-002 取消後系統經付款閘道退款 (REQ-002)",
+      "line": 21,
+      "text": "- 主要參與者: 系統\n- 觸發: 系統退款\n- 前置條件: 訂單已取消且已付款\n- 後置條件(成功保證): 呼叫付款閘道,訂單狀態為已退款\n- 主流程:\n  1. 系統退款\n  2. 呼叫付款閘道,訂單狀態為已退款\n- 替代流程: 無\n- 例外流程: 重試 3 次,訂單維持已取消\n\n```mermaid\nflowchart LR\n  S([\"系統\"]) --> P[\"系統退款\"] --> Q[\"呼叫付款閘道,訂單狀態為已退款\"]\n  P -.-> X[\"重試 3 次,訂單維持已取消\"]\n```"
+    },
+    "UC-003": {
+      "heading": "UC-003 客服人員可查看取消紀錄 (REQ-003)",
+      "line": 38,
+      "text": "- 主要參與者: 客服人員\n- 觸發: 客服人員開啟紀錄\n- 前置條件: 有訂單已取消\n- 後置條件(成功保證): 每列顯示訂單、時間與原因\n- 主流程:\n  1. 客服人員開啟紀錄\n  2. 每列顯示訂單、時間與原因\n- 替代流程: 無\n- 例外流程: 無\n\n```mermaid\nflowchart LR\n  S([\"客服人員\"]) --> P[\"客服人員開啟紀錄\"] --> Q[\"每列顯示訂單、時間與原因\"]\n```"
+    }
+  },
+  "screens": [
+    {
+      "screen": "OrderDetailPage",
+      "route": "/order",
+      "components": [
+        "CMP-001",
+        "CMP-002",
+        "CMP-003",
+        "CMP-004",
+        "CMP-005"
+      ],
+      "mock": "specs/in-progress/order-cancel/mock/order.html",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "line": 6,
+      "file": "ui/41-ui-spec.md"
+    }
+  ],
+  "ui_validation": [
+    {
+      "screen": "OrderDetailPage",
+      "field": "CancelOrder",
+      "rule": "訂單狀態為已出貨",
+      "message": "回應 409 ORDER_SHIPPED,狀態不變",
+      "acs": [
+        "AC-001-2"
+      ],
+      "line": 21
+    }
+  ],
+  "doc_paths": {
+    "00-overview.md": "00-overview.md",
+    "10-requirements.md": "10-requirements.md",
+    "20-domain-model.md": "20-domain-model.md",
+    "30-architecture-c4.md": "30-architecture-c4.md",
+    "40-api-contracts.md": "api/40-api-contracts.md",
+    "41-ui-spec.md": "ui/41-ui-spec.md",
+    "50-data-model.md": "api/50-data-model.md",
+    "60-test-design.md": "60-test-design.md"
+  },
+  "sa_files": [
+    "sa/00-lexicon.md",
+    "sa/01-break-words.md",
+    "sa/02-entities-relations.md",
+    "sa/03-roles.md",
+    "sa/04-usecase.md",
+    "sa/05-activity.md",
+    "sa/06-sequence.md",
+    "sa/07-state.md",
+    "survey-mapping.md"
+  ],
+  "sa_artifacts": [
+    {
+      "id": "CLS-SA-001",
+      "kind": "class",
+      "file": "sa/02-entities-relations.md",
+      "line": 15,
+      "heading": "CLS-SA-001 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "classDiagram\n  class Order\n  class Refund\n  Order --> Refund : has"
+    },
+    {
+      "id": "UCD-001",
+      "kind": "flowchart",
+      "file": "sa/04-usecase.md",
+      "line": 5,
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  customer([\"顧客\"]) --> cancel((\"取消\"))\n  system([\"系統\"]) --> issue_refund((\"退款\"))\n  support_agent([\"客服人員\"]) --> view_history((\"查看\"))"
+    },
+    {
+      "id": "ACT-001",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 5,
+      "heading": "ACT-001 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart TD\n  A[\"顧客取消訂單\"] --> B{\"訂單狀態為已下單?\"}\n  B -->|yes| C[\"訂單狀態為已取消\"]\n  B -->|no| D[\"回應 409 ORDER_SHIPPED,狀態不變\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"系統退款\"] --> B{\"訂單已取消且已付款?\"}\n  B -->|yes| C[\"呼叫付款閘道,訂單狀態為已退款\"]\n  B -->|no| D[\"重試 3 次,訂單維持已取消\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"客服人員開啟紀錄\"] --> B{\"有訂單已取消?\"}\n  B -->|yes| C[\"每列顯示訂單、時間與原因\"]\n  B -->|no| E[\"—\"]"
+    },
+    {
+      "id": "SEQ-SA-001",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 5,
+      "heading": "SEQ-SA-001 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant Web\n  participant API\n  participant DB\n  U->>Web: CancelOrder\n  Web->>API: CancelOrder\n  API->>DB: CancelOrder\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 18,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as System\n  participant Web\n  participant API\n  participant DB\n  participant PaymentGateway\n  U->>Web: IssueRefund\n  Web->>API: IssueRefund\n  API->>DB: IssueRefund\n  DB->>PaymentGateway: IssueRefund\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 33,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListCancellations\n  Web->>API: ListCancellations\n  API->>DB: ListCancellations\n  Web-->>U: ok"
+    },
+    {
+      "id": "STM-SA-001",
+      "kind": "state",
+      "file": "sa/07-state.md",
+      "line": 5,
+      "heading": "STM-SA-001 Order.Status (REQ-001, REQ-002)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund"
+    }
+  ],
+  "sa_tables": {
+    "lexicon": [
+      {
+        "詞": "訂單",
+        "詞頻": "23",
+        "權重": "36.0",
+        "詞彙表符號": "Order",
+        "codebase 命中": "5 (src/api/Orders.Infrastructure/SqlOrderRepository.cs:7)",
+        "建議": "升",
+        "出現": "mock:order.html pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+        "_line": 11,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "狀態",
+        "詞頻": "8",
+        "權重": "13.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 12,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "訂單狀態",
+        "詞頻": "7",
+        "權重": "11.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 13,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "顧客",
+        "詞頻": "6",
+        "權重": "9.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 14,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "取消訂單",
+        "詞頻": "5",
+        "權重": "8.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 15,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "付款閘道",
+        "詞頻": "5",
+        "權重": "7.0",
+        "詞彙表符號": "PaymentGateway",
+        "codebase 命中": "0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 16,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "客服",
+        "詞頻": "4",
+        "權重": "6.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.3 客服人員可查看取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 17,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "紀錄",
+        "詞頻": "3",
+        "權重": "5.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.3 客服人員可查看取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 18,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "客取消訂單",
+        "詞頻": "2",
+        "權重": "4.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 19,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "顧客取消訂",
+        "詞頻": "2",
+        "權重": "4.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 20,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "原因",
+        "詞頻": "2",
+        "權重": "3.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.3 客服人員可查看取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 21,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "取消紀錄",
+        "詞頻": "2",
+        "權重": "3.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.3 客服人員可查看取",
+        "_line": 22,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "訂單維持",
+        "詞頻": "2",
+        "權重": "3.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 23,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "重試",
+        "詞頻": "2",
+        "權重": "3.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 24,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "訂單狀態改",
+        "詞頻": "2",
+        "權重": "2.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§3.2 取消後系統經付款",
+        "_line": 25,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "order",
+        "詞頻": "1",
+        "權重": "2.0",
+        "詞彙表符號": "Order",
+        "codebase 命中": "5 (src/api/Orders.Infrastructure/SqlOrderRepository.cs:7)",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 26,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "取消",
+        "詞頻": "19",
+        "權重": "29.0",
+        "建議": "升",
+        "出現": "mock:order.html pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+        "_line": 32,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "退款",
+        "詞頻": "9",
+        "權重": "15.0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§4 非功能需求",
+        "_line": 33,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "付款",
+        "詞頻": "6",
+        "權重": "9.0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 34,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "查看",
+        "詞頻": "3",
+        "權重": "4.0",
+        "建議": "升",
+        "出現": "mock:order.html pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.3 客服人員可查看取",
+        "_line": 35,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "系統退款",
+        "詞頻": "2",
+        "權重": "4.0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 36,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "出貨",
+        "詞頻": "2",
+        "權重": "3.0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 37,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "完成退款",
+        "詞頻": "1",
+        "權重": "3.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§4 非功能需求",
+        "_line": 38,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "想快速取消",
+        "詞頻": "1",
+        "權重": "2.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§2 使用者與情境",
+        "_line": 39,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "負責退款",
+        "詞頻": "1",
+        "權重": "2.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§2 使用者與情境",
+        "_line": 40,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "以查看",
+        "詞頻": "1",
+        "權重": "1.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+        "_line": 41,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "客自助取消",
+        "詞頻": "1",
+        "權重": "1.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標",
+        "_line": 42,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "款閘道退款",
+        "詞頻": "1",
+        "權重": "1.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+        "_line": 43,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "系統經付款",
+        "詞頻": "1",
+        "權重": "1.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標",
+        "_line": 44,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "統透過付款",
+        "詞頻": "1",
+        "權重": "1.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+        "_line": 45,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "道自動退款",
+        "詞頻": "1",
+        "權重": "1.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標",
+        "_line": 46,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "系統",
+        "詞頻": "6",
+        "權重": "9.0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 52,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "客服人員",
+        "詞頻": "3",
+        "權重": "5.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.3 客服人員可查看取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 53,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "已下單",
+        "詞頻": "2",
+        "出現": "pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 59,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "已取消",
+        "詞頻": "2",
+        "出現": "pm_spec:pm-spec.md§3.1 顧客可在出貨前取 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 60,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "已退款",
+        "詞頻": "2",
+        "出現": "pm_spec:pm-spec.md§3.2 取消後系統經付款 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 61,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "shipped",
+        "詞頻": "1",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 62,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "已付款",
+        "詞頻": "1",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 63,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "已出貨",
+        "詞頻": "1",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 64,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "placed",
+        "詞頻": "1",
+        "出現": "mock:order.html",
+        "_line": 65,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "可取消",
+        "詞頻": "1",
+        "出現": "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+        "_line": 66,
+        "_file": "sa/00-lexicon.md"
+      }
+    ],
+    "words": [
+      {
+        "詞": "訂單",
+        "詞性": "名詞",
+        "來源": "PM§3.1",
+        "歸類": "實體候選",
+        "_line": 6,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "退款單",
+        "詞性": "名詞",
+        "來源": "PM§1",
+        "歸類": "實體候選",
+        "_line": 7,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "付款閘道",
+        "詞性": "名詞",
+        "來源": "PM§3.2",
+        "歸類": "外部系統",
+        "_line": 8,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "取消",
+        "詞性": "動詞",
+        "來源": "PM§3.1",
+        "歸類": "動作: CancelOrder",
+        "_line": 13,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "退款",
+        "詞性": "動詞",
+        "來源": "PM§3.2",
+        "歸類": "動作: IssueRefund",
+        "_line": 14,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "查看",
+        "詞性": "動詞",
+        "來源": "PM§3.3",
+        "歸類": "動作: ListCancellations",
+        "_line": 15,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "顧客",
+        "詞性": "角色",
+        "來源": "PM§3.1",
+        "歸類": "Actor: Customer",
+        "_line": 20,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "客服人員",
+        "詞性": "角色",
+        "來源": "PM§3.3",
+        "歸類": "Actor: SupportAgent",
+        "_line": 21,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "系統",
+        "詞性": "角色",
+        "來源": "PM§3.2",
+        "歸類": "Actor: System",
+        "_line": 22,
+        "_file": "sa/01-break-words.md"
+      }
+    ],
+    "sa_entities": [
+      {
+        "實體": "訂單",
+        "英文": "Order",
+        "屬性": "Id, Status",
+        "來源詞": "訂單",
+        "_line": 6,
+        "_file": "sa/02-entities-relations.md"
+      },
+      {
+        "實體": "退款單",
+        "英文": "Refund",
+        "屬性": "Id",
+        "來源詞": "退款單",
+        "_line": 7,
+        "_file": "sa/02-entities-relations.md"
+      }
+    ],
+    "sa_relations": [
+      {
+        "來源": "Order",
+        "關係": "has",
+        "目標": "Refund",
+        "多重性": "1..*",
+        "_line": 12,
+        "_file": "sa/02-entities-relations.md"
+      }
+    ],
+    "sa_roles": [
+      {
+        "角色": "顧客",
+        "動作": "CancelOrder(POST /orders/{id}/cancel)",
+        "流程": "取消",
+        "對應 REQ": "REQ-001",
+        "_line": 6,
+        "_file": "sa/03-roles.md"
+      },
+      {
+        "角色": "系統",
+        "動作": "IssueRefund(POST /orders/{id}/refund)",
+        "流程": "退款",
+        "對應 REQ": "REQ-002",
+        "_line": 7,
+        "_file": "sa/03-roles.md"
+      },
+      {
+        "角色": "客服人員",
+        "動作": "ListCancellations(GET /orders/cancellations)",
+        "流程": "查看",
+        "對應 REQ": "REQ-003",
+        "_line": 8,
+        "_file": "sa/03-roles.md"
+      }
+    ],
+    "survey": [
+      {
+        "模型元素": "訂單",
+        "類型": "Aggregate",
+        "狀態": "modify",
+        "對應 codebase": "Order",
+        "證據": "src/api/Orders.Domain/Order.cs:5",
+        "說明": "",
+        "_line": 6,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "Shipped rule",
+        "類型": "Rule",
+        "狀態": "existing",
+        "對應 codebase": "Order.Shipped",
+        "證據": "src/api/Orders.Domain/Order.cs:3 \"Shipped\"",
+        "說明": "",
+        "_line": 7,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "退款單",
+        "類型": "Entity",
+        "狀態": "new",
+        "對應 codebase": "Refund",
+        "證據": "",
+        "說明": "",
+        "_line": 8,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "GetOrder",
+        "類型": "Query",
+        "狀態": "existing",
+        "對應 codebase": "GetOrderQueryHandler",
+        "證據": "src/api/Orders.Application/GetOrderQueryHandler.cs:8",
+        "說明": "",
+        "_line": 9,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "CancelOrder",
+        "類型": "Command",
+        "狀態": "new",
+        "對應 codebase": "CancelOrder",
+        "證據": "",
+        "說明": "",
+        "_line": 10,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "IssueRefund",
+        "類型": "Command",
+        "狀態": "new",
+        "對應 codebase": "IssueRefund",
+        "證據": "",
+        "說明": "",
+        "_line": 11,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "ListCancellations",
+        "類型": "Query",
+        "狀態": "new",
+        "對應 codebase": "ListCancellations",
+        "證據": "",
+        "說明": "",
+        "_line": 12,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "SqlOrderRepository",
+        "類型": "Adapter",
+        "狀態": "modify",
+        "對應 codebase": "SqlOrderRepository",
+        "證據": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:5",
+        "說明": "",
+        "_line": 13,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "PaymentGatewayClient",
+        "類型": "Adapter",
+        "狀態": "existing",
+        "對應 codebase": "PaymentGatewayClient",
+        "證據": "src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5",
+        "說明": "",
+        "_line": 14,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "OrdersController",
+        "類型": "Api",
+        "狀態": "modify",
+        "對應 codebase": "OrdersController",
+        "證據": "src/api/Orders.Api/Controllers/OrdersController.cs:8",
+        "說明": "",
+        "_line": 15,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "OrderDetailPage",
+        "類型": "Page",
+        "狀態": "modify",
+        "對應 codebase": "OrderDetailPage",
+        "證據": "src/web/src/pages/OrderDetailPage.tsx:3",
+        "說明": "",
+        "_line": 16,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "Order type",
+        "類型": "Type",
+        "狀態": "existing",
+        "對應 codebase": "Order",
+        "證據": "src/web/src/types/Order.ts:4",
+        "說明": "",
+        "_line": 17,
+        "_file": "survey-mapping.md"
+      }
+    ]
+  },
+  "sa_entities": [
+    {
+      "name": "訂單",
+      "en": "Order",
+      "attrs": "Id, Status",
+      "source": "訂單",
+      "line": 6,
+      "file": "sa/02-entities-relations.md"
+    },
+    {
+      "name": "退款單",
+      "en": "Refund",
+      "attrs": "Id",
+      "source": "退款單",
+      "line": 7,
+      "file": "sa/02-entities-relations.md"
+    }
+  ],
+  "sa_roles": [
+    {
+      "role": "顧客",
+      "action": "CancelOrder(POST /orders/{id}/cancel)",
+      "flow": "取消",
+      "reqs": [
+        "REQ-001"
+      ],
+      "line": 6,
+      "file": "sa/03-roles.md"
+    },
+    {
+      "role": "系統",
+      "action": "IssueRefund(POST /orders/{id}/refund)",
+      "flow": "退款",
+      "reqs": [
+        "REQ-002"
+      ],
+      "line": 7,
+      "file": "sa/03-roles.md"
+    },
+    {
+      "role": "客服人員",
+      "action": "ListCancellations(GET /orders/cancellations)",
+      "flow": "查看",
+      "reqs": [
+        "REQ-003"
+      ],
+      "line": 8,
+      "file": "sa/03-roles.md"
+    }
+  ],
+  "sa_word_count": 9,
+  "survey": [
+    {
+      "element": "訂單",
+      "kind": "Aggregate",
+      "status": "modify",
+      "target": "Order",
+      "evidence": "src/api/Orders.Domain/Order.cs:5",
+      "note": "",
+      "line": 6,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "Shipped rule",
+      "kind": "Rule",
+      "status": "existing",
+      "target": "Order.Shipped",
+      "evidence": "src/api/Orders.Domain/Order.cs:3 \"Shipped\"",
+      "note": "",
+      "line": 7,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "退款單",
+      "kind": "Entity",
+      "status": "new",
+      "target": "Refund",
+      "evidence": "",
+      "note": "",
+      "line": 8,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "GetOrder",
+      "kind": "Query",
+      "status": "existing",
+      "target": "GetOrderQueryHandler",
+      "evidence": "src/api/Orders.Application/GetOrderQueryHandler.cs:8",
+      "note": "",
+      "line": 9,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "CancelOrder",
+      "kind": "Command",
+      "status": "new",
+      "target": "CancelOrder",
+      "evidence": "",
+      "note": "",
+      "line": 10,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "IssueRefund",
+      "kind": "Command",
+      "status": "new",
+      "target": "IssueRefund",
+      "evidence": "",
+      "note": "",
+      "line": 11,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "ListCancellations",
+      "kind": "Query",
+      "status": "new",
+      "target": "ListCancellations",
+      "evidence": "",
+      "note": "",
+      "line": 12,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "SqlOrderRepository",
+      "kind": "Adapter",
+      "status": "modify",
+      "target": "SqlOrderRepository",
+      "evidence": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:5",
+      "note": "",
+      "line": 13,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "PaymentGatewayClient",
+      "kind": "Adapter",
+      "status": "existing",
+      "target": "PaymentGatewayClient",
+      "evidence": "src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5",
+      "note": "",
+      "line": 14,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "OrdersController",
+      "kind": "Api",
+      "status": "modify",
+      "target": "OrdersController",
+      "evidence": "src/api/Orders.Api/Controllers/OrdersController.cs:8",
+      "note": "",
+      "line": 15,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "OrderDetailPage",
+      "kind": "Page",
+      "status": "modify",
+      "target": "OrderDetailPage",
+      "evidence": "src/web/src/pages/OrderDetailPage.tsx:3",
+      "note": "",
+      "line": 16,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "Order type",
+      "kind": "Type",
+      "status": "existing",
+      "target": "Order",
+      "evidence": "src/web/src/types/Order.ts:4",
+      "note": "",
+      "line": 17,
+      "file": "survey-mapping.md"
+    }
+  ],
+  "extract_errors": [],
+  "glossary": {
+    "terms": [
+      {
+        "term": "訂單",
+        "symbol": "Order",
+        "definition": "訂單",
+        "specs": [
+          "order-cancel",
+          "prev"
+        ],
+        "source": "specs/rd/order-cancel/spec/00-overview.md:12"
+      },
+      {
+        "term": "退款單",
+        "symbol": "Refund",
+        "definition": "退款單",
+        "specs": [
+          "order-cancel"
+        ],
+        "source": "specs/rd/order-cancel/spec/00-overview.md:13"
+      },
+      {
+        "term": "付款閘道",
+        "symbol": "PaymentGateway",
+        "definition": "付款閘道",
+        "specs": [
+          "prev"
+        ],
+        "source": "specs/rd/prev/spec/00-overview.md:7"
+      }
+    ],
+    "conflicts": [],
+    "path": "examples/matrix/fs-balance-zh-s1/specs/glossary.md",
+    "naming": [
+      {
+        "symbol": "CancelOrder",
+        "term": "取消",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [
+          "CancelOrderDialog"
+        ],
+        "API": [
+          "POST /orders/{id}/cancel"
+        ],
+        "Application": [
+          "CancelOrderCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "GetOrder",
+        "term": "GetOrder",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [
+          "GetOrderQueryHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "IssueRefund",
+        "term": "退款",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [
+          "POST /orders/{id}/refund"
+        ],
+        "Application": [
+          "IssueRefundCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "ListCancellations",
+        "term": "查看",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [
+          "GET /orders/cancellations"
+        ],
+        "Application": [
+          "ListCancellationsQueryHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Order",
+        "term": "訂單",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [
+          "OrderDetailPage",
+          "CancelOrderDialog",
+          "orderStore",
+          "ordersApi",
+          "Order"
+        ],
+        "API": [
+          "OrdersController"
+        ],
+        "Application": [
+          "CancelOrderCommandHandler"
+        ],
+        "Domain": [
+          "Order"
+        ],
+        "Infrastructure": [
+          "SqlOrderRepository"
+        ],
+        "DB": [
+          "Orders"
+        ]
+      },
+      {
+        "symbol": "OrderDetailPage",
+        "term": "OrderDetailPage",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [
+          "OrderDetailPage"
+        ],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "OrdersController",
+        "term": "OrdersController",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [
+          "OrdersController"
+        ],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "PaymentGatewayClient",
+        "term": "PaymentGatewayClient",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [
+          "PaymentGatewayClient"
+        ],
+        "DB": []
+      },
+      {
+        "symbol": "Refund",
+        "term": "退款單",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [
+          "IssueRefundCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": [
+          "Refund"
+        ]
+      },
+      {
+        "symbol": "Shipped",
+        "term": "Shipped rule",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [
+          "Shipped"
+        ],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "SqlOrderRepository",
+        "term": "SqlOrderRepository",
+        "specs": [
+          "order-cancel"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [
+          "SqlOrderRepository"
+        ],
+        "DB": []
+      }
+    ],
+    "naming_path": "examples/matrix/fs-balance-zh-s1/specs/naming-map.md"
+  },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "架構概觀",
+      "text": "形狀:全端(均衡)。前端分層 Page、Component、Store、ApiClient;後端分層 Api、Application、Domain、Infrastructure。",
+      "root": "docs"
+    }
+  ],
+  "lexicon": {
+    "nouns": [
+      {
+        "term": "訂單",
+        "freq": 23,
+        "weight": 36.0,
+        "pm_freq": 23,
+        "where": [
+          "mock:order.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取"
+        ],
+        "symbol": "Order",
+        "glossary_specs": [
+          "order-cancel",
+          "prev"
+        ],
+        "suggest": "升",
+        "code_hits": 5,
+        "code_first": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:7"
+      },
+      {
+        "term": "狀態",
+        "freq": 8,
+        "weight": 13.0,
+        "pm_freq": 8,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "訂單狀態",
+        "freq": 7,
+        "weight": 11.0,
+        "pm_freq": 7,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "顧客",
+        "freq": 6,
+        "weight": 9.0,
+        "pm_freq": 6,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "取消訂單",
+        "freq": 5,
+        "weight": 8.0,
+        "pm_freq": 5,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "付款閘道",
+        "freq": 5,
+        "weight": 7.0,
+        "pm_freq": 5,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "PaymentGateway",
+        "glossary_specs": [
+          "prev"
+        ],
+        "suggest": "升",
+        "code_hits": 0,
+        "code_first": ""
+      },
+      {
+        "term": "客服",
+        "freq": 4,
+        "weight": 6.0,
+        "pm_freq": 4,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "紀錄",
+        "freq": 3,
+        "weight": 5.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "客取消訂單",
+        "freq": 2,
+        "weight": 4.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "顧客取消訂",
+        "freq": 2,
+        "weight": 4.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "原因",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "取消紀錄",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.3 客服人員可查看取"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "訂單維持",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "重試",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "訂單狀態改",
+        "freq": 2,
+        "weight": 2.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "order",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en",
+        "symbol": "Order",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": 5,
+        "code_first": "src/api/Orders.Infrastructure/SqlOrderRepository.cs:7"
+      }
+    ],
+    "actions": [
+      {
+        "term": "取消",
+        "freq": 19,
+        "weight": 29.0,
+        "pm_freq": 19,
+        "where": [
+          "mock:order.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "退款",
+        "freq": 9,
+        "weight": 15.0,
+        "pm_freq": 9,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§4 非功能需求"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "付款",
+        "freq": 6,
+        "weight": 9.0,
+        "pm_freq": 6,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "查看",
+        "freq": 3,
+        "weight": 4.0,
+        "pm_freq": 3,
+        "where": [
+          "mock:order.html",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.3 客服人員可查看取"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "系統退款",
+        "freq": 2,
+        "weight": 4.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "出貨",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "完成退款",
+        "freq": 1,
+        "weight": 3.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§4 非功能需求"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "想快速取消",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "負責退款",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "以查看",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.3 客服人員可查看取"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "客自助取消",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "款閘道退款",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "系統經付款",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "統透過付款",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "道自動退款",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      }
+    ],
+    "roles": [
+      {
+        "term": "系統",
+        "freq": 6,
+        "weight": 9.0,
+        "pm_freq": 6,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "客服人員",
+        "freq": 3,
+        "weight": 5.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.3 客服人員可查看取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "降"
+      }
+    ],
+    "statuses": [
+      {
+        "term": "已下單",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ]
+      },
+      {
+        "term": "已取消",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ]
+      },
+      {
+        "term": "已退款",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 取消後系統經付款",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ]
+      },
+      {
+        "term": "shipped",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en"
+      },
+      {
+        "term": "已付款",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ]
+      },
+      {
+        "term": "已出貨",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ]
+      },
+      {
+        "term": "placed",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "mock:order.html"
+        ],
+        "lang": "en"
+      },
+      {
+        "term": "可取消",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 顧客可在出貨前取"
+        ]
+      }
+    ],
+    "stats": {
+      "docs": [
+        "pm_spec:pm-spec.md",
+        "mock:order.html",
+        "ref:refs.md"
+      ],
+      "cjk_candidates": 246,
+      "after_boundary": 78,
+      "kept": 78
+    }
+  },
+  "boundary_checks": [
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "REQ-001",
+      "status": "PASS",
+      "evidence": "link → CMP-001, CMP-002, CMP-004, CMP-005, CMP-006, CMP-007, CMP-010, CMP-011",
+      "action": "",
+      "ids": [
+        "REQ-001",
+        "CMP-001",
+        "CMP-002",
+        "CMP-004",
+        "CMP-005",
+        "CMP-006",
+        "CMP-007",
+        "CMP-010",
+        "CMP-011"
+      ]
+    },
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "REQ-002",
+      "status": "PASS",
+      "evidence": "link → CMP-001, CMP-004, CMP-005, CMP-006, CMP-008, CMP-010, CMP-011, CMP-012",
+      "action": "",
+      "ids": [
+        "REQ-002",
+        "CMP-001",
+        "CMP-004",
+        "CMP-005",
+        "CMP-006",
+        "CMP-008",
+        "CMP-010",
+        "CMP-011",
+        "CMP-012"
+      ]
+    },
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "REQ-003",
+      "status": "PASS",
+      "evidence": "link → CMP-001, CMP-003, CMP-004, CMP-005, CMP-006, CMP-009, CMP-010, CMP-011",
+      "action": "",
+      "ids": [
+        "REQ-003",
+        "CMP-001",
+        "CMP-003",
+        "CMP-004",
+        "CMP-005",
+        "CMP-006",
+        "CMP-009",
+        "CMP-010",
+        "CMP-011"
+      ]
+    },
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "NFR-001",
+      "status": "PASS",
+      "evidence": "link → CMP-006",
+      "action": "",
+      "ids": [
+        "NFR-001",
+        "CMP-006"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-001",
+      "status": "PASS",
+      "evidence": "Page → CMP-002 (Component)",
+      "action": "",
+      "ids": [
+        "CMP-001",
+        "CMP-002"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-001",
+      "status": "PASS",
+      "evidence": "Page → CMP-003 (Component)",
+      "action": "",
+      "ids": [
+        "CMP-001",
+        "CMP-003"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-001",
+      "status": "PASS",
+      "evidence": "Page → CMP-004 (Store)",
+      "action": "",
+      "ids": [
+        "CMP-001",
+        "CMP-004"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-002",
+      "status": "PASS",
+      "evidence": "Component → CMP-004 (Store)",
+      "action": "",
+      "ids": [
+        "CMP-002",
+        "CMP-004"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-003",
+      "status": "PASS",
+      "evidence": "Component → CMP-004 (Store)",
+      "action": "",
+      "ids": [
+        "CMP-003",
+        "CMP-004"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-004",
+      "status": "PASS",
+      "evidence": "Store → CMP-005 (ApiClient)",
+      "action": "",
+      "ids": [
+        "CMP-004",
+        "CMP-005"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-005",
+      "status": "PASS",
+      "evidence": "ApiClient → CMP-006 (Api)",
+      "action": "",
+      "ids": [
+        "CMP-005",
+        "CMP-006"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-006",
+      "status": "PASS",
+      "evidence": "Api → CMP-007 (Application)",
+      "action": "",
+      "ids": [
+        "CMP-006",
+        "CMP-007"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-006",
+      "status": "PASS",
+      "evidence": "Api → CMP-008 (Application)",
+      "action": "",
+      "ids": [
+        "CMP-006",
+        "CMP-008"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-006",
+      "status": "PASS",
+      "evidence": "Api → CMP-009 (Application)",
+      "action": "",
+      "ids": [
+        "CMP-006",
+        "CMP-009"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-007",
+      "status": "PASS",
+      "evidence": "Application → CMP-010 (Domain)",
+      "action": "",
+      "ids": [
+        "CMP-007",
+        "CMP-010"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-007",
+      "status": "PASS",
+      "evidence": "Application → CMP-011 經介面 IOrderRepository",
+      "action": "",
+      "ids": [
+        "CMP-007",
+        "CMP-011"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-008",
+      "status": "PASS",
+      "evidence": "Application → CMP-010 (Domain)",
+      "action": "",
+      "ids": [
+        "CMP-008",
+        "CMP-010"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-008",
+      "status": "PASS",
+      "evidence": "Application → CMP-011 經介面 IOrderRepository",
+      "action": "",
+      "ids": [
+        "CMP-008",
+        "CMP-011"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-008",
+      "status": "PASS",
+      "evidence": "Application → CMP-012 經介面 IPaymentGateway",
+      "action": "",
+      "ids": [
+        "CMP-008",
+        "CMP-012"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-009",
+      "status": "PASS",
+      "evidence": "Application → CMP-010 (Domain)",
+      "action": "",
+      "ids": [
+        "CMP-009",
+        "CMP-010"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-009",
+      "status": "PASS",
+      "evidence": "Application → CMP-011 經介面 IOrderRepository",
+      "action": "",
+      "ids": [
+        "CMP-009",
+        "CMP-011"
+      ]
+    },
+    {
+      "rule": "B4",
+      "rule_version": 1,
+      "outcome": "ok",
+      "target": "CMP-012",
+      "status": "PASS",
+      "evidence": "PaymentGateway 在 Infrastructure 且有失敗模式",
+      "action": "",
+      "ids": [
+        "CMP-012"
+      ]
+    },
+    {
+      "rule": "B5",
+      "rule_version": 1,
+      "outcome": "ok",
+      "target": "Orders",
+      "status": "PASS",
+      "evidence": "owner = Orders",
+      "action": "",
+      "ids": [
+        "Orders"
+      ]
+    },
+    {
+      "rule": "B5",
+      "rule_version": 1,
+      "outcome": "ok",
+      "target": "Refund",
+      "status": "PASS",
+      "evidence": "owner = Orders",
+      "action": "",
+      "ids": [
+        "Refund"
+      ]
+    },
+    {
+      "rule": "B6",
+      "rule_version": 1,
+      "outcome": "bound",
+      "target": "NFR-001",
+      "status": "PASS",
+      "evidence": "綁定 API-002",
+      "action": "",
+      "ids": [
+        "NFR-001",
+        "API-002"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-001-1",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-002, TST-004, TST-005, TST-006, TST-007, TST-010, TST-011",
+      "action": "",
+      "ids": [
+        "AC-001-1"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-001-2",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-002, TST-004, TST-005, TST-006, TST-007, TST-010, TST-011",
+      "action": "",
+      "ids": [
+        "AC-001-2"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-002-1",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-004, TST-005, TST-006, TST-008, TST-010, TST-011, TST-012",
+      "action": "",
+      "ids": [
+        "AC-002-1"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-002-2",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-004, TST-005, TST-006, TST-008, TST-010, TST-011, TST-012",
+      "action": "",
+      "ids": [
+        "AC-002-2"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-003-1",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-003, TST-004, TST-005, TST-006, TST-009, TST-010, TST-011",
+      "action": "",
+      "ids": [
+        "AC-003-1"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-N01-1",
+      "status": "PASS",
+      "evidence": "→ TST-013",
+      "action": "",
+      "ids": [
+        "AC-N01-1"
+      ]
+    }
+  ],
+  "gate": [
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA0",
+        "sa/00-lexicon.md"
+      ],
+      "msg": "SA0 sa/00-lexicon.md 齊全(0 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA1",
+        "sa/01-break-words.md"
+      ],
+      "msg": "SA1 sa/01-break-words.md 齊全(0 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA2",
+        "sa/02-entities-relations.md"
+      ],
+      "msg": "SA2 sa/02-entities-relations.md 齊全(1 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA3",
+        "sa/03-roles.md"
+      ],
+      "msg": "SA3 sa/03-roles.md 齊全(0 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA4",
+        "sa/04-usecase.md"
+      ],
+      "msg": "SA4 sa/04-usecase.md 齊全(1 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA5",
+        "sa/05-activity.md"
+      ],
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA6",
+        "sa/06-sequence.md"
+      ],
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA7",
+        "sa/07-state.md"
+      ],
+      "msg": "SA7 sa/07-state.md 齊全(1 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-GL-consistency",
+      "ids": [
+        "訂單"
+      ],
+      "msg": "「訂單」→ Order 與 prev 一致",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "訂單"
+      ],
+      "msg": "訂單 → src/api/Orders.Domain/Order.cs:5 已驗證(glossary 解析 Order)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "Shipped rule"
+      ],
+      "msg": "Shipped rule → src/api/Orders.Domain/Order.cs:3 \"Shipped\" 已驗證(字面 \"Shipped\")",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "GetOrder"
+      ],
+      "msg": "GetOrder → src/api/Orders.Application/GetOrderQueryHandler.cs:8 已驗證(對照表 Application 層 GetOrderQueryHandler)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "SqlOrderRepository"
+      ],
+      "msg": "SqlOrderRepository → src/api/Orders.Infrastructure/SqlOrderRepository.cs:5 已驗證(符號 SqlOrderRepository)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "PaymentGatewayClient"
+      ],
+      "msg": "PaymentGatewayClient → src/api/Orders.Infrastructure/PaymentGatewayClient.cs:5 已驗證(符號 PaymentGatewayClient)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "OrdersController"
+      ],
+      "msg": "OrdersController → src/api/Orders.Api/Controllers/OrdersController.cs:8 已驗證(符號 OrdersController)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "OrderDetailPage"
+      ],
+      "msg": "OrderDetailPage → src/web/src/pages/OrderDetailPage.tsx:3 已驗證(符號 OrderDetailPage)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "Order type"
+      ],
+      "msg": "Order type → src/web/src/types/Order.ts:4 已驗證(符號 Order)",
+      "action": ""
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-consistency",
+      "ids": [
+        "STM-SA-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-SA-001:[*]→Placed 的事件 PlaceOrder 對不到 SA3 動作或元件",
+      "action": "事件名用 SA3 動作的符號"
+    },
+    {
+      "level": "WARN",
+      "rule": "G-DG-consistency",
+      "ids": [
+        "STM-DOM-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-DOM-001:[*]→Placed 的事件 PlaceOrder 對不到 SA3 動作或元件",
+      "action": "事件名用 SA3 動作的符號"
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "CLS-SA-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-SA-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "CLS-SA-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-SA-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UCD-001",
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "msg": "UCD-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-001",
+        "REQ-001"
+      ],
+      "msg": "ACT-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-001",
+        "REQ-001"
+      ],
+      "msg": "ACT-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-002",
+        "REQ-002"
+      ],
+      "msg": "ACT-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-002",
+        "REQ-002"
+      ],
+      "msg": "ACT-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-003",
+        "REQ-003"
+      ],
+      "msg": "ACT-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-003",
+        "REQ-003"
+      ],
+      "msg": "ACT-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-SA-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-SA-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-SA-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-SA-002「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-SA-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-SA-003「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-SA-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-SA-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-SA-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-SA-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-001",
+        "REQ-001"
+      ],
+      "msg": "UC-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-001",
+        "REQ-001"
+      ],
+      "msg": "UC-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-002",
+        "REQ-002"
+      ],
+      "msg": "UC-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-002",
+        "REQ-002"
+      ],
+      "msg": "UC-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-003",
+        "REQ-003"
+      ],
+      "msg": "UC-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-003",
+        "REQ-003"
+      ],
+      "msg": "UC-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-DOM-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-DOM-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-DOM-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-DOM-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "CLS-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L1"
+      ],
+      "msg": "C4-L1「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L2"
+      ],
+      "msg": "C4-L2「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L3"
+      ],
+      "msg": "C4-L3「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-002「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-003「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-UI-001",
+        "REQ-001"
+      ],
+      "msg": "STM-UI-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-UI-001",
+        "REQ-001"
+      ],
+      "msg": "STM-UI-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ERD-001"
+      ],
+      "msg": "ERD-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-TRACE-REQ-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-TRACE-REQ-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-SEQ-REQ-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-TRACE-REQ-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-TRACE-REQ-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-SEQ-REQ-002「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-TRACE-REQ-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-TRACE-REQ-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-SEQ-REQ-003「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-TRACE-NFR-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-TRACE-NFR-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-SEQ-NFR-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-S6-render",
+      "ids": [
+        "看板"
+      ],
+      "msg": "看板渲染驗證通過:30 張圖都畫得出來,4 張需求卡",
+      "action": ""
+    }
+  ],
+  "kpis": {
+    "req_count": 4,
+    "component_count": 12,
+    "test_count": 13,
+    "boundary_pass": 31,
+    "boundary_total": 31,
+    "boundary_fail": 0,
+    "boundary_warn": 0,
+    "uncovered_req": 0,
+    "uncovered_ids": [],
+    "open_gaps": 0,
+    "assumed": 0
+  },
+  "auto_diagrams": [
+    {
+      "id": "AUTO-TRACE-REQ-001",
+      "kind": "flowchart",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-001",
+      "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1 顧客可在出貨前取消訂單\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP004\n  AC0011 --> CMP005\n  AC0011 --> CMP006\n  AC0011 --> CMP007\n  AC0011 --> CMP010\n  AC0011 --> CMP011\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST004\n  AC0011 -.-> TST005\n  AC0011 -.-> TST006\n  AC0011 -.-> TST007\n  AC0011 -.-> TST010\n  AC0011 -.-> TST011\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 --> CMP002\n  AC0012 --> CMP004\n  AC0012 --> CMP005\n  AC0012 --> CMP006\n  AC0012 --> CMP007\n  AC0012 --> CMP010\n  AC0012 --> CMP011\n  AC0012 -.-> TST001\n  AC0012 -.-> TST002\n  AC0012 -.-> TST004\n  AC0012 -.-> TST005\n  AC0012 -.-> TST006\n  AC0012 -.-> TST007\n  AC0012 -.-> TST010\n  AC0012 -.-> TST011\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>OrderDetailPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP002[\"CMP-002<br/>CancelOrderDialog\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP004[\"CMP-004<br/>orderStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP005[\"CMP-005<br/>ordersApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP007[\"CMP-007<br/>CancelOrderCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP010[\"CMP-010<br/>Order (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP011[\"CMP-011<br/>SqlOrderRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 contract\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  TST007[/\"TST-007 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST011[/\"TST-011 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:12",
+        "10-requirements.md:17",
+        "10-requirements.md:6",
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:27",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:36",
+        "30-architecture-c4.md:76",
+        "30-architecture-c4.md:77",
+        "30-architecture-c4.md:78",
+        "30-architecture-c4.md:79",
+        "30-architecture-c4.md:80",
+        "30-architecture-c4.md:81",
+        "30-architecture-c4.md:82",
+        "30-architecture-c4.md:83",
+        "30-architecture-c4.md:84",
+        "30-architecture-c4.md:85",
+        "30-architecture-c4.md:86",
+        "30-architecture-c4.md:87",
+        "30-architecture-c4.md:88",
+        "30-architecture-c4.md:89",
+        "30-architecture-c4.md:90",
+        "30-architecture-c4.md:91",
+        "60-test-design.md:10",
+        "60-test-design.md:11",
+        "60-test-design.md:12",
+        "60-test-design.md:15",
+        "60-test-design.md:16",
+        "60-test-design.md:6",
+        "60-test-design.md:7",
+        "60-test-design.md:9",
+        "specs/in-progress/order-cancel/pm-spec.md:10"
+      ],
+      "edges": 16
+    },
+    {
+      "id": "AUTO-SEQ-REQ-001",
+      "kind": "sequence",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-001",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as OrderDetailPage\n  participant CMP002 as CancelOrderDialog\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP007 as CancelOrderCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: 顯示並觸發取消\n  CMP001->>CMP002: 取消的 UI 守衛\n  CMP002->>CMP004: 取消的前端狀態轉移\n  CMP004->>CMP005: 呼叫取消 API\n  CMP005->>CMP006: 接收取消請求\n  CMP006->>CMP007: 編排取消\n  CMP007->>CMP010: 取消的業務規則與不變量\n  CMP007->>CMP011: 持久化取消結果\n  CMP001->>CMP004: 取消的前端狀態轉移\n  CMP001-->>U: AC-001-1, AC-001-2",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:27",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:36"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-REQ-002",
+      "kind": "flowchart",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-002",
+      "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2 取消後系統經付款閘道退款\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP001\n  AC0021 --> CMP004\n  AC0021 --> CMP005\n  AC0021 --> CMP006\n  AC0021 --> CMP008\n  AC0021 --> CMP010\n  AC0021 --> CMP011\n  AC0021 --> CMP012\n  AC0021 -.-> TST001\n  AC0021 -.-> TST004\n  AC0021 -.-> TST005\n  AC0021 -.-> TST006\n  AC0021 -.-> TST008\n  AC0021 -.-> TST010\n  AC0021 -.-> TST011\n  AC0021 -.-> TST012\n  REQ002 --> AC0022([\"AC-002-2\"]):::ac\n  AC0022 --> CMP001\n  AC0022 --> CMP004\n  AC0022 --> CMP005\n  AC0022 --> CMP006\n  AC0022 --> CMP008\n  AC0022 --> CMP010\n  AC0022 --> CMP011\n  AC0022 --> CMP012\n  AC0022 -.-> TST001\n  AC0022 -.-> TST004\n  AC0022 -.-> TST005\n  AC0022 -.-> TST006\n  AC0022 -.-> TST008\n  AC0022 -.-> TST010\n  AC0022 -.-> TST011\n  AC0022 -.-> TST012\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>OrderDetailPage\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP004[\"CMP-004<br/>orderStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP005[\"CMP-005<br/>ordersApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP008[\"CMP-008<br/>IssueRefundCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP010[\"CMP-010<br/>Order (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP011[\"CMP-011<br/>SqlOrderRepository\"]:::cmp\n    CMP012[\"CMP-012<br/>PaymentGatewayClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 contract\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  TST008[/\"TST-008 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST011[/\"TST-011 integration\"/]:::tst\n  TST012[/\"TST-012 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:22",
+        "10-requirements.md:27",
+        "10-requirements.md:7",
+        "30-architecture-c4.md:100",
+        "30-architecture-c4.md:101",
+        "30-architecture-c4.md:102",
+        "30-architecture-c4.md:103",
+        "30-architecture-c4.md:104",
+        "30-architecture-c4.md:105",
+        "30-architecture-c4.md:106",
+        "30-architecture-c4.md:107",
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:33",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:36",
+        "30-architecture-c4.md:37",
+        "30-architecture-c4.md:92",
+        "30-architecture-c4.md:93",
+        "30-architecture-c4.md:94",
+        "30-architecture-c4.md:95",
+        "30-architecture-c4.md:96",
+        "30-architecture-c4.md:97",
+        "30-architecture-c4.md:98",
+        "30-architecture-c4.md:99",
+        "60-test-design.md:10",
+        "60-test-design.md:11",
+        "60-test-design.md:13",
+        "60-test-design.md:15",
+        "60-test-design.md:16",
+        "60-test-design.md:17",
+        "60-test-design.md:6",
+        "60-test-design.md:9",
+        "specs/in-progress/order-cancel/pm-spec.md:13"
+      ],
+      "edges": 16
+    },
+    {
+      "id": "AUTO-SEQ-REQ-002",
+      "kind": "sequence",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-002",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as OrderDetailPage\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP008 as IssueRefundCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  participant CMP012 as PaymentGatewayClient\n  U->>CMP001: 顯示並觸發退款\n  CMP001->>CMP004: 退款的前端狀態轉移\n  CMP004->>CMP005: 呼叫退款 API\n  CMP005->>CMP006: 接收退款請求\n  CMP006->>CMP008: 編排退款\n  CMP008->>CMP010: 退款的業務規則與不變量\n  CMP008->>CMP011: 持久化退款結果\n  CMP008->>CMP012: 為退款呼叫外部系統\n  CMP001-->>U: AC-002-1, AC-002-2",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:33",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:36",
+        "30-architecture-c4.md:37"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-REQ-003",
+      "kind": "flowchart",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-003",
+      "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3 客服人員可查看取消紀錄\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP001\n  AC0031 --> CMP003\n  AC0031 --> CMP004\n  AC0031 --> CMP005\n  AC0031 --> CMP006\n  AC0031 --> CMP009\n  AC0031 --> CMP010\n  AC0031 --> CMP011\n  AC0031 -.-> TST001\n  AC0031 -.-> TST003\n  AC0031 -.-> TST004\n  AC0031 -.-> TST005\n  AC0031 -.-> TST006\n  AC0031 -.-> TST009\n  AC0031 -.-> TST010\n  AC0031 -.-> TST011\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>OrderDetailPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP003[\"CMP-003<br/>CancellationHistoryTable\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP004[\"CMP-004<br/>orderStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP005[\"CMP-005<br/>ordersApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP009[\"CMP-009<br/>ListCancellationsQueryHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP010[\"CMP-010<br/>Order (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP011[\"CMP-011<br/>SqlOrderRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST003[/\"TST-003 unit\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 contract\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  TST009[/\"TST-009 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST011[/\"TST-011 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:32",
+        "10-requirements.md:8",
+        "30-architecture-c4.md:108",
+        "30-architecture-c4.md:109",
+        "30-architecture-c4.md:110",
+        "30-architecture-c4.md:111",
+        "30-architecture-c4.md:112",
+        "30-architecture-c4.md:113",
+        "30-architecture-c4.md:114",
+        "30-architecture-c4.md:115",
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:28",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:34",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:36",
+        "60-test-design.md:10",
+        "60-test-design.md:11",
+        "60-test-design.md:14",
+        "60-test-design.md:15",
+        "60-test-design.md:16",
+        "60-test-design.md:6",
+        "60-test-design.md:8",
+        "60-test-design.md:9",
+        "specs/in-progress/order-cancel/pm-spec.md:16"
+      ],
+      "edges": 16
+    },
+    {
+      "id": "AUTO-SEQ-REQ-003",
+      "kind": "sequence",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-003",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as OrderDetailPage\n  participant CMP003 as CancellationHistoryTable\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP009 as ListCancellationsQueryHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: 顯示並觸發查看\n  CMP001->>CMP003: 查看的 UI 守衛\n  CMP003->>CMP004: 查看的前端狀態轉移\n  CMP004->>CMP005: 呼叫查看 API\n  CMP005->>CMP006: 接收查看請求\n  CMP006->>CMP009: 編排查看\n  CMP009->>CMP010: 查看的業務規則與不變量\n  CMP009->>CMP011: 持久化查看結果\n  CMP001->>CMP004: 查看的前端狀態轉移\n  CMP001-->>U: AC-003-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:28",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:34",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:36"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-NFR-001",
+      "kind": "flowchart",
+      "req": "NFR-001",
+      "reqs": [
+        "NFR-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 NFR-001",
+      "mermaid": "flowchart LR\n  PNFR001[\"PM§4 非功能需求\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 --> CMP006\n  ACN011 -.-> TST013\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  TST013[/\"TST-013 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:42",
+        "30-architecture-c4.md:116",
+        "30-architecture-c4.md:31",
+        "60-test-design.md:18",
+        "specs/in-progress/order-cancel/pm-spec.md:19"
+      ],
+      "edges": 2
+    },
+    {
+      "id": "AUTO-SEQ-NFR-001",
+      "kind": "sequence",
+      "req": "NFR-001",
+      "reqs": [
+        "NFR-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 NFR-001",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP006 as OrdersController\n  U->>CMP006: NFR P95 ' 5 min\n  CMP006-->>U: AC-N01-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:31"
+      ]
+    }
+  ],
+  "audit": {
+    "threads": [],
+    "summary": {
+      "diagrams": 30,
+      "table_rows": 14,
+      "by_phase": {
+        "SA": 9,
+        "RD": 13,
+        "AUTO": 8
+      },
+      "signoff": {
+        "approved": 0,
+        "stale": 0,
+        "pending": 30,
+        "rejected": 0
+      },
+      "with_findings": 2,
+      "by_duty": {
+        "intent": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 17,
+          "rejected": 0
+        },
+        "testable": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 16,
+          "rejected": 0
+        },
+        "buildable": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 17,
+          "rejected": 0
+        }
+      },
+      "changed_since_last": [],
+      "removed_since_last": [],
+      "threads_open": 0
+    },
+    "items": [
+      {
+        "type": "diagram",
+        "id": "CLS-SA-001",
+        "phase": "SA",
+        "kind": "class",
+        "heading": "CLS-SA-001 (REQ-001)",
+        "source": "sa/02-entities-relations.md:15",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 14,
+            "stage": "SA",
+            "method": "SA2.ClassDiagram",
+            "out": "CLS-SA-001"
+          },
+          {
+            "seq": 15,
+            "stage": "S2",
+            "method": "UML.Class",
+            "out": "CLS-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "f51c89e8300f",
+        "findings": [],
+        "mermaid": "classDiagram\n  class Order\n  class Refund\n  Order --> Refund : has",
+        "checks": [
+          "class_in_sa_entities"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UCD-001",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
+        "source": "sa/04-usecase.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 16,
+            "stage": "SA",
+            "method": "SA4.UseCaseDiagram",
+            "out": "UCD-001"
+          }
+        ],
+        "targets": [
+          "REQ-001",
+          "REQ-002",
+          "REQ-003"
+        ],
+        "hash": "f02360c87a98",
+        "findings": [],
+        "mermaid": "flowchart LR\n  customer([\"顧客\"]) --> cancel((\"取消\"))\n  system([\"系統\"]) --> issue_refund((\"退款\"))\n  support_agent([\"客服人員\"]) --> view_history((\"查看\"))",
+        "checks": [
+          "ucd_covers_roles"
+        ],
+        "duties": [
+          "intent"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ACT-001",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "ACT-001 (REQ-001)",
+        "source": "sa/05-activity.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 17,
+            "stage": "SA",
+            "method": "SA5.Activity",
+            "out": "ACT-001, ACT-002, ACT-003"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "48d8f995bcd8",
+        "findings": [],
+        "mermaid": "flowchart TD\n  A[\"顧客取消訂單\"] --> B{\"訂單狀態為已下單?\"}\n  B -->|yes| C[\"訂單狀態為已取消\"]\n  B -->|no| D[\"回應 409 ORDER_SHIPPED,狀態不變\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ACT-002",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "ACT-002 (REQ-002)",
+        "source": "sa/05-activity.md:13",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 17,
+            "stage": "SA",
+            "method": "SA5.Activity",
+            "out": "ACT-001, ACT-002, ACT-003"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "d74420776754",
+        "findings": [],
+        "mermaid": "flowchart TD\n  A[\"系統退款\"] --> B{\"訂單已取消且已付款?\"}\n  B -->|yes| C[\"呼叫付款閘道,訂單狀態為已退款\"]\n  B -->|no| D[\"重試 3 次,訂單維持已取消\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ACT-003",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "ACT-003 (REQ-003)",
+        "source": "sa/05-activity.md:21",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 17,
+            "stage": "SA",
+            "method": "SA5.Activity",
+            "out": "ACT-001, ACT-002, ACT-003"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "d96c1207c5c4",
+        "findings": [],
+        "mermaid": "flowchart TD\n  A[\"客服人員開啟紀錄\"] --> B{\"有訂單已取消?\"}\n  B -->|yes| C[\"每列顯示訂單、時間與原因\"]\n  B -->|no| E[\"—\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-SA-001",
+        "phase": "SA",
+        "kind": "sequence",
+        "heading": "SEQ-SA-001 (REQ-001)",
+        "source": "sa/06-sequence.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 18,
+            "stage": "SA",
+            "method": "SA6.Sequence",
+            "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "b6f83b536f8f",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant Web\n  participant API\n  participant DB\n  U->>Web: CancelOrder\n  Web->>API: CancelOrder\n  API->>DB: CancelOrder\n  Web-->>U: ok",
+        "checks": [
+          "seq_actor_is_role"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-SA-002",
+        "phase": "SA",
+        "kind": "sequence",
+        "heading": "SEQ-SA-002 (REQ-002)",
+        "source": "sa/06-sequence.md:18",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 18,
+            "stage": "SA",
+            "method": "SA6.Sequence",
+            "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "918b1530e97e",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as System\n  participant Web\n  participant API\n  participant DB\n  participant PaymentGateway\n  U->>Web: IssueRefund\n  Web->>API: IssueRefund\n  API->>DB: IssueRefund\n  DB->>PaymentGateway: IssueRefund\n  Web-->>U: ok",
+        "checks": [
+          "seq_actor_is_role"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-SA-003",
+        "phase": "SA",
+        "kind": "sequence",
+        "heading": "SEQ-SA-003 (REQ-003)",
+        "source": "sa/06-sequence.md:33",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 18,
+            "stage": "SA",
+            "method": "SA6.Sequence",
+            "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "bdb0d943d470",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListCancellations\n  Web->>API: ListCancellations\n  API->>DB: ListCancellations\n  Web-->>U: ok",
+        "checks": [
+          "seq_actor_is_role"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "STM-SA-001",
+        "phase": "SA",
+        "kind": "state",
+        "heading": "STM-SA-001 Order.Status (REQ-001, REQ-002)",
+        "source": "sa/07-state.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 19,
+            "stage": "SA",
+            "method": "SA7.State",
+            "out": "STM-SA-001"
+          },
+          {
+            "seq": 23,
+            "stage": "S2",
+            "method": "UML.State",
+            "out": "STM-DOM-001"
+          }
+        ],
+        "targets": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "hash": "87e0cbe57561",
+        "findings": [
+          {
+            "gate": "consistency",
+            "outcome": "state_event_unmapped",
+            "vars": {
+              "event": "PlaceOrder",
+              "edge": "[*]→Placed"
+            },
+            "check": "state_events_are_actions"
+          }
+        ],
+        "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund",
+        "checks": [
+          "state_events_are_actions"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UC-001",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "UC-001 顧客可在出貨前取消訂單 (REQ-001)",
+        "source": "20-domain-model.md:15",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 5,
+            "stage": "S1",
+            "method": "UseCase",
+            "out": "UC-001"
+          },
+          {
+            "seq": 6,
+            "stage": "S2",
+            "method": "CleanArch.Layers",
+            "out": "CMP-001, CMP-002, CMP-004, CMP-005, CMP-006, CMP-007, CMP-010, CMP-011"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "76afe9ecab02",
+        "findings": [],
+        "mermaid": "flowchart LR\n  S([\"顧客\"]) --> P[\"顧客取消訂單\"] --> Q[\"訂單狀態為已取消\"]\n  P -.-> X[\"回應 409 ORDER_SHIPPED,狀態不變\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UC-002",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "UC-002 取消後系統經付款閘道退款 (REQ-002)",
+        "source": "20-domain-model.md:32",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 7,
+            "stage": "S1",
+            "method": "UseCase",
+            "out": "UC-002"
+          },
+          {
+            "seq": 8,
+            "stage": "S2",
+            "method": "CleanArch.Layers",
+            "out": "CMP-001, CMP-004, CMP-005, CMP-006, CMP-008, CMP-010, CMP-011, CMP-012"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "6a01e81dc6dd",
+        "findings": [],
+        "mermaid": "flowchart LR\n  S([\"系統\"]) --> P[\"系統退款\"] --> Q[\"呼叫付款閘道,訂單狀態為已退款\"]\n  P -.-> X[\"重試 3 次,訂單維持已取消\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UC-003",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "UC-003 客服人員可查看取消紀錄 (REQ-003)",
+        "source": "20-domain-model.md:49",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 9,
+            "stage": "S1",
+            "method": "UseCase",
+            "out": "UC-003"
+          },
+          {
+            "seq": 10,
+            "stage": "S2",
+            "method": "CleanArch.Layers",
+            "out": "CMP-001, CMP-003, CMP-004, CMP-005, CMP-006, CMP-009, CMP-010, CMP-011"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "04233ced46c2",
+        "findings": [],
+        "mermaid": "flowchart LR\n  S([\"客服人員\"]) --> P[\"客服人員開啟紀錄\"] --> Q[\"每列顯示訂單、時間與原因\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "STM-DOM-001",
+        "phase": "RD",
+        "kind": "state",
+        "heading": "STM-DOM-001 Order.Status (REQ-001, REQ-002)",
+        "source": "20-domain-model.md:56",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 23,
+            "stage": "S2",
+            "method": "UML.State",
+            "out": "STM-DOM-001"
+          },
+          {
+            "seq": 25,
+            "stage": "S3",
+            "method": "UI.StateMachine",
+            "out": "STM-UI-001"
+          }
+        ],
+        "targets": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "hash": "87e0cbe57561",
+        "findings": [
+          {
+            "gate": "consistency",
+            "outcome": "state_event_unmapped",
+            "vars": {
+              "event": "PlaceOrder",
+              "edge": "[*]→Placed"
+            },
+            "check": "state_events_are_actions"
+          }
+        ],
+        "mermaid": "stateDiagram-v2\n  [*] --> Placed: PlaceOrder\n  Placed --> Shipped: Ship\n  Placed --> Cancelled: CancelOrder\n  Cancelled --> Refunded: IssueRefund",
+        "checks": [
+          "state_events_are_actions",
+          "state_handoff_subset"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "CLS-001",
+        "phase": "RD",
+        "kind": "class",
+        "heading": "CLS-001 Order (REQ-001)",
+        "source": "20-domain-model.md:71",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 15,
+            "stage": "S2",
+            "method": "UML.Class",
+            "out": "CLS-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "eace5ddbc9c0",
+        "findings": [],
+        "mermaid": "classDiagram\n  class Order { +Id +Status }\n  Order --> Refund : has",
+        "checks": [
+          "class_names_known"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L1",
+        "phase": "RD",
+        "kind": "c4-context",
+        "heading": "C4-L1",
+        "source": "30-architecture-c4.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 20,
+            "stage": "S2",
+            "method": "C4.Context/Container",
+            "out": "C4-L1, C4-L2"
+          }
+        ],
+        "targets": [],
+        "hash": "b1c57a941d5f",
+        "findings": [],
+        "mermaid": "C4Context\n  Person(u, \"顧客\")\n  System(sys, \"訂單取消與退款\")\n  System_Ext(ext, \"PaymentGateway\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")",
+        "checks": [],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L2",
+        "phase": "RD",
+        "kind": "c4-container",
+        "heading": "C4-L2",
+        "source": "30-architecture-c4.md:16",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 20,
+            "stage": "S2",
+            "method": "C4.Context/Container",
+            "out": "C4-L1, C4-L2"
+          }
+        ],
+        "targets": [],
+        "hash": "6a867ea39299",
+        "findings": [],
+        "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")",
+        "checks": [],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L3",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "C4-L3",
+        "source": "30-architecture-c4.md:40",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 21,
+            "stage": "S3",
+            "method": "C4.Component",
+            "out": "C4-L3"
+          },
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [],
+        "hash": "6fec15575f67",
+        "findings": [],
+        "mermaid": "flowchart LR\n  CMP001[\"OrderDetailPage<br/>Page\"]\n  CMP002[\"CancelOrderDialog<br/>Component\"]\n  CMP003[\"CancellationHistoryTable<br/>Component\"]\n  CMP004[\"orderStore<br/>Store\"]\n  CMP005[\"ordersApi<br/>ApiClient\"]\n  CMP006[\"OrdersController<br/>Api\"]\n  CMP007[\"CancelOrderCommandHandler<br/>Application\"]\n  CMP008[\"IssueRefundCommandHandler<br/>Application\"]\n  CMP009[\"ListCancellationsQueryHandler<br/>Application\"]\n  CMP010[\"Order (Aggregate)<br/>Domain\"]\n  CMP011[\"SqlOrderRepository<br/>Infrastructure\"]\n  CMP012[\"PaymentGatewayClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP002 --> CMP004\n  CMP003 --> CMP004\n  CMP004 --> CMP005\n  CMP005 --> CMP006\n  CMP006 --> CMP007\n  CMP006 --> CMP008\n  CMP006 --> CMP009\n  CMP007 --> CMP010\n  CMP007 --> CMP011\n  CMP008 --> CMP010\n  CMP008 --> CMP011\n  CMP008 --> CMP012\n  CMP009 --> CMP010\n  CMP009 --> CMP011",
+        "checks": [
+          "c4_relations_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-001",
+        "phase": "RD",
+        "kind": "sequence",
+        "heading": "SEQ-001 (UC-001 / REQ-001)",
+        "source": "30-architecture-c4.md:120",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "b4bd238c823a",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Customer\n  participant CMP001 as OrderDetailPage\n  participant CMP002 as CancelOrderDialog\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP007 as CancelOrderCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: CancelOrder\n  CMP001->>CMP002: CancelOrder\n  CMP002->>CMP004: CancelOrder\n  CMP004->>CMP005: CancelOrder\n  CMP005->>CMP006: CancelOrder\n  CMP006->>CMP007: CancelOrder\n  CMP007->>CMP010: CancelOrder\n  CMP010-->>CMP007: ok\n  CMP007->>CMP011: CancelOrder\n  CMP011-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-002",
+        "phase": "RD",
+        "kind": "sequence",
+        "heading": "SEQ-002 (UC-002 / REQ-002)",
+        "source": "30-architecture-c4.md:150",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "167212a044fb",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as System\n  participant CMP001 as OrderDetailPage\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP008 as IssueRefundCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  participant CMP012 as PaymentGatewayClient\n  U->>CMP001: IssueRefund\n  CMP001->>CMP004: IssueRefund\n  CMP004->>CMP005: IssueRefund\n  CMP005->>CMP006: IssueRefund\n  CMP006->>CMP008: IssueRefund\n  CMP008->>CMP010: IssueRefund\n  CMP010-->>CMP008: ok\n  CMP008->>CMP011: IssueRefund\n  CMP011-->>CMP008: ok\n  CMP008->>CMP012: IssueRefund\n  CMP012-->>CMP008: ok\n  CMP008-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP001: ok\n  CMP001-->>U: ok",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-003",
+        "phase": "RD",
+        "kind": "sequence",
+        "heading": "SEQ-003 (UC-003 / REQ-003)",
+        "source": "30-architecture-c4.md:180",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "c68292bd1cfe",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as SupportAgent\n  participant CMP001 as OrderDetailPage\n  participant CMP003 as CancellationHistoryTable\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP009 as ListCancellationsQueryHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: ListCancellations\n  CMP001->>CMP003: ListCancellations\n  CMP003->>CMP004: ListCancellations\n  CMP004->>CMP005: ListCancellations\n  CMP005->>CMP006: ListCancellations\n  CMP006->>CMP009: ListCancellations\n  CMP009->>CMP010: ListCancellations\n  CMP010-->>CMP009: ok\n  CMP009->>CMP011: ListCancellations\n  CMP011-->>CMP009: ok\n  CMP009-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP003: ok\n  CMP003-->>CMP001: ok\n  CMP001-->>U: ok",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "STM-UI-001",
+        "phase": "RD",
+        "kind": "state",
+        "heading": "STM-UI-001 OrderDetailPage (REQ-001)",
+        "source": "ui/41-ui-spec.md:10",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 25,
+            "stage": "S3",
+            "method": "UI.StateMachine",
+            "out": "STM-UI-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "e9cfe5654741",
+        "findings": [],
+        "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ERD-001",
+        "phase": "RD",
+        "kind": "erd",
+        "heading": "ERD-001",
+        "source": "api/50-data-model.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 24,
+            "stage": "S3",
+            "method": "ERD",
+            "out": "ERD-001"
+          }
+        ],
+        "targets": [],
+        "hash": "8e5bb444fda4",
+        "findings": [],
+        "mermaid": "erDiagram\n  Orders ||--o{ Refund : has\n  Orders {\n    uniqueidentifier Id PK\n  }\n  Refund {\n    uniqueidentifier Id PK\n  }",
+        "checks": [
+          "er_entities_owned"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-001",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-001",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:12",
+          "10-requirements.md:17",
+          "10-requirements.md:6",
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:27",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:36",
+          "30-architecture-c4.md:76",
+          "30-architecture-c4.md:77",
+          "30-architecture-c4.md:78",
+          "30-architecture-c4.md:79",
+          "30-architecture-c4.md:80",
+          "30-architecture-c4.md:81",
+          "30-architecture-c4.md:82",
+          "30-architecture-c4.md:83",
+          "30-architecture-c4.md:84",
+          "30-architecture-c4.md:85",
+          "30-architecture-c4.md:86",
+          "30-architecture-c4.md:87",
+          "30-architecture-c4.md:88",
+          "30-architecture-c4.md:89",
+          "30-architecture-c4.md:90",
+          "30-architecture-c4.md:91",
+          "60-test-design.md:10",
+          "60-test-design.md:11",
+          "60-test-design.md:12",
+          "60-test-design.md:15",
+          "60-test-design.md:16",
+          "60-test-design.md:6",
+          "60-test-design.md:7",
+          "60-test-design.md:9",
+          "specs/in-progress/order-cancel/pm-spec.md:10"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "135364e9de3c",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1 顧客可在出貨前取消訂單\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP004\n  AC0011 --> CMP005\n  AC0011 --> CMP006\n  AC0011 --> CMP007\n  AC0011 --> CMP010\n  AC0011 --> CMP011\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST004\n  AC0011 -.-> TST005\n  AC0011 -.-> TST006\n  AC0011 -.-> TST007\n  AC0011 -.-> TST010\n  AC0011 -.-> TST011\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 --> CMP002\n  AC0012 --> CMP004\n  AC0012 --> CMP005\n  AC0012 --> CMP006\n  AC0012 --> CMP007\n  AC0012 --> CMP010\n  AC0012 --> CMP011\n  AC0012 -.-> TST001\n  AC0012 -.-> TST002\n  AC0012 -.-> TST004\n  AC0012 -.-> TST005\n  AC0012 -.-> TST006\n  AC0012 -.-> TST007\n  AC0012 -.-> TST010\n  AC0012 -.-> TST011\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>OrderDetailPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP002[\"CMP-002<br/>CancelOrderDialog\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP004[\"CMP-004<br/>orderStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP005[\"CMP-005<br/>ordersApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP007[\"CMP-007<br/>CancelOrderCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP010[\"CMP-010<br/>Order (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP011[\"CMP-011<br/>SqlOrderRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 contract\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  TST007[/\"TST-007 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST011[/\"TST-011 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-001",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-001",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:27",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:36"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "d9d3e0cb66f4",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as OrderDetailPage\n  participant CMP002 as CancelOrderDialog\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP007 as CancelOrderCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: 顯示並觸發取消\n  CMP001->>CMP002: 取消的 UI 守衛\n  CMP002->>CMP004: 取消的前端狀態轉移\n  CMP004->>CMP005: 呼叫取消 API\n  CMP005->>CMP006: 接收取消請求\n  CMP006->>CMP007: 編排取消\n  CMP007->>CMP010: 取消的業務規則與不變量\n  CMP007->>CMP011: 持久化取消結果\n  CMP001->>CMP004: 取消的前端狀態轉移\n  CMP001-->>U: AC-001-1, AC-001-2",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-002",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-002",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:22",
+          "10-requirements.md:27",
+          "10-requirements.md:7",
+          "30-architecture-c4.md:100",
+          "30-architecture-c4.md:101",
+          "30-architecture-c4.md:102",
+          "30-architecture-c4.md:103",
+          "30-architecture-c4.md:104",
+          "30-architecture-c4.md:105",
+          "30-architecture-c4.md:106",
+          "30-architecture-c4.md:107",
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:33",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:36",
+          "30-architecture-c4.md:37",
+          "30-architecture-c4.md:92",
+          "30-architecture-c4.md:93",
+          "30-architecture-c4.md:94",
+          "30-architecture-c4.md:95",
+          "30-architecture-c4.md:96",
+          "30-architecture-c4.md:97",
+          "30-architecture-c4.md:98",
+          "30-architecture-c4.md:99",
+          "60-test-design.md:10",
+          "60-test-design.md:11",
+          "60-test-design.md:13",
+          "60-test-design.md:15",
+          "60-test-design.md:16",
+          "60-test-design.md:17",
+          "60-test-design.md:6",
+          "60-test-design.md:9",
+          "specs/in-progress/order-cancel/pm-spec.md:13"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "289cb69f3c7c",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2 取消後系統經付款閘道退款\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP001\n  AC0021 --> CMP004\n  AC0021 --> CMP005\n  AC0021 --> CMP006\n  AC0021 --> CMP008\n  AC0021 --> CMP010\n  AC0021 --> CMP011\n  AC0021 --> CMP012\n  AC0021 -.-> TST001\n  AC0021 -.-> TST004\n  AC0021 -.-> TST005\n  AC0021 -.-> TST006\n  AC0021 -.-> TST008\n  AC0021 -.-> TST010\n  AC0021 -.-> TST011\n  AC0021 -.-> TST012\n  REQ002 --> AC0022([\"AC-002-2\"]):::ac\n  AC0022 --> CMP001\n  AC0022 --> CMP004\n  AC0022 --> CMP005\n  AC0022 --> CMP006\n  AC0022 --> CMP008\n  AC0022 --> CMP010\n  AC0022 --> CMP011\n  AC0022 --> CMP012\n  AC0022 -.-> TST001\n  AC0022 -.-> TST004\n  AC0022 -.-> TST005\n  AC0022 -.-> TST006\n  AC0022 -.-> TST008\n  AC0022 -.-> TST010\n  AC0022 -.-> TST011\n  AC0022 -.-> TST012\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>OrderDetailPage\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP004[\"CMP-004<br/>orderStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP005[\"CMP-005<br/>ordersApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP008[\"CMP-008<br/>IssueRefundCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP010[\"CMP-010<br/>Order (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP011[\"CMP-011<br/>SqlOrderRepository\"]:::cmp\n    CMP012[\"CMP-012<br/>PaymentGatewayClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 contract\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  TST008[/\"TST-008 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST011[/\"TST-011 integration\"/]:::tst\n  TST012[/\"TST-012 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-002",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-002",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:33",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:36",
+          "30-architecture-c4.md:37"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "2c017ad01f3e",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as OrderDetailPage\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP008 as IssueRefundCommandHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  participant CMP012 as PaymentGatewayClient\n  U->>CMP001: 顯示並觸發退款\n  CMP001->>CMP004: 退款的前端狀態轉移\n  CMP004->>CMP005: 呼叫退款 API\n  CMP005->>CMP006: 接收退款請求\n  CMP006->>CMP008: 編排退款\n  CMP008->>CMP010: 退款的業務規則與不變量\n  CMP008->>CMP011: 持久化退款結果\n  CMP008->>CMP012: 為退款呼叫外部系統\n  CMP001-->>U: AC-002-1, AC-002-2",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-003",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-003",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:32",
+          "10-requirements.md:8",
+          "30-architecture-c4.md:108",
+          "30-architecture-c4.md:109",
+          "30-architecture-c4.md:110",
+          "30-architecture-c4.md:111",
+          "30-architecture-c4.md:112",
+          "30-architecture-c4.md:113",
+          "30-architecture-c4.md:114",
+          "30-architecture-c4.md:115",
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:28",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:34",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:36",
+          "60-test-design.md:10",
+          "60-test-design.md:11",
+          "60-test-design.md:14",
+          "60-test-design.md:15",
+          "60-test-design.md:16",
+          "60-test-design.md:6",
+          "60-test-design.md:8",
+          "60-test-design.md:9",
+          "specs/in-progress/order-cancel/pm-spec.md:16"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "2e27a19f5591",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3 客服人員可查看取消紀錄\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP001\n  AC0031 --> CMP003\n  AC0031 --> CMP004\n  AC0031 --> CMP005\n  AC0031 --> CMP006\n  AC0031 --> CMP009\n  AC0031 --> CMP010\n  AC0031 --> CMP011\n  AC0031 -.-> TST001\n  AC0031 -.-> TST003\n  AC0031 -.-> TST004\n  AC0031 -.-> TST005\n  AC0031 -.-> TST006\n  AC0031 -.-> TST009\n  AC0031 -.-> TST010\n  AC0031 -.-> TST011\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>OrderDetailPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP003[\"CMP-003<br/>CancellationHistoryTable\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP004[\"CMP-004<br/>orderStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP005[\"CMP-005<br/>ordersApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP009[\"CMP-009<br/>ListCancellationsQueryHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP010[\"CMP-010<br/>Order (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP011[\"CMP-011<br/>SqlOrderRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST003[/\"TST-003 unit\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 contract\"/]:::tst\n  TST006[/\"TST-006 integration\"/]:::tst\n  TST009[/\"TST-009 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST011[/\"TST-011 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-003",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-003",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:28",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:34",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:36"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "35d403879b65",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as OrderDetailPage\n  participant CMP003 as CancellationHistoryTable\n  participant CMP004 as orderStore\n  participant CMP005 as ordersApi\n  participant CMP006 as OrdersController\n  participant CMP009 as ListCancellationsQueryHandler\n  participant CMP010 as Order\n  participant CMP011 as SqlOrderRepository\n  U->>CMP001: 顯示並觸發查看\n  CMP001->>CMP003: 查看的 UI 守衛\n  CMP003->>CMP004: 查看的前端狀態轉移\n  CMP004->>CMP005: 呼叫查看 API\n  CMP005->>CMP006: 接收查看請求\n  CMP006->>CMP009: 編排查看\n  CMP009->>CMP010: 查看的業務規則與不變量\n  CMP009->>CMP011: 持久化查看結果\n  CMP001->>CMP004: 查看的前端狀態轉移\n  CMP001-->>U: AC-003-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-NFR-001",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 NFR-001",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:42",
+          "30-architecture-c4.md:116",
+          "30-architecture-c4.md:31",
+          "60-test-design.md:18",
+          "specs/in-progress/order-cancel/pm-spec.md:19"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-001"
+        ],
+        "hash": "49df9ca9fe55",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PNFR001[\"PM§4 非功能需求\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 --> CMP006\n  ACN011 -.-> TST013\n  subgraph LApi[\"Api\"]\n    CMP006[\"CMP-006<br/>OrdersController\"]:::cmp\n  end\n  TST013[/\"TST-013 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-NFR-001",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 NFR-001",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:31"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-001"
+        ],
+        "hash": "dcc709138db3",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP006 as OrdersController\n  U->>CMP006: NFR P95 ' 5 min\n  CMP006-->>U: AC-N01-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:6",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "訂單 | 名詞 | PM§3.1 | 實體候選",
+        "source": "sa/01-break-words.md:6",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:7",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "退款單 | 名詞 | PM§1 | 實體候選",
+        "source": "sa/01-break-words.md:7",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:8",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "付款閘道 | 名詞 | PM§3.2 | 外部系統",
+        "source": "sa/01-break-words.md:8",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:13",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "取消 | 動詞 | PM§3.1 | 動作: CancelOrder",
+        "source": "sa/01-break-words.md:13",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:14",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "退款 | 動詞 | PM§3.2 | 動作: IssueRefund",
+        "source": "sa/01-break-words.md:14",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:15",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "查看 | 動詞 | PM§3.3 | 動作: ListCancellations",
+        "source": "sa/01-break-words.md:15",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:20",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "顧客 | 角色 | PM§3.1 | Actor: Customer",
+        "source": "sa/01-break-words.md:20",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:21",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "客服人員 | 角色 | PM§3.3 | Actor: SupportAgent",
+        "source": "sa/01-break-words.md:21",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:22",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "系統 | 角色 | PM§3.2 | Actor: System",
+        "source": "sa/01-break-words.md:22",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA2:sa/02-entities-relations.md:6",
+        "phase": "SA",
+        "kind": "sa_entities",
+        "heading": "訂單 | Order | Id, Status | 訂單",
+        "source": "sa/02-entities-relations.md:6",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "symbols_present"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA2:sa/02-entities-relations.md:7",
+        "phase": "SA",
+        "kind": "sa_entities",
+        "heading": "退款單 | Refund | Id | 退款單",
+        "source": "sa/02-entities-relations.md:7",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "symbols_present"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA3:sa/03-roles.md:6",
+        "phase": "SA",
+        "kind": "sa_roles",
+        "heading": "顧客 | CancelOrder(POST /orders/{id}/cancel) | 取消 | REQ-001",
+        "source": "sa/03-roles.md:6",
+        "targets": [
+          "REQ-001"
+        ],
+        "findings": [],
+        "checks": [
+          "req_refs_exist",
+          "action_has_symbol"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA3:sa/03-roles.md:7",
+        "phase": "SA",
+        "kind": "sa_roles",
+        "heading": "系統 | IssueRefund(POST /orders/{id}/refund) | 退款 | REQ-002",
+        "source": "sa/03-roles.md:7",
+        "targets": [
+          "REQ-002"
+        ],
+        "findings": [],
+        "checks": [
+          "req_refs_exist",
+          "action_has_symbol"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA3:sa/03-roles.md:8",
+        "phase": "SA",
+        "kind": "sa_roles",
+        "heading": "客服人員 | ListCancellations(GET /orders/cancellations) | 查看 | REQ-003",
+        "source": "sa/03-roles.md:8",
+        "targets": [
+          "REQ-003"
+        ],
+        "findings": [],
+        "checks": [
+          "req_refs_exist",
+          "action_has_symbol"
+        ]
+      }
+    ],
+    "methodology": "uml-wordbreak",
+    "duties": {
+      "intent": {
+        "label": "是不是要的",
+        "hint": "PM",
+        "ask": "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"
+      },
+      "testable": {
+        "label": "測得出來",
+        "hint": "QA",
+        "ask": "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"
+      },
+      "buildable": {
+        "label": "做得出來",
+        "hint": "RD",
+        "ask": "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"
+      }
+    },
+    "signoff_path": "audit/signoff.md",
+    "render_check": {
+      "mode": "auto",
+      "available": true,
+      "reason": "",
+      "modal": "ok",
+      "cards": 4,
+      "tabs": 8,
+      "visible_dg": 0,
+      "visible_svgs": 0,
+      "overflow": false,
+      "notice": false,
+      "errs": [],
+      "reqs": 4
+    }
+  },
+  "render_check": {
+    "mode": "auto",
+    "available": true,
+    "reason": "",
+    "parse": {
+      "AUTO-TRACE-REQ-001": "ok",
+      "AUTO-SEQ-REQ-001": "ok",
+      "CLS-SA-001": "ok",
+      "UCD-001": "ok",
+      "ACT-001": "ok",
+      "SEQ-SA-001": "ok",
+      "STM-SA-001": "ok",
+      "UC-001": "ok",
+      "STM-DOM-001": "ok",
+      "CLS-001": "ok",
+      "SEQ-001": "ok",
+      "STM-UI-001": "ok",
+      "AUTO-TRACE-REQ-002": "ok",
+      "AUTO-SEQ-REQ-002": "ok",
+      "ACT-002": "ok",
+      "SEQ-SA-002": "ok",
+      "UC-002": "ok",
+      "SEQ-002": "ok",
+      "AUTO-TRACE-REQ-003": "ok",
+      "AUTO-SEQ-REQ-003": "ok",
+      "ACT-003": "ok",
+      "SEQ-SA-003": "ok",
+      "UC-003": "ok",
+      "SEQ-003": "ok",
+      "AUTO-TRACE-NFR-001": "ok",
+      "AUTO-SEQ-NFR-001": "ok",
+      "C4-L1": "ok",
+      "C4-L2": "ok",
+      "C4-L3": "ok",
+      "ERD-001": "ok"
+    },
+    "modal": "ok",
+    "cards": 4,
+    "tabs": 8,
+    "visible_dg": 0,
+    "visible_svgs": 0,
+    "overflow": false,
+    "notice": false,
+    "errs": [],
+    "reqs": 4
+  }
+}

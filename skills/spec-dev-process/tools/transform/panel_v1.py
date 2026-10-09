@@ -5,8 +5,8 @@ from core import config as C
 TEMPLATE = C.PATHS["templates"] / "check-panel.html"
 CDN_TAG = '<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>'
 
-def build(d: pathlib.Path, tr: dict, log: list, boundary: list, g: list, k: dict, offline_js=None, template=TEMPLATE) -> pathlib.Path:
-    payload = {"trace": tr, "log": log, "boundary": boundary, "gate": g, "kpis": k}
+def build(d: pathlib.Path, tr: dict, log: list, boundary: list, g: list, k: dict, offline_js=None, template=TEMPLATE, board=None) -> pathlib.Path:
+    payload = {"trace": tr, "log": log, "boundary": boundary, "gate": g, "kpis": k, "board": board or {}}
     html = template.read_text(encoding="utf-8").replace("/*__DATA__*/null", json.dumps(payload, ensure_ascii=False))
     if offline_js:
         lib = pathlib.Path(offline_js).read_text(encoding="utf-8").replace("</script>", "<\\/script>")
@@ -19,5 +19,5 @@ def run(ctx: dict) -> dict:
     from tools.check.engine_v1 import run_gate
     run_gate(ctx)
     build(ctx.get("review_dir") or ctx["dir"], ctx["data"], ctx["log"], ctx.get("boundary") or [], ctx.get("gate") or [], ctx["kpis"],
-          C.PATHS["vendor_mermaid"] if ctx.get("offline") else None)
+          C.PATHS["vendor_mermaid"] if ctx.get("offline") else None, board=(ctx.get("config") or {}).get("board"))
     return ctx

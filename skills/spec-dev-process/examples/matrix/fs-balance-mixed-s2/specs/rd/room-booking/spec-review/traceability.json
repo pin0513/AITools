@@ -1,0 +1,6083 @@
+{
+  "feature": "spec",
+  "title": "會議室預約",
+  "source_files": [
+    "00-overview.md",
+    "10-requirements.md",
+    "20-domain-model.md",
+    "30-architecture-c4.md",
+    "40-api-contracts.md",
+    "41-ui-spec.md",
+    "50-data-model.md",
+    "60-test-design.md"
+  ],
+  "io_map": [
+    {
+      "in": "PM§1",
+      "out": [
+        "00-overview.md"
+      ]
+    },
+    {
+      "in": "PM§3.1",
+      "out": [
+        "REQ-001",
+        "UC-001"
+      ]
+    },
+    {
+      "in": "PM§3.2",
+      "out": [
+        "REQ-002",
+        "UC-002"
+      ]
+    },
+    {
+      "in": "PM§3.3",
+      "out": [
+        "REQ-003",
+        "UC-003"
+      ]
+    },
+    {
+      "in": "PM§4",
+      "out": [
+        "NFR-001"
+      ]
+    },
+    {
+      "in": "specs/in-progress/room-booking/mock/booking.html",
+      "out": [
+        "STM-UI-001"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "employee 可 book Room, TimeSlot 不得重疊",
+      "types": [
+        "functional",
+        "domain_rich"
+      ],
+      "source": "PM§3.1",
+      "acs": [
+        "AC-001-1",
+        "AC-001-2"
+      ],
+      "line": 6,
+      "file": "10-requirements.md"
+    },
+    {
+      "id": "REQ-002",
+      "title": "15 分鐘內 check in,否則 system release Room",
+      "types": [
+        "functional",
+        "state_heavy",
+        "integration"
+      ],
+      "source": "PM§3.2",
+      "acs": [
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 7,
+      "file": "10-requirements.md"
+    },
+    {
+      "id": "REQ-003",
+      "title": "admin 可 view 每日 Booking",
+      "types": [
+        "functional"
+      ],
+      "source": "PM§3.3",
+      "acs": [
+        "AC-003-1"
+      ],
+      "line": 8,
+      "file": "10-requirements.md"
+    },
+    {
+      "id": "NFR-001",
+      "title": "同一 TimeSlot 有 100 個並行 book 請求時,只有一張 Booking 成功。 → ok (100 concurrent → 1 success)",
+      "types": [
+        "non_functional"
+      ],
+      "source": "PM§4",
+      "acs": [
+        "AC-N01-1"
+      ],
+      "binds": [
+        "API-001"
+      ],
+      "measure": "100 concurrent → 1 success",
+      "line": 42,
+      "file": "10-requirements.md",
+      "stimulus_source": "user"
+    }
+  ],
+  "components": [
+    {
+      "id": "CMP-001",
+      "name": "RoomBookingPage",
+      "layer": "Page",
+      "context": "Rooms",
+      "depends": [
+        "CMP-002",
+        "CMP-003",
+        "CMP-004",
+        "CMP-005"
+      ],
+      "external": [],
+      "tech": [
+        "React"
+      ],
+      "interface": "",
+      "line": 26,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-002",
+      "name": "BookingForm",
+      "layer": "Component",
+      "context": "Rooms",
+      "depends": [
+        "CMP-005"
+      ],
+      "external": [],
+      "tech": [
+        "React"
+      ],
+      "interface": "",
+      "line": 27,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-003",
+      "name": "CheckInButton",
+      "layer": "Component",
+      "context": "Rooms",
+      "depends": [
+        "CMP-005"
+      ],
+      "external": [],
+      "tech": [
+        "React"
+      ],
+      "interface": "",
+      "line": 28,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-004",
+      "name": "DailyBookingTable",
+      "layer": "Component",
+      "context": "Rooms",
+      "depends": [
+        "CMP-005"
+      ],
+      "external": [],
+      "tech": [
+        "React"
+      ],
+      "interface": "",
+      "line": 29,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-005",
+      "name": "bookingStore",
+      "layer": "Store",
+      "context": "Rooms",
+      "depends": [
+        "CMP-006"
+      ],
+      "external": [],
+      "tech": [
+        "Zustand"
+      ],
+      "interface": "",
+      "line": 30,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-006",
+      "name": "roomsApi",
+      "layer": "ApiClient",
+      "context": "Rooms",
+      "depends": [
+        "CMP-007"
+      ],
+      "external": [],
+      "tech": [],
+      "interface": "",
+      "line": 31,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-007",
+      "name": "RoomsController",
+      "layer": "Api",
+      "context": "Rooms",
+      "depends": [
+        "CMP-008",
+        "CMP-009",
+        "CMP-011"
+      ],
+      "external": [],
+      "tech": [
+        "ASP.NET Core"
+      ],
+      "interface": "",
+      "line": 32,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-008",
+      "name": "BookRoomCommandHandler",
+      "layer": "Application",
+      "context": "Rooms",
+      "depends": [
+        "CMP-012",
+        "CMP-013",
+        "CMP-014"
+      ],
+      "external": [],
+      "tech": [
+        "MediatR"
+      ],
+      "interface": "",
+      "line": 33,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-009",
+      "name": "CheckInBookingCommandHandler",
+      "layer": "Application",
+      "context": "Rooms",
+      "depends": [
+        "CMP-012",
+        "CMP-013"
+      ],
+      "external": [],
+      "tech": [
+        "MediatR"
+      ],
+      "interface": "",
+      "line": 34,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-010",
+      "name": "ReleaseNoShowJob",
+      "layer": "Application",
+      "context": "Rooms",
+      "depends": [
+        "CMP-012",
+        "CMP-013",
+        "CMP-014"
+      ],
+      "external": [],
+      "tech": [
+        "ASP.NET Core"
+      ],
+      "interface": "",
+      "line": 35,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-011",
+      "name": "ListDailyBookingsQueryHandler",
+      "layer": "Application",
+      "context": "Rooms",
+      "depends": [
+        "CMP-012",
+        "CMP-013"
+      ],
+      "external": [],
+      "tech": [
+        "MediatR"
+      ],
+      "interface": "",
+      "line": 36,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-012",
+      "name": "Booking (Aggregate)",
+      "layer": "Domain",
+      "context": "Rooms",
+      "depends": [],
+      "external": [],
+      "tech": [],
+      "interface": "",
+      "line": 37,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-013",
+      "name": "SqlRoomRepository : IRoomRepository",
+      "layer": "Infrastructure",
+      "context": "Rooms",
+      "depends": [],
+      "external": [],
+      "tech": [
+        "EF Core"
+      ],
+      "interface": "IRoomRepository",
+      "line": 38,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "id": "CMP-014",
+      "name": "CalendarServiceClient : ICalendarService",
+      "layer": "Infrastructure",
+      "context": "Rooms",
+      "depends": [],
+      "external": [
+        "CalendarService"
+      ],
+      "tech": [],
+      "interface": "ICalendarService",
+      "line": 39,
+      "file": "30-architecture-c4.md"
+    }
+  ],
+  "ac_links": [
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-001",
+      "via": "SEQ-001",
+      "role": "顯示並觸發book",
+      "line": 85,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-002",
+      "via": "SEQ-001",
+      "role": "book的 UI 守衛",
+      "line": 86,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-005",
+      "via": "SEQ-001",
+      "role": "book的前端狀態轉移",
+      "line": 87,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-006",
+      "via": "SEQ-001",
+      "role": "呼叫book API",
+      "line": 88,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-007",
+      "via": "SEQ-001",
+      "role": "接收book請求",
+      "line": 89,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-008",
+      "via": "SEQ-001",
+      "role": "編排book",
+      "line": 90,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-012",
+      "via": "SEQ-001",
+      "role": "book的業務規則與不變量",
+      "line": 91,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-013",
+      "via": "SEQ-001",
+      "role": "持久化book結果",
+      "line": 92,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-1",
+      "component": "CMP-014",
+      "via": "SEQ-001",
+      "role": "為book呼叫外部系統",
+      "line": 93,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-001",
+      "via": "SEQ-001",
+      "role": "顯示並觸發book",
+      "line": 94,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-002",
+      "via": "SEQ-001",
+      "role": "book的 UI 守衛",
+      "line": 95,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-005",
+      "via": "SEQ-001",
+      "role": "book的前端狀態轉移",
+      "line": 96,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-006",
+      "via": "SEQ-001",
+      "role": "呼叫book API",
+      "line": 97,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-007",
+      "via": "SEQ-001",
+      "role": "接收book請求",
+      "line": 98,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-008",
+      "via": "SEQ-001",
+      "role": "編排book",
+      "line": 99,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-012",
+      "via": "SEQ-001",
+      "role": "book的業務規則與不變量",
+      "line": 100,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-013",
+      "via": "SEQ-001",
+      "role": "持久化book結果",
+      "line": 101,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-001-2",
+      "component": "CMP-014",
+      "via": "SEQ-001",
+      "role": "為book呼叫外部系統",
+      "line": 102,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-001",
+      "via": "SEQ-002",
+      "role": "顯示並觸發check in",
+      "line": 103,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-003",
+      "via": "SEQ-002",
+      "role": "check in的 UI 守衛",
+      "line": 104,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-005",
+      "via": "SEQ-002",
+      "role": "check in的前端狀態轉移",
+      "line": 105,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-006",
+      "via": "SEQ-002",
+      "role": "呼叫check in API",
+      "line": 106,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-007",
+      "via": "SEQ-002",
+      "role": "接收check in請求",
+      "line": 107,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-009",
+      "via": "SEQ-002",
+      "role": "編排check in",
+      "line": 108,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-012",
+      "via": "SEQ-002",
+      "role": "check in的業務規則與不變量",
+      "line": 109,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-013",
+      "via": "SEQ-002",
+      "role": "持久化check in結果",
+      "line": 110,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-010",
+      "via": "SEQ-002",
+      "role": "編排release",
+      "line": 111,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-1",
+      "component": "CMP-014",
+      "via": "SEQ-002",
+      "role": "為release呼叫外部系統",
+      "line": 112,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-001",
+      "via": "SEQ-002",
+      "role": "顯示並觸發check in",
+      "line": 113,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-003",
+      "via": "SEQ-002",
+      "role": "check in的 UI 守衛",
+      "line": 114,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-005",
+      "via": "SEQ-002",
+      "role": "check in的前端狀態轉移",
+      "line": 115,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-006",
+      "via": "SEQ-002",
+      "role": "呼叫check in API",
+      "line": 116,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-007",
+      "via": "SEQ-002",
+      "role": "接收check in請求",
+      "line": 117,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-009",
+      "via": "SEQ-002",
+      "role": "編排check in",
+      "line": 118,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-012",
+      "via": "SEQ-002",
+      "role": "check in的業務規則與不變量",
+      "line": 119,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-013",
+      "via": "SEQ-002",
+      "role": "持久化check in結果",
+      "line": 120,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-010",
+      "via": "SEQ-002",
+      "role": "編排release",
+      "line": 121,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-002-2",
+      "component": "CMP-014",
+      "via": "SEQ-002",
+      "role": "為release呼叫外部系統",
+      "line": 122,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-001",
+      "via": "SEQ-003",
+      "role": "顯示並觸發view",
+      "line": 123,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-004",
+      "via": "SEQ-003",
+      "role": "view的 UI 守衛",
+      "line": 124,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-005",
+      "via": "SEQ-003",
+      "role": "view的前端狀態轉移",
+      "line": 125,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-006",
+      "via": "SEQ-003",
+      "role": "呼叫view API",
+      "line": 126,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-007",
+      "via": "SEQ-003",
+      "role": "接收view請求",
+      "line": 127,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-011",
+      "via": "SEQ-003",
+      "role": "編排view",
+      "line": 128,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-012",
+      "via": "SEQ-003",
+      "role": "view的業務規則與不變量",
+      "line": 129,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-003-1",
+      "component": "CMP-013",
+      "via": "SEQ-003",
+      "role": "持久化view結果",
+      "line": 130,
+      "file": "30-architecture-c4.md"
+    },
+    {
+      "ac": "AC-N01-1",
+      "component": "CMP-007",
+      "via": "API-001",
+      "role": "NFR 100 concurrent → 1 success",
+      "line": 131,
+      "file": "30-architecture-c4.md"
+    }
+  ],
+  "apis": [
+    {
+      "id": "API-001",
+      "method": "POST",
+      "path": "/rooms/{id}/bookings",
+      "reqs": [
+        "REQ-001"
+      ],
+      "nfrs": [
+        "NFR-001"
+      ],
+      "component": [
+        "CMP-007"
+      ],
+      "line": 6,
+      "file": "api/40-api-contracts.md"
+    },
+    {
+      "id": "API-002",
+      "method": "POST",
+      "path": "/bookings/{id}/check-in",
+      "reqs": [
+        "REQ-002"
+      ],
+      "nfrs": [],
+      "component": [
+        "CMP-007"
+      ],
+      "line": 7,
+      "file": "api/40-api-contracts.md"
+    },
+    {
+      "id": "API-003",
+      "method": "GET",
+      "path": "/bookings/daily",
+      "reqs": [
+        "REQ-003"
+      ],
+      "nfrs": [],
+      "component": [
+        "CMP-007"
+      ],
+      "line": 8,
+      "file": "api/40-api-contracts.md"
+    }
+  ],
+  "failure_modes": [
+    {
+      "system": "CalendarService",
+      "component": [
+        "CMP-014"
+      ],
+      "timeout": "5s",
+      "retry": "3",
+      "degrade": "503",
+      "compensate": "retry next run"
+    }
+  ],
+  "ownership": [
+    {
+      "table": "Rooms",
+      "owner": "Rooms",
+      "access": "—"
+    },
+    {
+      "table": "Booking",
+      "owner": "Rooms",
+      "access": "—"
+    }
+  ],
+  "erd_entities": [
+    "Booking",
+    "Rooms"
+  ],
+  "tests": [
+    {
+      "id": "TST-001",
+      "name": "RoomBookingPageTests",
+      "kind": "e2e",
+      "components": [
+        "CMP-001"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 6,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-002",
+      "name": "BookingFormTests",
+      "kind": "unit",
+      "components": [
+        "CMP-002"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2"
+      ],
+      "line": 7,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-003",
+      "name": "CheckInButtonTests",
+      "kind": "unit",
+      "components": [
+        "CMP-003"
+      ],
+      "acs": [
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 8,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-004",
+      "name": "DailyBookingTableTests",
+      "kind": "unit",
+      "components": [
+        "CMP-004"
+      ],
+      "acs": [
+        "AC-003-1"
+      ],
+      "line": 9,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-005",
+      "name": "bookingStoreTests",
+      "kind": "unit",
+      "components": [
+        "CMP-005"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 10,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-006",
+      "name": "roomsApiTests",
+      "kind": "contract",
+      "components": [
+        "CMP-006"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 11,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-007",
+      "name": "RoomsControllerTests",
+      "kind": "integration",
+      "components": [
+        "CMP-007"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 12,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-008",
+      "name": "BookRoomCommandHandlerTests",
+      "kind": "unit",
+      "components": [
+        "CMP-008"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2"
+      ],
+      "line": 13,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-009",
+      "name": "CheckInBookingCommandHandlerTests",
+      "kind": "unit",
+      "components": [
+        "CMP-009"
+      ],
+      "acs": [
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 14,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-010",
+      "name": "ReleaseNoShowJobTests",
+      "kind": "unit",
+      "components": [
+        "CMP-010"
+      ],
+      "acs": [
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 15,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-011",
+      "name": "ListDailyBookingsQueryHandlerTests",
+      "kind": "unit",
+      "components": [
+        "CMP-011"
+      ],
+      "acs": [
+        "AC-003-1"
+      ],
+      "line": 16,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-012",
+      "name": "BookingTests",
+      "kind": "unit",
+      "components": [
+        "CMP-012"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 17,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-013",
+      "name": "SqlRoomRepositoryTests",
+      "kind": "integration",
+      "components": [
+        "CMP-013"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2",
+        "AC-003-1"
+      ],
+      "line": 18,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-014",
+      "name": "CalendarServiceClientTests",
+      "kind": "contract",
+      "components": [
+        "CMP-014"
+      ],
+      "acs": [
+        "AC-001-1",
+        "AC-001-2",
+        "AC-002-1",
+        "AC-002-2"
+      ],
+      "line": 19,
+      "file": "60-test-design.md"
+    },
+    {
+      "id": "TST-015",
+      "name": "NFR-001FitnessTest",
+      "kind": "e2e",
+      "components": [
+        "CMP-007"
+      ],
+      "acs": [
+        "AC-N01-1"
+      ],
+      "line": 20,
+      "file": "60-test-design.md"
+    }
+  ],
+  "fitness": [
+    {
+      "nfr": "NFR-001",
+      "how": "k6 / Playwright",
+      "threshold": "100 concurrent → 1 success",
+      "where": "CI nightly"
+    }
+  ],
+  "gaps": [],
+  "use_cases": [
+    {
+      "id": "UC-001",
+      "heading": "UC-001 employee 可 book Room, TimeSlot 不得重疊 (REQ-001)",
+      "has_pre": true,
+      "has_post": true,
+      "has_trigger": true,
+      "has_exception": true
+    },
+    {
+      "id": "UC-002",
+      "heading": "UC-002 15 分鐘內 check in,否則 system release Room (REQ-002)",
+      "has_pre": true,
+      "has_post": true,
+      "has_trigger": true,
+      "has_exception": true
+    },
+    {
+      "id": "UC-003",
+      "heading": "UC-003 admin 可 view 每日 Booking (REQ-003)",
+      "has_pre": true,
+      "has_post": true,
+      "has_trigger": true,
+      "has_exception": true
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "UC-001",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 15,
+      "heading": "UC-001 employee 可 book Room, TimeSlot 不得重疊 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"employee book Room\"] --> Q[\"Booking 狀態為 Booked\"]\n  P -.-> X[\"回應 409 SLOT_TAKEN\"]"
+    },
+    {
+      "id": "UC-002",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 32,
+      "heading": "UC-002 15 分鐘內 check in,否則 system release Room (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"employee 在 15 分鐘內 check in\"] --> Q[\"Booking 狀態為 CheckedIn\"]\n  P -.-> X[\"Booking 狀態為 Released, CalendarService 已更新\"]"
+    },
+    {
+      "id": "UC-003",
+      "kind": "flowchart",
+      "file": "20-domain-model.md",
+      "line": 49,
+      "heading": "UC-003 admin 可 view 每日 Booking (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  S([\"admin\"]) --> P[\"admin 開啟每日檢視\"] --> Q[\"依 Room 分組顯示\"]"
+    },
+    {
+      "id": "STM-DOM-001",
+      "kind": "state",
+      "file": "20-domain-model.md",
+      "line": 56,
+      "heading": "STM-DOM-001 Booking.Status (REQ-001, REQ-002)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow"
+    },
+    {
+      "id": "CLS-001",
+      "kind": "class",
+      "file": "20-domain-model.md",
+      "line": 71,
+      "heading": "CLS-001 Booking (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "classDiagram\n  class Booking { +Id +Status }\n  Room --> Booking : has\n  Room --> TimeSlot : has"
+    },
+    {
+      "id": "C4-L1",
+      "kind": "c4-context",
+      "file": "30-architecture-c4.md",
+      "line": 5,
+      "heading": "C4-L1",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "C4Context\n  Person(u, \"employee\")\n  System(sys, \"會議室預約\")\n  System_Ext(ext, \"CalendarService\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")"
+    },
+    {
+      "id": "C4-L2",
+      "kind": "c4-container",
+      "file": "30-architecture-c4.md",
+      "line": 16,
+      "heading": "C4-L2",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")"
+    },
+    {
+      "id": "C4-L3",
+      "kind": "flowchart",
+      "file": "30-architecture-c4.md",
+      "line": 42,
+      "heading": "C4-L3",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "flowchart LR\n  CMP001[\"RoomBookingPage<br/>Page\"]\n  CMP002[\"BookingForm<br/>Component\"]\n  CMP003[\"CheckInButton<br/>Component\"]\n  CMP004[\"DailyBookingTable<br/>Component\"]\n  CMP005[\"bookingStore<br/>Store\"]\n  CMP006[\"roomsApi<br/>ApiClient\"]\n  CMP007[\"RoomsController<br/>Api\"]\n  CMP008[\"BookRoomCommandHandler<br/>Application\"]\n  CMP009[\"CheckInBookingCommandHandler<br/>Application\"]\n  CMP010[\"ReleaseNoShowJob<br/>Application\"]\n  CMP011[\"ListDailyBookingsQueryHandler<br/>Application\"]\n  CMP012[\"Booking (Aggregate)<br/>Domain\"]\n  CMP013[\"SqlRoomRepository<br/>Infrastructure\"]\n  CMP014[\"CalendarServiceClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP001 --> CMP005\n  CMP002 --> CMP005\n  CMP003 --> CMP005\n  CMP004 --> CMP005\n  CMP005 --> CMP006\n  CMP006 --> CMP007\n  CMP007 --> CMP008\n  CMP007 --> CMP009\n  CMP007 --> CMP011\n  CMP008 --> CMP012\n  CMP008 --> CMP013\n  CMP008 --> CMP014\n  CMP009 --> CMP012\n  CMP009 --> CMP013\n  CMP010 --> CMP012\n  CMP010 --> CMP013\n  CMP010 --> CMP014\n  CMP011 --> CMP012\n  CMP011 --> CMP013"
+    },
+    {
+      "id": "SEQ-001",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 135,
+      "heading": "SEQ-001 (UC-001 / REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as BookingForm\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP008 as BookRoomCommandHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  participant CMP014 as CalendarServiceClient\n  U->>CMP001: BookRoom\n  CMP001->>CMP002: BookRoom\n  CMP002->>CMP005: BookRoom\n  CMP005->>CMP006: BookRoom\n  CMP006->>CMP007: BookRoom\n  CMP007->>CMP008: BookRoom\n  CMP008->>CMP012: BookRoom\n  CMP012-->>CMP008: ok\n  CMP008->>CMP013: BookRoom\n  CMP013-->>CMP008: ok\n  CMP008->>CMP014: BookRoom\n  CMP014-->>CMP008: ok\n  CMP008-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-002",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 168,
+      "heading": "SEQ-002 (UC-002 / REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP003 as CheckInButton\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP009 as CheckInBookingCommandHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  U->>CMP001: CheckInBooking\n  CMP001->>CMP003: CheckInBooking\n  CMP003->>CMP005: CheckInBooking\n  CMP005->>CMP006: CheckInBooking\n  CMP006->>CMP007: CheckInBooking\n  CMP007->>CMP009: CheckInBooking\n  CMP009->>CMP012: CheckInBooking\n  CMP012-->>CMP009: ok\n  CMP009->>CMP013: CheckInBooking\n  CMP013-->>CMP009: ok\n  CMP009-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP003: ok\n  CMP003-->>CMP001: ok\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "SEQ-003",
+      "kind": "sequence",
+      "file": "30-architecture-c4.md",
+      "line": 198,
+      "heading": "SEQ-003 (UC-003 / REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant CMP001 as RoomBookingPage\n  participant CMP004 as DailyBookingTable\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP011 as ListDailyBookingsQueryHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  U->>CMP001: ListDailyBookings\n  CMP001->>CMP004: ListDailyBookings\n  CMP004->>CMP005: ListDailyBookings\n  CMP005->>CMP006: ListDailyBookings\n  CMP006->>CMP007: ListDailyBookings\n  CMP007->>CMP011: ListDailyBookings\n  CMP011->>CMP012: ListDailyBookings\n  CMP012-->>CMP011: ok\n  CMP011->>CMP013: ListDailyBookings\n  CMP013-->>CMP011: ok\n  CMP011-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP001: ok\n  CMP001-->>U: ok"
+    },
+    {
+      "id": "STM-UI-001",
+      "kind": "state",
+      "file": "ui/41-ui-spec.md",
+      "line": 10,
+      "heading": "STM-UI-001 RoomBookingPage (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error"
+    },
+    {
+      "id": "ERD-001",
+      "kind": "erd",
+      "file": "api/50-data-model.md",
+      "line": 5,
+      "heading": "ERD-001",
+      "req": "*",
+      "reqs": [],
+      "mermaid": "erDiagram\n  Rooms ||--o{ Booking : has\n  Rooms {\n    uniqueidentifier Id PK\n  }\n  Booking {\n    uniqueidentifier Id PK\n  }"
+    }
+  ],
+  "spec_dir": "specs/rd/room-booking/spec",
+  "sources": {
+    "pm_spec": {
+      "path": "specs/in-progress/room-booking/pm-spec.md",
+      "exists": true,
+      "sections": [
+        {
+          "anchor": "PM§會議室預約 (PM spec)",
+          "title": "會議室預約 (PM spec)",
+          "level": 1,
+          "line": 1,
+          "text": ""
+        },
+        {
+          "anchor": "PM§1",
+          "title": "背景與目標",
+          "level": 2,
+          "line": 3,
+          "text": "目前 employee 用 email book Room,每週都有重複 book。目標:自助 book,檢查衝突,並自動 release 未 check in 的 Room。"
+        },
+        {
+          "anchor": "PM§2",
+          "title": "使用者與情境",
+          "level": 2,
+          "line": 6,
+          "text": "employee:想 book Room。 admin:需要每日 view。 system: release 未 check in 的 Booking。"
+        },
+        {
+          "anchor": "PM§3",
+          "title": "功能需求",
+          "level": 2,
+          "line": 9,
+          "text": ""
+        },
+        {
+          "anchor": "PM§3.1",
+          "title": "employee 可 book Room, TimeSlot 不得重疊",
+          "level": 3,
+          "line": 10,
+          "text": "employee 可以為某個 TimeSlot book Room。同一 Room 的兩張 Booking 不得重疊。新 Booking 狀態為 Booked,並同步到 CalendarService。"
+        },
+        {
+          "anchor": "PM§3.2",
+          "title": "15 分鐘內 check in,否則 system release Room",
+          "level": 3,
+          "line": 13,
+          "text": "employee 必須在開始後 15 分鐘內 check in。否則 system release Booking,狀態改為 Released,並更新 CalendarService。"
+        },
+        {
+          "anchor": "PM§3.3",
+          "title": "admin 可 view 每日 Booking",
+          "level": 3,
+          "line": 16,
+          "text": "admin 可以 view 每間 Room 當天的所有 Booking。"
+        },
+        {
+          "anchor": "PM§4",
+          "title": "非功能需求",
+          "level": 2,
+          "line": 19,
+          "text": "同一 TimeSlot 有 100 個並行 book 請求時,只有一張 Booking 成功。"
+        },
+        {
+          "anchor": "PM§5",
+          "title": "驗收條件",
+          "level": 2,
+          "line": 22,
+          "text": "- TimeSlot 空閒 → employee book Room → Booking 狀態為 Booked\n- TimeSlot 與其他 Booking 重疊 → employee book Room → 回應 409 SLOT_TAKEN\n- Booking 狀態為 Booked → employee 在 15 分鐘內 check in → Booking 狀態為 CheckedIn\n- 15 分鐘內未 check in → system 排程執行 → Booking 狀態為 Released, CalendarService 已更新\n- 今天有 Booking → admin 開啟每日檢視 → 依 Room 分組顯示"
+        }
+      ],
+      "lines": 27
+    },
+    "mocks": [
+      {
+        "path": "specs/in-progress/room-booking/mock/booking.html",
+        "exists": true,
+        "html": "<!doctype html><html><meta charset=\"utf-8\"><title>mock</title><body style=\"font-family:system-ui\"><h2>Booking <span data-state=\"Booked\">Booked</span></h2><!-- states: Booked/CheckedIn/Released --><button data-action=\"BookRoom\">book</button><button data-action=\"CheckInBooking\">check in</button><button data-action=\"ListDailyBookings\">view</button><table><tr><th>Room</th><th>status</th></tr></table></body></html>\n"
+      }
+    ],
+    "refs": [
+      {
+        "path": "specs/in-progress/room-booking/refs.md",
+        "exists": true
+      }
+    ]
+  },
+  "ac_text": {
+    "AC-001-1": {
+      "text": "# AC-001-1\nGiven TimeSlot 空閒\nWhen employee book Room\nThen Booking 狀態為 Booked",
+      "line": 12
+    },
+    "AC-001-2": {
+      "text": "# AC-001-2\nGiven TimeSlot 與其他 Booking 重疊\nWhen employee book Room\nThen 回應 409 SLOT_TAKEN",
+      "line": 17
+    },
+    "AC-002-1": {
+      "text": "# AC-002-1\nGiven Booking 狀態為 Booked\nWhen employee 在 15 分鐘內 check in\nThen Booking 狀態為 CheckedIn",
+      "line": 22
+    },
+    "AC-002-2": {
+      "text": "# AC-002-2\nGiven 15 分鐘內未 check in\nWhen system 排程執行\nThen Booking 狀態為 Released, CalendarService 已更新",
+      "line": 27
+    },
+    "AC-003-1": {
+      "text": "# AC-003-1\nGiven 今天有 Booking\nWhen admin 開啟每日檢視\nThen 依 Room 分組顯示",
+      "line": 32
+    }
+  },
+  "uc_text": {
+    "UC-001": {
+      "heading": "UC-001 employee 可 book Room, TimeSlot 不得重疊 (REQ-001)",
+      "line": 4,
+      "text": "- 主要參與者: employee\n- 觸發: employee book Room\n- 前置條件: TimeSlot 空閒\n- 後置條件(成功保證): Booking 狀態為 Booked\n- 主流程:\n  1. employee book Room\n  2. Booking 狀態為 Booked\n- 替代流程: 無\n- 例外流程: 回應 409 SLOT_TAKEN\n\n```mermaid\nflowchart LR\n  S([\"employee\"]) --> P[\"employee book Room\"] --> Q[\"Booking 狀態為 Booked\"]\n  P -.-> X[\"回應 409 SLOT_TAKEN\"]\n```"
+    },
+    "UC-002": {
+      "heading": "UC-002 15 分鐘內 check in,否則 system release Room (REQ-002)",
+      "line": 21,
+      "text": "- 主要參與者: employee\n- 觸發: employee 在 15 分鐘內 check in\n- 前置條件: Booking 狀態為 Booked\n- 後置條件(成功保證): Booking 狀態為 CheckedIn\n- 主流程:\n  1. employee 在 15 分鐘內 check in\n  2. Booking 狀態為 CheckedIn\n- 替代流程: 無\n- 例外流程: Booking 狀態為 Released, CalendarService 已更新\n\n```mermaid\nflowchart LR\n  S([\"employee\"]) --> P[\"employee 在 15 分鐘內 check in\"] --> Q[\"Booking 狀態為 CheckedIn\"]\n  P -.-> X[\"Booking 狀態為 Released, CalendarService 已更新\"]\n```"
+    },
+    "UC-003": {
+      "heading": "UC-003 admin 可 view 每日 Booking (REQ-003)",
+      "line": 38,
+      "text": "- 主要參與者: admin\n- 觸發: admin 開啟每日檢視\n- 前置條件: 今天有 Booking\n- 後置條件(成功保證): 依 Room 分組顯示\n- 主流程:\n  1. admin 開啟每日檢視\n  2. 依 Room 分組顯示\n- 替代流程: 無\n- 例外流程: 無\n\n```mermaid\nflowchart LR\n  S([\"admin\"]) --> P[\"admin 開啟每日檢視\"] --> Q[\"依 Room 分組顯示\"]\n```"
+    }
+  },
+  "screens": [
+    {
+      "screen": "RoomBookingPage",
+      "route": "/booking",
+      "components": [
+        "CMP-001",
+        "CMP-002",
+        "CMP-003",
+        "CMP-004",
+        "CMP-005",
+        "CMP-006"
+      ],
+      "mock": "specs/in-progress/room-booking/mock/booking.html",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "line": 6,
+      "file": "ui/41-ui-spec.md"
+    }
+  ],
+  "ui_validation": [
+    {
+      "screen": "RoomBookingPage",
+      "field": "BookRoom",
+      "rule": "TimeSlot 與其他 Booking 重疊",
+      "message": "回應 409 SLOT_TAKEN",
+      "acs": [
+        "AC-001-2"
+      ],
+      "line": 21
+    }
+  ],
+  "doc_paths": {
+    "00-overview.md": "00-overview.md",
+    "10-requirements.md": "10-requirements.md",
+    "20-domain-model.md": "20-domain-model.md",
+    "30-architecture-c4.md": "30-architecture-c4.md",
+    "40-api-contracts.md": "api/40-api-contracts.md",
+    "41-ui-spec.md": "ui/41-ui-spec.md",
+    "50-data-model.md": "api/50-data-model.md",
+    "60-test-design.md": "60-test-design.md"
+  },
+  "sa_files": [
+    "sa/00-lexicon.md",
+    "sa/01-break-words.md",
+    "sa/02-entities-relations.md",
+    "sa/03-roles.md",
+    "sa/04-usecase.md",
+    "sa/05-activity.md",
+    "sa/06-sequence.md",
+    "sa/07-state.md",
+    "survey-mapping.md"
+  ],
+  "sa_artifacts": [
+    {
+      "id": "CLS-SA-001",
+      "kind": "class",
+      "file": "sa/02-entities-relations.md",
+      "line": 17,
+      "heading": "CLS-SA-001 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "classDiagram\n  class Room\n  class Booking\n  class TimeSlot\n  Room --> Booking : has\n  Room --> TimeSlot : has"
+    },
+    {
+      "id": "UCD-001",
+      "kind": "flowchart",
+      "file": "sa/04-usecase.md",
+      "line": 5,
+      "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "mermaid": "flowchart LR\n  employee([\"employee\"]) --> book((\"book\"))\n  employee([\"employee\"]) --> check_in((\"check in\"))\n  system([\"system\"]) --> release((\"release\"))\n  admin([\"admin\"]) --> view_daily((\"view\"))"
+    },
+    {
+      "id": "ACT-001",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 5,
+      "heading": "ACT-001 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "flowchart TD\n  A[\"employee book Room\"] --> B{\"TimeSlot 空閒?\"}\n  B -->|yes| C[\"Booking 狀態為 Booked\"]\n  B -->|no| D[\"回應 409 SLOT_TAKEN\"]"
+    },
+    {
+      "id": "ACT-002",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 13,
+      "heading": "ACT-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "flowchart TD\n  A[\"employee 在 15 分鐘內 check in\"] --> B{\"Booking 狀態為 Booked?\"}\n  B -->|yes| C[\"Booking 狀態為 CheckedIn\"]\n  B -->|no| D[\"Booking 狀態為 Released, CalendarService 已更新\"]"
+    },
+    {
+      "id": "ACT-003",
+      "kind": "flowchart",
+      "file": "sa/05-activity.md",
+      "line": 21,
+      "heading": "ACT-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "flowchart TD\n  A[\"admin 開啟每日檢視\"] --> B{\"今天有 Booking?\"}\n  B -->|yes| C[\"依 Room 分組顯示\"]\n  B -->|no| E[\"—\"]"
+    },
+    {
+      "id": "SEQ-SA-001",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 5,
+      "heading": "SEQ-SA-001 (REQ-001)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  participant CalendarService\n  U->>Web: BookRoom\n  Web->>API: BookRoom\n  API->>DB: BookRoom\n  DB->>CalendarService: BookRoom\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-002",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 20,
+      "heading": "SEQ-SA-002 (REQ-002)",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  U->>Web: CheckInBooking\n  Web->>API: CheckInBooking\n  API->>DB: CheckInBooking\n  Web-->>U: ok"
+    },
+    {
+      "id": "SEQ-SA-003",
+      "kind": "sequence",
+      "file": "sa/06-sequence.md",
+      "line": 33,
+      "heading": "SEQ-SA-003 (REQ-003)",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListDailyBookings\n  Web->>API: ListDailyBookings\n  API->>DB: ListDailyBookings\n  Web-->>U: ok"
+    },
+    {
+      "id": "STM-SA-001",
+      "kind": "state",
+      "file": "sa/07-state.md",
+      "line": 5,
+      "heading": "STM-SA-001 Booking.Status (REQ-001, REQ-002)",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow"
+    }
+  ],
+  "sa_tables": {
+    "lexicon": [
+      {
+        "詞": "booking",
+        "詞頻": "13",
+        "權重": "22.0",
+        "詞彙表符號": "Booking",
+        "codebase 命中": "0",
+        "建議": "升",
+        "出現": "mock:booking.html pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+        "_line": 11,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "room",
+        "詞頻": "10",
+        "權重": "14.0",
+        "詞彙表符號": "Room",
+        "codebase 命中": "5 (src/api/Rooms.Application/ListRoomsQueryHandler.cs:6)",
+        "建議": "升",
+        "出現": "mock:booking.html pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 employee",
+        "_line": 12,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "狀態",
+        "詞頻": "6",
+        "權重": "10.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§3.2 15 分鐘內 c pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 13,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "timeslot",
+        "詞頻": "4",
+        "權重": "8.0",
+        "詞彙表符號": "TimeSlot",
+        "codebase 命中": "0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§4 非功能需求 pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 14,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "calendarservice",
+        "詞頻": "3",
+        "權重": "4.0",
+        "詞彙表符號": "CalendarService",
+        "codebase 命中": "0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§3.2 15 分鐘內 c pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 15,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "room booking",
+        "詞頻": "3",
+        "權重": "4.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§3.3 admin 可  pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 16,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "重疊",
+        "詞頻": "2",
+        "權重": "3.0",
+        "詞彙表符號": "",
+        "codebase 命中": "—",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 17,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "book",
+        "詞頻": "9",
+        "權重": "14.0",
+        "建議": "升",
+        "出現": "mock:booking.html pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 employee",
+        "_line": 23,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "check in",
+        "詞頻": "6",
+        "權重": "9.0",
+        "建議": "升",
+        "出現": "mock:booking.html pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+        "_line": 24,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "release",
+        "詞頻": "3",
+        "權重": "4.0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+        "_line": 25,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "view",
+        "詞頻": "3",
+        "權重": "4.0",
+        "建議": "降",
+        "出現": "mock:booking.html pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.3 admin 可",
+        "_line": 26,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "更新",
+        "詞頻": "2",
+        "權重": "3.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§3.2 15 分鐘內 c pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 27,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "組顯示",
+        "詞頻": "1",
+        "權重": "2.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 28,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "employee",
+        "詞頻": "7",
+        "權重": "11.0",
+        "建議": "升",
+        "出現": "pm_spec:pm-spec.md§1 背景與目標 pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+        "_line": 34,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "admin",
+        "詞頻": "3",
+        "權重": "5.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.3 admin 可  pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 35,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "system",
+        "詞頻": "3",
+        "權重": "5.0",
+        "建議": "降",
+        "出現": "pm_spec:pm-spec.md§2 使用者與情境 pm_spec:pm-spec.md§3.2 15 分鐘內 c pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 36,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "booked",
+        "詞頻": "4",
+        "出現": "mock:booking.html pm_spec:pm-spec.md§3.1 employee pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 42,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "released",
+        "詞頻": "2",
+        "出現": "pm_spec:pm-spec.md§3.2 15 分鐘內 c pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 43,
+        "_file": "sa/00-lexicon.md"
+      },
+      {
+        "詞": "已更新",
+        "詞頻": "1",
+        "出現": "pm_spec:pm-spec.md§5 驗收條件",
+        "_line": 44,
+        "_file": "sa/00-lexicon.md"
+      }
+    ],
+    "words": [
+      {
+        "詞": "Room",
+        "詞性": "名詞",
+        "來源": "PM§3.1",
+        "歸類": "實體候選",
+        "_line": 6,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "Booking",
+        "詞性": "名詞",
+        "來源": "PM§3.1",
+        "歸類": "實體候選",
+        "_line": 7,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "TimeSlot",
+        "詞性": "名詞",
+        "來源": "PM§3.1",
+        "歸類": "實體候選",
+        "_line": 8,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "CalendarService",
+        "詞性": "名詞",
+        "來源": "PM§3.1",
+        "歸類": "外部系統",
+        "_line": 9,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "book",
+        "詞性": "動詞",
+        "來源": "PM§3.1",
+        "歸類": "動作: BookRoom",
+        "_line": 14,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "check in",
+        "詞性": "動詞",
+        "來源": "PM§3.2",
+        "歸類": "動作: CheckInBooking",
+        "_line": 15,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "release",
+        "詞性": "動詞",
+        "來源": "PM§3.2",
+        "歸類": "動作: ReleaseNoShow",
+        "_line": 16,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "view",
+        "詞性": "動詞",
+        "來源": "PM§3.3",
+        "歸類": "動作: ListDailyBookings",
+        "_line": 17,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "employee",
+        "詞性": "角色",
+        "來源": "PM§3.1",
+        "歸類": "Actor: Employee",
+        "_line": 22,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "admin",
+        "詞性": "角色",
+        "來源": "PM§3.3",
+        "歸類": "Actor: Admin",
+        "_line": 23,
+        "_file": "sa/01-break-words.md"
+      },
+      {
+        "詞": "system",
+        "詞性": "角色",
+        "來源": "PM§3.2",
+        "歸類": "Actor: System",
+        "_line": 24,
+        "_file": "sa/01-break-words.md"
+      }
+    ],
+    "sa_entities": [
+      {
+        "實體": "會議室",
+        "英文": "Room",
+        "屬性": "Id",
+        "來源詞": "Room",
+        "_line": 6,
+        "_file": "sa/02-entities-relations.md"
+      },
+      {
+        "實體": "預約單",
+        "英文": "Booking",
+        "屬性": "Id, Status",
+        "來源詞": "Booking",
+        "_line": 7,
+        "_file": "sa/02-entities-relations.md"
+      },
+      {
+        "實體": "時段",
+        "英文": "TimeSlot",
+        "屬性": "Id",
+        "來源詞": "TimeSlot",
+        "_line": 8,
+        "_file": "sa/02-entities-relations.md"
+      }
+    ],
+    "sa_relations": [
+      {
+        "來源": "Room",
+        "關係": "has",
+        "目標": "Booking",
+        "多重性": "1..*",
+        "_line": 13,
+        "_file": "sa/02-entities-relations.md"
+      },
+      {
+        "來源": "Room",
+        "關係": "has",
+        "目標": "TimeSlot",
+        "多重性": "1..*",
+        "_line": 14,
+        "_file": "sa/02-entities-relations.md"
+      }
+    ],
+    "sa_roles": [
+      {
+        "角色": "employee",
+        "動作": "BookRoom(POST /rooms/{id}/bookings)",
+        "流程": "book",
+        "對應 REQ": "REQ-001",
+        "_line": 6,
+        "_file": "sa/03-roles.md"
+      },
+      {
+        "角色": "employee",
+        "動作": "CheckInBooking(POST /bookings/{id}/check-in)",
+        "流程": "check in",
+        "對應 REQ": "REQ-002",
+        "_line": 7,
+        "_file": "sa/03-roles.md"
+      },
+      {
+        "角色": "system",
+        "動作": "ReleaseNoShow(job)",
+        "流程": "release",
+        "對應 REQ": "REQ-002",
+        "_line": 8,
+        "_file": "sa/03-roles.md"
+      },
+      {
+        "角色": "admin",
+        "動作": "ListDailyBookings(GET /bookings/daily)",
+        "流程": "view",
+        "對應 REQ": "REQ-003",
+        "_line": 9,
+        "_file": "sa/03-roles.md"
+      }
+    ],
+    "survey": [
+      {
+        "模型元素": "會議室 (Room)",
+        "類型": "Aggregate",
+        "狀態": "modify",
+        "對應 codebase": "Room",
+        "證據": "src/api/Rooms.Domain/Room.cs:5",
+        "說明": "",
+        "_line": 6,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "Capacity rule",
+        "類型": "Rule",
+        "狀態": "existing",
+        "對應 codebase": "Room.Capacity",
+        "證據": "src/api/Rooms.Domain/Room.cs:8 \"Capacity\"",
+        "說明": "",
+        "_line": 7,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "預約單 (Booking)",
+        "類型": "Entity",
+        "狀態": "new",
+        "對應 codebase": "Booking",
+        "證據": "",
+        "說明": "",
+        "_line": 8,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "ListRooms",
+        "類型": "Query",
+        "狀態": "existing",
+        "對應 codebase": "ListRoomsQueryHandler",
+        "證據": "src/api/Rooms.Application/ListRoomsQueryHandler.cs:8",
+        "說明": "",
+        "_line": 9,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "BookRoom",
+        "類型": "Command",
+        "狀態": "new",
+        "對應 codebase": "BookRoom",
+        "證據": "",
+        "說明": "",
+        "_line": 10,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "CheckInBooking",
+        "類型": "Command",
+        "狀態": "new",
+        "對應 codebase": "CheckInBooking",
+        "證據": "",
+        "說明": "",
+        "_line": 11,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "ReleaseNoShow",
+        "類型": "Job",
+        "狀態": "new",
+        "對應 codebase": "ReleaseNoShow",
+        "證據": "",
+        "說明": "",
+        "_line": 12,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "ListDailyBookings",
+        "類型": "Query",
+        "狀態": "new",
+        "對應 codebase": "ListDailyBookings",
+        "證據": "",
+        "說明": "",
+        "_line": 13,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "SqlRoomRepository",
+        "類型": "Adapter",
+        "狀態": "modify",
+        "對應 codebase": "SqlRoomRepository",
+        "證據": "src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5",
+        "說明": "",
+        "_line": 14,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "CalendarServiceClient",
+        "類型": "Adapter",
+        "狀態": "existing",
+        "對應 codebase": "CalendarServiceClient",
+        "證據": "src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5",
+        "說明": "",
+        "_line": 15,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "RoomsController",
+        "類型": "Api",
+        "狀態": "modify",
+        "對應 codebase": "RoomsController",
+        "證據": "src/api/Rooms.Api/Controllers/RoomsController.cs:8",
+        "說明": "",
+        "_line": 16,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "RoomBookingPage",
+        "類型": "Page",
+        "狀態": "modify",
+        "對應 codebase": "RoomBookingPage",
+        "證據": "src/web/src/pages/RoomBookingPage.tsx:3",
+        "說明": "",
+        "_line": 17,
+        "_file": "survey-mapping.md"
+      },
+      {
+        "模型元素": "Room type",
+        "類型": "Type",
+        "狀態": "existing",
+        "對應 codebase": "Room",
+        "證據": "src/web/src/types/Room.ts:4",
+        "說明": "",
+        "_line": 18,
+        "_file": "survey-mapping.md"
+      }
+    ]
+  },
+  "sa_entities": [
+    {
+      "name": "會議室",
+      "en": "Room",
+      "attrs": "Id",
+      "source": "Room",
+      "line": 6,
+      "file": "sa/02-entities-relations.md"
+    },
+    {
+      "name": "預約單",
+      "en": "Booking",
+      "attrs": "Id, Status",
+      "source": "Booking",
+      "line": 7,
+      "file": "sa/02-entities-relations.md"
+    },
+    {
+      "name": "時段",
+      "en": "TimeSlot",
+      "attrs": "Id",
+      "source": "TimeSlot",
+      "line": 8,
+      "file": "sa/02-entities-relations.md"
+    }
+  ],
+  "sa_roles": [
+    {
+      "role": "employee",
+      "action": "BookRoom(POST /rooms/{id}/bookings)",
+      "flow": "book",
+      "reqs": [
+        "REQ-001"
+      ],
+      "line": 6,
+      "file": "sa/03-roles.md"
+    },
+    {
+      "role": "employee",
+      "action": "CheckInBooking(POST /bookings/{id}/check-in)",
+      "flow": "check in",
+      "reqs": [
+        "REQ-002"
+      ],
+      "line": 7,
+      "file": "sa/03-roles.md"
+    },
+    {
+      "role": "system",
+      "action": "ReleaseNoShow(job)",
+      "flow": "release",
+      "reqs": [
+        "REQ-002"
+      ],
+      "line": 8,
+      "file": "sa/03-roles.md"
+    },
+    {
+      "role": "admin",
+      "action": "ListDailyBookings(GET /bookings/daily)",
+      "flow": "view",
+      "reqs": [
+        "REQ-003"
+      ],
+      "line": 9,
+      "file": "sa/03-roles.md"
+    }
+  ],
+  "sa_word_count": 11,
+  "survey": [
+    {
+      "element": "會議室 (Room)",
+      "kind": "Aggregate",
+      "status": "modify",
+      "target": "Room",
+      "evidence": "src/api/Rooms.Domain/Room.cs:5",
+      "note": "",
+      "line": 6,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "Capacity rule",
+      "kind": "Rule",
+      "status": "existing",
+      "target": "Room.Capacity",
+      "evidence": "src/api/Rooms.Domain/Room.cs:8 \"Capacity\"",
+      "note": "",
+      "line": 7,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "預約單 (Booking)",
+      "kind": "Entity",
+      "status": "new",
+      "target": "Booking",
+      "evidence": "",
+      "note": "",
+      "line": 8,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "ListRooms",
+      "kind": "Query",
+      "status": "existing",
+      "target": "ListRoomsQueryHandler",
+      "evidence": "src/api/Rooms.Application/ListRoomsQueryHandler.cs:8",
+      "note": "",
+      "line": 9,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "BookRoom",
+      "kind": "Command",
+      "status": "new",
+      "target": "BookRoom",
+      "evidence": "",
+      "note": "",
+      "line": 10,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "CheckInBooking",
+      "kind": "Command",
+      "status": "new",
+      "target": "CheckInBooking",
+      "evidence": "",
+      "note": "",
+      "line": 11,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "ReleaseNoShow",
+      "kind": "Job",
+      "status": "new",
+      "target": "ReleaseNoShow",
+      "evidence": "",
+      "note": "",
+      "line": 12,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "ListDailyBookings",
+      "kind": "Query",
+      "status": "new",
+      "target": "ListDailyBookings",
+      "evidence": "",
+      "note": "",
+      "line": 13,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "SqlRoomRepository",
+      "kind": "Adapter",
+      "status": "modify",
+      "target": "SqlRoomRepository",
+      "evidence": "src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5",
+      "note": "",
+      "line": 14,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "CalendarServiceClient",
+      "kind": "Adapter",
+      "status": "existing",
+      "target": "CalendarServiceClient",
+      "evidence": "src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5",
+      "note": "",
+      "line": 15,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "RoomsController",
+      "kind": "Api",
+      "status": "modify",
+      "target": "RoomsController",
+      "evidence": "src/api/Rooms.Api/Controllers/RoomsController.cs:8",
+      "note": "",
+      "line": 16,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "RoomBookingPage",
+      "kind": "Page",
+      "status": "modify",
+      "target": "RoomBookingPage",
+      "evidence": "src/web/src/pages/RoomBookingPage.tsx:3",
+      "note": "",
+      "line": 17,
+      "file": "survey-mapping.md"
+    },
+    {
+      "element": "Room type",
+      "kind": "Type",
+      "status": "existing",
+      "target": "Room",
+      "evidence": "src/web/src/types/Room.ts:4",
+      "note": "",
+      "line": 18,
+      "file": "survey-mapping.md"
+    }
+  ],
+  "extract_errors": [],
+  "glossary": {
+    "terms": [
+      {
+        "term": "會議室",
+        "symbol": "Room",
+        "definition": "會議室",
+        "specs": [
+          "prev",
+          "room-booking"
+        ],
+        "source": "specs/rd/prev/spec/00-overview.md:6"
+      },
+      {
+        "term": "行事曆服務",
+        "symbol": "CalendarService",
+        "definition": "行事曆服務",
+        "specs": [
+          "prev"
+        ],
+        "source": "specs/rd/prev/spec/00-overview.md:7"
+      },
+      {
+        "term": "預約單",
+        "symbol": "Booking",
+        "definition": "Booking",
+        "specs": [
+          "room-booking"
+        ],
+        "source": "specs/rd/room-booking/spec/00-overview.md:13"
+      },
+      {
+        "term": "時段",
+        "symbol": "TimeSlot",
+        "definition": "TimeSlot",
+        "specs": [
+          "room-booking"
+        ],
+        "source": "specs/rd/room-booking/spec/00-overview.md:14"
+      }
+    ],
+    "conflicts": [],
+    "path": "examples/matrix/fs-balance-mixed-s2/specs/glossary.md",
+    "naming": [
+      {
+        "symbol": "BookRoom",
+        "term": "book",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [
+          "POST /rooms/{id}/bookings"
+        ],
+        "Application": [
+          "BookRoomCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Booking",
+        "term": "預約單",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [
+          "RoomBookingPage",
+          "BookingForm",
+          "DailyBookingTable",
+          "bookingStore"
+        ],
+        "API": [],
+        "Application": [
+          "CheckInBookingCommandHandler",
+          "ListDailyBookingsQueryHandler"
+        ],
+        "Domain": [
+          "Booking"
+        ],
+        "Infrastructure": [],
+        "DB": [
+          "Booking"
+        ]
+      },
+      {
+        "symbol": "CalendarServiceClient",
+        "term": "CalendarServiceClient",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [
+          "CalendarServiceClient"
+        ],
+        "DB": []
+      },
+      {
+        "symbol": "Capacity",
+        "term": "Capacity rule",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [
+          "Capacity"
+        ],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "CheckInBooking",
+        "term": "check in",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [
+          "POST /bookings/{id}/check-in"
+        ],
+        "Application": [
+          "CheckInBookingCommandHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "ListDailyBookings",
+        "term": "view",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [
+          "GET /bookings/daily"
+        ],
+        "Application": [
+          "ListDailyBookingsQueryHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "ListRooms",
+        "term": "ListRooms",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [
+          "ListRoomsQueryHandler"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "ReleaseNoShow",
+        "term": "release",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [
+          "ReleaseNoShowJob"
+        ],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "Room",
+        "term": "會議室",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [
+          "RoomBookingPage",
+          "roomsApi",
+          "Room"
+        ],
+        "API": [
+          "RoomsController"
+        ],
+        "Application": [
+          "BookRoomCommandHandler"
+        ],
+        "Domain": [
+          "Room"
+        ],
+        "Infrastructure": [
+          "SqlRoomRepository"
+        ],
+        "DB": [
+          "Rooms"
+        ]
+      },
+      {
+        "symbol": "RoomBookingPage",
+        "term": "RoomBookingPage",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [
+          "RoomBookingPage"
+        ],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "RoomsController",
+        "term": "RoomsController",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [
+          "RoomsController"
+        ],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      },
+      {
+        "symbol": "SqlRoomRepository",
+        "term": "SqlRoomRepository",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [
+          "SqlRoomRepository"
+        ],
+        "DB": []
+      },
+      {
+        "symbol": "TimeSlot",
+        "term": "時段",
+        "specs": [
+          "room-booking"
+        ],
+        "UI": [],
+        "API": [],
+        "Application": [],
+        "Domain": [],
+        "Infrastructure": [],
+        "DB": []
+      }
+    ],
+    "naming_path": "examples/matrix/fs-balance-mixed-s2/specs/naming-map.md"
+  },
+  "assets": [
+    {
+      "path": "docs/architectures/overview.md",
+      "line": 1,
+      "heading": "架構概觀",
+      "text": "形狀:全端(均衡)。前端分層 Page、Component、Store、ApiClient;後端分層 Api、Application、Domain、Infrastructure。",
+      "root": "docs"
+    }
+  ],
+  "lexicon": {
+    "nouns": [
+      {
+        "term": "booking",
+        "freq": 13,
+        "weight": 22.0,
+        "pm_freq": 13,
+        "where": [
+          "mock:booking.html",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+        ],
+        "lang": "en",
+        "symbol": "Booking",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": 0,
+        "code_first": ""
+      },
+      {
+        "term": "room",
+        "freq": 10,
+        "weight": 14.0,
+        "pm_freq": 10,
+        "where": [
+          "mock:booking.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 employee"
+        ],
+        "lang": "en",
+        "symbol": "Room",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": 5,
+        "code_first": "src/api/Rooms.Application/ListRoomsQueryHandler.cs:6"
+      },
+      {
+        "term": "狀態",
+        "freq": 6,
+        "weight": 10.0,
+        "pm_freq": 6,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "timeslot",
+        "freq": 4,
+        "weight": 8.0,
+        "pm_freq": 4,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§4 非功能需求",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en",
+        "symbol": "TimeSlot",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": 0,
+        "code_first": ""
+      },
+      {
+        "term": "calendarservice",
+        "freq": 3,
+        "weight": 4.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en",
+        "symbol": "CalendarService",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": 0,
+        "code_first": ""
+      },
+      {
+        "term": "room booking",
+        "freq": 3,
+        "weight": 4.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§3.3 admin 可 ",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en",
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "重疊",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      }
+    ],
+    "actions": [
+      {
+        "term": "book",
+        "freq": 9,
+        "weight": 14.0,
+        "pm_freq": 9,
+        "where": [
+          "mock:booking.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 employee"
+        ],
+        "lang": "en",
+        "suggest": "升"
+      },
+      {
+        "term": "check in",
+        "freq": 6,
+        "weight": 9.0,
+        "pm_freq": 6,
+        "where": [
+          "mock:booking.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+        ],
+        "lang": "en",
+        "suggest": "升"
+      },
+      {
+        "term": "release",
+        "freq": 3,
+        "weight": 4.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+        ],
+        "lang": "en",
+        "suggest": "升"
+      },
+      {
+        "term": "view",
+        "freq": 3,
+        "weight": 4.0,
+        "pm_freq": 3,
+        "where": [
+          "mock:booking.html",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.3 admin 可 "
+        ],
+        "lang": "en",
+        "suggest": "降"
+      },
+      {
+        "term": "更新",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "組顯示",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "降"
+      }
+    ],
+    "roles": [
+      {
+        "term": "employee",
+        "freq": 7,
+        "weight": 11.0,
+        "pm_freq": 7,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c"
+        ],
+        "lang": "en",
+        "suggest": "升"
+      },
+      {
+        "term": "admin",
+        "freq": 3,
+        "weight": 5.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.3 admin 可 ",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en",
+        "suggest": "降"
+      },
+      {
+        "term": "system",
+        "freq": 3,
+        "weight": 5.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en",
+        "suggest": "降"
+      }
+    ],
+    "statuses": [
+      {
+        "term": "booked",
+        "freq": 4,
+        "weight": 6.0,
+        "pm_freq": 4,
+        "where": [
+          "mock:booking.html",
+          "pm_spec:pm-spec.md§3.1 employee",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en"
+      },
+      {
+        "term": "released",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 15 分鐘內 c",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "lang": "en"
+      },
+      {
+        "term": "已更新",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ]
+      }
+    ],
+    "stats": {
+      "docs": [
+        "pm_spec:pm-spec.md",
+        "mock:booking.html",
+        "ref:refs.md"
+      ],
+      "cjk_candidates": 38,
+      "after_boundary": 22,
+      "kept": 22
+    }
+  },
+  "boundary_checks": [
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "REQ-001",
+      "status": "PASS",
+      "evidence": "link → CMP-001, CMP-002, CMP-005, CMP-006, CMP-007, CMP-008, CMP-012, CMP-013, CMP-014",
+      "action": "",
+      "ids": [
+        "REQ-001",
+        "CMP-001",
+        "CMP-002",
+        "CMP-005",
+        "CMP-006",
+        "CMP-007",
+        "CMP-008",
+        "CMP-012",
+        "CMP-013",
+        "CMP-014"
+      ]
+    },
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "REQ-002",
+      "status": "PASS",
+      "evidence": "link → CMP-001, CMP-003, CMP-005, CMP-006, CMP-007, CMP-009, CMP-010, CMP-012, CMP-013, CMP-014",
+      "action": "",
+      "ids": [
+        "REQ-002",
+        "CMP-001",
+        "CMP-003",
+        "CMP-005",
+        "CMP-006",
+        "CMP-007",
+        "CMP-009",
+        "CMP-010",
+        "CMP-012",
+        "CMP-013",
+        "CMP-014"
+      ]
+    },
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "REQ-003",
+      "status": "PASS",
+      "evidence": "link → CMP-001, CMP-004, CMP-005, CMP-006, CMP-007, CMP-011, CMP-012, CMP-013",
+      "action": "",
+      "ids": [
+        "REQ-003",
+        "CMP-001",
+        "CMP-004",
+        "CMP-005",
+        "CMP-006",
+        "CMP-007",
+        "CMP-011",
+        "CMP-012",
+        "CMP-013"
+      ]
+    },
+    {
+      "rule": "B1",
+      "rule_version": 1,
+      "outcome": "linked",
+      "target": "NFR-001",
+      "status": "PASS",
+      "evidence": "link → CMP-007",
+      "action": "",
+      "ids": [
+        "NFR-001",
+        "CMP-007"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-001",
+      "status": "PASS",
+      "evidence": "Page → CMP-002 (Component)",
+      "action": "",
+      "ids": [
+        "CMP-001",
+        "CMP-002"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-001",
+      "status": "PASS",
+      "evidence": "Page → CMP-003 (Component)",
+      "action": "",
+      "ids": [
+        "CMP-001",
+        "CMP-003"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-001",
+      "status": "PASS",
+      "evidence": "Page → CMP-004 (Component)",
+      "action": "",
+      "ids": [
+        "CMP-001",
+        "CMP-004"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-001",
+      "status": "PASS",
+      "evidence": "Page → CMP-005 (Store)",
+      "action": "",
+      "ids": [
+        "CMP-001",
+        "CMP-005"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-002",
+      "status": "PASS",
+      "evidence": "Component → CMP-005 (Store)",
+      "action": "",
+      "ids": [
+        "CMP-002",
+        "CMP-005"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-003",
+      "status": "PASS",
+      "evidence": "Component → CMP-005 (Store)",
+      "action": "",
+      "ids": [
+        "CMP-003",
+        "CMP-005"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-004",
+      "status": "PASS",
+      "evidence": "Component → CMP-005 (Store)",
+      "action": "",
+      "ids": [
+        "CMP-004",
+        "CMP-005"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-005",
+      "status": "PASS",
+      "evidence": "Store → CMP-006 (ApiClient)",
+      "action": "",
+      "ids": [
+        "CMP-005",
+        "CMP-006"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-006",
+      "status": "PASS",
+      "evidence": "ApiClient → CMP-007 (Api)",
+      "action": "",
+      "ids": [
+        "CMP-006",
+        "CMP-007"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-007",
+      "status": "PASS",
+      "evidence": "Api → CMP-008 (Application)",
+      "action": "",
+      "ids": [
+        "CMP-007",
+        "CMP-008"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-007",
+      "status": "PASS",
+      "evidence": "Api → CMP-009 (Application)",
+      "action": "",
+      "ids": [
+        "CMP-007",
+        "CMP-009"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-007",
+      "status": "PASS",
+      "evidence": "Api → CMP-011 (Application)",
+      "action": "",
+      "ids": [
+        "CMP-007",
+        "CMP-011"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-008",
+      "status": "PASS",
+      "evidence": "Application → CMP-012 (Domain)",
+      "action": "",
+      "ids": [
+        "CMP-008",
+        "CMP-012"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-008",
+      "status": "PASS",
+      "evidence": "Application → CMP-013 經介面 IRoomRepository",
+      "action": "",
+      "ids": [
+        "CMP-008",
+        "CMP-013"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-008",
+      "status": "PASS",
+      "evidence": "Application → CMP-014 經介面 ICalendarService",
+      "action": "",
+      "ids": [
+        "CMP-008",
+        "CMP-014"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-009",
+      "status": "PASS",
+      "evidence": "Application → CMP-012 (Domain)",
+      "action": "",
+      "ids": [
+        "CMP-009",
+        "CMP-012"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-009",
+      "status": "PASS",
+      "evidence": "Application → CMP-013 經介面 IRoomRepository",
+      "action": "",
+      "ids": [
+        "CMP-009",
+        "CMP-013"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-010",
+      "status": "PASS",
+      "evidence": "Application → CMP-012 (Domain)",
+      "action": "",
+      "ids": [
+        "CMP-010",
+        "CMP-012"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-010",
+      "status": "PASS",
+      "evidence": "Application → CMP-013 經介面 IRoomRepository",
+      "action": "",
+      "ids": [
+        "CMP-010",
+        "CMP-013"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-010",
+      "status": "PASS",
+      "evidence": "Application → CMP-014 經介面 ICalendarService",
+      "action": "",
+      "ids": [
+        "CMP-010",
+        "CMP-014"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "allowed",
+      "target": "CMP-011",
+      "status": "PASS",
+      "evidence": "Application → CMP-012 (Domain)",
+      "action": "",
+      "ids": [
+        "CMP-011",
+        "CMP-012"
+      ]
+    },
+    {
+      "rule": "B2",
+      "rule_version": 1,
+      "outcome": "via_interface",
+      "target": "CMP-011",
+      "status": "PASS",
+      "evidence": "Application → CMP-013 經介面 IRoomRepository",
+      "action": "",
+      "ids": [
+        "CMP-011",
+        "CMP-013"
+      ]
+    },
+    {
+      "rule": "B4",
+      "rule_version": 1,
+      "outcome": "ok",
+      "target": "CMP-014",
+      "status": "PASS",
+      "evidence": "CalendarService 在 Infrastructure 且有失敗模式",
+      "action": "",
+      "ids": [
+        "CMP-014"
+      ]
+    },
+    {
+      "rule": "B5",
+      "rule_version": 1,
+      "outcome": "ok",
+      "target": "Booking",
+      "status": "PASS",
+      "evidence": "owner = Rooms",
+      "action": "",
+      "ids": [
+        "Booking"
+      ]
+    },
+    {
+      "rule": "B5",
+      "rule_version": 1,
+      "outcome": "ok",
+      "target": "Rooms",
+      "status": "PASS",
+      "evidence": "owner = Rooms",
+      "action": "",
+      "ids": [
+        "Rooms"
+      ]
+    },
+    {
+      "rule": "B6",
+      "rule_version": 1,
+      "outcome": "bound",
+      "target": "NFR-001",
+      "status": "PASS",
+      "evidence": "綁定 API-001",
+      "action": "",
+      "ids": [
+        "NFR-001",
+        "API-001"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-001-1",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-002, TST-005, TST-006, TST-007, TST-008, TST-012, TST-013, TST-014",
+      "action": "",
+      "ids": [
+        "AC-001-1"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-001-2",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-002, TST-005, TST-006, TST-007, TST-008, TST-012, TST-013, TST-014",
+      "action": "",
+      "ids": [
+        "AC-001-2"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-002-1",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-003, TST-005, TST-006, TST-007, TST-009, TST-010, TST-012, TST-013, TST-014",
+      "action": "",
+      "ids": [
+        "AC-002-1"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-002-2",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-003, TST-005, TST-006, TST-007, TST-009, TST-010, TST-012, TST-013, TST-014",
+      "action": "",
+      "ids": [
+        "AC-002-2"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-003-1",
+      "status": "PASS",
+      "evidence": "→ TST-001, TST-004, TST-005, TST-006, TST-007, TST-011, TST-012, TST-013",
+      "action": "",
+      "ids": [
+        "AC-003-1"
+      ]
+    },
+    {
+      "rule": "B7",
+      "rule_version": 1,
+      "outcome": "ac_tested",
+      "target": "AC-N01-1",
+      "status": "PASS",
+      "evidence": "→ TST-015",
+      "action": "",
+      "ids": [
+        "AC-N01-1"
+      ]
+    }
+  ],
+  "gate": [
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA0",
+        "sa/00-lexicon.md"
+      ],
+      "msg": "SA0 sa/00-lexicon.md 齊全(0 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA1",
+        "sa/01-break-words.md"
+      ],
+      "msg": "SA1 sa/01-break-words.md 齊全(0 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA2",
+        "sa/02-entities-relations.md"
+      ],
+      "msg": "SA2 sa/02-entities-relations.md 齊全(1 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA3",
+        "sa/03-roles.md"
+      ],
+      "msg": "SA3 sa/03-roles.md 齊全(0 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA4",
+        "sa/04-usecase.md"
+      ],
+      "msg": "SA4 sa/04-usecase.md 齊全(1 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA5",
+        "sa/05-activity.md"
+      ],
+      "msg": "SA5 sa/05-activity.md 齊全(3 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA6",
+        "sa/06-sequence.md"
+      ],
+      "msg": "SA6 sa/06-sequence.md 齊全(3 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA7",
+        "sa/07-state.md"
+      ],
+      "msg": "SA7 sa/07-state.md 齊全(1 張圖)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-GL-consistency",
+      "ids": [
+        "會議室"
+      ],
+      "msg": "「會議室」→ Room 與 prev 一致",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "會議室 (Room)"
+      ],
+      "msg": "會議室 (Room) → src/api/Rooms.Domain/Room.cs:5 已驗證(符號 Room)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "Capacity rule"
+      ],
+      "msg": "Capacity rule → src/api/Rooms.Domain/Room.cs:8 \"Capacity\" 已驗證(字面 \"Capacity\")",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "ListRooms"
+      ],
+      "msg": "ListRooms → src/api/Rooms.Application/ListRoomsQueryHandler.cs:8 已驗證(對照表 Application 層 ListRoomsQueryHandler)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "SqlRoomRepository"
+      ],
+      "msg": "SqlRoomRepository → src/api/Rooms.Infrastructure/SqlRoomRepository.cs:5 已驗證(符號 SqlRoomRepository)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "CalendarServiceClient"
+      ],
+      "msg": "CalendarServiceClient → src/api/Rooms.Infrastructure/CalendarServiceClient.cs:5 已驗證(符號 CalendarServiceClient)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "RoomsController"
+      ],
+      "msg": "RoomsController → src/api/Rooms.Api/Controllers/RoomsController.cs:8 已驗證(符號 RoomsController)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "RoomBookingPage"
+      ],
+      "msg": "RoomBookingPage → src/web/src/pages/RoomBookingPage.tsx:3 已驗證(符號 RoomBookingPage)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-SV-evidence",
+      "ids": [
+        "Room type"
+      ],
+      "msg": "Room type → src/web/src/types/Room.ts:4 已驗證(符號 Room)",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "CLS-SA-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-SA-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "CLS-SA-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-SA-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UCD-001",
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "msg": "UCD-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-001",
+        "REQ-001"
+      ],
+      "msg": "ACT-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-001",
+        "REQ-001"
+      ],
+      "msg": "ACT-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-002",
+        "REQ-002"
+      ],
+      "msg": "ACT-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-002",
+        "REQ-002"
+      ],
+      "msg": "ACT-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-003",
+        "REQ-003"
+      ],
+      "msg": "ACT-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ACT-003",
+        "REQ-003"
+      ],
+      "msg": "ACT-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-SA-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-SA-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-SA-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-SA-002「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-SA-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-SA-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-SA-003「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-SA-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-SA-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-SA-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-SA-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-001",
+        "REQ-001"
+      ],
+      "msg": "UC-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-001",
+        "REQ-001"
+      ],
+      "msg": "UC-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-002",
+        "REQ-002"
+      ],
+      "msg": "UC-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-002",
+        "REQ-002"
+      ],
+      "msg": "UC-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-003",
+        "REQ-003"
+      ],
+      "msg": "UC-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-003",
+        "REQ-003"
+      ],
+      "msg": "UC-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-DOM-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-DOM-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-DOM-001",
+        "REQ-001",
+        "REQ-002"
+      ],
+      "msg": "STM-DOM-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "CLS-001",
+        "REQ-001"
+      ],
+      "msg": "CLS-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L1"
+      ],
+      "msg": "C4-L1「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L2"
+      ],
+      "msg": "C4-L2「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "C4-L3"
+      ],
+      "msg": "C4-L3「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-002「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-002",
+        "REQ-002"
+      ],
+      "msg": "SEQ-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-003「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-003",
+        "REQ-003"
+      ],
+      "msg": "SEQ-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-UI-001",
+        "REQ-001"
+      ],
+      "msg": "STM-UI-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-UI-001",
+        "REQ-001"
+      ],
+      "msg": "STM-UI-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "ERD-001"
+      ],
+      "msg": "ERD-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-TRACE-REQ-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-TRACE-REQ-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-SEQ-REQ-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-TRACE-REQ-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-TRACE-REQ-002「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-SEQ-REQ-002「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-TRACE-REQ-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-TRACE-REQ-003「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-SEQ-REQ-003「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-TRACE-NFR-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-TRACE-NFR-001「測得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-SEQ-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-SEQ-NFR-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-S6-render",
+      "ids": [
+        "看板"
+      ],
+      "msg": "看板渲染驗證通過:30 張圖都畫得出來,4 張需求卡",
+      "action": ""
+    }
+  ],
+  "kpis": {
+    "req_count": 4,
+    "component_count": 14,
+    "test_count": 15,
+    "boundary_pass": 36,
+    "boundary_total": 36,
+    "boundary_fail": 0,
+    "boundary_warn": 0,
+    "uncovered_req": 0,
+    "uncovered_ids": [],
+    "open_gaps": 0,
+    "assumed": 0
+  },
+  "auto_diagrams": [
+    {
+      "id": "AUTO-TRACE-REQ-001",
+      "kind": "flowchart",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-001",
+      "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1 employee 可 book Room, TimeSlot 不得重疊\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP005\n  AC0011 --> CMP006\n  AC0011 --> CMP007\n  AC0011 --> CMP008\n  AC0011 --> CMP012\n  AC0011 --> CMP013\n  AC0011 --> CMP014\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST005\n  AC0011 -.-> TST006\n  AC0011 -.-> TST007\n  AC0011 -.-> TST008\n  AC0011 -.-> TST012\n  AC0011 -.-> TST013\n  AC0011 -.-> TST014\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 --> CMP002\n  AC0012 --> CMP005\n  AC0012 --> CMP006\n  AC0012 --> CMP007\n  AC0012 --> CMP008\n  AC0012 --> CMP012\n  AC0012 --> CMP013\n  AC0012 --> CMP014\n  AC0012 -.-> TST001\n  AC0012 -.-> TST002\n  AC0012 -.-> TST005\n  AC0012 -.-> TST006\n  AC0012 -.-> TST007\n  AC0012 -.-> TST008\n  AC0012 -.-> TST012\n  AC0012 -.-> TST013\n  AC0012 -.-> TST014\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP002[\"CMP-002<br/>BookingForm\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP005[\"CMP-005<br/>bookingStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP006[\"CMP-006<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP008[\"CMP-008<br/>BookRoomCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP012[\"CMP-012<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP013[\"CMP-013<br/>SqlRoomRepository\"]:::cmp\n    CMP014[\"CMP-014<br/>CalendarServiceClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 contract\"/]:::tst\n  TST007[/\"TST-007 integration\"/]:::tst\n  TST008[/\"TST-008 unit\"/]:::tst\n  TST012[/\"TST-012 unit\"/]:::tst\n  TST013[/\"TST-013 integration\"/]:::tst\n  TST014[/\"TST-014 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:12",
+        "10-requirements.md:17",
+        "10-requirements.md:6",
+        "30-architecture-c4.md:100",
+        "30-architecture-c4.md:101",
+        "30-architecture-c4.md:102",
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:27",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:33",
+        "30-architecture-c4.md:37",
+        "30-architecture-c4.md:38",
+        "30-architecture-c4.md:39",
+        "30-architecture-c4.md:85",
+        "30-architecture-c4.md:86",
+        "30-architecture-c4.md:87",
+        "30-architecture-c4.md:88",
+        "30-architecture-c4.md:89",
+        "30-architecture-c4.md:90",
+        "30-architecture-c4.md:91",
+        "30-architecture-c4.md:92",
+        "30-architecture-c4.md:93",
+        "30-architecture-c4.md:94",
+        "30-architecture-c4.md:95",
+        "30-architecture-c4.md:96",
+        "30-architecture-c4.md:97",
+        "30-architecture-c4.md:98",
+        "30-architecture-c4.md:99",
+        "60-test-design.md:10",
+        "60-test-design.md:11",
+        "60-test-design.md:12",
+        "60-test-design.md:13",
+        "60-test-design.md:17",
+        "60-test-design.md:18",
+        "60-test-design.md:19",
+        "60-test-design.md:6",
+        "60-test-design.md:7",
+        "specs/in-progress/room-booking/pm-spec.md:10"
+      ],
+      "edges": 18
+    },
+    {
+      "id": "AUTO-SEQ-REQ-001",
+      "kind": "sequence",
+      "req": "REQ-001",
+      "reqs": [
+        "REQ-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-001",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as BookingForm\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP008 as BookRoomCommandHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  participant CMP014 as CalendarServiceClient\n  U->>CMP001: 顯示並觸發book\n  CMP001->>CMP002: book的 UI 守衛\n  CMP002->>CMP005: book的前端狀態轉移\n  CMP005->>CMP006: 呼叫book API\n  CMP006->>CMP007: 接收book請求\n  CMP007->>CMP008: 編排book\n  CMP008->>CMP012: book的業務規則與不變量\n  CMP008->>CMP013: 持久化book結果\n  CMP008->>CMP014: 為book呼叫外部系統\n  CMP001->>CMP005: book的前端狀態轉移\n  CMP001-->>U: AC-001-1, AC-001-2",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:27",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:33",
+        "30-architecture-c4.md:37",
+        "30-architecture-c4.md:38",
+        "30-architecture-c4.md:39"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-REQ-002",
+      "kind": "flowchart",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-002",
+      "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2 15 分鐘內 check in,否則 system release Room\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP001\n  AC0021 --> CMP003\n  AC0021 --> CMP005\n  AC0021 --> CMP006\n  AC0021 --> CMP007\n  AC0021 --> CMP009\n  AC0021 --> CMP012\n  AC0021 --> CMP013\n  AC0021 --> CMP010\n  AC0021 --> CMP014\n  AC0021 -.-> TST001\n  AC0021 -.-> TST003\n  AC0021 -.-> TST005\n  AC0021 -.-> TST006\n  AC0021 -.-> TST007\n  AC0021 -.-> TST009\n  AC0021 -.-> TST010\n  AC0021 -.-> TST012\n  AC0021 -.-> TST013\n  AC0021 -.-> TST014\n  REQ002 --> AC0022([\"AC-002-2\"]):::ac\n  AC0022 --> CMP001\n  AC0022 --> CMP003\n  AC0022 --> CMP005\n  AC0022 --> CMP006\n  AC0022 --> CMP007\n  AC0022 --> CMP009\n  AC0022 --> CMP012\n  AC0022 --> CMP013\n  AC0022 --> CMP010\n  AC0022 --> CMP014\n  AC0022 -.-> TST001\n  AC0022 -.-> TST003\n  AC0022 -.-> TST005\n  AC0022 -.-> TST006\n  AC0022 -.-> TST007\n  AC0022 -.-> TST009\n  AC0022 -.-> TST010\n  AC0022 -.-> TST012\n  AC0022 -.-> TST013\n  AC0022 -.-> TST014\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP003[\"CMP-003<br/>CheckInButton\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP005[\"CMP-005<br/>bookingStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP006[\"CMP-006<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP009[\"CMP-009<br/>CheckInBookingCommandHandler\"]:::cmp\n    CMP010[\"CMP-010<br/>ReleaseNoShowJob\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP012[\"CMP-012<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP013[\"CMP-013<br/>SqlRoomRepository\"]:::cmp\n    CMP014[\"CMP-014<br/>CalendarServiceClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST003[/\"TST-003 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 contract\"/]:::tst\n  TST007[/\"TST-007 integration\"/]:::tst\n  TST009[/\"TST-009 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST012[/\"TST-012 unit\"/]:::tst\n  TST013[/\"TST-013 integration\"/]:::tst\n  TST014[/\"TST-014 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:22",
+        "10-requirements.md:27",
+        "10-requirements.md:7",
+        "30-architecture-c4.md:103",
+        "30-architecture-c4.md:104",
+        "30-architecture-c4.md:105",
+        "30-architecture-c4.md:106",
+        "30-architecture-c4.md:107",
+        "30-architecture-c4.md:108",
+        "30-architecture-c4.md:109",
+        "30-architecture-c4.md:110",
+        "30-architecture-c4.md:111",
+        "30-architecture-c4.md:112",
+        "30-architecture-c4.md:113",
+        "30-architecture-c4.md:114",
+        "30-architecture-c4.md:115",
+        "30-architecture-c4.md:116",
+        "30-architecture-c4.md:117",
+        "30-architecture-c4.md:118",
+        "30-architecture-c4.md:119",
+        "30-architecture-c4.md:120",
+        "30-architecture-c4.md:121",
+        "30-architecture-c4.md:122",
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:28",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:34",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:37",
+        "30-architecture-c4.md:38",
+        "30-architecture-c4.md:39",
+        "60-test-design.md:10",
+        "60-test-design.md:11",
+        "60-test-design.md:12",
+        "60-test-design.md:14",
+        "60-test-design.md:15",
+        "60-test-design.md:17",
+        "60-test-design.md:18",
+        "60-test-design.md:19",
+        "60-test-design.md:6",
+        "60-test-design.md:8",
+        "specs/in-progress/room-booking/pm-spec.md:13"
+      ],
+      "edges": 20
+    },
+    {
+      "id": "AUTO-SEQ-REQ-002",
+      "kind": "sequence",
+      "req": "REQ-002",
+      "reqs": [
+        "REQ-002"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-002",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP003 as CheckInButton\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP009 as CheckInBookingCommandHandler\n  participant CMP010 as ReleaseNoShowJob\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  participant CMP014 as CalendarServiceClient\n  U->>CMP001: 顯示並觸發check in\n  CMP001->>CMP003: check in的 UI 守衛\n  CMP003->>CMP005: check in的前端狀態轉移\n  CMP005->>CMP006: 呼叫check in API\n  CMP006->>CMP007: 接收check in請求\n  CMP007->>CMP009: 編排check in\n  CMP009->>CMP012: check in的業務規則與不變量\n  CMP009->>CMP013: 持久化check in結果\n  CMP001->>CMP005: check in的前端狀態轉移\n  U->>CMP010: 編排release\n  CMP010->>CMP012: check in的業務規則與不變量\n  CMP010->>CMP013: 持久化check in結果\n  CMP010->>CMP014: 為release呼叫外部系統\n  CMP001-->>U: AC-002-1, AC-002-2",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:28",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:34",
+        "30-architecture-c4.md:35",
+        "30-architecture-c4.md:37",
+        "30-architecture-c4.md:38",
+        "30-architecture-c4.md:39"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-REQ-003",
+      "kind": "flowchart",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 REQ-003",
+      "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3 admin 可 view 每日 Booking\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP001\n  AC0031 --> CMP004\n  AC0031 --> CMP005\n  AC0031 --> CMP006\n  AC0031 --> CMP007\n  AC0031 --> CMP011\n  AC0031 --> CMP012\n  AC0031 --> CMP013\n  AC0031 -.-> TST001\n  AC0031 -.-> TST004\n  AC0031 -.-> TST005\n  AC0031 -.-> TST006\n  AC0031 -.-> TST007\n  AC0031 -.-> TST011\n  AC0031 -.-> TST012\n  AC0031 -.-> TST013\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP004[\"CMP-004<br/>DailyBookingTable\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP005[\"CMP-005<br/>bookingStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP006[\"CMP-006<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP011[\"CMP-011<br/>ListDailyBookingsQueryHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP012[\"CMP-012<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP013[\"CMP-013<br/>SqlRoomRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 contract\"/]:::tst\n  TST007[/\"TST-007 integration\"/]:::tst\n  TST011[/\"TST-011 unit\"/]:::tst\n  TST012[/\"TST-012 unit\"/]:::tst\n  TST013[/\"TST-013 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:32",
+        "10-requirements.md:8",
+        "30-architecture-c4.md:123",
+        "30-architecture-c4.md:124",
+        "30-architecture-c4.md:125",
+        "30-architecture-c4.md:126",
+        "30-architecture-c4.md:127",
+        "30-architecture-c4.md:128",
+        "30-architecture-c4.md:129",
+        "30-architecture-c4.md:130",
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:36",
+        "30-architecture-c4.md:37",
+        "30-architecture-c4.md:38",
+        "60-test-design.md:10",
+        "60-test-design.md:11",
+        "60-test-design.md:12",
+        "60-test-design.md:16",
+        "60-test-design.md:17",
+        "60-test-design.md:18",
+        "60-test-design.md:6",
+        "60-test-design.md:9",
+        "specs/in-progress/room-booking/pm-spec.md:16"
+      ],
+      "edges": 16
+    },
+    {
+      "id": "AUTO-SEQ-REQ-003",
+      "kind": "sequence",
+      "req": "REQ-003",
+      "reqs": [
+        "REQ-003"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 REQ-003",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP004 as DailyBookingTable\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP011 as ListDailyBookingsQueryHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  U->>CMP001: 顯示並觸發view\n  CMP001->>CMP004: view的 UI 守衛\n  CMP004->>CMP005: view的前端狀態轉移\n  CMP005->>CMP006: 呼叫view API\n  CMP006->>CMP007: 接收view請求\n  CMP007->>CMP011: 編排view\n  CMP011->>CMP012: view的業務規則與不變量\n  CMP011->>CMP013: 持久化view結果\n  CMP001->>CMP005: view的前端狀態轉移\n  CMP001-->>U: AC-003-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:26",
+        "30-architecture-c4.md:29",
+        "30-architecture-c4.md:30",
+        "30-architecture-c4.md:31",
+        "30-architecture-c4.md:32",
+        "30-architecture-c4.md:36",
+        "30-architecture-c4.md:37",
+        "30-architecture-c4.md:38"
+      ]
+    },
+    {
+      "id": "AUTO-TRACE-NFR-001",
+      "kind": "flowchart",
+      "req": "NFR-001",
+      "reqs": [
+        "NFR-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "追溯圖 NFR-001",
+      "mermaid": "flowchart LR\n  PNFR001[\"PM§4 非功能需求\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 --> CMP007\n  ACN011 -.-> TST015\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  TST015[/\"TST-015 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "10-requirements.md:42",
+        "30-architecture-c4.md:131",
+        "30-architecture-c4.md:32",
+        "60-test-design.md:20",
+        "specs/in-progress/room-booking/pm-spec.md:19"
+      ],
+      "edges": 2
+    },
+    {
+      "id": "AUTO-SEQ-NFR-001",
+      "kind": "sequence",
+      "req": "NFR-001",
+      "reqs": [
+        "NFR-001"
+      ],
+      "file": "(auto)",
+      "line": null,
+      "heading": "元件循序圖 NFR-001",
+      "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP007 as RoomsController\n  U->>CMP007: NFR 100 concurrent → 1 success\n  CMP007-->>U: AC-N01-1",
+      "auto": true,
+      "tool": "review.diagrams@1",
+      "inputs": [
+        "30-architecture-c4.md:32"
+      ]
+    }
+  ],
+  "audit": {
+    "threads": [],
+    "summary": {
+      "diagrams": 30,
+      "table_rows": 18,
+      "by_phase": {
+        "SA": 9,
+        "RD": 13,
+        "AUTO": 8
+      },
+      "signoff": {
+        "approved": 0,
+        "stale": 0,
+        "pending": 30,
+        "rejected": 0
+      },
+      "with_findings": 0,
+      "by_duty": {
+        "intent": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 17,
+          "rejected": 0
+        },
+        "testable": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 16,
+          "rejected": 0
+        },
+        "buildable": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 17,
+          "rejected": 0
+        }
+      },
+      "changed_since_last": [],
+      "removed_since_last": [],
+      "threads_open": 0
+    },
+    "items": [
+      {
+        "type": "diagram",
+        "id": "CLS-SA-001",
+        "phase": "SA",
+        "kind": "class",
+        "heading": "CLS-SA-001 (REQ-001)",
+        "source": "sa/02-entities-relations.md:17",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 14,
+            "stage": "SA",
+            "method": "SA2.ClassDiagram",
+            "out": "CLS-SA-001"
+          },
+          {
+            "seq": 15,
+            "stage": "S2",
+            "method": "UML.Class",
+            "out": "CLS-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "1495f21f8393",
+        "findings": [],
+        "mermaid": "classDiagram\n  class Room\n  class Booking\n  class TimeSlot\n  Room --> Booking : has\n  Room --> TimeSlot : has",
+        "checks": [
+          "class_in_sa_entities"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UCD-001",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "UCD-001 (REQ-001, REQ-002, REQ-003)",
+        "source": "sa/04-usecase.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 16,
+            "stage": "SA",
+            "method": "SA4.UseCaseDiagram",
+            "out": "UCD-001"
+          }
+        ],
+        "targets": [
+          "REQ-001",
+          "REQ-002",
+          "REQ-003"
+        ],
+        "hash": "a1080cad4be9",
+        "findings": [],
+        "mermaid": "flowchart LR\n  employee([\"employee\"]) --> book((\"book\"))\n  employee([\"employee\"]) --> check_in((\"check in\"))\n  system([\"system\"]) --> release((\"release\"))\n  admin([\"admin\"]) --> view_daily((\"view\"))",
+        "checks": [
+          "ucd_covers_roles"
+        ],
+        "duties": [
+          "intent"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ACT-001",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "ACT-001 (REQ-001)",
+        "source": "sa/05-activity.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 17,
+            "stage": "SA",
+            "method": "SA5.Activity",
+            "out": "ACT-001, ACT-002, ACT-003"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "6b744e005b86",
+        "findings": [],
+        "mermaid": "flowchart TD\n  A[\"employee book Room\"] --> B{\"TimeSlot 空閒?\"}\n  B -->|yes| C[\"Booking 狀態為 Booked\"]\n  B -->|no| D[\"回應 409 SLOT_TAKEN\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ACT-002",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "ACT-002 (REQ-002)",
+        "source": "sa/05-activity.md:13",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 17,
+            "stage": "SA",
+            "method": "SA5.Activity",
+            "out": "ACT-001, ACT-002, ACT-003"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "0cdc894c09b2",
+        "findings": [],
+        "mermaid": "flowchart TD\n  A[\"employee 在 15 分鐘內 check in\"] --> B{\"Booking 狀態為 Booked?\"}\n  B -->|yes| C[\"Booking 狀態為 CheckedIn\"]\n  B -->|no| D[\"Booking 狀態為 Released, CalendarService 已更新\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ACT-003",
+        "phase": "SA",
+        "kind": "flowchart",
+        "heading": "ACT-003 (REQ-003)",
+        "source": "sa/05-activity.md:21",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 17,
+            "stage": "SA",
+            "method": "SA5.Activity",
+            "out": "ACT-001, ACT-002, ACT-003"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "50094a65a829",
+        "findings": [],
+        "mermaid": "flowchart TD\n  A[\"admin 開啟每日檢視\"] --> B{\"今天有 Booking?\"}\n  B -->|yes| C[\"依 Room 分組顯示\"]\n  B -->|no| E[\"—\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-SA-001",
+        "phase": "SA",
+        "kind": "sequence",
+        "heading": "SEQ-SA-001 (REQ-001)",
+        "source": "sa/06-sequence.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 18,
+            "stage": "SA",
+            "method": "SA6.Sequence",
+            "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "22e8b297a707",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  participant CalendarService\n  U->>Web: BookRoom\n  Web->>API: BookRoom\n  API->>DB: BookRoom\n  DB->>CalendarService: BookRoom\n  Web-->>U: ok",
+        "checks": [
+          "seq_actor_is_role"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-SA-002",
+        "phase": "SA",
+        "kind": "sequence",
+        "heading": "SEQ-SA-002 (REQ-002)",
+        "source": "sa/06-sequence.md:20",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 18,
+            "stage": "SA",
+            "method": "SA6.Sequence",
+            "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "2e64895b6cfa",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant Web\n  participant API\n  participant DB\n  U->>Web: CheckInBooking\n  Web->>API: CheckInBooking\n  API->>DB: CheckInBooking\n  Web-->>U: ok",
+        "checks": [
+          "seq_actor_is_role"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-SA-003",
+        "phase": "SA",
+        "kind": "sequence",
+        "heading": "SEQ-SA-003 (REQ-003)",
+        "source": "sa/06-sequence.md:33",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 18,
+            "stage": "SA",
+            "method": "SA6.Sequence",
+            "out": "SEQ-SA-001, SEQ-SA-002, SEQ-SA-003"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "a2be7db6dcb6",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant Web\n  participant API\n  participant DB\n  U->>Web: ListDailyBookings\n  Web->>API: ListDailyBookings\n  API->>DB: ListDailyBookings\n  Web-->>U: ok",
+        "checks": [
+          "seq_actor_is_role"
+        ],
+        "duties": [
+          "intent",
+          "buildable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "STM-SA-001",
+        "phase": "SA",
+        "kind": "state",
+        "heading": "STM-SA-001 Booking.Status (REQ-001, REQ-002)",
+        "source": "sa/07-state.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 19,
+            "stage": "SA",
+            "method": "SA7.State",
+            "out": "STM-SA-001"
+          },
+          {
+            "seq": 23,
+            "stage": "S2",
+            "method": "UML.State",
+            "out": "STM-DOM-001"
+          }
+        ],
+        "targets": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "hash": "75624ae41d98",
+        "findings": [],
+        "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow",
+        "checks": [
+          "state_events_are_actions"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UC-001",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "UC-001 employee 可 book Room, TimeSlot 不得重疊 (REQ-001)",
+        "source": "20-domain-model.md:15",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 5,
+            "stage": "S1",
+            "method": "UseCase",
+            "out": "UC-001"
+          },
+          {
+            "seq": 6,
+            "stage": "S2",
+            "method": "CleanArch.Layers",
+            "out": "CMP-001, CMP-002, CMP-005, CMP-006, CMP-007, CMP-008, CMP-012, CMP-013, CMP-014"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "19f8c421aef6",
+        "findings": [],
+        "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"employee book Room\"] --> Q[\"Booking 狀態為 Booked\"]\n  P -.-> X[\"回應 409 SLOT_TAKEN\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UC-002",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "UC-002 15 分鐘內 check in,否則 system release Room (REQ-002)",
+        "source": "20-domain-model.md:32",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 7,
+            "stage": "S1",
+            "method": "UseCase",
+            "out": "UC-002"
+          },
+          {
+            "seq": 8,
+            "stage": "S2",
+            "method": "CleanArch.Layers",
+            "out": "CMP-001, CMP-003, CMP-005, CMP-006, CMP-007, CMP-009, CMP-010, CMP-012, CMP-013, CMP-014"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "ed1af3118fa1",
+        "findings": [],
+        "mermaid": "flowchart LR\n  S([\"employee\"]) --> P[\"employee 在 15 分鐘內 check in\"] --> Q[\"Booking 狀態為 CheckedIn\"]\n  P -.-> X[\"Booking 狀態為 Released, CalendarService 已更新\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "UC-003",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "UC-003 admin 可 view 每日 Booking (REQ-003)",
+        "source": "20-domain-model.md:49",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 9,
+            "stage": "S1",
+            "method": "UseCase",
+            "out": "UC-003"
+          },
+          {
+            "seq": 10,
+            "stage": "S2",
+            "method": "CleanArch.Layers",
+            "out": "CMP-001, CMP-004, CMP-005, CMP-006, CMP-007, CMP-011, CMP-012, CMP-013"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "adbd82f6bec4",
+        "findings": [],
+        "mermaid": "flowchart LR\n  S([\"admin\"]) --> P[\"admin 開啟每日檢視\"] --> Q[\"依 Room 分組顯示\"]",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "STM-DOM-001",
+        "phase": "RD",
+        "kind": "state",
+        "heading": "STM-DOM-001 Booking.Status (REQ-001, REQ-002)",
+        "source": "20-domain-model.md:56",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 23,
+            "stage": "S2",
+            "method": "UML.State",
+            "out": "STM-DOM-001"
+          },
+          {
+            "seq": 25,
+            "stage": "S3",
+            "method": "UI.StateMachine",
+            "out": "STM-UI-001"
+          }
+        ],
+        "targets": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "hash": "75624ae41d98",
+        "findings": [],
+        "mermaid": "stateDiagram-v2\n  [*] --> Booked: BookRoom\n  Booked --> CheckedIn: CheckInBooking\n  Booked --> Released: ReleaseNoShow",
+        "checks": [
+          "state_events_are_actions",
+          "state_handoff_subset"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "CLS-001",
+        "phase": "RD",
+        "kind": "class",
+        "heading": "CLS-001 Booking (REQ-001)",
+        "source": "20-domain-model.md:71",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 15,
+            "stage": "S2",
+            "method": "UML.Class",
+            "out": "CLS-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "aecc2d329bb7",
+        "findings": [],
+        "mermaid": "classDiagram\n  class Booking { +Id +Status }\n  Room --> Booking : has\n  Room --> TimeSlot : has",
+        "checks": [
+          "class_names_known"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L1",
+        "phase": "RD",
+        "kind": "c4-context",
+        "heading": "C4-L1",
+        "source": "30-architecture-c4.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 20,
+            "stage": "S2",
+            "method": "C4.Context/Container",
+            "out": "C4-L1, C4-L2"
+          }
+        ],
+        "targets": [],
+        "hash": "54facc72bc04",
+        "findings": [],
+        "mermaid": "C4Context\n  Person(u, \"employee\")\n  System(sys, \"會議室預約\")\n  System_Ext(ext, \"CalendarService\")\n  Rel(u, sys, \"use\")\n  Rel(sys, ext, \"call\")",
+        "checks": [],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L2",
+        "phase": "RD",
+        "kind": "c4-container",
+        "heading": "C4-L2",
+        "source": "30-architecture-c4.md:16",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 20,
+            "stage": "S2",
+            "method": "C4.Context/Container",
+            "out": "C4-L1, C4-L2"
+          }
+        ],
+        "targets": [],
+        "hash": "6a867ea39299",
+        "findings": [],
+        "mermaid": "C4Container\n  Container(web, \"Web\", \"React\", \"\")\n  Container(api, \"API\", \".NET\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"\")",
+        "checks": [],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "C4-L3",
+        "phase": "RD",
+        "kind": "flowchart",
+        "heading": "C4-L3",
+        "source": "30-architecture-c4.md:42",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 21,
+            "stage": "S3",
+            "method": "C4.Component",
+            "out": "C4-L3"
+          },
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [],
+        "hash": "083ff5955d32",
+        "findings": [],
+        "mermaid": "flowchart LR\n  CMP001[\"RoomBookingPage<br/>Page\"]\n  CMP002[\"BookingForm<br/>Component\"]\n  CMP003[\"CheckInButton<br/>Component\"]\n  CMP004[\"DailyBookingTable<br/>Component\"]\n  CMP005[\"bookingStore<br/>Store\"]\n  CMP006[\"roomsApi<br/>ApiClient\"]\n  CMP007[\"RoomsController<br/>Api\"]\n  CMP008[\"BookRoomCommandHandler<br/>Application\"]\n  CMP009[\"CheckInBookingCommandHandler<br/>Application\"]\n  CMP010[\"ReleaseNoShowJob<br/>Application\"]\n  CMP011[\"ListDailyBookingsQueryHandler<br/>Application\"]\n  CMP012[\"Booking (Aggregate)<br/>Domain\"]\n  CMP013[\"SqlRoomRepository<br/>Infrastructure\"]\n  CMP014[\"CalendarServiceClient<br/>Infrastructure\"]\n  CMP001 --> CMP002\n  CMP001 --> CMP003\n  CMP001 --> CMP004\n  CMP001 --> CMP005\n  CMP002 --> CMP005\n  CMP003 --> CMP005\n  CMP004 --> CMP005\n  CMP005 --> CMP006\n  CMP006 --> CMP007\n  CMP007 --> CMP008\n  CMP007 --> CMP009\n  CMP007 --> CMP011\n  CMP008 --> CMP012\n  CMP008 --> CMP013\n  CMP008 --> CMP014\n  CMP009 --> CMP012\n  CMP009 --> CMP013\n  CMP010 --> CMP012\n  CMP010 --> CMP013\n  CMP010 --> CMP014\n  CMP011 --> CMP012\n  CMP011 --> CMP013",
+        "checks": [
+          "c4_relations_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-001",
+        "phase": "RD",
+        "kind": "sequence",
+        "heading": "SEQ-001 (UC-001 / REQ-001)",
+        "source": "30-architecture-c4.md:135",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "df6fb3bfbbe5",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as BookingForm\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP008 as BookRoomCommandHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  participant CMP014 as CalendarServiceClient\n  U->>CMP001: BookRoom\n  CMP001->>CMP002: BookRoom\n  CMP002->>CMP005: BookRoom\n  CMP005->>CMP006: BookRoom\n  CMP006->>CMP007: BookRoom\n  CMP007->>CMP008: BookRoom\n  CMP008->>CMP012: BookRoom\n  CMP012-->>CMP008: ok\n  CMP008->>CMP013: BookRoom\n  CMP013-->>CMP008: ok\n  CMP008->>CMP014: BookRoom\n  CMP014-->>CMP008: ok\n  CMP008-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP002: ok\n  CMP002-->>CMP001: ok\n  CMP001-->>U: ok",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-002",
+        "phase": "RD",
+        "kind": "sequence",
+        "heading": "SEQ-002 (UC-002 / REQ-002)",
+        "source": "30-architecture-c4.md:168",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "e49e497c96fe",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Employee\n  participant CMP001 as RoomBookingPage\n  participant CMP003 as CheckInButton\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP009 as CheckInBookingCommandHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  U->>CMP001: CheckInBooking\n  CMP001->>CMP003: CheckInBooking\n  CMP003->>CMP005: CheckInBooking\n  CMP005->>CMP006: CheckInBooking\n  CMP006->>CMP007: CheckInBooking\n  CMP007->>CMP009: CheckInBooking\n  CMP009->>CMP012: CheckInBooking\n  CMP012-->>CMP009: ok\n  CMP009->>CMP013: CheckInBooking\n  CMP013-->>CMP009: ok\n  CMP009-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP003: ok\n  CMP003-->>CMP001: ok\n  CMP001-->>U: ok",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "SEQ-003",
+        "phase": "RD",
+        "kind": "sequence",
+        "heading": "SEQ-003 (UC-003 / REQ-003)",
+        "source": "30-architecture-c4.md:198",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 22,
+            "stage": "S3",
+            "method": "UML.Sequence",
+            "out": "SEQ-001, SEQ-002, SEQ-003"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "fc10793fc0c2",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  actor U as Admin\n  participant CMP001 as RoomBookingPage\n  participant CMP004 as DailyBookingTable\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP011 as ListDailyBookingsQueryHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  U->>CMP001: ListDailyBookings\n  CMP001->>CMP004: ListDailyBookings\n  CMP004->>CMP005: ListDailyBookings\n  CMP005->>CMP006: ListDailyBookings\n  CMP006->>CMP007: ListDailyBookings\n  CMP007->>CMP011: ListDailyBookings\n  CMP011->>CMP012: ListDailyBookings\n  CMP012-->>CMP011: ok\n  CMP011->>CMP013: ListDailyBookings\n  CMP013-->>CMP011: ok\n  CMP011-->>CMP007: ok\n  CMP007-->>CMP006: ok\n  CMP006-->>CMP005: ok\n  CMP005-->>CMP004: ok\n  CMP004-->>CMP001: ok\n  CMP001-->>U: ok",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "STM-UI-001",
+        "phase": "RD",
+        "kind": "state",
+        "heading": "STM-UI-001 RoomBookingPage (REQ-001)",
+        "source": "ui/41-ui-spec.md:10",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 25,
+            "stage": "S3",
+            "method": "UI.StateMachine",
+            "out": "STM-UI-001"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "e9cfe5654741",
+        "findings": [],
+        "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Loading: submit\n  Loading --> Done: 200\n  Loading --> Idle: error",
+        "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "ERD-001",
+        "phase": "RD",
+        "kind": "erd",
+        "heading": "ERD-001",
+        "source": "api/50-data-model.md:5",
+        "inputs": [],
+        "process": [
+          {
+            "seq": 24,
+            "stage": "S3",
+            "method": "ERD",
+            "out": "ERD-001"
+          }
+        ],
+        "targets": [],
+        "hash": "236356a94b6b",
+        "findings": [],
+        "mermaid": "erDiagram\n  Rooms ||--o{ Booking : has\n  Rooms {\n    uniqueidentifier Id PK\n  }\n  Booking {\n    uniqueidentifier Id PK\n  }",
+        "checks": [
+          "er_entities_owned"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-001",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-001",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:12",
+          "10-requirements.md:17",
+          "10-requirements.md:6",
+          "30-architecture-c4.md:100",
+          "30-architecture-c4.md:101",
+          "30-architecture-c4.md:102",
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:27",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:33",
+          "30-architecture-c4.md:37",
+          "30-architecture-c4.md:38",
+          "30-architecture-c4.md:39",
+          "30-architecture-c4.md:85",
+          "30-architecture-c4.md:86",
+          "30-architecture-c4.md:87",
+          "30-architecture-c4.md:88",
+          "30-architecture-c4.md:89",
+          "30-architecture-c4.md:90",
+          "30-architecture-c4.md:91",
+          "30-architecture-c4.md:92",
+          "30-architecture-c4.md:93",
+          "30-architecture-c4.md:94",
+          "30-architecture-c4.md:95",
+          "30-architecture-c4.md:96",
+          "30-architecture-c4.md:97",
+          "30-architecture-c4.md:98",
+          "30-architecture-c4.md:99",
+          "60-test-design.md:10",
+          "60-test-design.md:11",
+          "60-test-design.md:12",
+          "60-test-design.md:13",
+          "60-test-design.md:17",
+          "60-test-design.md:18",
+          "60-test-design.md:19",
+          "60-test-design.md:6",
+          "60-test-design.md:7",
+          "specs/in-progress/room-booking/pm-spec.md:10"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "2ed1ecedf8ef",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ001[\"PM§3.1 employee 可 book Room, TimeSlot 不得重疊\"]:::pm --> REQ001[\"REQ-001\"]:::req\n  REQ001 --> AC0011([\"AC-001-1\"]):::ac\n  AC0011 --> CMP001\n  AC0011 --> CMP002\n  AC0011 --> CMP005\n  AC0011 --> CMP006\n  AC0011 --> CMP007\n  AC0011 --> CMP008\n  AC0011 --> CMP012\n  AC0011 --> CMP013\n  AC0011 --> CMP014\n  AC0011 -.-> TST001\n  AC0011 -.-> TST002\n  AC0011 -.-> TST005\n  AC0011 -.-> TST006\n  AC0011 -.-> TST007\n  AC0011 -.-> TST008\n  AC0011 -.-> TST012\n  AC0011 -.-> TST013\n  AC0011 -.-> TST014\n  REQ001 --> AC0012([\"AC-001-2\"]):::ac\n  AC0012 --> CMP001\n  AC0012 --> CMP002\n  AC0012 --> CMP005\n  AC0012 --> CMP006\n  AC0012 --> CMP007\n  AC0012 --> CMP008\n  AC0012 --> CMP012\n  AC0012 --> CMP013\n  AC0012 --> CMP014\n  AC0012 -.-> TST001\n  AC0012 -.-> TST002\n  AC0012 -.-> TST005\n  AC0012 -.-> TST006\n  AC0012 -.-> TST007\n  AC0012 -.-> TST008\n  AC0012 -.-> TST012\n  AC0012 -.-> TST013\n  AC0012 -.-> TST014\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP002[\"CMP-002<br/>BookingForm\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP005[\"CMP-005<br/>bookingStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP006[\"CMP-006<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP008[\"CMP-008<br/>BookRoomCommandHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP012[\"CMP-012<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP013[\"CMP-013<br/>SqlRoomRepository\"]:::cmp\n    CMP014[\"CMP-014<br/>CalendarServiceClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST002[/\"TST-002 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 contract\"/]:::tst\n  TST007[/\"TST-007 integration\"/]:::tst\n  TST008[/\"TST-008 unit\"/]:::tst\n  TST012[/\"TST-012 unit\"/]:::tst\n  TST013[/\"TST-013 integration\"/]:::tst\n  TST014[/\"TST-014 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-001",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-001",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:27",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:33",
+          "30-architecture-c4.md:37",
+          "30-architecture-c4.md:38",
+          "30-architecture-c4.md:39"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-001"
+        ],
+        "hash": "173df254bb25",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP002 as BookingForm\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP008 as BookRoomCommandHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  participant CMP014 as CalendarServiceClient\n  U->>CMP001: 顯示並觸發book\n  CMP001->>CMP002: book的 UI 守衛\n  CMP002->>CMP005: book的前端狀態轉移\n  CMP005->>CMP006: 呼叫book API\n  CMP006->>CMP007: 接收book請求\n  CMP007->>CMP008: 編排book\n  CMP008->>CMP012: book的業務規則與不變量\n  CMP008->>CMP013: 持久化book結果\n  CMP008->>CMP014: 為book呼叫外部系統\n  CMP001->>CMP005: book的前端狀態轉移\n  CMP001-->>U: AC-001-1, AC-001-2",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-002",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-002",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:22",
+          "10-requirements.md:27",
+          "10-requirements.md:7",
+          "30-architecture-c4.md:103",
+          "30-architecture-c4.md:104",
+          "30-architecture-c4.md:105",
+          "30-architecture-c4.md:106",
+          "30-architecture-c4.md:107",
+          "30-architecture-c4.md:108",
+          "30-architecture-c4.md:109",
+          "30-architecture-c4.md:110",
+          "30-architecture-c4.md:111",
+          "30-architecture-c4.md:112",
+          "30-architecture-c4.md:113",
+          "30-architecture-c4.md:114",
+          "30-architecture-c4.md:115",
+          "30-architecture-c4.md:116",
+          "30-architecture-c4.md:117",
+          "30-architecture-c4.md:118",
+          "30-architecture-c4.md:119",
+          "30-architecture-c4.md:120",
+          "30-architecture-c4.md:121",
+          "30-architecture-c4.md:122",
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:28",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:34",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:37",
+          "30-architecture-c4.md:38",
+          "30-architecture-c4.md:39",
+          "60-test-design.md:10",
+          "60-test-design.md:11",
+          "60-test-design.md:12",
+          "60-test-design.md:14",
+          "60-test-design.md:15",
+          "60-test-design.md:17",
+          "60-test-design.md:18",
+          "60-test-design.md:19",
+          "60-test-design.md:6",
+          "60-test-design.md:8",
+          "specs/in-progress/room-booking/pm-spec.md:13"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "ad525197120f",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ002[\"PM§3.2 15 分鐘內 check in,否則 system release Room\"]:::pm --> REQ002[\"REQ-002\"]:::req\n  REQ002 --> AC0021([\"AC-002-1\"]):::ac\n  AC0021 --> CMP001\n  AC0021 --> CMP003\n  AC0021 --> CMP005\n  AC0021 --> CMP006\n  AC0021 --> CMP007\n  AC0021 --> CMP009\n  AC0021 --> CMP012\n  AC0021 --> CMP013\n  AC0021 --> CMP010\n  AC0021 --> CMP014\n  AC0021 -.-> TST001\n  AC0021 -.-> TST003\n  AC0021 -.-> TST005\n  AC0021 -.-> TST006\n  AC0021 -.-> TST007\n  AC0021 -.-> TST009\n  AC0021 -.-> TST010\n  AC0021 -.-> TST012\n  AC0021 -.-> TST013\n  AC0021 -.-> TST014\n  REQ002 --> AC0022([\"AC-002-2\"]):::ac\n  AC0022 --> CMP001\n  AC0022 --> CMP003\n  AC0022 --> CMP005\n  AC0022 --> CMP006\n  AC0022 --> CMP007\n  AC0022 --> CMP009\n  AC0022 --> CMP012\n  AC0022 --> CMP013\n  AC0022 --> CMP010\n  AC0022 --> CMP014\n  AC0022 -.-> TST001\n  AC0022 -.-> TST003\n  AC0022 -.-> TST005\n  AC0022 -.-> TST006\n  AC0022 -.-> TST007\n  AC0022 -.-> TST009\n  AC0022 -.-> TST010\n  AC0022 -.-> TST012\n  AC0022 -.-> TST013\n  AC0022 -.-> TST014\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP003[\"CMP-003<br/>CheckInButton\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP005[\"CMP-005<br/>bookingStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP006[\"CMP-006<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP009[\"CMP-009<br/>CheckInBookingCommandHandler\"]:::cmp\n    CMP010[\"CMP-010<br/>ReleaseNoShowJob\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP012[\"CMP-012<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP013[\"CMP-013<br/>SqlRoomRepository\"]:::cmp\n    CMP014[\"CMP-014<br/>CalendarServiceClient\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST003[/\"TST-003 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 contract\"/]:::tst\n  TST007[/\"TST-007 integration\"/]:::tst\n  TST009[/\"TST-009 unit\"/]:::tst\n  TST010[/\"TST-010 unit\"/]:::tst\n  TST012[/\"TST-012 unit\"/]:::tst\n  TST013[/\"TST-013 integration\"/]:::tst\n  TST014[/\"TST-014 contract\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-002",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-002",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:28",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:34",
+          "30-architecture-c4.md:35",
+          "30-architecture-c4.md:37",
+          "30-architecture-c4.md:38",
+          "30-architecture-c4.md:39"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-002"
+        ],
+        "hash": "8bfd36759db9",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP003 as CheckInButton\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP009 as CheckInBookingCommandHandler\n  participant CMP010 as ReleaseNoShowJob\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  participant CMP014 as CalendarServiceClient\n  U->>CMP001: 顯示並觸發check in\n  CMP001->>CMP003: check in的 UI 守衛\n  CMP003->>CMP005: check in的前端狀態轉移\n  CMP005->>CMP006: 呼叫check in API\n  CMP006->>CMP007: 接收check in請求\n  CMP007->>CMP009: 編排check in\n  CMP009->>CMP012: check in的業務規則與不變量\n  CMP009->>CMP013: 持久化check in結果\n  CMP001->>CMP005: check in的前端狀態轉移\n  U->>CMP010: 編排release\n  CMP010->>CMP012: check in的業務規則與不變量\n  CMP010->>CMP013: 持久化check in結果\n  CMP010->>CMP014: 為release呼叫外部系統\n  CMP001-->>U: AC-002-1, AC-002-2",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-REQ-003",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 REQ-003",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:32",
+          "10-requirements.md:8",
+          "30-architecture-c4.md:123",
+          "30-architecture-c4.md:124",
+          "30-architecture-c4.md:125",
+          "30-architecture-c4.md:126",
+          "30-architecture-c4.md:127",
+          "30-architecture-c4.md:128",
+          "30-architecture-c4.md:129",
+          "30-architecture-c4.md:130",
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:36",
+          "30-architecture-c4.md:37",
+          "30-architecture-c4.md:38",
+          "60-test-design.md:10",
+          "60-test-design.md:11",
+          "60-test-design.md:12",
+          "60-test-design.md:16",
+          "60-test-design.md:17",
+          "60-test-design.md:18",
+          "60-test-design.md:6",
+          "60-test-design.md:9",
+          "specs/in-progress/room-booking/pm-spec.md:16"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "771a2bdc66dc",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PREQ003[\"PM§3.3 admin 可 view 每日 Booking\"]:::pm --> REQ003[\"REQ-003\"]:::req\n  REQ003 --> AC0031([\"AC-003-1\"]):::ac\n  AC0031 --> CMP001\n  AC0031 --> CMP004\n  AC0031 --> CMP005\n  AC0031 --> CMP006\n  AC0031 --> CMP007\n  AC0031 --> CMP011\n  AC0031 --> CMP012\n  AC0031 --> CMP013\n  AC0031 -.-> TST001\n  AC0031 -.-> TST004\n  AC0031 -.-> TST005\n  AC0031 -.-> TST006\n  AC0031 -.-> TST007\n  AC0031 -.-> TST011\n  AC0031 -.-> TST012\n  AC0031 -.-> TST013\n  subgraph LPage[\"Page\"]\n    CMP001[\"CMP-001<br/>RoomBookingPage\"]:::cmp\n  end\n  subgraph LComponent[\"Component\"]\n    CMP004[\"CMP-004<br/>DailyBookingTable\"]:::cmp\n  end\n  subgraph LStore[\"Store\"]\n    CMP005[\"CMP-005<br/>bookingStore\"]:::cmp\n  end\n  subgraph LApiClient[\"ApiClient\"]\n    CMP006[\"CMP-006<br/>roomsApi\"]:::cmp\n  end\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  subgraph LApplication[\"Application\"]\n    CMP011[\"CMP-011<br/>ListDailyBookingsQueryHandler\"]:::cmp\n  end\n  subgraph LDomain[\"Domain\"]\n    CMP012[\"CMP-012<br/>Booking (Aggregate)\"]:::cmp\n  end\n  subgraph LInfrastructure[\"Infrastructure\"]\n    CMP013[\"CMP-013<br/>SqlRoomRepository\"]:::cmp\n  end\n  TST001[/\"TST-001 e2e\"/]:::tst\n  TST004[/\"TST-004 unit\"/]:::tst\n  TST005[/\"TST-005 unit\"/]:::tst\n  TST006[/\"TST-006 contract\"/]:::tst\n  TST007[/\"TST-007 integration\"/]:::tst\n  TST011[/\"TST-011 unit\"/]:::tst\n  TST012[/\"TST-012 unit\"/]:::tst\n  TST013[/\"TST-013 integration\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-REQ-003",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 REQ-003",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:26",
+          "30-architecture-c4.md:29",
+          "30-architecture-c4.md:30",
+          "30-architecture-c4.md:31",
+          "30-architecture-c4.md:32",
+          "30-architecture-c4.md:36",
+          "30-architecture-c4.md:37",
+          "30-architecture-c4.md:38"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "REQ-003"
+        ],
+        "hash": "e4f6a867895e",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP001 as RoomBookingPage\n  participant CMP004 as DailyBookingTable\n  participant CMP005 as bookingStore\n  participant CMP006 as roomsApi\n  participant CMP007 as RoomsController\n  participant CMP011 as ListDailyBookingsQueryHandler\n  participant CMP012 as Booking\n  participant CMP013 as SqlRoomRepository\n  U->>CMP001: 顯示並觸發view\n  CMP001->>CMP004: view的 UI 守衛\n  CMP004->>CMP005: view的前端狀態轉移\n  CMP005->>CMP006: 呼叫view API\n  CMP006->>CMP007: 接收view請求\n  CMP007->>CMP011: 編排view\n  CMP011->>CMP012: view的業務規則與不變量\n  CMP011->>CMP013: 持久化view結果\n  CMP001->>CMP005: view的前端狀態轉移\n  CMP001-->>U: AC-003-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-TRACE-NFR-001",
+        "phase": "AUTO",
+        "kind": "flowchart",
+        "heading": "追溯圖 NFR-001",
+        "source": "(auto)",
+        "inputs": [
+          "10-requirements.md:42",
+          "30-architecture-c4.md:131",
+          "30-architecture-c4.md:32",
+          "60-test-design.md:20",
+          "specs/in-progress/room-booking/pm-spec.md:19"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-001"
+        ],
+        "hash": "d6522adf3a06",
+        "findings": [],
+        "mermaid": "flowchart LR\n  PNFR001[\"PM§4 非功能需求\"]:::pm --> NFR001[\"NFR-001\"]:::req\n  NFR001 --> ACN011([\"AC-N01-1\"]):::ac\n  ACN011 --> CMP007\n  ACN011 -.-> TST015\n  subgraph LApi[\"Api\"]\n    CMP007[\"CMP-007<br/>RoomsController\"]:::cmp\n  end\n  TST015[/\"TST-015 e2e\"/]:::tst\n  classDef pm fill:#fff4d6,stroke:#b58900,color:#3d2e00\n  classDef req fill:#e3eefc,stroke:#1f5f8b,color:#0d2a40\n  classDef ac fill:#eef7ee,stroke:#2f7a3f,color:#123d1b\n  classDef cmp fill:#f3f0fa,stroke:#6a4fb3,color:#24164a\n  classDef tst fill:#f6f6f6,stroke:#777,color:#222",
+        "checks": [
+          "trace_has_edges"
+        ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "diagram",
+        "id": "AUTO-SEQ-NFR-001",
+        "phase": "AUTO",
+        "kind": "sequence",
+        "heading": "元件循序圖 NFR-001",
+        "source": "(auto)",
+        "inputs": [
+          "30-architecture-c4.md:32"
+        ],
+        "process": [
+          {
+            "tool": "review.diagrams@1"
+          }
+        ],
+        "targets": [
+          "NFR-001"
+        ],
+        "hash": "451a564d401a",
+        "findings": [],
+        "mermaid": "sequenceDiagram\n  autonumber\n  actor U as user/system\n  participant CMP007 as RoomsController\n  U->>CMP007: NFR 100 concurrent → 1 success\n  CMP007-->>U: AC-N01-1",
+        "checks": [
+          "seq_calls_follow_dependencies"
+        ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
+        "signoff": "pending",
+        "render": "ok"
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:6",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "Room | 名詞 | PM§3.1 | 實體候選",
+        "source": "sa/01-break-words.md:6",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:7",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "Booking | 名詞 | PM§3.1 | 實體候選",
+        "source": "sa/01-break-words.md:7",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:8",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "TimeSlot | 名詞 | PM§3.1 | 實體候選",
+        "source": "sa/01-break-words.md:8",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:9",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "CalendarService | 名詞 | PM§3.1 | 外部系統",
+        "source": "sa/01-break-words.md:9",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:14",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "book | 動詞 | PM§3.1 | 動作: BookRoom",
+        "source": "sa/01-break-words.md:14",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:15",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "check in | 動詞 | PM§3.2 | 動作: CheckInBooking",
+        "source": "sa/01-break-words.md:15",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:16",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "release | 動詞 | PM§3.2 | 動作: ReleaseNoShow",
+        "source": "sa/01-break-words.md:16",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:17",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "view | 動詞 | PM§3.3 | 動作: ListDailyBookings",
+        "source": "sa/01-break-words.md:17",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:22",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "employee | 角色 | PM§3.1 | Actor: Employee",
+        "source": "sa/01-break-words.md:22",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:23",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "admin | 角色 | PM§3.3 | Actor: Admin",
+        "source": "sa/01-break-words.md:23",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA1:sa/01-break-words.md:24",
+        "phase": "SA",
+        "kind": "words",
+        "heading": "system | 角色 | PM§3.2 | Actor: System",
+        "source": "sa/01-break-words.md:24",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "anchors_exist"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA2:sa/02-entities-relations.md:6",
+        "phase": "SA",
+        "kind": "sa_entities",
+        "heading": "會議室 | Room | Id | Room",
+        "source": "sa/02-entities-relations.md:6",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "symbols_present"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA2:sa/02-entities-relations.md:7",
+        "phase": "SA",
+        "kind": "sa_entities",
+        "heading": "預約單 | Booking | Id, Status | Booking",
+        "source": "sa/02-entities-relations.md:7",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "symbols_present"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA2:sa/02-entities-relations.md:8",
+        "phase": "SA",
+        "kind": "sa_entities",
+        "heading": "時段 | TimeSlot | Id | TimeSlot",
+        "source": "sa/02-entities-relations.md:8",
+        "targets": [],
+        "findings": [],
+        "checks": [
+          "symbols_present"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA3:sa/03-roles.md:6",
+        "phase": "SA",
+        "kind": "sa_roles",
+        "heading": "employee | BookRoom(POST /rooms/{id}/bookings) | book | REQ-001",
+        "source": "sa/03-roles.md:6",
+        "targets": [
+          "REQ-001"
+        ],
+        "findings": [],
+        "checks": [
+          "req_refs_exist",
+          "action_has_symbol"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA3:sa/03-roles.md:7",
+        "phase": "SA",
+        "kind": "sa_roles",
+        "heading": "employee | CheckInBooking(POST /bookings/{id}/check-in) | check in | REQ-002",
+        "source": "sa/03-roles.md:7",
+        "targets": [
+          "REQ-002"
+        ],
+        "findings": [],
+        "checks": [
+          "req_refs_exist",
+          "action_has_symbol"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA3:sa/03-roles.md:8",
+        "phase": "SA",
+        "kind": "sa_roles",
+        "heading": "system | ReleaseNoShow(job) | release | REQ-002",
+        "source": "sa/03-roles.md:8",
+        "targets": [
+          "REQ-002"
+        ],
+        "findings": [],
+        "checks": [
+          "req_refs_exist",
+          "action_has_symbol"
+        ]
+      },
+      {
+        "type": "table-row",
+        "id": "SA3:sa/03-roles.md:9",
+        "phase": "SA",
+        "kind": "sa_roles",
+        "heading": "admin | ListDailyBookings(GET /bookings/daily) | view | REQ-003",
+        "source": "sa/03-roles.md:9",
+        "targets": [
+          "REQ-003"
+        ],
+        "findings": [],
+        "checks": [
+          "req_refs_exist",
+          "action_has_symbol"
+        ]
+      }
+    ],
+    "methodology": "uml-wordbreak",
+    "duties": {
+      "intent": {
+        "label": "是不是要的",
+        "hint": "PM",
+        "ask": "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"
+      },
+      "testable": {
+        "label": "測得出來",
+        "hint": "QA",
+        "ask": "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"
+      },
+      "buildable": {
+        "label": "做得出來",
+        "hint": "RD",
+        "ask": "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"
+      }
+    },
+    "signoff_path": "audit/signoff.md",
+    "render_check": {
+      "mode": "auto",
+      "available": true,
+      "reason": "",
+      "modal": "ok",
+      "cards": 4,
+      "tabs": 8,
+      "visible_dg": 0,
+      "visible_svgs": 0,
+      "overflow": false,
+      "notice": false,
+      "errs": [],
+      "reqs": 4
+    }
+  },
+  "render_check": {
+    "mode": "auto",
+    "available": true,
+    "reason": "",
+    "parse": {
+      "AUTO-TRACE-REQ-001": "ok",
+      "AUTO-SEQ-REQ-001": "ok",
+      "CLS-SA-001": "ok",
+      "UCD-001": "ok",
+      "ACT-001": "ok",
+      "SEQ-SA-001": "ok",
+      "STM-SA-001": "ok",
+      "UC-001": "ok",
+      "STM-DOM-001": "ok",
+      "CLS-001": "ok",
+      "SEQ-001": "ok",
+      "STM-UI-001": "ok",
+      "AUTO-TRACE-REQ-002": "ok",
+      "AUTO-SEQ-REQ-002": "ok",
+      "ACT-002": "ok",
+      "SEQ-SA-002": "ok",
+      "UC-002": "ok",
+      "SEQ-002": "ok",
+      "AUTO-TRACE-REQ-003": "ok",
+      "AUTO-SEQ-REQ-003": "ok",
+      "ACT-003": "ok",
+      "SEQ-SA-003": "ok",
+      "UC-003": "ok",
+      "SEQ-003": "ok",
+      "AUTO-TRACE-NFR-001": "ok",
+      "AUTO-SEQ-NFR-001": "ok",
+      "C4-L1": "ok",
+      "C4-L2": "ok",
+      "C4-L3": "ok",
+      "ERD-001": "ok"
+    },
+    "modal": "ok",
+    "cards": 4,
+    "tabs": 8,
+    "visible_dg": 0,
+    "visible_svgs": 0,
+    "overflow": false,
+    "notice": false,
+    "errs": [],
+    "reqs": 4
+  }
+}

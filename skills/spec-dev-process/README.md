@@ -63,6 +63,16 @@ PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → �
 
 端到端案例:`examples/testcase1-form-system/`(既有 codebase + issue c 走完整流程,`specs/tools/spec-reviewer/review.sh issue-c`)。
 
+## spec-reviewer(S6):一站式審查
+
+每張圖、每列 SA 表都可查來源 / 過程 / 目標,機器先核對圖與表一致,再由人逐項確認(是不是要的 / 測得出來 / 做得出來;以事情區分,同一人可一次做完)。
+看板是分頁彈性架構(`board.tabs`),圖與名詞表預設不展開,點晶片開 modal。細節見 `references/spec-reviewer.md`。
+
+```bash
+python3 spec-dev.py review <spec>                 # 靜態快照:判斷存在本機,產生 signoff 指令
+python3 spec-dev.py serve  <spec> --port 8110     # 站台:直接寫回 audit/signoff.md、threads.md;點「檔:行」看原文
+```
+
 ## 測試矩陣驗收
 
 ```bash
@@ -119,4 +129,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.5.0。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.6.0(spec-reviewer 子系統、一站式審查站台、看板分頁 + modal)。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。

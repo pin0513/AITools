@@ -1,4 +1,5 @@
 {
+ "threads": [],
  "summary": {
   "diagrams": 18,
   "table_rows": 0,
@@ -14,8 +15,32 @@
    "rejected": 0
   },
   "with_findings": 5,
+  "by_duty": {
+   "intent": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 7,
+    "rejected": 0
+   },
+   "testable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 8,
+    "rejected": 0
+   },
+   "buildable": {
+    "approved": 0,
+    "n/a": 0,
+    "stale": 0,
+    "pending": 11,
+    "rejected": 0
+   }
+  },
   "changed_since_last": [],
-  "removed_since_last": []
+  "removed_since_last": [],
+  "threads_open": 0
  },
  "items": [
   {
@@ -59,8 +84,28 @@
    "findings": [],
    "mermaid": "flowchart TD\n  A[送出檔案] --> B{格式/大小 OK?}\n  B -->|否| E1[400 AVATAR_TOO_LARGE]\n  B -->|是| C[存 Blob]\n  C -->|逾時 x3| E2[503,Avatar 不變]\n  C -->|成功| D[更新 Member.Avatar] --> F[200 + URL]",
    "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -85,8 +130,28 @@
    "findings": [],
    "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Cropping: selectFile\n  Cropping --> Uploading: confirmCrop [edge >= 200px]\n  Cropping --> Idle: cancel\n  Uploading --> Done: 200\n  Uploading --> Idle: 4xx/5xx",
    "checks": [],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -120,8 +185,20 @@
    "checks": [
     "class_names_known"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -143,8 +220,20 @@
    ],
    "mermaid": "C4Context\n  Person(member, \"會員\")\n  System(sys, \"會員系統\")\n  System_Ext(blob, \"Azure Blob Storage\")\n  Rel(member, sys, \"上傳/瀏覽頭像\")\n  Rel(sys, blob, \"存取圖片\", \"HTTPS\")",
    "checks": [],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -166,8 +255,20 @@
    ],
    "mermaid": "C4Container\n  Container(web, \"會員 Web\", \"React\", \"裁切在前端\")\n  Container(api, \"Member API\", \".NET 8\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"Member\")\n  System_Ext(blob, \"Azure Blob\", \"\")\n  Rel(web, api, \"HTTPS\")\n  Rel(api, db, \"EF Core\")\n  Rel(api, blob, \"SDK\")",
    "checks": [],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -191,8 +292,20 @@
    "checks": [
     "c4_relations_follow_dependencies"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -219,8 +332,28 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
+   "duties": [
+    "buildable",
+    "testable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -252,8 +385,20 @@
    "checks": [
     "er_entities_owned"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -297,8 +442,28 @@
    "checks": [
     "trace_has_edges"
    ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -327,8 +492,20 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -360,8 +537,28 @@
    "checks": [
     "trace_has_edges"
    ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -388,8 +585,20 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -418,8 +627,28 @@
    "checks": [
     "trace_has_edges"
    ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -445,8 +674,20 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -473,8 +714,28 @@
    "checks": [
     "trace_has_edges"
    ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -500,8 +761,20 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -529,8 +802,28 @@
    "checks": [
     "trace_has_edges"
    ],
+   "duties": [
+    "intent",
+    "testable"
+   ],
+   "signoffs": {
+    "intent": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    },
+    "testable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   },
   {
    "type": "diagram",
@@ -557,10 +850,53 @@
    "checks": [
     "seq_calls_follow_dependencies"
    ],
+   "duties": [
+    "buildable"
+   ],
+   "signoffs": {
+    "buildable": {
+     "status": "pending",
+     "by": "",
+     "date": "",
+     "note": "",
+     "signed_hash": ""
+    }
+   },
    "signoff": "pending",
-   "signoff_detail": {}
+   "render": "ok"
   }
  ],
  "methodology": "",
- "signoff_path": "audit/signoff.md"
+ "duties": {
+  "intent": {
+   "label": "是不是要的",
+   "hint": "PM",
+   "ask": "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"
+  },
+  "testable": {
+   "label": "測得出來",
+   "hint": "QA",
+   "ask": "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"
+  },
+  "buildable": {
+   "label": "做得出來",
+   "hint": "RD",
+   "ask": "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"
+  }
+ },
+ "signoff_path": "audit/signoff.md",
+ "render_check": {
+  "mode": "auto",
+  "available": true,
+  "reason": "",
+  "modal": "ok",
+  "cards": 0,
+  "tabs": 5,
+  "visible_dg": 0,
+  "visible_svgs": 0,
+  "overflow": false,
+  "notice": false,
+  "errs": [],
+  "reqs": 5
+ }
 }

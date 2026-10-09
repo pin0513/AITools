@@ -592,6 +592,7 @@
       "mermaid": "erDiagram\n  Member ||--o| MemberAvatar : has\n  MemberAvatar {\n    uniqueidentifier MemberId PK\n    nvarchar BlobPath\n    datetime2 UpdatedAt\n  }"
     }
   ],
+  "spec_dir": ".",
   "sources": {
     "pm_spec": null,
     "mocks": [],
@@ -1101,7 +1102,17 @@
         "UC-001",
         "REQ-001"
       ],
-      "msg": "UC-001 尚未簽核",
+      "msg": "UC-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "UC-001",
+        "REQ-001"
+      ],
+      "msg": "UC-001「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1111,7 +1122,17 @@
         "STM-UI-001",
         "REQ-002"
       ],
-      "msg": "STM-UI-001 尚未簽核",
+      "msg": "STM-UI-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "STM-UI-001",
+        "REQ-002"
+      ],
+      "msg": "STM-UI-001「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1121,7 +1142,7 @@
         "CLS-001",
         "REQ-001"
       ],
-      "msg": "CLS-001 尚未簽核",
+      "msg": "CLS-001「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1130,7 +1151,7 @@
       "ids": [
         "C4-L1"
       ],
-      "msg": "C4-L1 尚未簽核",
+      "msg": "C4-L1「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1139,7 +1160,7 @@
       "ids": [
         "C4-L2"
       ],
-      "msg": "C4-L2 尚未簽核",
+      "msg": "C4-L2「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1148,7 +1169,7 @@
       "ids": [
         "C4-L3"
       ],
-      "msg": "C4-L3 尚未簽核",
+      "msg": "C4-L3「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1158,7 +1179,17 @@
         "SEQ-001",
         "REQ-001"
       ],
-      "msg": "SEQ-001 尚未簽核",
+      "msg": "SEQ-001「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "SEQ-001",
+        "REQ-001"
+      ],
+      "msg": "SEQ-001「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1167,7 +1198,7 @@
       "ids": [
         "ERD-001"
       ],
-      "msg": "ERD-001 尚未簽核",
+      "msg": "ERD-001「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1177,7 +1208,17 @@
         "AUTO-TRACE-REQ-001",
         "REQ-001"
       ],
-      "msg": "AUTO-TRACE-REQ-001 尚未簽核",
+      "msg": "AUTO-TRACE-REQ-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-001",
+        "REQ-001"
+      ],
+      "msg": "AUTO-TRACE-REQ-001「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1187,7 +1228,7 @@
         "AUTO-SEQ-REQ-001",
         "REQ-001"
       ],
-      "msg": "AUTO-SEQ-REQ-001 尚未簽核",
+      "msg": "AUTO-SEQ-REQ-001「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1197,7 +1238,17 @@
         "AUTO-TRACE-REQ-002",
         "REQ-002"
       ],
-      "msg": "AUTO-TRACE-REQ-002 尚未簽核",
+      "msg": "AUTO-TRACE-REQ-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-002",
+        "REQ-002"
+      ],
+      "msg": "AUTO-TRACE-REQ-002「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1207,7 +1258,7 @@
         "AUTO-SEQ-REQ-002",
         "REQ-002"
       ],
-      "msg": "AUTO-SEQ-REQ-002 尚未簽核",
+      "msg": "AUTO-SEQ-REQ-002「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1217,7 +1268,17 @@
         "AUTO-TRACE-REQ-003",
         "REQ-003"
       ],
-      "msg": "AUTO-TRACE-REQ-003 尚未簽核",
+      "msg": "AUTO-TRACE-REQ-003「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-REQ-003",
+        "REQ-003"
+      ],
+      "msg": "AUTO-TRACE-REQ-003「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1227,7 +1288,7 @@
         "AUTO-SEQ-REQ-003",
         "REQ-003"
       ],
-      "msg": "AUTO-SEQ-REQ-003 尚未簽核",
+      "msg": "AUTO-SEQ-REQ-003「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1237,7 +1298,17 @@
         "AUTO-TRACE-NFR-001",
         "NFR-001"
       ],
-      "msg": "AUTO-TRACE-NFR-001 尚未簽核",
+      "msg": "AUTO-TRACE-NFR-001「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-001",
+        "NFR-001"
+      ],
+      "msg": "AUTO-TRACE-NFR-001「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1247,7 +1318,7 @@
         "AUTO-SEQ-NFR-001",
         "NFR-001"
       ],
-      "msg": "AUTO-SEQ-NFR-001 尚未簽核",
+      "msg": "AUTO-SEQ-NFR-001「做得出來」尚未確認",
       "action": ""
     },
     {
@@ -1257,7 +1328,17 @@
         "AUTO-TRACE-NFR-002",
         "NFR-002"
       ],
-      "msg": "AUTO-TRACE-NFR-002 尚未簽核",
+      "msg": "AUTO-TRACE-NFR-002「是不是要的」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "INFO",
+      "rule": "G-DG-signoff",
+      "ids": [
+        "AUTO-TRACE-NFR-002",
+        "NFR-002"
+      ],
+      "msg": "AUTO-TRACE-NFR-002「測得出來」尚未確認",
       "action": ""
     },
     {
@@ -1267,7 +1348,16 @@
         "AUTO-SEQ-NFR-002",
         "NFR-002"
       ],
-      "msg": "AUTO-SEQ-NFR-002 尚未簽核",
+      "msg": "AUTO-SEQ-NFR-002「做得出來」尚未確認",
+      "action": ""
+    },
+    {
+      "level": "FAIL",
+      "rule": "G-S6-render",
+      "ids": [
+        "看板"
+      ],
+      "msg": "需求卡 0 張 ≠ 需求 5 條",
       "action": ""
     }
   ],
@@ -1499,6 +1589,7 @@
     }
   ],
   "audit": {
+    "threads": [],
     "summary": {
       "diagrams": 18,
       "table_rows": 0,
@@ -1514,8 +1605,32 @@
         "rejected": 0
       },
       "with_findings": 5,
+      "by_duty": {
+        "intent": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 7,
+          "rejected": 0
+        },
+        "testable": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 8,
+          "rejected": 0
+        },
+        "buildable": {
+          "approved": 0,
+          "n/a": 0,
+          "stale": 0,
+          "pending": 11,
+          "rejected": 0
+        }
+      },
       "changed_since_last": [],
-      "removed_since_last": []
+      "removed_since_last": [],
+      "threads_open": 0
     },
     "items": [
       {
@@ -1559,8 +1674,28 @@
         "findings": [],
         "mermaid": "flowchart TD\n  A[送出檔案] --> B{格式/大小 OK?}\n  B -->|否| E1[400 AVATAR_TOO_LARGE]\n  B -->|是| C[存 Blob]\n  C -->|逾時 x3| E2[503,Avatar 不變]\n  C -->|成功| D[更新 Member.Avatar] --> F[200 + URL]",
         "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1585,8 +1720,28 @@
         "findings": [],
         "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Cropping: selectFile\n  Cropping --> Uploading: confirmCrop [edge >= 200px]\n  Cropping --> Idle: cancel\n  Uploading --> Done: 200\n  Uploading --> Idle: 4xx/5xx",
         "checks": [],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1620,8 +1775,20 @@
         "checks": [
           "class_names_known"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1643,8 +1810,20 @@
         ],
         "mermaid": "C4Context\n  Person(member, \"會員\")\n  System(sys, \"會員系統\")\n  System_Ext(blob, \"Azure Blob Storage\")\n  Rel(member, sys, \"上傳/瀏覽頭像\")\n  Rel(sys, blob, \"存取圖片\", \"HTTPS\")",
         "checks": [],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1666,8 +1845,20 @@
         ],
         "mermaid": "C4Container\n  Container(web, \"會員 Web\", \"React\", \"裁切在前端\")\n  Container(api, \"Member API\", \".NET 8\", \"\")\n  ContainerDb(db, \"SQL Server\", \"\", \"Member\")\n  System_Ext(blob, \"Azure Blob\", \"\")\n  Rel(web, api, \"HTTPS\")\n  Rel(api, db, \"EF Core\")\n  Rel(api, blob, \"SDK\")",
         "checks": [],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1691,8 +1882,20 @@
         "checks": [
           "c4_relations_follow_dependencies"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1719,8 +1922,28 @@
         "checks": [
           "seq_calls_follow_dependencies"
         ],
+        "duties": [
+          "buildable",
+          "testable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1752,8 +1975,20 @@
         "checks": [
           "er_entities_owned"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1797,8 +2032,28 @@
         "checks": [
           "trace_has_edges"
         ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1827,8 +2082,20 @@
         "checks": [
           "seq_calls_follow_dependencies"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1860,8 +2127,28 @@
         "checks": [
           "trace_has_edges"
         ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1888,8 +2175,20 @@
         "checks": [
           "seq_calls_follow_dependencies"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1918,8 +2217,28 @@
         "checks": [
           "trace_has_edges"
         ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1945,8 +2264,20 @@
         "checks": [
           "seq_calls_follow_dependencies"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -1973,8 +2304,28 @@
         "checks": [
           "trace_has_edges"
         ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -2000,8 +2351,20 @@
         "checks": [
           "seq_calls_follow_dependencies"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -2029,8 +2392,28 @@
         "checks": [
           "trace_has_edges"
         ],
+        "duties": [
+          "intent",
+          "testable"
+        ],
+        "signoffs": {
+          "intent": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          },
+          "testable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       },
       {
         "type": "diagram",
@@ -2057,11 +2440,88 @@
         "checks": [
           "seq_calls_follow_dependencies"
         ],
+        "duties": [
+          "buildable"
+        ],
+        "signoffs": {
+          "buildable": {
+            "status": "pending",
+            "by": "",
+            "date": "",
+            "note": "",
+            "signed_hash": ""
+          }
+        },
         "signoff": "pending",
-        "signoff_detail": {}
+        "render": "ok"
       }
     ],
     "methodology": "",
-    "signoff_path": "audit/signoff.md"
+    "duties": {
+      "intent": {
+        "label": "是不是要的",
+        "hint": "PM",
+        "ask": "圖表達的流程 / 狀態 / 關係,等於需求本意嗎?PM 的缺口回答了嗎?"
+      },
+      "testable": {
+        "label": "測得出來",
+        "hint": "QA",
+        "ask": "每條路徑(含例外、狀態轉移)都有 AC 或測試能驗證嗎?"
+      },
+      "buildable": {
+        "label": "做得出來",
+        "hint": "RD",
+        "ask": "元件、依賴、資料、介面做得出來,而且守住技術邊界嗎?"
+      }
+    },
+    "signoff_path": "audit/signoff.md",
+    "render_check": {
+      "mode": "auto",
+      "available": true,
+      "reason": "",
+      "modal": "ok",
+      "cards": 0,
+      "tabs": 5,
+      "visible_dg": 0,
+      "visible_svgs": 0,
+      "overflow": false,
+      "notice": false,
+      "errs": [],
+      "reqs": 5
+    }
+  },
+  "render_check": {
+    "mode": "auto",
+    "available": true,
+    "reason": "",
+    "parse": {
+      "UC-001": "ok",
+      "CLS-001": "ok",
+      "SEQ-001": "ok",
+      "STM-UI-001": "ok",
+      "C4-L1": "ok",
+      "C4-L2": "ok",
+      "C4-L3": "ok",
+      "ERD-001": "ok",
+      "AUTO-TRACE-REQ-001": "ok",
+      "AUTO-SEQ-REQ-001": "ok",
+      "AUTO-TRACE-REQ-002": "ok",
+      "AUTO-SEQ-REQ-002": "ok",
+      "AUTO-TRACE-REQ-003": "ok",
+      "AUTO-SEQ-REQ-003": "ok",
+      "AUTO-TRACE-NFR-001": "ok",
+      "AUTO-SEQ-NFR-001": "ok",
+      "AUTO-TRACE-NFR-002": "ok",
+      "AUTO-SEQ-NFR-002": "ok"
+    },
+    "modal": "ok",
+    "cards": 0,
+    "tabs": 5,
+    "visible_dg": 0,
+    "visible_svgs": 0,
+    "overflow": false,
+    "notice": false,
+    "errs": [],
+    "reqs": 5
   }
 }

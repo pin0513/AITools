@@ -3,15 +3,16 @@ version: 1
 category: gate
 stage: S6
 name: 看板渲染驗證
-description: 在瀏覽器開看板:每張圖(含收合)可解析、無 JS 錯誤、每條需求一張卡、預設的圖都畫出、400px 不溢出。環境不足時依 reviewer.render_check 處理
+description: 在瀏覽器開看板:每張圖(預設不展開,從看板的圖登錄表取)都真的畫得出來、點開 modal 有 SVG、無 JS 錯誤、每條需求一張卡、預設的圖都畫出、400px 不溢出。環境不足時依 reviewer.render_check 處理
 predicate: render_findings
 params: {}
 outcomes:
-  ok:           {status: INFO, message: "看板渲染驗證通過:{n} 張圖可解析,{cards} 張需求卡"}
+  ok:           {status: INFO, message: "看板渲染驗證通過:{n} 張圖都畫得出來,{cards} 張需求卡"}
   parse_error:  {status: FAIL, message: "{diagram} 無法渲染:{err}", action: "修正圖的 mermaid 語法"}
   js_error:     {status: FAIL, message: "看板 JS 錯誤:{err}"}
   cards:        {status: FAIL, message: "需求卡 {cards} 張 ≠ 需求 {reqs} 條"}
   not_drawn:    {status: FAIL, message: "預設顯示的圖只畫出 {svgs}/{dg} 張"}
+  modal:        {status: FAIL, message: "點開圖的 modal 失敗:{err}"}
   overflow:     {status: WARN, message: "400px 寬會水平捲動"}
   unverified:   {status: WARN, message: "看板未經渲染驗證({reason})", action: "安裝 node + playwright,或設 reviewer.render_check: off"}
   required:     {status: FAIL, message: "專案要求渲染驗證,但{reason}"}

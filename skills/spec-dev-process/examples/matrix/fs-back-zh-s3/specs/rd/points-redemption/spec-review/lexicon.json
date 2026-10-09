@@ -1,0 +1,554 @@
+{
+ "nouns": [
+  {
+   "term": "點數",
+   "freq": 18,
+   "weight": 27.0,
+   "pm_freq": 18,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "獎品",
+   "freq": 7,
+   "weight": 11.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "Reward",
+   "glossary_specs": [
+    "points-redemption"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "點數交易",
+   "freq": 7,
+   "weight": 11.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§3.3 會員可查看點數交"
+   ],
+   "symbol": "PointTransaction",
+   "glossary_specs": [
+    "points-redemption"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "餘額",
+   "freq": 6,
+   "weight": 11.0,
+   "pm_freq": 6,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§4 非功能需求",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "兌換獎品",
+   "freq": 5,
+   "weight": 8.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "點數帳",
+   "freq": 5,
+   "weight": 7.0,
+   "pm_freq": 5,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "點數帳戶",
+   "freq": 4,
+   "weight": 6.0,
+   "pm_freq": 4,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "symbol": "PointsAccount",
+   "glossary_specs": [
+    "points-redemption",
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 5,
+   "code_first": "src/api/Loyalty.Infrastructure/SqlPointsAccountRepository.cs:7"
+  },
+  {
+   "term": "數帳戶餘額",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "點數帳戶餘",
+   "freq": 3,
+   "weight": 5.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "兌換單",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "Redemption",
+   "glossary_specs": [
+    "points-redemption"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "員兌換獎品",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "會員兌換獎",
+   "freq": 2,
+   "weight": 4.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "到期點數交",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "扣點",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "日期",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 會員可查看點數交",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "期點數交易",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "獎品供應商",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "RewardVendor",
+   "glossary_specs": [
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "類型",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 會員可查看點數交",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "餘額足夠",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  }
+ ],
+ "actions": [
+  {
+   "term": "兌換",
+   "freq": 12,
+   "weight": 18.0,
+   "pm_freq": 12,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "到期",
+   "freq": 4,
+   "weight": 6.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "查看",
+   "freq": 3,
+   "weight": 4.0,
+   "pm_freq": 3,
+   "where": [
+    "mock:rewards.html",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.3 會員可查看點數交"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "行兌換",
+   "freq": 1,
+   "weight": 3.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§4 非功能需求"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "線上兌換",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "數交易顯示",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "舊點數到期",
+   "freq": 1,
+   "weight": 2.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "以查看",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.3 會員可查看點數交"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "供應商出貨",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "寫一筆到期",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 點數 12 個月"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "法線上兌換",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "會員",
+   "freq": 8,
+   "weight": 13.0,
+   "pm_freq": 8,
+   "where": [
+    "pm_spec:pm-spec.md§1 背景與目標",
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠",
+    "pm_spec:pm-spec.md§3.3 會員可查看點數交"
+   ],
+   "suggest": "升"
+  },
+  {
+   "term": "月排程",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 點數 12 個月",
+    "pm_spec:pm-spec.md§5 驗收條件"
+   ],
+   "suggest": "降"
+  },
+  {
+   "term": "系統",
+   "freq": 2,
+   "weight": 3.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§2 使用者與情境",
+    "pm_spec:pm-spec.md§3.2 點數 12 個月"
+   ],
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "pending",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "mock:rewards.html"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "待兌換",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 點數帳戶點數足夠"
+   ]
+  }
+ ],
+ "english": [
+  {
+   "term": "INSUFFICIENT_POINTS",
+   "freq": 1,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Pending",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:rewards.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "mock",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:rewards.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:rewards.html"
+   ],
+   "code_hits": 2,
+   "code_first": "src/api/Loyalty.Domain/PointsAccount.cs:3"
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "mock:rewards.html",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 228,
+  "after_boundary": 73,
+  "kept": 71
+ }
+}

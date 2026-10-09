@@ -99,3 +99,8 @@ gates:                                       # 人讀摘要;機器用的是 proc
   S4: "每條 AC 至少一個測試元件;每個 Component 至少一個測試元件"
   S5: "md 表格可被 extract 解析;無孤兒節點;assumed 證據都對應缺口表一列"
   S6: "spec-dev.py all 退出碼 0;check-panel.html 可開啟(--offline 時完全離線)"
+
+# 看板:分頁彈性架構。tabs = 要顯示的分頁與順序(省略 = 全部,預設順序);default_tab = 打開時的分頁。
+# 可用分頁:overview 總覽、evidence 證據鏈、audit 審計與確認、matrix 需求×元件×測試、boundary 技術邊界、sa SA 建模、glossary 名詞與 codebase、log 方法論 log
+board:
+  default_tab: overview

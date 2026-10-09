@@ -1,0 +1,1035 @@
+{
+ "nouns": [
+  {
+   "term": "booking",
+   "freq": 14,
+   "weight": 14.0,
+   "pm_freq": 14,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 An emplo"
+   ],
+   "lang": "en",
+   "symbol": "Booking",
+   "glossary_specs": [
+    "room-booking"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "meeting room",
+   "freq": 9,
+   "weight": 9.0,
+   "pm_freq": 9,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 An emplo"
+   ],
+   "lang": "en",
+   "symbol": "Room",
+   "glossary_specs": [
+    "prev",
+    "room-booking"
+   ],
+   "suggest": "升",
+   "code_hits": 5,
+   "code_first": "src/api/Rooms.Application/ListRoomsQueryHandler.cs:6"
+  },
+  {
+   "term": "slot",
+   "freq": 5,
+   "weight": 5.0,
+   "pm_freq": 5,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 An emplo",
+    "pm_spec:pm-spec.md§4 Non-functi",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "booking records",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 An emplo",
+    "pm_spec:pm-spec.md§3.3 An admin",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "升",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "time slot",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 An emplo",
+    "pm_spec:pm-spec.md§4 Non-functi",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "TimeSlot",
+   "glossary_specs": [
+    "room-booking"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "calendar service",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 An emplo",
+    "pm_spec:pm-spec.md§3.2 check in",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "CalendarService",
+   "glossary_specs": [
+    "prev"
+   ],
+   "suggest": "升",
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "daily",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  },
+  {
+   "term": "today",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "symbol": "",
+   "glossary_specs": [],
+   "suggest": "降",
+   "code_hits": null,
+   "code_first": ""
+  }
+ ],
+ "actions": [
+  {
+   "term": "book",
+   "freq": 7,
+   "weight": 7.0,
+   "pm_freq": 7,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 An emplo"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "check in",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§3.2 check in",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "view",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.3 An admin",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "release",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.2 check in"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "update",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 check in",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "check",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "sync",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§3.1 An emplo"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  }
+ ],
+ "roles": [
+  {
+   "term": "employee",
+   "freq": 7,
+   "weight": 7.0,
+   "pm_freq": 7,
+   "where": [
+    "pm_spec:pm-spec.md§1 Background",
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.1 An emplo",
+    "pm_spec:pm-spec.md§3.2 check in"
+   ],
+   "lang": "en",
+   "suggest": "升"
+  },
+  {
+   "term": "admin",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.3 An admin",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  },
+  {
+   "term": "system",
+   "freq": 3,
+   "weight": 3.0,
+   "pm_freq": 3,
+   "where": [
+    "pm_spec:pm-spec.md§2 Users",
+    "pm_spec:pm-spec.md§3.2 check in",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en",
+   "suggest": "降"
+  }
+ ],
+ "statuses": [
+  {
+   "term": "booked",
+   "freq": 4,
+   "weight": 4.0,
+   "pm_freq": 4,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md§3.1 An emplo",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "released",
+   "freq": 2,
+   "weight": 2.0,
+   "pm_freq": 2,
+   "where": [
+    "pm_spec:pm-spec.md§3.2 check in",
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en"
+  },
+  {
+   "term": "checked-in",
+   "freq": 1,
+   "weight": 1.0,
+   "pm_freq": 1,
+   "where": [
+    "pm_spec:pm-spec.md§5 Acceptance"
+   ],
+   "lang": "en"
+  }
+ ],
+ "english": [
+  {
+   "term": "booking",
+   "freq": 14,
+   "weight": 14.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "meeting",
+   "freq": 9,
+   "weight": 9.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "room",
+   "freq": 9,
+   "weight": 9.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 5,
+   "code_first": "src/api/Rooms.Application/ListRoomsQueryHandler.cs:6"
+  },
+  {
+   "term": "employee",
+   "freq": 7,
+   "weight": 7.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "book",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "records",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "service",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "slot",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "time",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "view",
+   "freq": 4,
+   "weight": 4.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "admin",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "booked",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "books",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "calendar",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "check",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "mock:booking.html",
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "minutes",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "release",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "system",
+   "freq": 3,
+   "weight": 3.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "after",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "checks",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "daily",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "must",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "released",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "same",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "today",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "will",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "within",
+   "freq": 2,
+   "weight": 2.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Booked",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Goal",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Otherwise",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "SLOT_TAKEN",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "Two",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "another",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "automatic",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "checked",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "concurrent",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "conflict",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "double",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "email",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "every",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "exactly",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "exist",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "free",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "grouped",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "happens",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "marks",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "mock",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "needs",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "opens",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "overlap",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "overlaps",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "requests",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "response",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "rows",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "runs",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "self",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "show",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "start",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "status",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "mock:booking.html"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "succeeds",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "synced",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "updated",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "updates",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "wants",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "weekly",
+   "freq": 1,
+   "weight": 1.0,
+   "where": [
+    "pm_spec:pm-spec.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "back",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "full",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "heavy",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "shape",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  },
+  {
+   "term": "stack",
+   "freq": 1,
+   "weight": 0.4,
+   "where": [
+    "ref:refs.md"
+   ],
+   "code_hits": 0,
+   "code_first": ""
+  }
+ ],
+ "stats": {
+  "docs": [
+   "pm_spec:pm-spec.md",
+   "mock:booking.html",
+   "ref:refs.md"
+  ],
+  "cjk_candidates": 0,
+  "after_boundary": 0,
+  "kept": 0
+ }
+}
