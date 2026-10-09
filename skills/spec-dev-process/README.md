@@ -129,4 +129,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.7.0(文件版本追蹤進看板與審計;2.6.0 spec-reviewer 子系統、一站式審查站台、看板分頁 + modal)。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.7.1(語系標 zh-Hant-TW、矩陣語言代碼 zh-TW;2.7.0 文件版本追蹤進看板與審計;2.6.0 spec-reviewer 子系統、一站式審查站台、看板分頁 + modal)。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
