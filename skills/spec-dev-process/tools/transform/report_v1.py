@@ -46,9 +46,9 @@ def boundary_md(tr, boundary):
 
 def run(ctx: dict) -> dict:
     d, tr = ctx["dir"], ctx["data"]
-    boundary, g = ctx.get("boundary") or [], ctx.get("gate") or []
-    from tools.check.engine_v1 import kpis
-    k = ctx.get("kpis") or kpis(tr, boundary, g)
+    from tools.check.engine_v1 import run_gate
+    run_gate(ctx)
+    boundary, g, k = ctx.get("boundary") or [], ctx["gate"], ctx["kpis"]
     (d / "boundary-report.md").write_text(boundary_md(tr, boundary), encoding="utf-8")
     (d / "90-traceability.md").write_text(traceability_md(tr, boundary, g, k), encoding="utf-8")
     return ctx

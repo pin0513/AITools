@@ -65,7 +65,8 @@ def main(argv):
     for line in ctx["trace"]: print(line)
     print("wrote:", ", ".join(sorted(p.name for p in d.iterdir() if p.name in ("traceability.json", "90-traceability.md", "boundary-report.md", "check-panel.html", "html"))))
     summary(ctx)
-    return 1 if any(g["level"] == "FAIL" for g in ctx.get("gate") or []) else 0
+    failed = ctx.get("stopped") or any(g["level"] == "FAIL" for g in (ctx.get("gate") or []) + (ctx.get("stage_findings") or []))
+    return 1 if failed else 0
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))

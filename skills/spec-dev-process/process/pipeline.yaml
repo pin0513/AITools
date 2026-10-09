@@ -1,5 +1,6 @@
 # 流程骨幹。每個 stage:誰執行(llm|tool)、輸入、輸出、用哪些工具(name@version)、放行規則。
 # runner(tools/execute/runner_v*.py)照順序跑;llm stage 只做契約檢查(產物存在且合約),tool stage 真的執行。
+# gates 只決定該 stage 是否停(stop_on);check.gate 工具與面板永遠算全量 Gate。
 version: 1
 pipeline: pm-to-rd-spec
 stages:
@@ -34,8 +35,8 @@ stages:
     name: Boundary
     owner: tool
     inputs:  [30-architecture-c4.md, 40-api-contracts.md, 50-data-model.md, method-log.jsonl]
-    tools:   [analyze.extract@1, check.boundary@1, transform.report@1]
-    outputs: [boundary-report.md]
+    tools:   [analyze.extract@1, check.boundary@1, check.gate@1, transform.report@1]
+    outputs: [boundary-report.md, 90-traceability.md, traceability.json]
     gates:   [G-S3-boundary]
     stop_on: FAIL
 

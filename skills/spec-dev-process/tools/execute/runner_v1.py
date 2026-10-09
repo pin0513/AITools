@@ -19,13 +19,16 @@ def run_stage(ctx: dict, stage: dict) -> dict:
             fn, ver = C.resolve_tool(ref, ctx["registry"])
             ctx = fn(ctx)
             ctx["trace"].append(f"  ran {ref.split('@')[0]}@{ver}")
-    if stage.get("gates") and ctx.get("data") is not None:
-        E.run_gate(ctx, stage)
-        for g in ctx["gate"]: ctx["trace"].append(f"  [{g['level']}] {g['rule']} {g['msg']}")
-    elif stage["owner"] == "llm":
-        ctx["gate"] = list(ctx["contract_findings"])
+    if stage["owner"] == "llm":
+        stage_findings = list(ctx["contract_findings"])
+    elif stage.get("gates") and ctx.get("data") is not None:
+        stage_findings = E.evaluate_gates(ctx, stage["gates"])
+        for g in stage_findings: ctx["trace"].append(f"  [{g['level']}] {g['rule']} {g['msg']}")
+    else:
+        stage_findings = []
+    ctx["stage_findings"] = stage_findings
     stop_on = stage.get("stop_on", "FAIL")
-    ctx["stage_status"] = "FAIL" if any(g["level"] == "FAIL" for g in ctx["gate"]) else ("WARN" if any(g["level"] == "WARN" for g in ctx["gate"]) else "PASS")
+    ctx["stage_status"] = "FAIL" if any(g["level"] == "FAIL" for g in stage_findings) else ("WARN" if any(g["level"] == "WARN" for g in stage_findings) else "PASS")
     ctx["stopped"] = stop_on != "NONE" and ctx["stage_status"] == "FAIL"
     return ctx
 
@@ -39,7 +42,7 @@ def run_pipeline(ctx: dict, to: str = "S6", only: str = None, no_stop=False) -> 
             ctx["trace"].append(f"  stop at {st['id']} (stop_on={st.get('stop_on')})"); break
         if st["id"] == to: break
     if ctx.get("data") is not None:
-        # 最終把 gate 與 kpi 全量重算一次,確保 json 與面板一致
+        # 最終全量 Gate + KPI,寫 traceability.json(面板與報告也都用全量)
         E.run_gate(ctx)
         (ctx["dir"] / "traceability.json").write_text(json.dumps(ctx["data"], ensure_ascii=False, indent=2), encoding="utf-8")
     return ctx

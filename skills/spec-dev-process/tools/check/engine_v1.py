@@ -45,15 +45,16 @@ def run_boundary(ctx: dict) -> dict:
     ctx["data"]["boundary_checks"] = ctx["boundary"]
     return ctx
 
-def run_gate(ctx: dict, stage=None) -> dict:
-    rules = ctx["rules"]
-    if stage is not None:
-        ids = set(stage.get("gates") or [])
-        rules = {k: v for k, v in rules.items() if k in ids}
+def evaluate_gates(ctx: dict, ids=None) -> list:
+    """純函式:跑 gate 規則(ids 為 None 則全部),回傳 gate 形式 {level, rule, ids, msg, action};不改 ctx。"""
+    rules = ctx["rules"] if ids is None else {k: v for k, v in ctx["rules"].items() if k in set(ids)}
     c = _ctx(ctx); c["boundary"] = ctx.get("boundary") or []
-    gate = [{"level": r["status"], "rule": r["rule"], "ids": r["ids"], "msg": r["evidence"], "action": r["action"]}
+    return [{"level": r["status"], "rule": r["rule"], "ids": r["ids"], "msg": r["evidence"], "action": r["action"]}
             for r in run_rules(rules, "gate", ctx["data"], c)]
-    gate = ctx.get("contract_findings", []) + gate
+
+def run_gate(ctx: dict) -> dict:
+    """tool 介面:全量 Gate(含契約發現)+ KPI,寫回 ctx 與 data。"""
+    gate = list(ctx.get("contract_findings") or []) + evaluate_gates(ctx)
     ctx["gate"] = gate
     ctx["kpis"] = kpis(ctx["data"], ctx.get("boundary") or [], gate)
     ctx["data"]["gate"], ctx["data"]["kpis"] = gate, ctx["kpis"]

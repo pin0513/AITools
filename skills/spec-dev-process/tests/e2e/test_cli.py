@@ -22,7 +22,13 @@ class ExampleTest(unittest.TestCase):
         fails = sorted((b["rule"], b["target"]) for b in tr["boundary_checks"] if b["status"] == "FAIL")
         self.assertEqual(fails, [("B2", "CMP-003"), ("B7", "AC-003-1")])
         self.assertEqual(tr["kpis"]["uncovered_ids"], ["REQ-003"])
-        self.assertIn("mermaid.initialize", (self.d / "check-panel.html").read_text(encoding="utf-8"))
+        html = (self.d / "check-panel.html").read_text(encoding="utf-8")
+        self.assertIn("mermaid.initialize", html)
+        payload = json.loads(html.split("const DATA = ", 1)[1].split(";\n</script>", 1)[0])
+        self.assertEqual(payload["kpis"], tr["kpis"])                       # 面板與 json 一致
+        self.assertEqual(len(payload["gate"]), len(tr["gate"]))
+        self.assertTrue(any(g["rule"] == "G-S3-boundary" for g in payload["gate"]))
+        self.assertEqual(payload["kpis"]["uncovered_ids"], ["REQ-003"])
         self.assertGreater((self.d / "check-panel.html").stat().st_size, 2_000_000)  # offline 內嵌
 
     def test_strict_run_stops_at_s3(self):
