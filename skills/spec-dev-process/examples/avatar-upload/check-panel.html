@@ -132,6 +132,18 @@ h+=gBad.length?`<table>${gBad.map(gRow).join('')}</table>`:'<small>無 FAIL/WARN
 if(gInfo.length)h+=`<details><summary>INFO(已驗證/齊全)${gInfo.length} 筆</summary><table>${gInfo.map(gRow).join('')}</table></details>`;
 h+=`</div></section></div>`;
 
+// ---- SA0 前置解析(工具層斷詞 + 詞頻 + glossary-mapping)----
+const LX=T.lexicon;
+if(LX&&LX.nouns){
+  const lr=(k,cols)=>`<table><tr>${cols.map(c=>`<th>${c[0]}</th>`).join('')}</tr>${(LX[k]||[]).map(it=>`<tr>${cols.map(c=>`<td>${c[1](it)}</td>`).join('')}</tr>`).join('')}</table>`;
+  const sug=it=>it.suggest==='升'?badge('PASS').replace('PASS','升'):`<span class="st" style="background:var(--head);color:var(--muted)">降</span>`;
+  h+=`<section><h2>SA0 前置解析 <small>CJK 候選 ${LX.stats.cjk_candidates} → 邊界熵 ${LX.stats.after_boundary} → 去冗 ${LX.stats.kept} · 名詞 ${LX.nouns.length} · 動作 ${LX.actions.length} · 角色 ${LX.roles.length} · 狀態值 ${LX.statuses.length}</small></h2><div class="body">
+  <small>詞頻 × 章節權重 × 文件權重 = 重要性(先驗,不是結論);降級不等於丟棄。</small>
+  <details><summary>名詞(含 glossary-mapping 與 codebase 命中)</summary>${lr('nouns',[['詞',it=>esc(it.term)],['詞頻',it=>it.freq],['權重',it=>it.weight],['符號',it=>`<span class="mono">${esc(it.symbol||'')}</span>`],['codebase',it=>it.code_hits==null?'—':`${it.code_hits} <small class="mono">${esc(it.code_first||'')}</small>`],['建議',sug]])}</details>
+  <details><summary>動作</summary>${lr('actions',[['詞',it=>esc(it.term)],['詞頻',it=>it.freq],['權重',it=>it.weight],['建議',sug]])}</details>
+  <details><summary>角色 · 狀態值</summary>${lr('roles',[['角色',it=>esc(it.term)],['詞頻',it=>it.freq],['建議',sug]])}${lr('statuses',[['狀態值(屬性)',it=>esc(it.term)],['詞頻',it=>it.freq]])}</details>
+  </div></section>`;
+}
 // ---- SA 建模素材(分析 log 圖,預設收合)----
 const SA=T.sa_artifacts||[],SAF=T.sa_files||[];
 if(SAF.length){

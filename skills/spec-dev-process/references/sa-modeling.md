@@ -7,6 +7,25 @@ description: SA 建模階段的方法論 A(uml-wordbreak)人讀說明:七步各�
 
 目的:在寫 RD spec 之前,先把 PM 素材變成一組**可核對的模型**(實體、角色、流程、狀態),讓後面的 Component 設計有依據,也讓 survey 有東西可以對回 codebase。方法論可抽換:`config.sa_modeling.methodology` 指到 `rules/methodology/sa/` 下另一個 YAML 即可;pipeline 的 SA stage 產出清單由該 YAML 的 `steps[*].output` 決定。
 
+## SA0 前置解析(工具層,先於七步)
+
+`analyze.lexicon` 在 SA stage 開始前自動執行(pipeline 的 `pre_tools`),產出 `spec-review/sa/00-lexicon.md` 與 `lexicon.json`。**SA1 之後 LLM 只讀這份,不讀整份 PM 原文與 codebase**。
+
+| 步 | 做什麼 | 資料 |
+|---|---|---|
+| 斷詞 | 中文:在功能字(的、或、與…)切開 → 2–5 字 n-gram → 邊界熵濾碎片(左/右鄰字唯一且延伸詞同頻者丟)→ 去冗。英文:`[A-Za-z][A-Za-z0-9_]{2,}` | `rules/methodology/sa/lexicon-zh.yaml` |
+| 分類 | 狀態值(待/已/未/可 + 動詞)→ 角色(者/員/主管/系統…結尾,摺疊「提醒審核者」這類片語)→ 動作(整詞是動詞或以動詞結尾)→ 其他為名詞 | 同上 |
+| 重要性 | 詞頻 × 章節權重(功能需求 3、驗收 2…)× 文件權重(PM/mock 1、參考 0.4) | 同上 |
+| glossary-mapping | 名詞對專案詞彙表取符號;有符號者掃 codebase 取命中數與第一個位置 | `specs/glossary.md`、`survey.code_roots` |
+| 升/降 | 有符號、或權重前 60% 且詞頻 ≥ 2 且出現在 PM/mock → 升;其餘降 | — |
+
+實測(testcase1 issue-c,對照人工 SA1):CJK 候選 325 → 邊界熵 111 → 去冗 104;召回 名詞 5/6、動作 7/7、角色 4/4;狀態值 4/4 分類正確。
+
+能力邊界:
+- **這是候選產生器,不是分類器**。升級名詞裡仍有「紀錄」「填理由」這類非實體,要 LLM 在 SA1 剔除。
+- **詞頻是先驗,不是重要性的結論**。「指派」只出現一次被降級,卻是缺口 #1 的核心。降級不等於丟棄;SA1 撿回降級詞要在歸類欄寫理由。
+- 已知漏:「看待審清單」中的「待」被當切分字,「待審清單」切不出來。要更好的中文斷詞需裝 jieba / CKIP,會打破零相依,目前不做。
+
 ## 七步
 
 | 步 | 輸入 | 做什麼 | 判準 | 常見錯誤 |

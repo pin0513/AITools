@@ -39,6 +39,13 @@ files:
     sections: [測試元件清單, Fitness Function]
     tables: [tests, fitness]
     required_tables: [tests]
+  sa/00-lexicon.md:
+    stage: SA
+    dir: review
+    required: false
+    generated: true
+    sections: [名詞候選, 動作候選, 角色候選]
+    tables: [lexicon]
   sa/01-break-words.md:
     stage: SA
     dir: review
@@ -107,6 +114,7 @@ tables:
   tests:         {signature: [ID, 名稱, kind],            columns: [ID, 名稱, kind, 對應 CMP, 對應 AC]}
   fitness:       {signature: [NFR, 量測方式],             columns: [NFR, 量測方式, 門檻, 執行點]}
   words:         {signature: [詞, 詞性],                  columns: [詞, 詞性, 來源, 歸類]}
+  lexicon:       {signature: [詞, 詞頻],                  columns: [詞, 詞頻, 權重]}
   sa_entities:   {signature: [實體, 英文],                columns: [實體, 英文, 屬性, 來源詞]}
   sa_relations:  {signature: [來源, 關係],                columns: [來源, 關係, 目標, 多重性]}
   sa_roles:      {signature: [角色, 動作],                columns: [角色, 動作, 流程, 對應 REQ]}
@@ -119,5 +127,5 @@ artifacts:
   heading_prefixes: [UC-, STM-, SEQ-, CLS-, ERD-, C4-, UCD-, ACT-]     # mermaid 掛在這些開頭的 h3 下才算 artifact(UCD/ACT 為 SA 建模圖)
   kinds: {sequenceDiagram: sequence, stateDiagram: state, classDiagram: class, erDiagram: erd, C4Context: c4-context, C4Container: c4-container, C4Component: c4-component, flowchart: flowchart, graph: flowchart}
 
-generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/, survey-candidates.md, glossary.md]
+generated: [traceability.json, 90-traceability.md, boundary-report.md, check-panel.html, html/, survey-candidates.md, glossary.md, sa/00-lexicon.md, lexicon.json]
 survey_status: [existing, modify, new]

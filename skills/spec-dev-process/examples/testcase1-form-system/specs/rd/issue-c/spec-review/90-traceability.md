@@ -37,6 +37,7 @@
 
 | 等級 | 規則 | 訊息 |
 |---|---|---|
+| INFO | G-SA-steps | SA0 sa/00-lexicon.md 齊全(0 張圖) |
 | INFO | G-SA-steps | SA1 sa/01-break-words.md 齊全(0 張圖) |
 | INFO | G-SA-steps | SA2 sa/02-entities-relations.md 齊全(1 張圖) |
 | INFO | G-SA-steps | SA3 sa/03-roles.md 齊全(0 張圖) |

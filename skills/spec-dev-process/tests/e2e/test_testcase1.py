@@ -25,7 +25,9 @@ class Testcase1Test(unittest.TestCase):
             self.assertTrue((self.review / f).exists(), f)
 
     def test_sa_modeling_all_seven_steps_with_diagrams(self):
-        self.assertEqual(len(self.tr["sa_files"]), 8)   # 7 步 + survey-mapping.md
+        self.assertEqual(len(self.tr["sa_files"]), 9)   # SA0 產生物 + 7 步 + survey-mapping.md
+        self.assertIn("sa/00-lexicon.md", self.tr["sa_files"]); self.assertTrue((self.review / "lexicon.json").exists())
+        self.assertGreater(self.tr["lexicon"]["stats"]["cjk_candidates"], self.tr["lexicon"]["stats"]["kept"])
         kinds = sorted(a["kind"] for a in self.tr["sa_artifacts"])
         self.assertEqual(kinds, ["class", "flowchart", "flowchart", "sequence", "state"])
         self.assertTrue(all(g["level"] == "INFO" for g in self.tr["gate"] if g["rule"] == "G-SA-steps"))

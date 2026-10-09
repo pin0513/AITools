@@ -17,6 +17,7 @@ stages:
     name: SA Modeling
     owner: llm
     methodology: sa_modeling            # outputs 由 config.sa_modeling.methodology 指到的 rules/methodology/sa/<name>.yaml 決定
+    pre_tools: [analyze.extract@1, analyze.glossary@1, analyze.lexicon@1]   # SA0 前置解析(工具層):斷詞、詞頻、glossary-mapping → sa/00-lexicon.md,LLM 從它做 SA1
     inputs:  [10-requirements.md, pm_spec.md, "mock (optional)", "docs (optional)"]
     outputs: []                          # runner 以方法論 steps[*].output 填入(位於 review_dir)
     gates:   [G-SA-steps]

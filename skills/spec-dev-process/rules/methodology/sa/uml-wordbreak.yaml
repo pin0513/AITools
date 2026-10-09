@@ -4,10 +4,18 @@ version: 1
 name: UML 斷詞建模
 description: 把 PM 素材斷成名詞/動詞/角色詞 → 找實體與關係 → 角色、動作、流程 → 畫工作流程核心四圖
 inputs: [10-requirements.md, pm_spec.md, mock, docs]
+token_policy: SA1 之後的步驟只讀 sa/00-lexicon.md 與前一步產物;整份 PM 原文只在 S0 與 SA0(工具)讀
 steps:
+  - id: SA0
+    name: 前置解析(工具)
+    owner: tool
+    tool: analyze.lexicon@1
+    method: 中/英文斷詞(CJK n-gram + 詞典 lexicon-zh.yaml)→ 名詞/動作/角色/狀態值候選;詞頻 × 章節權重 = 重要性;對詞彙表與 codebase 做 glossary-mapping;升/降級建議
+    output: sa/00-lexicon.md
+    sections: [名詞候選, 動作候選, 角色候選]
   - id: SA1
-    name: 斷詞
-    method: 名詞→候選實體;動詞→候選動作;角色詞→候選 Actor;每個詞記來源段落
+    name: 斷詞(LLM 從 SA0 挑選、修正)
+    method: 讀 sa/00-lexicon.md(不讀整份原文):升級的名詞→候選實體;動作→候選動作;角色→候選 Actor;降級的要寫理由才可撿回;每個詞記來源段落
     output: sa/01-break-words.md
     sections: [名詞, 動詞, 角色詞]
   - id: SA2

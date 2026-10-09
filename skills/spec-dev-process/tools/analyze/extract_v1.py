@@ -206,7 +206,10 @@ def load_log(d: pathlib.Path):
 def run(ctx: dict) -> dict:
     ctx["data"] = extract(ctx["dir"], ctx["contracts"], ctx.get("review_dir"), ctx.get("project_root"))
     ctx["log"] = load_log(ctx["dir"])
-    if ctx.get("glossary"):   # 重抽時保留 SV 階段算好的跨 spec 詞彙表
+    if ctx.get("glossary"):   # 重抽時保留前面 stage 工具算好的結果
         from tools.analyze.glossary_v1 import to_data
         ctx["data"]["glossary"] = to_data(ctx["glossary"], ctx.get("project_root") or ctx["dir"])
+    if ctx.get("lexicon"):
+        rows = ctx["lexicon"]
+        ctx["data"]["lexicon"] = {k: rows[k][:40] for k in ("nouns", "actions", "roles", "statuses")} | {"stats": rows["stats"]}
     return ctx

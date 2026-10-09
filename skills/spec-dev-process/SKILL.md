@@ -40,6 +40,8 @@ PM 素材(pm spec + mock + 參考文件)
    │ S0 Intake                      → spec/00-overview.md, 10-requirements.md(REQ + 來源錨點)
    ▼
 SA Modeling(方法論可抽換,預設 uml-wordbreak)
+   SA0 前置解析(工具層):中/英斷詞 → 名詞/動作/角色/狀態值 → 詞頻×權重 → glossary-mapping + codebase scan → 升/降級
+                                       → spec-review/sa/00-lexicon.md(LLM 之後只讀這份,不讀全檔)
    斷詞 → 實體/關係 → 角色/動作/流程 → Use Case / Activity / Sequence / State
                                        → spec-review/sa/01..07(每張圖是分析 log,面板可展開)
    ▼
@@ -61,7 +63,7 @@ SA 的交接規則(`rules/methodology/sa/<name>.yaml` 的 `hand_off`):02 的實�
 | Stage | 誰做 | 輸入 | 方法論 | 產出(檔) | Gate(`process/pipeline.yaml`) |
 |---|---|---|---|---|---|
 | **S0 Intake** | LLM | PM md + mock | 段落切片、型態判定 | `00-overview.md` 來源對照、`10-requirements.md` 需求清單 | 每條 REQ 有 ID 與來源錨點;必要章節齊全 |
-| **SA Modeling** | LLM | REQ + PM 素材 + codebase docs | 方法論 A:斷詞、實體/關係、角色/動作/流程、UCD/ACT/SEQ/STM | `spec-review/sa/01..07.md` | G-SA-steps:每步產出存在、要求的圖至少一張 |
+| **SA Modeling** | 工具(SA0)+ LLM | REQ + PM 素材 + codebase docs | SA0 工具斷詞與詞頻;方法論 A:斷詞挑選、實體/關係、角色/動作/流程、UCD/ACT/SEQ/STM | `spec-review/sa/00..07.md` | G-SA-steps:每步產出存在、要求的圖至少一張 |
 | **SV Survey** | tool + LLM | sa/*.md + codebase + 其他 spec | analyze.glossary 合併跨 spec 詞彙表(名詞 ↔ 符號);analyze.survey 掃 `src/` 出候選;LLM 定案 existing / modify / new | `specs/glossary.md`、`survey-candidates.md`(產生物)、`survey-mapping.md` | G-GL-consistency:本 spec 命名不與他 spec 衝突;G-SV-evidence:existing/modify 的 `path:line`(或 `path:line "字面文字"`)真的含該符號/文字;中文元素經詞彙表或 SA2 解析符號;解析不到 WARN 請人確認 |
 | **S1 Analyze** | LLM | REQ + SA + survey | Use Case(Cockburn)、Gherkin、UML State(UI/Domain 分開)、DDD、Quality Scenario | `10` AC/NFR、`20-domain-model.md` | 每條 REQ 有型態與分析產物;UC 有後置條件 |
 | **S2 Design** | LLM | S1 產物 | C4 L1–L3、UML Sequence(含 alt/opt)、Contract-first、ERD、**AC→CMP 追溯表** | `30-architecture-c4.md`、`40-api-contracts.md`、`50-data-model.md` | Component 表有 layer/context;每條 AC 有強制它的 CMP |

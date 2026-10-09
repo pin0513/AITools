@@ -30,6 +30,10 @@ glossary:                                    # 跨 spec 詞彙表:名詞 ↔ 程
   path: specs/glossary.md                    # 相對專案根;產生物(衝突表在同檔)
   spec_roots: [specs/rd]                     # 底下每個 <issue>/spec 都算一份 spec
   sources: [sa_entities, glossary_table, survey]   # 抽哪些表:SA2 實體(實體/英文)、00 名詞表(名詞/定義)、survey(元素/對應)
+lexicon:                                     # SA0 前置解析;詞典在 rules/methodology/sa/lexicon-zh.yaml,這裡只放專案擴充
+  extra_verbs: []
+  extra_role_suffixes: []
+  extra_stop_words: []
 survey:                                      # Survey Mapping:掃 codebase 找模型元素的對應
   code_roots: [src]                          # 相對專案根(.spec-dev.yaml 所在目錄)
   extensions: [.cs, .ts, .tsx, .js, .sql, .py, .java, .go]

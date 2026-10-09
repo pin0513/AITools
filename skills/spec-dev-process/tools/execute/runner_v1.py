@@ -24,6 +24,11 @@ def run_stage(ctx: dict, stage: dict) -> dict:
     if stage.get("methodology") and ctx.get("methodology"):
         stage = dict(stage, outputs=[st["output"] for st in ctx["methodology"].get("steps") or []])
         ctx["trace"].append(f"  methodology {ctx['methodology']['id']} v{ctx['methodology'].get('version', 1)}: {len(stage['outputs'])} outputs")
+    for ref in stage.get("pre_tools") or []:
+        fn, ver = C.resolve_tool(ref, ctx["registry"]); ctx = fn(ctx); ctx["trace"].append(f"  pre  {ref.split('@')[0]}@{ver}")
+    if stage.get("pre_tools") and ctx.get("data") is not None:
+        from tools.analyze import extract_v1 as X
+        X.run(ctx)   # pre_tools 可能產生 review_dir 檔案,重抽讓 gate 看到
     if stage["owner"] in ("llm", "tool+llm") and stage["owner"] != "tool":
         CT.run(ctx, stage)
         if not ctx["contract_findings"]: ctx["trace"].append(f"  contract OK: {', '.join(stage['outputs'])}")

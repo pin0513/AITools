@@ -1186,6 +1186,7 @@
     }
   },
   "sa_files": [
+    "sa/00-lexicon.md",
     "sa/01-break-words.md",
     "sa/02-entities-relations.md",
     "sa/03-roles.md",
@@ -1619,6 +1620,586 @@
     ],
     "conflicts": [],
     "path": "specs/glossary.md"
+  },
+  "lexicon": {
+    "nouns": [
+      {
+        "term": "紀錄",
+        "freq": 10,
+        "weight": 14.0,
+        "pm_freq": 10,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§3.1 送審",
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§3.3 退回後重送"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "表單",
+        "freq": 6,
+        "weight": 9.0,
+        "pm_freq": 6,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 送審",
+          "pm_spec:pm-spec.md§4 非功能需求"
+        ],
+        "symbol": "Form",
+        "glossary_specs": [
+          "issue-b",
+          "issue-c"
+        ],
+        "suggest": "升",
+        "code_hits": 5,
+        "code_first": "src/database/002_submissions.sql:4"
+      },
+      {
+        "term": "審核紀錄",
+        "freq": 5,
+        "weight": 8.0,
+        "pm_freq": 5,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§4 非功能需求",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "ReviewRecord",
+        "glossary_specs": [
+          "issue-c"
+        ],
+        "suggest": "升",
+        "code_hits": 0,
+        "code_first": ""
+      },
+      {
+        "term": "理由",
+        "freq": 5,
+        "weight": 8.0,
+        "pm_freq": 5,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "工作天",
+        "freq": 3,
+        "weight": 4.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§3.4 逾時提醒",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [
+          "issue-c"
+        ],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "狀態",
+        "freq": 5,
+        "weight": 3.6,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件",
+          "ref:coding.md§開發規範",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "填理由",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "待審核紀錄",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "升",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "送出表單",
+        "freq": 2,
+        "weight": 3.0,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 送審"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "填寫紀錄",
+        "freq": 2,
+        "weight": 2.0,
+        "pm_freq": 2,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§3.1 送審"
+        ],
+        "symbol": "FormSubmission",
+        "glossary_specs": [
+          "issue-b",
+          "issue-c"
+        ],
+        "suggest": "升",
+        "code_hits": 5,
+        "code_first": "src/database/002_submissions.sql:2"
+      },
+      {
+        "term": "部門",
+        "freq": 2,
+        "weight": 2.0,
+        "pm_freq": 2,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "外部系統只",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 0,
+        "where": [
+          "ref:overview.md§架構概觀",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "改狀態",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 0,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      },
+      {
+        "term": "狀態機放",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 0,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "symbol": "",
+        "glossary_specs": [],
+        "suggest": "降",
+        "code_hits": null,
+        "code_first": ""
+      }
+    ],
+    "actions": [
+      {
+        "term": "審核",
+        "freq": 26,
+        "weight": 42.0,
+        "pm_freq": 26,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 送審"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "退回",
+        "freq": 9,
+        "weight": 12.0,
+        "pm_freq": 9,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§3.3 退回後重送"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "送出",
+        "freq": 8,
+        "weight": 11.0,
+        "pm_freq": 8,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 送審"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "填寫",
+        "freq": 7,
+        "weight": 8.0,
+        "pm_freq": 7,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§1 背景與目標",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 送審"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "核准",
+        "freq": 6,
+        "weight": 8.0,
+        "pm_freq": 6,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§3.3 退回後重送"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "修改",
+        "freq": 5,
+        "weight": 6.0,
+        "pm_freq": 5,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 送審",
+          "pm_spec:pm-spec.md§3.3 退回後重送"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "提醒",
+        "freq": 3,
+        "weight": 5.0,
+        "pm_freq": 3,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.4 逾時提醒",
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "以審核",
+        "freq": 1,
+        "weight": 3.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§4 非功能需求"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "指派",
+        "freq": 1,
+        "weight": 3.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§4 非功能需求"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "重新送出",
+        "freq": 2,
+        "weight": 2.0,
+        "pm_freq": 2,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§3.3 退回後重送"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "修改後重送",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "想知道審核",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "狀態顯示",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§5 驗收條件"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "單填寫送出",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "填寫者送出",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 送審"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "天提醒審核",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.4 逾時提醒"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "平均處理",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "核期間填寫",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.1 送審"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "求送出",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "王審核",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "mock:approval.html"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "經審核",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "通知",
+        "freq": 2,
+        "weight": 0.8,
+        "pm_freq": 0,
+        "where": [
+          "ref:coding.md§開發規範",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "suggest": "降"
+      }
+    ],
+    "roles": [
+      {
+        "term": "審核者",
+        "freq": 7,
+        "weight": 13.0,
+        "pm_freq": 7,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§3.4 逾時提醒",
+          "pm_spec:pm-spec.md§4 非功能需求"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "填寫者",
+        "freq": 4,
+        "weight": 5.0,
+        "pm_freq": 4,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.1 送審",
+          "pm_spec:pm-spec.md§3.3 退回後重送"
+        ],
+        "suggest": "升"
+      },
+      {
+        "term": "系統",
+        "freq": 4,
+        "weight": 3.8,
+        "pm_freq": 2,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境",
+          "pm_spec:pm-spec.md§3.4 逾時提醒",
+          "ref:overview.md§架構概觀",
+          "ref:refs.md§issue-c 參考文件"
+        ],
+        "suggest": "降"
+      },
+      {
+        "term": "部門主管",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§1 背景與目標"
+        ],
+        "suggest": "降"
+      }
+    ],
+    "statuses": [
+      {
+        "term": "待審核",
+        "freq": 7,
+        "weight": 9.0,
+        "pm_freq": 7,
+        "where": [
+          "mock:approval.html",
+          "pm_spec:pm-spec.md§3.1 送審",
+          "pm_spec:pm-spec.md§3.2 審核",
+          "pm_spec:pm-spec.md§3.4 逾時提醒"
+        ]
+      },
+      {
+        "term": "可刪除",
+        "freq": 1,
+        "weight": 3.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§4 非功能需求"
+        ]
+      },
+      {
+        "term": "未審核",
+        "freq": 1,
+        "weight": 2.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§2 使用者與情境"
+        ]
+      },
+      {
+        "term": "已核准",
+        "freq": 1,
+        "weight": 1.0,
+        "pm_freq": 1,
+        "where": [
+          "pm_spec:pm-spec.md§3.3 退回後重送"
+        ]
+      }
+    ],
+    "stats": {
+      "docs": [
+        "pm_spec:pm-spec.md",
+        "mock:approval.html",
+        "ref:refs.md",
+        "ref:overview.md",
+        "ref:coding.md"
+      ],
+      "cjk_candidates": 325,
+      "after_boundary": 111,
+      "kept": 104
+    }
   },
   "boundary_checks": [
     {
@@ -2181,6 +2762,16 @@
     }
   ],
   "gate": [
+    {
+      "level": "INFO",
+      "rule": "G-SA-steps",
+      "ids": [
+        "SA0",
+        "sa/00-lexicon.md"
+      ],
+      "msg": "SA0 sa/00-lexicon.md 齊全(0 張圖)",
+      "action": ""
+    },
     {
       "level": "INFO",
       "rule": "G-SA-steps",
