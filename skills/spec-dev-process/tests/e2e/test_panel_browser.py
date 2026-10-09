@@ -55,9 +55,10 @@ class PanelBrowserTest(unittest.TestCase):
         return json.loads(r.stdout.strip().splitlines()[-1])
 
     def test_every_panel_renders_every_requirement_with_diagrams(self):
-        for panel in sorted((BOARD / "tc").glob("*.html")):
+        panels = [p for p in sorted((BOARD / "tc").glob("*.html")) if (ROOT / "examples" / "matrix" / p.stem / "expected.json").exists()]
+        self.assertEqual(len(panels), 15)
+        for panel in panels:   # 只測矩陣 15 份;testcase1 等其他範例由 test_hand_written_example_diagrams_all_parse 測
             with self.subTest(panel=panel.name):
-                exp = json.loads((ROOT / "examples" / "matrix" / panel.stem / "expected.json").read_text(encoding="utf-8"))
                 n_req = 4   # 3 REQ + 1 NFR
                 r = self.run_panel(panel, "primary")
                 self.assertEqual(r["errs"], []); self.assertEqual(r["cards"], n_req)
