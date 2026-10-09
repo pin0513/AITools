@@ -6,8 +6,8 @@ import datetime, hashlib, json, pathlib, re
 from core import config as C, mdtables as M, yamlmini
 from tools.review import checks_v1 as K, mermaid_v1 as MM
 
-SIGNOFF_HEAD = "| 圖 | 確認事項 | 類型 | 目標 | 簽核 hash | 目前 hash | 決定 | 審核者 | 日期 | 備註 |"
-STATUS_ORDER = ("rejected", "stale", "pending", "approved")   # 彙總:任一項退回 → 退回;任一過期 → 過期;任一未做 → 待確認;全部做完(通過或不需要)才算核准
+SIGNOFF_HEAD = "| 圖 | 確認事項 | 類型 | 目標 | 簽核 hash | 目前 hash | 決定 | 審核者 | 日期 | 備註 | 版本 |"
+STATUS_ORDER = ("rejected", "stale", "upstream", "pending", "approved")   # 彙總:任一項退回 → 退回;任一過期 → 過期;任一未做 → 待確認;全部做完(通過或不需要)才算核准
 DONE = {"approved", "n/a"}
 
 def h(code: str) -> str:
@@ -45,35 +45,52 @@ def load_signoff(path: pathlib.Path) -> dict:
         if t.header[:1] != ["圖"] or "決定" not in t.header: continue
         for r in t.rows:
             out[(r["圖"], (r.get("確認事項") or "buildable").strip())] = {"signed_hash": r.get("簽核 hash", ""), "decision": (r.get("決定") or "pending").strip().lower(),
-                                                             "by": r.get("審核者", ""), "date": r.get("日期", ""), "note": r.get("備註", "")}
+                                                             "by": r.get("審核者", ""), "date": r.get("日期", ""), "note": r.get("備註", ""), "version": (r.get("版本") or "").lstrip("v")}
     return out
 
 def write_signoff(path: pathlib.Path, items: list, prev: dict):
     L = ["# 圖與表審計 — 人工確認", "", "<!-- SSOT:人工決定寫在這裡,一張圖 × 一個確認事項一列(以事情區分,不以人區分;同一人可做多項)。",
          "     決定 = approved(通過)/ rejected(退回,要備註)/ n/a(不需要,要寫理由)/ pending。通過時把「目前 hash」填進「簽核 hash」;",
-         "     之後圖一改,目前 hash 變了,該項自動變成 stale。哪類圖要做哪些確認見 rules/review/duties.yaml。",
+         "     之後圖一改,目前 hash 變了,該項自動變成 stale;「版本」是確認當時的文件版本,之後它依據的需求或 PM 段落變了 → upstream(上游已變,請重看)。",
+         "     哪類圖要做哪些確認見 rules/review/duties.yaml;版本紀錄在 audit/versions.jsonl。",
          "     工具每次執行只更新「目前 hash」與新增列,不會改你的決定。也可用看板(spec-dev.py serve)或 spec-dev.py signoff。 -->", "",
-         "## 簽核", "", SIGNOFF_HEAD, "|---|---|---|---|---|---|---|---|---|---|"]
+         "## 簽核", "", SIGNOFF_HEAD, "|---|---|---|---|---|---|---|---|---|---|---|"]
     for it in items:
         if it["type"] != "diagram": continue
         for duty in it["duties"]:
             p = prev.get((it["id"], duty), {})
             L.append(f"| {it['id']} | {duty} | {it['kind']} | {', '.join(it['targets']) or '*'} | {p.get('signed_hash', '')} | {it['hash']} | "
-                     f"{p.get('decision', 'pending') or 'pending'} | {p.get('by', '')} | {p.get('date', '')} | {p.get('note', '')} |")
+                     f"{p.get('decision', 'pending') or 'pending'} | {p.get('by', '')} | {p.get('date', '')} | {p.get('note', '')} | {('v' + p['version']) if p.get('version') else ''} |")
     path.write_text("\n".join(L) + "\n", encoding="utf-8")
 
-def duty_status(item, p):
+def upstream_after(item, p, key_changes):
+    """確認當時版本之後,這張圖依據的上游鍵(pm:/req: 目標需求)有沒有變。回傳 [(鍵, 變更版本)]。沒記版本的舊簽核不判斷。"""
+    try: signed = int(p.get("version") or 0)
+    except ValueError: signed = 0
+    if not signed: return []
+    out = []
+    for t in item.get("targets") or []:
+        for k in (f"pm:{t}", f"req:{t}"):
+            vs = [v for v in key_changes.get(k, []) if v > signed]
+            if vs: out.append((k, max(vs)))
+    return out
+
+def duty_status(item, p, key_changes=None):
     if not p or p["decision"] in ("", "pending"): return "pending"
     if p["decision"] == "rejected": return "rejected"
     if p["decision"] == "n/a": return "n/a"
-    if p["decision"] == "approved": return "approved" if p["signed_hash"] == item["hash"] else "stale"
+    if p["decision"] == "approved":
+        if p["signed_hash"] != item["hash"]: return "stale"
+        return "upstream" if upstream_after(item, p, key_changes or {}) else "approved"
     return "pending"
 
-def apply_signoffs(item, so):
+def apply_signoffs(item, so, key_changes=None):
     item["signoffs"] = {}
     for duty in item["duties"]:
         p = so.get((item["id"], duty)) or {}
-        item["signoffs"][duty] = {"status": duty_status(item, p), **{k: p.get(k, "") for k in ("by", "date", "note", "signed_hash")}}
+        item["signoffs"][duty] = {"status": duty_status(item, p, key_changes), **{k: p.get(k, "") for k in ("by", "date", "note", "signed_hash", "version")}}
+        up = upstream_after(item, p, key_changes or {}) if item["signoffs"][duty]["status"] == "upstream" else []
+        if up: item["signoffs"][duty]["upstream"] = [{"key": k, "v": v} for k, v in up]
     sts = {s["status"] for s in item["signoffs"].values()} or {"pending"}
     item["signoff"] = "approved" if sts <= DONE else next(s for s in STATUS_ORDER if s in sts)
 
@@ -86,6 +103,7 @@ def audit(ctx: dict) -> dict:
     log = [e for e in ctx.get("log") or [] if e.get("seq") not in {x.get("supersedes") for x in ctx.get("log") or [] if "supersedes" in x}]
     sodir = review / "audit"; sodir.mkdir(parents=True, exist_ok=True)
     so = load_signoff(sodir / "signoff.md"); duty_spec = load_duties()
+    vers = data.get("versions") or {}; key_changes = vers.get("key_changes") or {}
     items = []
     phase_of = lambda a: "AUTO" if a.get("auto") else ("SA" if str(a.get("file", "")).startswith("sa/") or a["id"].startswith(("UCD-", "ACT-", "SEQ-SA-", "STM-SA-", "CLS-SA-")) else "RD")
     for a in (data.get("sa_artifacts") or []) + (data.get("artifacts") or []) + (data.get("auto_diagrams") or []):
@@ -106,7 +124,7 @@ def audit(ctx: dict) -> dict:
             if fn is None: it["findings"].append({"gate": "consistency", "outcome": "check_unknown", "vars": {"check": chk}}); continue
             for oc, vars_ in fn(a, parsed, data, ctx): it["findings"].append({"gate": "consistency", "outcome": oc, "vars": vars_, "check": chk})
         it["checks"] = _checks_for(a["id"], rd_spec, sa_dg)
-        it["duties"] = duties_for(a["id"], duty_spec); apply_signoffs(it, so)
+        it["duties"] = duties_for(a["id"], duty_spec); apply_signoffs(it, so, key_changes)
         items.append(it)
     for spec in sa_tb:
         rows = (data.get("sa_tables") or {}).get(spec["table"]) or []
@@ -120,9 +138,9 @@ def audit(ctx: dict) -> dict:
     write_signoff(sodir / "signoff.md", items, so)
     dg = [i for i in items if i["type"] == "diagram"]
     summary = {"diagrams": len(dg), "table_rows": len(items) - len(dg), "by_phase": {p: sum(1 for i in dg if i["phase"] == p) for p in ("SA", "RD", "AUTO")},
-               "signoff": {s: sum(1 for i in dg if i["signoff"] == s) for s in ("approved", "stale", "pending", "rejected")},
+               "signoff": {s: sum(1 for i in dg if i["signoff"] == s) for s in ("approved", "stale", "upstream", "pending", "rejected")},
                "with_findings": sum(1 for i in items if i["findings"]),
-               "by_duty": {k: {s: sum(1 for i in dg if k in i["signoffs"] and i["signoffs"][k]["status"] == s) for s in ("approved", "n/a", "stale", "pending", "rejected")}
+               "by_duty": {k: {s: sum(1 for i in dg if k in i["signoffs"] and i["signoffs"][k]["status"] == s) for s in ("approved", "n/a", "stale", "upstream", "pending", "rejected")}
                            for k in duty_spec.get("duties") or {}}}
     hist = sodir / "history.jsonl"; snap = {i["id"]: i["hash"] for i in dg}
     prev = None
@@ -138,7 +156,8 @@ def audit(ctx: dict) -> dict:
     from tools.review import threads_v1 as TH
     threads = TH.load(sodir / "threads.md")
     summary["threads_open"] = sum(1 for x in threads if x["status"] == "open")
-    res = {"threads": threads, "summary": summary, "items": items, "methodology": meth.get("id", ""), "duties": duty_spec.get("duties") or {}, "signoff_path": str((sodir / "signoff.md").relative_to(ctx["project_root"])) if (sodir / "signoff.md").resolve().is_relative_to(ctx["project_root"]) else "audit/signoff.md"}
+    summary["version"] = vers.get("current", 0)
+    res = {"version": vers.get("current", 0), "threads": threads, "summary": summary, "items": items, "methodology": meth.get("id", ""), "duties": duty_spec.get("duties") or {}, "signoff_path": str((sodir / "signoff.md").relative_to(ctx["project_root"])) if (sodir / "signoff.md").resolve().is_relative_to(ctx["project_root"]) else "audit/signoff.md"}
     (sodir / "audit.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     return res
 

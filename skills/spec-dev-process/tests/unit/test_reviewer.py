@@ -114,3 +114,31 @@ class AuditAndSignoffTest(unittest.TestCase):
         self.d["artifacts"][0]["mermaid"] = SEQ_OK + "\n  Ctl-->>U: done"; c = self.ctx()
         self.assertEqual(c["data"]["audit"]["summary"]["changed_since_last"], ["SEQ-001"])
         self.assertEqual(len((self.tmp / "audit" / "history.jsonl").read_text(encoding="utf-8").splitlines()), 2)
+
+class VersionsUnitTest(unittest.TestCase):
+    """review.versions:段落指紋、上游鍵、有變才記版、diff 與上游鍵變更紀錄。"""
+    def test_sections_split_and_duplicate_headings(self):
+        from tools.review import versions_v1 as V
+        s = V.sections("前言\n# A\nx\n## B\ny\n## B\nz\n")
+        self.assertEqual(list(s), ["(開頭)", "A", "B", "B (2)"]); self.assertNotEqual(s["B"], s["B (2)"])
+
+    def test_upstream_keys_follow_pm_section_and_ac_text(self):
+        from tools.review import versions_v1 as V
+        d = base_data(); d["sources"] = {"pm_spec": {"sections": [{"anchor": "PM§1", "title": "t", "text": "原文"}]}}; d["ac_text"] = {"AC-001-1": {"text": "Given A"}}
+        k1 = V.upstream_keys(d); d["sources"]["pm_spec"]["sections"][0]["text"] = "改過"; k2 = V.upstream_keys(d)
+        self.assertNotEqual(k1["pm:REQ-001"], k2["pm:REQ-001"]); self.assertEqual(k1["req:REQ-001"], k2["req:REQ-001"])
+        d["ac_text"]["AC-001-1"]["text"] = "Given B"; self.assertNotEqual(V.upstream_keys(d)["req:REQ-001"], k2["req:REQ-001"])
+
+    def test_snapshot_only_on_change_with_diff(self):
+        from tools.review import versions_v1 as V
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        try:
+            spec = tmp / "spec"; spec.mkdir(); (spec / "10-requirements.md").write_text("# R\nREQ-001 a\n", encoding="utf-8")
+            ctx = {"data": base_data(), "project_root": tmp, "dir": spec, "review_dir": spec}
+            ctx["data"]["ac_text"] = {}
+            self.assertEqual(V.snapshot(ctx)["current"], 1); self.assertEqual(V.snapshot(ctx)["current"], 1)
+            (spec / "10-requirements.md").write_text("# R\nREQ-001 b\n", encoding="utf-8")
+            s = V.snapshot(ctx); self.assertEqual(s["current"], 2)
+            ch = s["timeline"][0]["changed"][0]; self.assertEqual((ch["path"], ch["sections"], ch["add"], ch["dele"]), ("spec/10-requirements.md", ["R"], 1, 1))
+            self.assertIn("+REQ-001 b", s["diffs"]["2:spec/10-requirements.md"]["lines"])
+        finally: shutil.rmtree(tmp)

@@ -7,6 +7,10 @@ cases:
       {type: diagram, id: SEQ-003, hash: ccc, targets: [REQ-001], signoffs: {buildable: {status: pending}}, findings: []},
       {type: table-row, id: "SA1:x:1", targets: [], findings: []}]}}}
     expect: [{outcome: rejected, target: SEQ-001@buildable, status: FAIL}, {outcome: stale, target: SEQ-002@buildable, status: WARN}, {outcome: pending, target: SEQ-003@buildable, status: INFO}]
+  - name: upstream_changed_after_approval
+    patch: {replace: {audit: {duties: {intent: {label: 是不是要的}}, items: [
+      {type: diagram, id: AUTO-TRACE-REQ-001, hash: aaa, targets: [REQ-001], signoffs: {intent: {status: upstream, version: "1", upstream: [{key: "pm:REQ-001", v: 2}]}}, findings: []}]}}}
+    expect: [{outcome: upstream, target: AUTO-TRACE-REQ-001@intent, status: WARN}]
   - name: pending_required_when_project_requires
     config: {reviewer: {require_signoff: true}}
     patch: {replace: {audit: {items: [{type: diagram, id: SEQ-003, hash: ccc, targets: [], signoffs: {intent: {status: pending}}, findings: []}]}}}

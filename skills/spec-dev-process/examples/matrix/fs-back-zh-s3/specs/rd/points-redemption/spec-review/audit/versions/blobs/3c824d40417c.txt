@@ -1,0 +1,1 @@
+<!doctype html><html><meta charset="utf-8"><title>mock</title><body style="font-family:system-ui"><h2>兌換單 <span data-state="Pending">Pending</span></h2><!-- states: Pending/Fulfilled/Failed --><button data-action="RedeemReward">兌換</button><button data-action="ListTransactions">查看</button><table><tr><th>點數帳戶</th><th>status</th></tr></table></body></html>

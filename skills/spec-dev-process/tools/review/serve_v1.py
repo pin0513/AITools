@@ -30,7 +30,7 @@ class Site:
         ctx = R.make_ctx(self.spec_dir, self.cfg, offline)
         self.review = ctx["review_dir"]; self.audit_dir = self.review / "audit"
         self.root = _common(ctx["project_root"], self.spec_dir, self.review)
-        self.lock = threading.RLock(); self.sig = None; self.html = ""; self.last = {}
+        self.lock = threading.RLock(); self.sig = None; self.html = ""; self.last = {}; self.tracked = []
 
     def signature(self):
         h = []
@@ -38,6 +38,8 @@ class Site:
             for p in base.rglob("*"):
                 if p.is_file() and p.suffix in WATCH_SUFFIX and p.name not in GENERATED and "html" not in p.relative_to(base).parts[:1]:
                     h.append((str(p), p.stat().st_mtime_ns))
+        for p in self.tracked:   # 版本追蹤的文件(PM spec、mock、參考文件、名詞表…常在 spec 目錄之外)
+            if p.is_file(): h.append((str(p), p.stat().st_mtime_ns))
         return hash(tuple(sorted(h)))
 
     def rebuild(self, force=False):
@@ -51,6 +53,7 @@ class Site:
                 if g["level"] != "INFO": rules[g["rule"]] = rules.get(g["rule"], 0) + 1
             self.last = {"fail": sum(1 for g in gate if g["level"] == "FAIL"), "rules": rules, "audit": (ctx.get("data") or {}).get("audit", {}).get("summary")}
             self.html = (self.review / "check-panel.html").read_text(encoding="utf-8")
+            self.tracked = [self.root / d["path"] for d in ((ctx.get("data") or {}).get("versions") or {}).get("docs") or []]
             self.sig = self.signature()   # 重建本身會寫 signoff.md / threads 以外的產生物;重算以免下次又重建
             return True
 

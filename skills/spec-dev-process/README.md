@@ -66,7 +66,7 @@ PM 素材 → **SA Modeling**(可抽換方法論;斷詞 → 實體/關係 → �
 ## spec-reviewer(S6):一站式審查
 
 每張圖、每列 SA 表都可查來源 / 過程 / 目標,機器先核對圖與表一致,再由人逐項確認(是不是要的 / 測得出來 / 做得出來;以事情區分,同一人可一次做完)。
-看板是分頁彈性架構(`board.tabs`),圖與名詞表預設不展開,點晶片開 modal。細節見 `references/spec-reviewer.md`。
+看板是分頁彈性架構(`board.tabs`),圖與名詞表預設不展開,點晶片開 modal。文件有變就記一版(`audit/versions.jsonl`),看板「版本」分頁看時間軸與 diff;已通過的確認若它依據的需求或 PM 段落之後變了,自動標「上游已變,請重看」。細節見 `references/spec-reviewer.md`。
 
 ```bash
 python3 spec-dev.py review <spec>                 # 靜態快照:判斷存在本機,產生 signoff 指令
@@ -129,4 +129,4 @@ python3 -m unittest tests.rules.test_rule_cases   # 只跑規則 case
 
 ## 版本
 
-`VERSION` = 2.6.0(spec-reviewer 子系統、一站式審查站台、看板分頁 + modal)。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。
+`VERSION` = 2.7.0(文件版本追蹤進看板與審計;2.6.0 spec-reviewer 子系統、一站式審查站台、看板分頁 + modal)。mermaid 11.4.1,授權見 `vendor/MERMAID-LICENSE`。

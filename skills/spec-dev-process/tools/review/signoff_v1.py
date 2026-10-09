@@ -10,7 +10,8 @@ class Refused(ValueError):
 def apply(review_dir: pathlib.Path, diagram: str, by: str, decision: str, seen_hash: str = "", note: str = "", duty: str = "buildable") -> str:
     au = review_dir / "audit" / "audit.json"
     if not au.exists(): raise Refused("找不到 audit/audit.json,請先跑 spec-dev.py review")
-    items = {i["id"]: i for i in json.loads(au.read_text(encoding="utf-8"))["items"] if i["type"] == "diagram"}
+    audit = json.loads(au.read_text(encoding="utf-8")); ver = audit.get("version") or 0
+    items = {i["id"]: i for i in audit["items"] if i["type"] == "diagram"}
     if diagram not in items: raise Refused(f"{diagram} 不在審計清單")
     it = items[diagram]; cur = it["hash"]
     if duty not in it.get("duties", []): raise Refused(f"{diagram} 沒有「{duty}」這個確認事項(要做:{', '.join(it.get('duties') or [])})")
@@ -25,9 +26,11 @@ def apply(review_dir: pathlib.Path, diagram: str, by: str, decision: str, seen_h
     for i, line in enumerate(text):
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         if line.startswith("|") and len(cells) >= 10 and cells[0] == diagram and cells[1] == duty:
+            if len(cells) < 11: cells.append("")
+            cells[10] = f"v{ver}" if ver and decision != "pending" else ""   # 確認當時的文件版本
             cells[4] = cur if decision == "approved" else ("" if decision == "pending" else cells[4]); cells[5] = cur
             cells[6] = decision; cells[7] = by.replace("|", "/"); cells[8] = today; cells[9] = note.replace("|", "/").replace("\n", " ")
             text[i] = "| " + " | ".join(cells) + " |"
             path.write_text("\n".join(text) + "\n", encoding="utf-8")
-            return f"{diagram}「{duty}」: {decision} by {by} @ {cur}"
+            return f"{diagram}「{duty}」: {decision} by {by} @ {cur}" + (f" (v{ver})" if ver else "")
     raise Refused(f"signoff.md 沒有 {diagram} / {duty} 這一列,請先跑 spec-dev.py review")

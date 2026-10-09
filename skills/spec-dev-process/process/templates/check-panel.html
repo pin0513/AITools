@@ -87,6 +87,9 @@ dialog#mdl .mb{padding:10px 12px;overflow:auto;max-height:calc(92vh - 46px)}.mme
 .audhead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}
 .mfilter{font:inherit;padding:4px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg);width:100%;box-sizing:border-box;margin-bottom:6px}
 tr.hit td{background:var(--warnbg)}
+pre.diff{font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;margin:0;padding:6px;border:1px solid var(--line);border-radius:4px}
+pre.diff .ad{display:block;background:var(--passbg,rgba(46,160,67,.15))}pre.diff .dl{display:block;background:var(--failbg,rgba(248,81,73,.15))}pre.diff .hk{display:block;color:var(--muted)}
+#versions h3{font-size:13px;margin:14px 0 6px}
 </style>
 </head>
 <body>
@@ -121,9 +124,18 @@ const DGS={},MODAL={};
 const chip=(key,label,sub,icon)=>`<button type="button" class="chip" data-open="${esc(key)}">${icon} ${esc(label)}${sub?` <small>${esc(sub)}</small>`:''}</button>`;
 const mer=a=>{DGS[a.id]=a;return chip('dg:'+a.id,a.id,[a.kind,a.file?a.file+(a.line?':'+a.line:''):(a.auto?'自動':'')].filter(Boolean).join(' · '),'◫')};
 const tbl=(key,title,html,sub)=>{MODAL['tb:'+key]={title,html};return chip('tb:'+key,title,sub,'▦')};
+const VR=T.versions||null;
+const diffHtml=d=>`<div class="mmeta"><span class="st PASS">+${d.add}</span> <span class="st FAIL">−${d.del}</span>${d.truncated?' <small>(只顯示前 400 行)</small>':''}</div><pre class="diff">${d.lines.map(l=>`<span class="${l.startsWith('@@')?'hk':l.startsWith('+')&&!l.startsWith('+++')?'ad':l.startsWith('-')&&!l.startsWith('---')?'dl':''}">${esc(l)}</span>`).join('\n')}</pre>`;
+const diffChip=(v,c)=>{const d=(VR.diffs||{})[v+':'+c.path];const name=c.path.split('/').pop();
+  if(!d)return `<span class="chip" title="${esc(c.path)}">${c.status==='new'?'＋':c.status==='removed'?'－':'·'} ${esc(name)} <small>${c.status==='new'?'新增':c.status==='removed'?'移除':''}</small></span>`;
+  return tbl(`diff:${v}:${c.path}`,`${c.path} · v${v} 的變更`,`${c.sections&&c.sections.length?`<div class="mmeta"><small>變更段落:</small> ${c.sections.map(s=>`<span class="st WARN">${esc(s)}</span>`).join(' ')}${c.more?` <small>…另 ${c.more} 段</small>`:''}</div>`:''}${diffHtml(d)}`,`+${d.add} −${d.del}`)};
+/* 上游鍵 → 那一版改了它的文件 diff:pm: 看 PM spec,req: 看需求文件 */
+const keyDiff=(key,v)=>{if(!VR)return esc(key)+' v'+v;const tl=(VR.timeline||[]).find(x=>x.v===v);if(!tl)return esc(key)+' v'+v;
+  const c=tl.changed.find(c=>key.startsWith('pm:')?(c.kind==='PM'&&/\.md$/.test(c.path)):/10-requirements\.md$/.test(c.path))||tl.changed[0];
+  return c?diffChip(v,c).replace(/(<button[^>]*>)/,`$1${esc(key)} @v${v} · `):esc(key)+' v'+v};
 
 let h='';
-h+=`<h1>${esc(T.title)} <small>(${esc(T.feature)})</small></h1>
+h+=`<h1>${esc(T.title)} <small>(${esc(T.feature)})${T.versions&&T.versions.current?` · v${T.versions.current}${T.versions.git?' · '+esc(T.versions.git.commit):''}`:''}</small></h1>
 <div class="sub">來源檔:${(T.source_files||[]).map(esc).join(', ')} · 由 spec-dev.py 產生,資料以 md 為準</div>`;
 h+=`<div class="kpis">
 <div class="kpi"><b>${K.req_count}</b><span>需求 (REQ+NFR)</span></div>
@@ -196,7 +208,8 @@ for(const r of (T.requirements||[])){
       <small>測試:${tt.length?tt.map(x=>`${esc(x.id)} ${loc('60',x.line)}`).join(' · '):badge('FAIL')+' 無'}</small></div>`}).join('');
   const ucs=Object.entries(UCT).filter(([k,v])=>v.heading.includes(r.id)).map(([k,v])=>`<details><summary><small>${esc(v.heading)} ${loc('20-domain-model.md',v.line)}</small></summary><pre class="pre" style="color:var(--fg)">${esc(v.text)}</pre></details>`).join('');
   const apis=(T.apis||[]).filter(a=>a.reqs.includes(r.id)||a.nfrs.includes(r.id)).map(a=>`<small>${esc(a.id)} ${esc(a.method)} <span class="loc">${esc(a.path)}</span> ${loc((T.doc_paths||{})['40-api-contracts.md']||'40',a.line)}</small>`).join('<br>');
-  h+=`<article class="evc"><header>${badge(st)} <b>${esc(r.id)}</b> <small>${esc(r.title)}</small></header><div class="evg">
+  const vch=T.versions&&T.versions.current>1?['pm:','req:'].filter(p=>((T.versions.key_changes||{})[p+r.id]||[]).includes(T.versions.current)):[];
+  h+=`<article class="evc"><header>${badge(st)} <b>${esc(r.id)}</b> <small>${esc(r.title)}</small>${vch.length?` <span class="st WARN">v${T.versions.current} ${vch.map(p=>p==='pm:'?'PM 段落已改':'需求 / AC 已改').join('、')}</span>`:''}</header><div class="evg">
     <div><h4>PM 證據 · 文字</h4>${pm}${pmMock}</div>
     <div>${mid_}</div>
     <div><h4>RD 證據 · 文字</h4>${loc(r.file||'10-requirements.md',r.line)}${acRows}${ucs}${apis}</div></div></article>`;
@@ -216,9 +229,9 @@ if(AU){
   const changed=new Set(S.changed_since_last||[]);
   const todoDuties=it=>Object.entries(it.signoffs||{}).filter(([k,s])=>!['approved','n/a'].includes(s.status)).map(([k])=>k);
   const openQ=it=>TH.filter(q=>q.item===it.id&&q.status==='open').length;
-  const rank=it=>it.signoff==='rejected'?0:lvOf(it)==='FAIL'?1:it.signoff==='stale'?2:openQ(it)?3:lvOf(it)==='WARN'?4:changed.has(it.id)?5:(it.type==='diagram'&&todoDuties(it).length)?6:9;
+  const rank=it=>it.signoff==='rejected'?0:lvOf(it)==='FAIL'?1:(it.signoff==='stale'||it.signoff==='upstream')?2:openQ(it)?3:lvOf(it)==='WARN'?4:changed.has(it.id)?5:(it.type==='diagram'&&todoDuties(it).length)?6:9;
   const order=[...items].sort((a,b)=>rank(a)-rank(b)||a.id.localeCompare(b.id));
-  const SO={approved:['PASS','通過'],'n/a':['INFO','不需要'],stale:['WARN','通過後已變更'],pending:['INFO','待確認'],rejected:['FAIL','退回']};
+  const SO={approved:['PASS','通過'],'n/a':['INFO','不需要'],stale:['WARN','通過後已變更'],upstream:['WARN','上游已變,請重看'],pending:['INFO','待確認'],rejected:['FAIL','退回']};
   const pill=(cls,t)=>`<span class="st ${cls}">${esc(t)}</span>`;
   const dLabel=k=>(DU[k]||{}).label||k;
   const reqTitle=id=>{const r=(T.requirements||[]).find(x=>x.id===id);return r?`${esc(id)} <small>${esc(r.title)}</small>`:`${esc(id)} ${pill('FAIL','不存在')}`};
@@ -227,13 +240,13 @@ if(AU){
     const rows=cs.map(c=>{const n=(it.findings||[]).filter(x=>x.check===c).length;return `<tr><td class="loc">${esc(c)}</td><td>${n?pill('WARN','有發現 '+n):pill('PASS','通過')}</td></tr>`}).join('');
     const det=g.map(x=>`<tr><td class="loc">${esc(x.rule)}</td><td>${pill(x.level,x.level)} <small>${esc(x.msg)}${x.action?'<br>處置:'+esc(x.action):''}</small></td></tr>`).join('');
     return `<div class="tw"><table>${rows}${det}${(!rows&&!det)?'<tr><td><small>此類型沒有機器核對規格,由人確認</small></td></tr>':''}</table></div>`};
-  const chips=it=>Object.entries(it.signoffs||{}).map(([k,s])=>{const m=SO[s.status]||SO.pending;return `<span class="st ${m[0]}" title="${esc(m[1])}${s.by?' · '+esc(s.by):''}">${esc(dLabel(k))} ${s.status==='approved'?'✓':s.status==='n/a'?'—':s.status==='rejected'?'✗':s.status==='stale'?'!':'…'}</span>`}).join(' ');
+  const chips=it=>Object.entries(it.signoffs||{}).map(([k,s])=>{const m=SO[s.status]||SO.pending;return `<span class="st ${m[0]}" title="${esc(m[1])}${s.by?' · '+esc(s.by):''}">${esc(dLabel(k))} ${s.status==='approved'?'✓':s.status==='n/a'?'—':s.status==='rejected'?'✗':(s.status==='stale'||s.status==='upstream')?'!':'…'}</span>`}).join(' ');
   /* 確認清單:一張圖要做的每件事一列;同一個人可以全部做完(跨職能) */
   const checklist=it=>{const ks=Object.keys(it.signoffs||{});if(!ks.length)return '';
     const row=k=>{const s=it.signoffs[k];const loc_=lsGet(it.id+'@'+it.hash+'#'+k)||{};
-      const v=SERVE?(s.status==='stale'?'':(s.status==='pending'?'':s.status)):(loc_.v||'');const note=SERVE?(s.note||''):(loc_.note||'');
+      const v=SERVE?((s.status==='stale'||s.status==='upstream'||s.status==='pending')?'':s.status):(loc_.v||'');const note=SERVE?(s.note||''):(loc_.note||'');
       const r=(val,lab)=>`<label><input type="radio" name="d-${esc(it.id)}-${esc(k)}" value="${val}" ${v===val?'checked':''}> ${lab}</label>`;
-      return `<div class="duty" data-duty="${esc(k)}"><div><b>${esc(dLabel(k))}</b> <small class="hint">${esc((DU[k]||{}).hint||'')} 視角</small> ${SO[s.status]?pill(SO[s.status][0],SO[s.status][1]):''}${s.by?` <small>${esc(s.by)} ${esc(s.date||'')}</small>`:''}
+      return `<div class="duty" data-duty="${esc(k)}"><div><b>${esc(dLabel(k))}</b> <small class="hint">${esc((DU[k]||{}).hint||'')} 視角</small> ${SO[s.status]?pill(SO[s.status][0],SO[s.status][1]):''}${s.by?` <small>${esc(s.by)} ${esc(s.date||'')}${s.version?' @v'+esc(s.version):''}</small>`:''}${(s.upstream||[]).length?`<div class="chips"><small>上游變更(點開看 diff):</small>${s.upstream.map(u=>keyDiff(u.key,u.v)).join('')}</div>`:''}
         <div><small>${esc((DU[k]||{}).ask||'')}</small></div></div>
         <div class="opts">${r('approved','通過')}${r('rejected','退回')}${r('n/a','不需要')}${r('','未決')}</div>
         <input type="text" class="note" placeholder="備註(退回寫怎麼改;不需要寫理由)" value="${esc(note)}"></div>`};
@@ -275,7 +288,7 @@ if(AU){
   h+=`<section id="audit"><h2>F. 圖與表審計 <small>${SERVE?'站台模式:直接確認、提問,寫回 audit/signoff.md、threads.md':'靜態快照:判斷存在本機,產生指令'} · 方法論 ${esc(AU.methodology||'—')}</small></h2><div class="body">
   <div class="kpis">
     <div class="kpi ${todo?'warn':'pass'}"><b>${todo}</b><span>還要處理的項目</span></div>
-    <div class="kpi ${dDone<dRows?'warn':'pass'}"><b>${dDone}/${dRows}</b><span>確認事項已做 · 退回 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.rejected||0),0)} · 過期 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.stale||0),0)}</span></div>
+    <div class="kpi ${dDone<dRows?'warn':'pass'}"><b>${dDone}/${dRows}</b><span>確認事項已做 · 退回 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.rejected||0),0)} · 過期 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.stale||0),0)} · 上游已變 ${Object.values(S.by_duty||{}).reduce((a,x)=>a+(x.upstream||0),0)}</span></div>
     ${Object.entries(S.by_duty||{}).map(([k,x])=>`<div class="kpi ${(x.pending||x.stale||x.rejected)?'warn':'pass'}"><b>${(x.approved||0)+(x['n/a']||0)}/${Object.values(x).reduce((p,q)=>p+q,0)}</b><span>${esc(dLabel(k))} <small>(${esc((DU[k]||{}).hint||'')} 視角)</small></span></div>`).join('')}
     <div class="kpi ${openAll.length?'warn':'pass'}"><b>${openAll.length}</b><span>未結提問</span></div>
     <div class="kpi"><b>${S.diagrams}</b><span>圖 · SA ${S.by_phase.SA} · RD ${S.by_phase.RD} · 自動 ${S.by_phase.AUTO} · 表格列 ${S.table_rows}</span></div>
@@ -346,6 +359,29 @@ if(SV.length){
   h+=`${bad_.length?`<table>${bad_.join('')}</table>`:'<small>證據全部驗證通過</small>'}<div class="chips">${tbl('survey','Survey Mapping 全表',svt+'</table>',SV.length+' 列')}</div></div></section>`;
 }
 
+// ---- V. 版本追蹤:文件一改就記一版;看本版改了什麼、哪段改了、影響哪些確認 ----
+const upItems=((T.audit||{}).items||[]).filter(i=>Object.values(i.signoffs||{}).some(s=>s.status==='upstream'));
+if(VR&&VR.current){
+  const latest=(VR.timeline||[])[0]||{changed:[],keys:[]};
+  h+=`<section id="versions"><h2>V. 版本追蹤 <small>v${VR.current}${VR.git?` · ${esc(VR.git.branch)}@${esc(VR.git.commit)}`:''} · 追蹤 ${VR.docs.length} 份文件 · 有變才記一版(audit/versions.jsonl)</small></h2><div class="body">
+  <div class="kpis">
+    <div class="kpi"><b>v${VR.current}</b><span>目前版本 · ${esc((VR.at||'').replace('T',' '))}</span></div>
+    <div class="kpi ${latest.changed.length&&VR.current>1?'warn':'pass'}"><b>${VR.current>1?latest.changed.length:0}</b><span>本版變更的文件(相對 v${Math.max(VR.current-1,0)})</span></div>
+    <div class="kpi ${latest.keys.length&&VR.current>1?'warn':'pass'}"><b>${VR.current>1?latest.keys.length:0}</b><span>本版變更的需求上游(PM 段落 / 需求列)</span></div>
+    <div class="kpi ${upItems.length?'warn':'pass'}"><b>${upItems.length}</b><span>上游已變、要重看的圖</span></div>
+    ${VR.git?`<div class="kpi ${(VR.git.dirty||[]).length?'warn':'pass'}"><b>${(VR.git.dirty||[]).length}</b><span>未 commit 的追蹤文件</span></div>`:''}
+  </div>
+  ${upItems.length?`<h3>上游已變,請重看</h3><div class="chips">${upItems.map(i=>chip('aud:'+i.id,i.id,[...new Set(Object.values(i.signoffs).flatMap(s=>(s.upstream||[]).map(u=>u.key+' v'+u.v)))].join(' · '),'⚠')).join('')}</div>`:''}
+  <h3>時間軸</h3><div class="tw"><table><tr><th>版本</th><th>時間</th><th>git</th><th>變更的文件(點開看 diff)</th><th>變更的需求上游</th></tr>
+  ${(VR.timeline||[]).map(t=>`<tr><td><b>v${t.v}</b></td><td><small>${esc(t.at.replace('T',' '))}</small></td><td class="loc">${t.git?esc(t.git.commit)+((t.git.dirty||[]).length?' +未commit':''):'—'}</td>
+    <td><div class="chips">${t.v===1&&!(VR.timeline||[]).find(x=>x.v===0)?`<small>首版:${t.changed.length} 份文件建立基準</small>`:t.changed.map(c=>diffChip(t.v,c)).join('')}</div></td>
+    <td>${(t.keys||[]).map(k=>`<span class="st WARN">${esc(k)}</span>`).join(' ')||'<small>—</small>'}</td></tr>`).join('')}</table></div>
+  <h3>文件</h3><div class="tw"><table><tr><th>種類</th><th>文件</th><th>最後變更</th><th>行數</th><th>git 最後 commit</th><th>內容 hash</th></tr>
+  ${VR.docs.map(d=>{const t=(VR.timeline||[]).find(x=>x.v===d.changed_in);const c=t&&t.changed.find(x=>x.path===d.path);
+    return `<tr><td><small>${esc(d.kind)}</small></td><td>${loc(d.path,'')}</td><td>${d.changed_in===VR.current&&VR.current>1?'<span class="st WARN">本版</span> ':''}v${d.changed_in} ${c&&d.changed_in>1?diffChip(d.changed_in,c):''}</td><td>${d.lines}</td>
+      <td><small>${d.git?`${esc(d.git.commit)} · ${esc(d.git.date)} · ${esc(d.git.author)}<br>${esc(d.git.subject)}`:'—'}</small></td><td class="loc">${esc(d.hash)}</td></tr>`}).join('')}</table></div>
+  </div></section>`;
+}
 h+=`<section><h2>B. 需求 × 技術元件 × 測試元件 <small>點列展開明細</small></h2><div class="body"><table>
 <tr class="grp"><th rowspan="2">需求</th><th rowspan="2">型態</th><th colspan="${LAYERS.length}">技術元件 (layer)</th><th colspan="${KINDS.length}">測試元件 (kind)</th><th rowspan="2">狀態</th></tr>
 <tr>${LAYERS.map(l=>`<th>${l}</th>`).join('')}${KINDS.map(k=>`<th>${k}</th>`).join('')}</tr>`;
@@ -390,6 +426,7 @@ const TABDEF=[
   {id:'overview',title:'總覽',match:/^(A\.|Gate 問題)/},
   {id:'evidence',title:'證據鏈',match:/^E\./},
   {id:'audit',title:'審計與確認',match:/^F\./},
+  {id:'versions',title:'版本',match:/^V\./},
   {id:'matrix',title:'需求 × 元件 × 測試',match:/^B\./},
   {id:'boundary',title:'技術邊界',match:/^(C\.|架構圖)/},
   {id:'sa',title:'SA 建模',match:/^(SA0|SA 建模)/},
@@ -402,7 +439,8 @@ for(const sec of [...app.children].filter(n=>n.matches('section,.two'))){const t
 const order_=(BOARD.tabs||TABDEF.map(x=>x.id).concat(['other'])).filter(id=>panes[id]);
 const badgeOf={overview:G.filter(g=>g.level==='FAIL').length?`<span class="st FAIL">${G.filter(g=>g.level==='FAIL').length}</span>`:'',
   audit:(()=>{const n=document.querySelectorAll('#audlist [data-rank]');const k=[...n].filter(x=>+x.dataset.rank<9).length;return k?`<span class="st WARN">${k}</span>`:''})(),
-  evidence:`<small>${(T.requirements||[]).length}</small>`};
+  evidence:`<small>${(T.requirements||[]).length}</small>`,
+  versions:T.versions&&T.versions.current?`<small>v${T.versions.current}</small>`:''};
 const nav=document.createElement('nav');nav.className='tabs';nav.setAttribute('role','tablist');nav.setAttribute('aria-label','看板分頁');
 for(const id of order_){const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.id='tabbtn-'+id;b.dataset.tab=id;b.setAttribute('aria-controls','tab-'+id);
   b.innerHTML=esc(panes[id].def.title)+' '+(badgeOf[id]||'');nav.appendChild(b);

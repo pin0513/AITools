@@ -1,0 +1,13 @@
+<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>mock: 審核</title>
+<body style="font-family:system-ui">
+<h2>填寫紀錄 #1234 <span id="status" data-state="pending">待審核</span></h2>
+<!-- 狀態:pending(待審核) / approved(已核准) / rejected(已退回) -->
+<section id="answers"><label>部門 <input name="dept" disabled></label></section>
+<section id="submitter-actions"><button id="edit" disabled>修改</button><button id="resubmit" hidden>重新送出</button></section>
+<section id="reviewer-actions">
+  <button id="approve">核准</button>
+  <button id="reject">退回</button>
+  <textarea id="reason" placeholder="退回理由(至少 10 字)" minlength="10"></textarea>
+</section>
+<section id="history"><h3>審核紀錄</h3><ul><li>2026-10-01 王審核 退回:缺少附件說明</li></ul></section>
+</body></html>

@@ -322,6 +322,9 @@ def signoff_findings(data, params, ctx):
             ids = [it["id"]] + list(it.get("targets") or [])
             if st == "rejected": out.append(_f("rejected", tgt, ids, **v))
             elif st == "stale": out.append(_f("stale", tgt, ids, **v))
+            elif st == "upstream":
+                up = d.get("upstream") or []
+                out.append(_f("upstream", tgt, ids, keys=", ".join(f"{u['key']}(v{u['v']})" for u in up), signed_v=d.get("version", ""), **v))
             elif st == "pending": out.append(_f("pending_required" if req else "pending", tgt, ids, **v))
     return out
 

@@ -1376,6 +1376,228 @@
     "open_gaps": 2,
     "assumed": 2
   },
+  "versions": {
+    "current": 1,
+    "at": "2026-10-09T11:24:18",
+    "git": {
+      "commit": "dc55c1a",
+      "branch": "feat/pm-to-rd-spec-workflow",
+      "dirty": []
+    },
+    "timeline": [
+      {
+        "v": 1,
+        "at": "2026-10-09T11:24:18",
+        "git": {
+          "commit": "dc55c1a",
+          "branch": "feat/pm-to-rd-spec-workflow",
+          "dirty": []
+        },
+        "changed": [
+          {
+            "path": "00-overview.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "來源對照",
+              "名詞表",
+              "會員上傳大頭貼 — 概觀",
+              "範圍",
+              "背景與目標"
+            ],
+            "more": 0
+          },
+          {
+            "path": "10-requirements.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "AC-001-1 成功上傳",
+              "AC-001-2 檔案過大",
+              "AC-001-3 儲存服務失敗",
+              "AC-002-1 裁切結果",
+              "AC-003-1 顯示",
+              "會員上傳大頭貼 — 需求",
+              "缺口(待 PM 確認)",
+              "需求清單",
+              "非功能需求",
+              "驗收條件"
+            ],
+            "more": 0
+          },
+          {
+            "path": "20-domain-model.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "CLS-001 Member(REQ-001)",
+              "STM-UI-001 上傳畫面(REQ-002)",
+              "UC-001 上傳大頭貼(REQ-001)",
+              "UC-002 裁切頭像(REQ-002)",
+              "UC-003 顯示頭像(REQ-003)",
+              "Use Case",
+              "介面狀態",
+              "會員上傳大頭貼 — 領域模型",
+              "狀態機",
+              "領域模型"
+            ],
+            "more": 0
+          },
+          {
+            "path": "30-architecture-c4.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "C4-L1",
+              "C4-L2",
+              "C4-L3",
+              "Component(L3)",
+              "Container(L2)",
+              "Context(L1)",
+              "SEQ-001 上傳(UC-001 / REQ-001)",
+              "Sequence",
+              "會員上傳大頭貼 — 架構(C4)",
+              "追溯(AC → 技術元件)"
+            ],
+            "more": 0
+          },
+          {
+            "path": "40-api-contracts.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "介面清單",
+              "外部依賴與失敗模式",
+              "會員上傳大頭貼 — 介面契約",
+              "錯誤碼"
+            ],
+            "more": 0
+          },
+          {
+            "path": "50-data-model.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "ERD-001",
+              "擁有權",
+              "會員上傳大頭貼 — 資料模型",
+              "資料表",
+              "遷移"
+            ],
+            "more": 0
+          },
+          {
+            "path": "60-test-design.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "Fitness Function",
+              "會員上傳大頭貼 — 測試設計",
+              "架構測試",
+              "測試元件清單"
+            ],
+            "more": 0
+          }
+        ],
+        "keys": []
+      }
+    ],
+    "docs": [
+      {
+        "path": "00-overview.md",
+        "kind": "RD",
+        "hash": "38b14a682956",
+        "lines": 26,
+        "changed_in": 1,
+        "git": {
+          "commit": "cfaf5c2",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: spec-dev-process portable package (rename from pm-to-rd-spec)"
+        }
+      },
+      {
+        "path": "10-requirements.md",
+        "kind": "RD",
+        "hash": "7d75611503c5",
+        "lines": 49,
+        "changed_in": 1,
+        "git": {
+          "commit": "cfaf5c2",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: spec-dev-process portable package (rename from pm-to-rd-spec)"
+        }
+      },
+      {
+        "path": "20-domain-model.md",
+        "kind": "RD",
+        "hash": "f085d55dced9",
+        "lines": 86,
+        "changed_in": 1,
+        "git": {
+          "commit": "cfaf5c2",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: spec-dev-process portable package (rename from pm-to-rd-spec)"
+        }
+      },
+      {
+        "path": "30-architecture-c4.md",
+        "kind": "RD",
+        "hash": "b66627e29ef7",
+        "lines": 99,
+        "changed_in": 1,
+        "git": {
+          "commit": "cfaf5c2",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: spec-dev-process portable package (rename from pm-to-rd-spec)"
+        }
+      },
+      {
+        "path": "40-api-contracts.md",
+        "kind": "RD",
+        "hash": "f20c13d3e8eb",
+        "lines": 20,
+        "changed_in": 1,
+        "git": {
+          "commit": "cfaf5c2",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: spec-dev-process portable package (rename from pm-to-rd-spec)"
+        }
+      },
+      {
+        "path": "50-data-model.md",
+        "kind": "RD",
+        "hash": "73b52ddc4aff",
+        "lines": 30,
+        "changed_in": 1,
+        "git": {
+          "commit": "cfaf5c2",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: spec-dev-process portable package (rename from pm-to-rd-spec)"
+        }
+      },
+      {
+        "path": "60-test-design.md",
+        "kind": "RD",
+        "hash": "f538882a013d",
+        "lines": 22,
+        "changed_in": 1,
+        "git": {
+          "commit": "cfaf5c2",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: spec-dev-process portable package (rename from pm-to-rd-spec)"
+        }
+      }
+    ],
+    "diffs": {},
+    "key_changes": {}
+  },
   "auto_diagrams": [
     {
       "id": "AUTO-TRACE-REQ-001",
@@ -1589,6 +1811,7 @@
     }
   ],
   "audit": {
+    "version": 1,
     "threads": [],
     "summary": {
       "diagrams": 18,
@@ -1601,6 +1824,7 @@
       "signoff": {
         "approved": 0,
         "stale": 0,
+        "upstream": 0,
         "pending": 18,
         "rejected": 0
       },
@@ -1610,6 +1834,7 @@
           "approved": 0,
           "n/a": 0,
           "stale": 0,
+          "upstream": 0,
           "pending": 7,
           "rejected": 0
         },
@@ -1617,6 +1842,7 @@
           "approved": 0,
           "n/a": 0,
           "stale": 0,
+          "upstream": 0,
           "pending": 8,
           "rejected": 0
         },
@@ -1624,13 +1850,15 @@
           "approved": 0,
           "n/a": 0,
           "stale": 0,
+          "upstream": 0,
           "pending": 11,
           "rejected": 0
         }
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0
+      "threads_open": 0,
+      "version": 1
     },
     "items": [
       {
@@ -1684,14 +1912,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -1730,14 +1960,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -1784,7 +2016,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -1819,7 +2052,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -1854,7 +2088,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -1891,7 +2126,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -1932,14 +2168,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -1984,7 +2222,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2042,14 +2281,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2091,7 +2332,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2137,14 +2379,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2184,7 +2428,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2227,14 +2472,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2273,7 +2520,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2314,14 +2562,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2360,7 +2610,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2402,14 +2653,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2449,7 +2702,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -2481,7 +2735,7 @@
       "reason": "",
       "modal": "ok",
       "cards": 0,
-      "tabs": 5,
+      "tabs": 6,
       "visible_dg": 0,
       "visible_svgs": 0,
       "overflow": false,
@@ -2516,7 +2770,7 @@
     },
     "modal": "ok",
     "cards": 0,
-    "tabs": 5,
+    "tabs": 6,
     "visible_dg": 0,
     "visible_svgs": 0,
     "overflow": false,

@@ -9,5 +9,6 @@ params: {}
 outcomes:
   rejected:      {status: FAIL, message: "{diagram}「{duty}」被 {by} 退回:{note}", action: "依備註修正後重新簽核"}
   stale:         {status: WARN, message: "{diagram}「{duty}」通過後內容已變更(簽核 {signed} → 目前 {current})", action: "看板上重新確認並簽核"}
+  upstream:      {status: WARN, message: "{diagram}「{duty}」在 v{signed_v} 通過後,它依據的上游已變:{keys}", action: "看板「版本」分頁看 diff,重看後再確認"}
   pending:       {status: INFO, message: "{diagram}「{duty}」尚未確認"}
   pending_required: {status: WARN, message: "{diagram}「{duty}」尚未確認(專案要求簽核)", action: "看板上確認並簽核"}

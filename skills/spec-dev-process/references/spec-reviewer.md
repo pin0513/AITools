@@ -60,7 +60,33 @@ flowchart LR
 - 「不需要」是正式決定,必須寫理由,算做完 —— 事情要不要做本身也留下紀錄。
 - 一張圖的狀態 = 彙總:任一項退回 → 退回(FAIL);任一項過期 → 過期(WARN);全部做完才算完成。
 
-## 4. 看板:分頁 + modal
+## 4. 文件版本追蹤(`review.versions`)
+
+```
+每次 review / serve 重建
+  ├─ 追蹤文件:PM spec、mock、參考文件、SA 各步驟、RD spec(含 ui/ api/)、survey、名詞表、命名對照
+  ├─ 指紋三層:文件 hash → 每個標題段落 hash → 每條需求的上游鍵
+  │     pm:REQ-x  需求來源錨點對應的 PM 段落
+  │     req:REQ-x 需求列 + 它的 AC 文字
+  ├─ 有變才記一版 → audit/versions.jsonl(v1, v2…;有 git 另記 commit、每份文件最後 commit、未 commit 清單)
+  │                 audit/versions/blobs/<hash>.txt(內容定址,diff 不靠 git)
+  └─ 影響:確認時記下當時版本(signoff.md「版本」欄)
+           之後該圖目標需求的上游鍵變了 → 該項變「上游已變,請重看」(G-DG-signoff WARN)
+```
+
+| 問題 | 看板上哪裡看 |
+|---|---|
+| 現在是第幾版?哪個 commit? | 標題列 `· v2 · dc55c1a`、「版本」分頁 KPI |
+| 這版改了哪些文件、哪幾段? | 「版本」分頁時間軸:每份變更文件一個晶片,點開 modal 看 unified diff 與變更段落 |
+| 哪條需求的上游改了? | 時間軸「變更的需求上游」;證據鏈需求卡標「v2 PM 段落已改」 |
+| 哪些已通過的確認要重看? | 「版本」分頁「上游已變,請重看」清單;審計項目的確認事項直接附「點開看 diff」 |
+| 誰在哪一版確認的? | 審計項目確認事項旁 `Paul 2026-10-09 @v1` |
+
+- 圖本身內容變了是「過期」(hash);圖沒變、它依據的需求變了是「上游已變」—— 兩種都要重看,原因不同,分開標。
+- 站台模式下,追蹤的文件(包括 spec 目錄外的 PM spec)一改,看板就提示有新版本。
+- 沒有版本欄的舊確認紀錄不做上游判斷(不猜)。
+
+## 5. 看板:分頁 + modal
 
 - 分頁登錄表(`TABDEF`):總覽、證據鏈、審計與確認、需求×元件×測試、技術邊界、SA 建模、名詞與 codebase、方法論 log。
   `.spec-dev.yaml` 的 `board.tabs` 決定顯示哪些、順序;`board.default_tab` 決定預設分頁。
@@ -68,7 +94,7 @@ flowchart LR
   modal 有可分享的連結:`check-panel.html#tab=audit&open=aud:SEQ-001`(`dg:` 圖、`tb:` 表、`aud:` 審計項目)。
 - 名詞表、分層命名、Survey 全表在 modal 內可篩選。
 
-## 5. 兩種用法
+## 6. 兩種用法
 
 | | 靜態快照(`spec-dev.py review`)| 一站式站台(`spec-dev.py serve`)|
 |---|---|---|
@@ -85,7 +111,7 @@ python3 spec-dev.py signoff specs/rd/issue-c/spec SEQ-001 --duty buildable,testa
 python3 spec-dev.py signoff specs/rd/issue-c/spec AUTO-SEQ-REQ-001 --duty buildable --na --note "沿用既有流程" --by Amy
 ```
 
-## 6. 站台的邊界(刻意的)
+## 7. 站台的邊界(刻意的)
 
 - 只用標準庫;spec 與 codebase 唯讀,**唯一的寫入**是 `review_dir/audit/signoff.md` 與 `threads.md`。
 - 讀檔路徑解析後逃出專案根目錄 → 與「不存在」同一句話。
@@ -93,7 +119,7 @@ python3 spec-dev.py signoff specs/rd/issue-c/spec AUTO-SEQ-REQ-001 --duty builda
 - **沒有認證**:審核者名字是自報的,稽核依據是 `signoff.md` 的 git 歷史。要給團隊用就綁內網 IP;要防冒名需要在前面加認證(未做)。
 - 站台重建不跑瀏覽器渲染驗證(看板本身就在瀏覽器裡);正式驗證跑 `review`。
 
-## 7. 能力邊界(誠實版)
+## 8. 能力邊界(誠實版)
 
 | 能抓到 | 抓不到 |
 |---|---|
@@ -101,12 +127,14 @@ python3 spec-dev.py signoff specs/rd/issue-c/spec AUTO-SEQ-REQ-001 --duty builda
 | 圖指向不存在的需求、需求類圖沒有目標、手寫圖沒有過程紀錄 | 過程紀錄是否真的照做(log 是宣稱,不是證明) |
 | 圖改了而簽核還是舊的(hash) | 簽核者是否真的看過(站台無認證) |
 | 圖在瀏覽器畫不出來、看板 JS 壞掉、點開 modal 沒圖 | 圖畫得出來但難讀 |
+| 需求的 PM 段落或 AC 文字改了 → 依據它的已確認圖要重看 | 改的是 PM 段落以外、但語意相關的文件(例:參考文件)—— 只列在時間軸,不自動標記上游 |
 
-## 8. 驗證
+## 9. 驗證
 
 ```bash
 python3 -m unittest tests.unit.test_reviewer          # 解析、核對、自動圖、審計、確認事項(hash 防護、不需要要理由、同一人多項)
 python3 -m unittest tests.rules.test_rule_cases       # G-DG-* / G-SA-tables / G-S6-render / G-RV-threads 資料驅動案例
-python3 -m unittest tests.e2e.test_serve              # 站台 API(路徑穿越、hash、提問)+ 瀏覽器流程
+python3 -m unittest tests.e2e.test_serve              # 站台 API(路徑穿越、hash、提問、spec 外文件變更觸發新版)+ 瀏覽器流程
+python3 -m unittest tests.e2e.test_versions           # 確認 → PM 改一句 → v2、diff、上游已變、別的需求不受影響、重看後回到通過
 python3 -m unittest tests.e2e.test_panel_browser      # 分頁、晶片 → modal、全部圖畫得出來、審計確認 → 指令
 ```

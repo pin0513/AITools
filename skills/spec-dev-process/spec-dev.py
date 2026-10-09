@@ -110,7 +110,7 @@ def main(argv):
     if au:
         a = au["summary"]
         print(f'審計:圖 {a["diagrams"]}(SA {a["by_phase"]["SA"]} · RD {a["by_phase"]["RD"]} · 自動 {a["by_phase"]["AUTO"]})· SA 表格列 {a["table_rows"]} · 有機器發現 {a["with_findings"]} · '
-              f'簽核 {a["signoff"]["approved"]}/{a["diagrams"]}(過期 {a["signoff"]["stale"]}、退回 {a["signoff"]["rejected"]})· 自上次變動 {len(a.get("changed_since_last") or [])}')
+              f'確認完成 {a["signoff"]["approved"]}/{a["diagrams"]} 張圖(過期 {a["signoff"]["stale"]}、上游已變 {a["signoff"].get("upstream", 0)}、退回 {a["signoff"]["rejected"]})· 自上次變動 {len(a.get("changed_since_last") or [])} · 文件版本 v{a.get("version", 0)}')
         print(f'看板:{ctx["review_dir"] / "check-panel.html"}#audit')
     failed = ctx.get("stopped") or any(g["level"] == "FAIL" for g in (ctx.get("gate") or []) + (ctx.get("stage_findings") or []))
     return 1 if failed else 0

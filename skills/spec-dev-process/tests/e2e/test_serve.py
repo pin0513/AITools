@@ -67,6 +67,14 @@ class ServeTest(unittest.TestCase):
         self.assertEqual(q2["status"], "closed"); self.assertIn("Paul:由表單擁有者設定", q2["answer"])
         self.assertIn("審核者指派是誰決定?", (self.audit / "threads.md").read_text(encoding="utf-8"))
 
+    def test_5_pm_edit_outside_spec_dir_triggers_new_version(self):
+        st = http(self.base, "/api/state")[1]; v0 = st["audit"]["version"]
+        pm = self.proj / "specs" / "in-progress" / "issue-c" / "pm-spec.md"
+        pm.write_text(pm.read_text(encoding="utf-8") + "\n補充:審核紀錄保留三年。\n", encoding="utf-8")
+        self.assertTrue(http(self.base, "/api/state")[1]["changed"], "PM spec 在 spec 目錄外,改了也要被看到")
+        st, html = http(self.base, "/"); self.assertEqual(st, 200)
+        self.assertEqual(http(self.base, "/api/state")[1]["audit"]["version"], v0 + 1)
+
     @unittest.skipUnless(_node_ok(), "需要 node + playwright")
     def test_4_browser_flow(self):
         js = self.tmp / "flow.js"

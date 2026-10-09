@@ -3784,6 +3784,547 @@
     "open_gaps": 0,
     "assumed": 0
   },
+  "versions": {
+    "current": 1,
+    "at": "2026-10-09T11:25:29",
+    "git": {
+      "commit": "dc55c1a",
+      "branch": "feat/pm-to-rd-spec-workflow",
+      "dirty": []
+    },
+    "timeline": [
+      {
+        "v": 1,
+        "at": "2026-10-09T11:25:29",
+        "git": {
+          "commit": "dc55c1a",
+          "branch": "feat/pm-to-rd-spec-workflow",
+          "dirty": []
+        },
+        "changed": [
+          {
+            "path": "specs/in-progress/points-redemption/pm-spec.md",
+            "kind": "PM",
+            "status": "new",
+            "sections": [
+              "1 背景與目標",
+              "2 使用者與情境",
+              "3 功能需求",
+              "3.1 點數帳戶點數足夠時會員可兌換獎品",
+              "3.2 點數 12 個月後到期",
+              "3.3 會員可查看點數交易",
+              "4 非功能需求",
+              "5 驗收條件",
+              "會員點數兌換 (PM spec)"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/in-progress/points-redemption/mock/rewards.html",
+            "kind": "PM",
+            "status": "new",
+            "sections": [],
+            "more": 0
+          },
+          {
+            "path": "specs/in-progress/points-redemption/refs.md",
+            "kind": "參考",
+            "status": "new",
+            "sections": [
+              "refs"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/00-lexicon.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "points-redemption SA0 前置解析(由 analyze.lexicon 產生,不手改;SA1 從這裡挑,不必讀整份原文)",
+              "動作候選",
+              "名詞候選",
+              "狀態值候選(屬性,不建實體)",
+              "英文符號",
+              "角色候選"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/01-break-words.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "SA1 名詞 / 動詞 / 角色詞",
+              "動詞",
+              "名詞",
+              "角色詞"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/02-entities-relations.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "CLS-SA-001 (REQ-001)",
+              "SA2 實體 / 關係",
+              "實體",
+              "關係"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/03-roles.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "SA3 角色與動作",
+              "角色與動作"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/04-usecase.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "SA4 Use Case Diagram",
+              "UCD-001 (REQ-001, REQ-002, REQ-003)",
+              "Use Case Diagram"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/05-activity.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "ACT-001 (REQ-001)",
+              "ACT-002 (REQ-002)",
+              "ACT-003 (REQ-003)",
+              "Activity Diagram",
+              "SA5 Activity Diagram"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/06-sequence.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "SA6 Sequence Diagram",
+              "SEQ-SA-001 (REQ-001)",
+              "SEQ-SA-002 (REQ-002)",
+              "SEQ-SA-003 (REQ-003)",
+              "Sequence Diagram"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/sa/07-state.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "SA7 State Diagram",
+              "STM-SA-001 Redemption.Status (REQ-001)",
+              "State Diagram"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec-review/survey-mapping.md",
+            "kind": "SA",
+            "status": "new",
+            "sections": [
+              "Survey Mapping",
+              "對應表"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/00-overview.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "來源",
+              "來源對照",
+              "名詞表",
+              "會員點數兌換 — overview",
+              "範圍",
+              "背景與目標"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/10-requirements.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "AC-001-1",
+              "AC-001-2",
+              "AC-002-1",
+              "AC-003-1",
+              "會員點數兌換 — requirements",
+              "缺口(待 PM 確認)",
+              "需求清單",
+              "非功能需求",
+              "驗收條件"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/20-domain-model.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "CLS-001 Redemption (REQ-001)",
+              "STM-DOM-001 Redemption.Status (REQ-001)",
+              "UC-001 點數帳戶點數足夠時會員可兌換獎品 (REQ-001)",
+              "UC-002 點數 12 個月後到期 (REQ-002)",
+              "UC-003 會員可查看點數交易 (REQ-003)",
+              "Use Case",
+              "會員點數兌換 — domain model",
+              "狀態機",
+              "領域模型"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/30-architecture-c4.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "C4-L1",
+              "C4-L2",
+              "C4-L3",
+              "Component(L3)",
+              "Container(L2)",
+              "Context(L1)",
+              "SEQ-001 (UC-001 / REQ-001)",
+              "SEQ-002 (UC-002 / REQ-002)",
+              "SEQ-003 (UC-003 / REQ-003)",
+              "Sequence",
+              "會員點數兌換 — architecture (C4)",
+              "追溯(AC → 技術元件)"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/60-test-design.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "Fitness Function",
+              "會員點數兌換 — test design",
+              "測試元件清單"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/api/40-api-contracts.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "介面清單",
+              "外部依賴與失敗模式",
+              "會員點數兌換 — API spec"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/api/50-data-model.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "ERD-001",
+              "擁有權",
+              "會員點數兌換 — data model",
+              "資料表"
+            ],
+            "more": 0
+          },
+          {
+            "path": "specs/rd/points-redemption/spec/ui/41-ui-spec.md",
+            "kind": "RD",
+            "status": "new",
+            "sections": [
+              "STM-UI-001 RewardsPage (REQ-001)",
+              "介面狀態",
+              "會員點數兌換 — UI spec",
+              "欄位驗證",
+              "畫面清單"
+            ],
+            "more": 0
+          }
+        ],
+        "keys": []
+      }
+    ],
+    "docs": [
+      {
+        "path": "specs/in-progress/points-redemption/mock/rewards.html",
+        "kind": "PM",
+        "hash": "3c824d40417c",
+        "lines": 2,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/in-progress/points-redemption/pm-spec.md",
+        "kind": "PM",
+        "hash": "53bd8deab504",
+        "lines": 27,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/00-overview.md",
+        "kind": "RD",
+        "hash": "60b7c2204c14",
+        "lines": 31,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/10-requirements.md",
+        "kind": "RD",
+        "hash": "5105fe251db4",
+        "lines": 42,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/20-domain-model.md",
+        "kind": "RD",
+        "hash": "7a5194a90c14",
+        "lines": 78,
+        "changed_in": 1,
+        "git": {
+          "commit": "c2d10c6",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: evidence chain with diagrams for every requirement, reliable mermaid loadi"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/30-architecture-c4.md",
+        "kind": "RD",
+        "hash": "dad90c04b108",
+        "lines": 160,
+        "changed_in": 1,
+        "git": {
+          "commit": "7bcd81a",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "spec-reviewer: board audit section, render check, signoff, rule cases, matrix SE"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/60-test-design.md",
+        "kind": "RD",
+        "hash": "8a64d3f1f179",
+        "lines": 21,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/api/40-api-contracts.md",
+        "kind": "RD",
+        "hash": "bc89f361aa2c",
+        "lines": 13,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/api/50-data-model.md",
+        "kind": "RD",
+        "hash": "cc61bb5d964e",
+        "lines": 21,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec/ui/41-ui-spec.md",
+        "kind": "RD",
+        "hash": "7ea070a3bdfe",
+        "lines": 22,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/00-lexicon.md",
+        "kind": "SA",
+        "hash": "56fbb4eca30b",
+        "lines": 71,
+        "changed_in": 1,
+        "git": {
+          "commit": "dc55c1a",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "spec-reviewer 2.6.0: tabbed board, diagrams/tables in modal, duty-based review, "
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/01-break-words.md",
+        "kind": "SA",
+        "hash": "d515475d05fd",
+        "lines": 24,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/02-entities-relations.md",
+        "kind": "SA",
+        "hash": "f32ebb35bf71",
+        "lines": 29,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/03-roles.md",
+        "kind": "SA",
+        "hash": "eeffad2091b6",
+        "lines": 9,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/04-usecase.md",
+        "kind": "SA",
+        "hash": "6ad9ca34d834",
+        "lines": 11,
+        "changed_in": 1,
+        "git": {
+          "commit": "c2d10c6",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: evidence chain with diagrams for every requirement, reliable mermaid loadi"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/05-activity.md",
+        "kind": "SA",
+        "hash": "c2642642a594",
+        "lines": 28,
+        "changed_in": 1,
+        "git": {
+          "commit": "c2d10c6",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: evidence chain with diagrams for every requirement, reliable mermaid loadi"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/06-sequence.md",
+        "kind": "SA",
+        "hash": "72b20ea11318",
+        "lines": 43,
+        "changed_in": 1,
+        "git": {
+          "commit": "c2d10c6",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: evidence chain with diagrams for every requirement, reliable mermaid loadi"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/sa/07-state.md",
+        "kind": "SA",
+        "hash": "fd4568434b7d",
+        "lines": 11,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/rd/points-redemption/spec-review/survey-mapping.md",
+        "kind": "SA",
+        "hash": "7160728cfefe",
+        "lines": 18,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      },
+      {
+        "path": "specs/in-progress/points-redemption/refs.md",
+        "kind": "參考",
+        "hash": "3abbf906683e",
+        "lines": 5,
+        "changed_in": 1,
+        "git": {
+          "commit": "61767b5",
+          "date": "2026-10-09",
+          "author": "Claude",
+          "subject": "feat: test matrix (en/zh/mixed × 3 scenarios × 5 shapes), layered RD spec, namin"
+        }
+      }
+    ],
+    "diffs": {},
+    "key_changes": {}
+  },
   "auto_diagrams": [
     {
       "id": "AUTO-TRACE-REQ-001",
@@ -4010,6 +4551,7 @@
     }
   ],
   "audit": {
+    "version": 1,
     "threads": [],
     "summary": {
       "diagrams": 30,
@@ -4022,6 +4564,7 @@
       "signoff": {
         "approved": 0,
         "stale": 0,
+        "upstream": 0,
         "pending": 30,
         "rejected": 0
       },
@@ -4031,6 +4574,7 @@
           "approved": 0,
           "n/a": 0,
           "stale": 0,
+          "upstream": 0,
           "pending": 17,
           "rejected": 0
         },
@@ -4038,6 +4582,7 @@
           "approved": 0,
           "n/a": 0,
           "stale": 0,
+          "upstream": 0,
           "pending": 16,
           "rejected": 0
         },
@@ -4045,13 +4590,15 @@
           "approved": 0,
           "n/a": 0,
           "stale": 0,
+          "upstream": 0,
           "pending": 17,
           "rejected": 0
         }
       },
       "changed_since_last": [],
       "removed_since_last": [],
-      "threads_open": 0
+      "threads_open": 0,
+      "version": 1
     },
     "items": [
       {
@@ -4095,14 +4642,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "buildable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4144,7 +4693,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4183,14 +4733,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4229,14 +4781,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4275,14 +4829,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4323,14 +4879,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "buildable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4371,14 +4929,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "buildable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4419,14 +4979,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "buildable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4492,14 +5054,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4544,14 +5108,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4596,14 +5162,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4648,14 +5216,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4722,14 +5292,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4769,7 +5341,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4805,7 +5378,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4841,7 +5415,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4885,7 +5460,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4926,14 +5502,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -4974,14 +5552,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5022,14 +5602,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5068,14 +5650,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5113,7 +5697,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5184,14 +5769,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5236,7 +5823,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5290,14 +5878,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5339,7 +5929,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5399,14 +5990,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5450,7 +6043,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5494,14 +6088,16 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           },
           "testable": {
             "status": "pending",
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5540,7 +6136,8 @@
             "by": "",
             "date": "",
             "note": "",
-            "signed_hash": ""
+            "signed_hash": "",
+            "version": ""
           }
         },
         "signoff": "pending",
@@ -5802,7 +6399,7 @@
       "reason": "",
       "modal": "ok",
       "cards": 4,
-      "tabs": 8,
+      "tabs": 9,
       "visible_dg": 0,
       "visible_svgs": 0,
       "overflow": false,
@@ -5849,7 +6446,7 @@
     },
     "modal": "ok",
     "cards": 4,
-    "tabs": 8,
+    "tabs": 9,
     "visible_dg": 0,
     "visible_svgs": 0,
     "overflow": false,
