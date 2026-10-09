@@ -77,7 +77,7 @@ def run_matrix(root: pathlib.Path, offline=False) -> dict:
     out["extras"] = extras
     body = board_body(out)
     (board / "page.html").write_text(body, encoding="utf-8")
-    (board / "index.html").write_text("<!doctype html><html lang=\"zh-Hant\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"></head><body>" + body + "</body></html>", encoding="utf-8")
+    (board / "index.html").write_text("<!doctype html><html lang=\"zh-Hant-TW\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"></head><body>" + body + "</body></html>", encoding="utf-8")
     return out
 
 SHAPES = [("fs-front", "全端 · 重前輕後"), ("fs-back", "全端 · 輕前重後"), ("fs-balance", "全端 · 均衡"), ("fe-only", "純前端"), ("be-only", "純後端")]

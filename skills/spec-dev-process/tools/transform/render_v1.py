@@ -48,7 +48,7 @@ def md_to_html(text: str) -> str:
         i += 1
     return "\n".join(out)
 
-PAGE = """<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+PAGE = """<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title>
 <style>body{{font:15px/1.6 system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:0 16px;color:#1f2328;background:#fff}}
 table{{border-collapse:collapse;margin:1rem 0}}th,td{{border:1px solid #d0d7de;padding:4px 10px;text-align:left}}
